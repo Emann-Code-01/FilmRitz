@@ -12,8 +12,8 @@
       <router-link to="/" class="hover:text-red-500">Home</router-link>
       <router-link to="/profile" class="hover:text-red-500">My Watchlist</router-link>
     </div>
-    <div class="flex space-x-4">
-      <template v-if="!auth.isLoggedIn">
+    <div class="flex space-x-4" v-if="router.currentRoute.value.path === '/ng/' || auth.isLoggedIn">
+      <template v-if="!auth.isLoggedIn && router.currentRoute.value.path === '/ng/'">
         <button
           class="px-6 py-1 rounded bg-[#b20710] hover:bg-[#e32125] text-white font-[Gilroy-SemiBold] transition-all animate-fade-up duration-500">
           <router-link to="/signin">
