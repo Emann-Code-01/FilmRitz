@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 // import Home from "@/pages/HomePage.vue";
 import PreviewHome from "@/pages/PreviewHome.vue";
+import Home from "@/pages/HomePage.vue";
 // import Signup from "@/pages/SignIn.vue";
 // import Profile from "@/pages/Profile.vue";
 import { useAuthStore } from "../store/auth";
@@ -14,6 +15,12 @@ const routes: RouteRecordRaw[] = [
     component: PreviewHome,
     meta: { guestOnly: true },
   },
+  {
+    path: "/",
+    name: "Home",
+    component: Home,
+    meta: { requiresAuth: true },
+  },
   // { path: "/signin", name: "SignIn", component: Signup },
   // {
   //   path: "/profile",
@@ -24,7 +31,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
-    component: () => import("@/pages/NotAvailable.vue"),
+    component: () => import("@/pages/error/NotAvailable.vue"),
   },
 ];
 

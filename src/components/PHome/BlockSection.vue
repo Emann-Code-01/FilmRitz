@@ -2,14 +2,14 @@
     <section
         class="bg-[#000000] min-h-fit relative z-10 overflow-hidden -mt-18 px-2 py-26 xl:px-32 md:px-14 space-y-10">
         <div class="space-y-5">
-            <h1 class="text-white font-[Gilroy-Bold] text-2xl transition-all duration-900 animate-fade-up">Trending Now
+            <h1 class="text-white font-[Gilroy-Bold] text-2xl xl:text-3xl transition-all duration-900 animate-fade-up">Trending Now
             </h1>
             <div class="flex">
                 <TrendingNow />
             </div>
         </div>
         <div class="space-y-5 text-white transition-all duration-900 animate-fade-up">
-            <h1 class="font-[Gilroy-Bold] text-2xl transition-all duration-900 animate-fade-up">More Reasons to Join
+            <h1 class="font-[Gilroy-Bold] text-2xl xl:text-3xl transition-all duration-900 animate-fade-up">More Reasons to Join
             </h1>
             <div
                 class="xl:flex xl:space-x-5 xl:space-y-5 md:grid md:grid-cols-2 md:space-y-5 space-y-5 transition-all duration-900 animate-fade-up">
@@ -431,7 +431,7 @@
             </div>
         </div>
         <div class="space-y-5 text-white transition-all duration-900 animate-fade-up">
-            <h1 class="font-[Gilroy-Bold] text-2xl flex transition-all duration-900 animate-fade-up">Frequently
+            <h1 class="font-[Gilroy-Bold] text-2xl xl:text-3xl flex transition-all duration-900 animate-fade-up">Frequently
                 Asked Question</h1>
             <div class="" v-for="(faq, index) in faqs" :key="id">
                 <div class=" space-y-0.5 transition-all duration-900 animate-fade-up">
@@ -443,12 +443,6 @@
                                 data-icon="PlusLarge" data-icon-id=":r38:" aria-hidden="true"
                                 class="default-ltr-iqcdef-cache-1ulhx3w e164gv2o4" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" role="img">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M17 17V3H19V17H33V19H19V33H17V19H3V17H17Z" fill="currentColor"></path>
-                            </svg>
-                            <svg v-else viewBox="0 0 36 36" width="36" height="36" data-icon="PlusLarge"
-                                data-icon-id=":r9:" aria-hidden="true" class="tramsform -rotate-45"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" role="img">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M17 17V3H19V17H33V19H19V33H17V19H3V17H17Z" fill="currentColor"></path>
                             </svg>
@@ -554,6 +548,13 @@ const ringColor = computed(() => {
 const showError = computed(() => {
     return email.value !== "" && !isValidEmail(email.value);
 });
+
+defineProps({
+  id: {
+    type: [String, Number],
+    required: false
+  }
+})
 
 function toggle(index) {
     activeIndex.value = activeIndex.value === index ? null : index;

@@ -1,5 +1,5 @@
 <template>
-    <footer class="relative bg-[#000000] min-h-fit w-full">
+    <footer class="relative bg-[#000000] min-h-fit w-full bottom-0">
         <div
             class="text-[#ffffffb3] font-[Gilroy-Medium] px-2 xl:px-32 md:px-14 pb-44 transition-all animation-fade-up duration-900 space-y-8">
             <div class="">
