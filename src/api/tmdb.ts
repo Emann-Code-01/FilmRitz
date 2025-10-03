@@ -9,7 +9,10 @@ const api = axios.create({
   params: {
     api_key: API_KEY,
     language: "en-US"
-  }
+  },
+  headers: {
+    Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
+  },
 })
 
 // 🔥 Fetch Popular Movies

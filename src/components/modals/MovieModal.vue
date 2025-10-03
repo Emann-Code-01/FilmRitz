@@ -58,13 +58,12 @@ watch(
               {{ movie?.overview }}
             </DialogDescription>
 
-            <button
-              class="bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500">
-              <router-link class="gap-3" to="/signup">
-                Get Started
-                <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
-              </router-link>
-            </button>
+            <router-link
+              class="gap-3 bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500"
+              to="/signup">
+              Get Started
+              <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
+            </router-link>
           </div>
         </DialogPanel>
       </div>

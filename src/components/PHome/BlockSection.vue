@@ -2,14 +2,16 @@
     <section
         class="bg-[#000000] min-h-fit relative z-10 overflow-hidden -mt-18 px-2 py-26 xl:px-32 md:px-14 space-y-10">
         <div class="space-y-5">
-            <h1 class="text-white font-[Gilroy-Bold] text-2xl xl:text-3xl transition-all duration-900 animate-fade-up">Trending Now
+            <h1 class="text-white font-[Gilroy-Bold] text-2xl xl:text-3xl transition-all duration-900 animate-fade-up">
+                Trending Now
             </h1>
             <div class="flex">
                 <TrendingNow />
             </div>
         </div>
         <div class="space-y-5 text-white transition-all duration-900 animate-fade-up">
-            <h1 class="font-[Gilroy-Bold] text-2xl xl:text-3xl transition-all duration-900 animate-fade-up">More Reasons to Join
+            <h1 class="font-[Gilroy-Bold] text-2xl xl:text-3xl transition-all duration-900 animate-fade-up">More Reasons
+                to Join
             </h1>
             <div
                 class="xl:flex xl:space-x-5 xl:space-y-5 md:grid md:grid-cols-2 md:space-y-5 space-y-5 transition-all duration-900 animate-fade-up">
@@ -431,7 +433,8 @@
             </div>
         </div>
         <div class="space-y-5 text-white transition-all duration-900 animate-fade-up">
-            <h1 class="font-[Gilroy-Bold] text-2xl xl:text-3xl flex transition-all duration-900 animate-fade-up">Frequently
+            <h1 class="font-[Gilroy-Bold] text-2xl xl:text-3xl flex transition-all duration-900 animate-fade-up">
+                Frequently
                 Asked Question</h1>
             <div class="" v-for="(faq, index) in faqs" :key="id">
                 <div class=" space-y-0.5 transition-all duration-900 animate-fade-up">
@@ -482,13 +485,12 @@
                         Email is required.
                     </p>
                 </div>
-                <button
-                    class="bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500">
-                    <router-link class="gap-3" to="/signup">
-                        Get Started
-                        <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
-                    </router-link>
-                </button>
+                <router-link
+                    class="gap-3 bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500"
+                    to="/signup">
+                    Get Started
+                    <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
+                </router-link>
             </div>
         </div>
     </section>
@@ -550,10 +552,10 @@ const showError = computed(() => {
 });
 
 defineProps({
-  id: {
-    type: [String, Number],
-    required: false
-  }
+    id: {
+        type: [String, Number],
+        required: false
+    }
 })
 
 function toggle(index) {

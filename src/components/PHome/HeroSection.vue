@@ -3,7 +3,7 @@
         :style="{ backgroundImage: loaded ? `url('${bgUrl}')` : 'none' }">
         <div v-if="!loaded" class="absolute inset-0 bg-black/80"></div>
         <div class="absolute inset-0 bg-[linear-gradient(to_bottom,_#000000CC_10%,_#00000099_50%,_#000000_100%)]"></div>
-        <img :src="bgUrl" alt="" loading="lazy" class="hidden" @load="loaded" />
+        <img :src="bgUrl" alt="" loading="lazy" class="hidden" @load="onImageLoaded" />
         <div
             class="relative z-20 flex flex-col xl:pt-10 text-center items-center justify-center h-full text-white gap-7 transition-all duration-900 animate-fade-up">
             <div class="items-center flex flex-col gap-3">
@@ -33,13 +33,12 @@
                         Email is required.
                     </p>
                 </div>
-                <button
-                    class="bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500">
-                    <router-link class="gap-3" to="/signup">
-                        Get Started
-                        <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
-                    </router-link>
-                </button>
+                <router-link
+                    class="gap-3 bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500"
+                    to="/signup">
+                    Get Started
+                    <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
+                </router-link>
             </div>
         </div>
     </div>
@@ -53,7 +52,7 @@ const email = ref("");
 
 const isValidEmail = (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
 const bgUrl = HeroImg;
-const loaded = ref(true);
+const loaded = ref(false);
 
 const ringColor = computed(() => {
     if (email.value === "") return "focus:ring-[#BDBCBB]";
@@ -65,7 +64,10 @@ const ringColor = computed(() => {
 const showError = computed(() => {
     return email.value !== "" && !isValidEmail(email.value);
 });
+
+function onImageLoaded() {
+    loaded.value = true
+}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -14,12 +14,10 @@
     </div>
     <div class="flex space-x-4" v-if="router.currentRoute.value.path === '/ng/' || auth.isLoggedIn">
       <template v-if="!auth.isLoggedIn && router.currentRoute.value.path === '/ng/'">
-        <button
+        <router-link to="/signin"
           class="px-6 py-1 rounded bg-[#b20710] hover:bg-[#e32125] text-white font-[Gilroy-SemiBold] transition-all animate-fade-up duration-500">
-          <router-link to="/signin">
-            Sign In
-          </router-link>
-        </button>
+          Sign In
+        </router-link>
       </template>
 
       <template v-else>
@@ -45,7 +43,7 @@ const router = useRouter();
 // handle logout
 const handleLogout = async () => {
   try {
-    await auth.logout();
+    auth.logout();
     router.push("/signin");
   } catch (err) {
     console.error("Logout failed:", err);
