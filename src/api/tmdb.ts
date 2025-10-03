@@ -25,7 +25,7 @@ export const fetchTrendingMovies = async (
   timeWindow: "day" | "week" = "day"
 ) => {
   const res = await api.get<{ results: any[] }>(
-    `/trending/movie/${timeWindow}`
+    `/trendi/ng/movie/${timeWindow}`
   )
   return res.data.results
 }

@@ -48,7 +48,7 @@ router.beforeEach((to, from, next) => {
   const isLoggedIn = auth.isLoggedIn;
 
   if (to.meta.requiresAuth && !isLoggedIn) {
-    next("ng/");
+    next("/ng/");
   } else if (to.meta.guestOnly && isLoggedIn) {
     next("/");
   } else {
