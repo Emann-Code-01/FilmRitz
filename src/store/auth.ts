@@ -10,50 +10,54 @@ export interface AuthState {
 }
 
 export const useAuthStore = defineStore("auth", {
-  state: (): AuthState => ({
-    user: null,
-  }),
+  state: (): AuthState => {
+    let user: User | null = null;
+    try {
+      const raw = localStorage.getItem("auth.user");
+      if (raw) user = JSON.parse(raw);
+    } catch {
+      // ignore parse/storage errors
+    }
+    return { user };
+  },
 
   getters: {
-    isLoggedIn: (state): boolean => state.user !== null,
+    isLoggedIn: (state: AuthState): boolean => !!state.user,
+    currentUser: (state: AuthState): User | null => state.user,
   },
 
   actions: {
-    login(email: string, password: string) {
+    async login(this: AuthState, email: string, password: string) {
+      // Fake login for demo purposes
       if (email === "test@example.com" && password === "password") {
         this.user = { id: 1, email };
         try {
-          localStorage.setItem('auth.user', JSON.stringify(this.user));
-        } catch (_e) {
-          // ignore storage errors
+          localStorage.setItem("auth.user", JSON.stringify(this.user));
+        } catch {
+          // ignore
         }
-      } else {
-        throw new Error("Invalid credentials (use test@example.com / password)");
+        return true;
       }
-    },
-    signup(email: string, _password: string) {
-      this.user = { id: Date.now(), email };
-      try {
-        localStorage.setItem('auth.user', JSON.stringify(this.user));
-      } catch (_e) {
-        // ignore storage errors
-      }
+      return false;
     },
 
-    logout() {
-      this.user = null;
+    async signup(this: AuthState, email: string, _password: string) {
+      // Fake signup for demo purposes
+      this.user = { id: Date.now(), email };
       try {
-        localStorage.removeItem('auth.user');
-      } catch (_e) {
+        localStorage.setItem("auth.user", JSON.stringify(this.user));
+      } catch {
         // ignore
       }
+      return true;
     },
-    hydrate() {
+
+    logout(this: AuthState) {
+      this.user = null;
       try {
-        const raw = localStorage.getItem('auth.user');
-        if (raw) this.user = JSON.parse(raw) as User;
-      } catch (_e) {
-        // ignore parse errors
+        localStorage.removeItem("auth.user");
+      } catch {
+        // ignore
       }
     },
   },
