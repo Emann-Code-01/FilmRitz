@@ -58,7 +58,7 @@ watch(
               {{ movie?.overview }}
             </DialogDescription>
 
-            <router-link
+            <router-link @click="modalStore.closeMovie"
               class="gap-3 bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500"
               to="/signup">
               Get Started
