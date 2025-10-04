@@ -16,58 +16,80 @@
                     membership.
                 </h3>
             </div>
-            <div class="grid md:flex gap-3 place-items-center">
-                <div class="relative md:w-96">
-                    <input v-model="email" type="email" name="email" autocomplete="email" placeholder=" " :class="[
-                        'peer w-50 md:w-full border border-[#808080] bg-black/50 text-white rounded-sm px-3 pt-5 pb-2 min-w-96 font-[Gilroy-Medium]',
-                        'focus:outline-none focus:ring-2 text-base transition-all',
-                        ringColor
-                    ]" />
-                    <label for="emailInput" :class="[
-                        'absolute left-3 font-[Gilroy-Medium] transition-all slide-fade-enter-active ', email ? 'top-2 text-xs text-[#BDBCBB] pl-0.5' : 'peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400', 'peer-focus:top-2 peer-focus:text-xs peer-focus:text-[#BDBCBB] peer-focus:pl-0.5'
-                    ]">
-                        Email address
-                    </label>
-                    <p v-if="showError" class="text-red-500 text-sm mt-1 flex items-center text-center gap-1 w-max">
+            <div class="grid">
+                <div class="grid md:flex gap-3 place-items-center">
+                    <div class="relative md:w-96">
+                        <input v-model="email" id="emailInput" type="email" autocomplete="email" placeholder=" " :class="[
+                            'peer w-50 md:w-full border border-[#808080] bg-black/50 text-white rounded-sm px-3 pt-5 pb-2 min-w-96 font-[Gilroy-Medium]',
+                            'focus:outline-none focus:ring-2 text-base transition-all',
+                            ringColor
+                        ]" />
+                        <label for="emailInput" :class="[
+                            'absolute left-3 font-[Gilroy-Medium] transition-all slide-fade-enter-active',
+                            email ? 'top-2 text-xs text-[#BDBCBB] pl-0.5'
+                                : 'peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400',
+                            'peer-focus:top-2 peer-focus:text-xs peer-focus:text-[#BDBCBB] peer-focus:pl-0.5'
+                        ]">
+                            Email address
+                        </label>
+                    </div>
+                    <button @click="handleGetStarted"
+                        class="gap-3 bg-[#b20710] text-white font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500 cursor-pointer">
+                        Get Started
+                        <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
+                    </button>
+                </div>
+                <div class="">
+                    <p v-if="showError"
+                        class="relative text-red-500 text-sm mt-1 flex items-center text-center gap-1 w-max">
                         <i class="pi pi-times-circle flex items-center text-xs"></i>
-                        Email is required.
+                        {{ errorMessage }}
                     </p>
                 </div>
-                <router-link
-                    class="gap-3 bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500"
-                    to="/signup">
-                    Get Started
-                    <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
-                </router-link>
             </div>
         </div>
     </div>
 </template>
 
-<script setup>
-import HeroImg from '@/assets/Hero Image.png';
-import { ref, computed } from "vue";
+<script setup lang="ts">import HeroImg from '@/assets/Hero Image.png'
+import { ref, computed } from "vue"
+import { useRouter } from "vue-router"
 
-const email = ref("");
+const router = useRouter()
+const email = ref("")
+const loaded = ref(false)
+const touched = ref(false) // track if button clicked
 
-const isValidEmail = (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-const bgUrl = HeroImg;
-const loaded = ref(false);
+const isValidEmail = (val: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)
+const bgUrl = HeroImg
 
 const ringColor = computed(() => {
-    if (email.value === "") return "focus:ring-[#BDBCBB]";
-    return isValidEmail(email.value)
-        ? "focus:ring-green-500"
-        : "focus:ring-red-500";
-});
+    if (email.value === "") return "focus:ring-[#BDBCBB]"
+    return isValidEmail(email.value) ? "focus:ring-green-500" : "focus:ring-red-500"
+})
 
+// Only show error if input was touched (button pressed) OR invalid on typing
 const showError = computed(() => {
-    return email.value !== "" && !isValidEmail(email.value);
-});
+    if (!touched.value && email.value === "") return false
+    return !isValidEmail(email.value)
+})
+
+const errorMessage = computed(() => {
+    if (email.value === "") return "Email is required."
+    return "Please enter a valid email address."
+})
 
 function onImageLoaded() {
     loaded.value = true
 }
+
+function handleGetStarted() {
+    touched.value = true
+    if (isValidEmail(email.value)) {
+        router.push({ path: "/signup" })
+    }
+}
+
 </script>
 
 <style scoped></style>
