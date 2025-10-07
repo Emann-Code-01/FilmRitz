@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from "pinia";
-import '@/assets/style.css'
+import './assets/style.css'
 import App from './App.vue'
 import router from './router'
 import { injectSpeedInsights } from "@vercel/speed-insights";
@@ -13,7 +13,7 @@ try {
 	const url = new URL(window.location.href);
 	if (url.pathname === '/' || url.pathname === '') {
 		if (!isLoggedIn) {
-			url.pathname = '/ng/';
+			url.pathname = '/ng';
 			window.location.replace(url.toString());
 		} else {
 			// already logged in, ensure the path stays '/'

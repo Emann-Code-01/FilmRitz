@@ -5,7 +5,7 @@
       This page is under construction. Check back soon!
     </p>
     <router-link
-      to="/ng/" 
+      to="/ng" 
       class="px-6 py-3 bg-red-600 rounded-xl hover:bg-red-700 transition-colors duration-300">
       Go Home
     </router-link>

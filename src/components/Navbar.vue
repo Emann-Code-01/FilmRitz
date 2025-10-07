@@ -12,8 +12,8 @@
       <router-link to="/" class="hover:text-red-500">Home</router-link>
       <router-link to="/profile" class="hover:text-red-500">My Watchlist</router-link>
     </div>
-    <div class="flex space-x-4" v-if="router.currentRoute.value.path === '/ng/' || auth.isLoggedIn">
-      <template v-if="!auth.isLoggedIn && router.currentRoute.value.path === '/ng/'">
+    <div class="flex space-x-4" v-if="router.currentRoute.value.path === '/ng' || auth.isLoggedIn">
+      <template v-if="!auth.isLoggedIn && router.currentRoute.value.path === '/ng'">
         <router-link to="/login"
           class="px-6 py-1 rounded bg-[#b20710] hover:bg-[#e32125] text-white font-[Gilroy-SemiBold] transition-all animate-fade-up duration-500">
           Sign In
@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import Logo from '@/assets/filmritzlogo.svg';
+import Logo from '../assets/filmritzlogo.svg';
 import { ref, computed } from "vue";
 import { useAuthStore } from "../stores/auth";
 import { useRouter } from "vue-router";
@@ -49,7 +49,7 @@ const isLoggedIn = computed(() => !!auth.user);
 async function logout() {
   isLoggingOut.value = true;
   await auth.signOut();
-  router.push("/ng/");
+  router.push("/ng");
   isLoggingOut.value = false;
 }
 

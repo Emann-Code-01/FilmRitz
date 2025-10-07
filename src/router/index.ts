@@ -1,8 +1,8 @@
 // src/router/index.ts
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import PreviewHome from "@/views/PreviewHome.vue";
-// import Home from "@/views/HomePage.vue";
-import Auth from "@/views/Auth.vue"; // your dual login/signup page
+import PreviewHome from "../views/PreviewHome.vue";
+// import Home from "../views/HomePage.vue";
+import Auth from "../views/Auth.vue"; // your dual login/signup page
 import { useAuthStore } from "../stores/auth";
 
 const routes: RouteRecordRaw[] = [
@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
-    component: () => import("@/views/error/NotAvailable.vue"),
+    component: () => import("../views/error/NotAvailable.vue"),
   },
 ];
 

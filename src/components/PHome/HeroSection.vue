@@ -58,7 +58,7 @@
     </div>
 </template>
 
-<script setup lang="ts">import HeroImg from '@/assets/Hero Image.png'
+<script setup lang="ts">import HeroImg from '../../assets/Hero Image.png'
 import { ref, computed } from "vue"
 import { useRouter } from "vue-router"
 

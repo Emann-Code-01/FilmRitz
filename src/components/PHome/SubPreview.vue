@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import popcorn from '@/assets/popcorn.png';
+import popcorn from '../../assets/popcorn.png';
 </script>
 
 <style scoped></style>
