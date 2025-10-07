@@ -3,6 +3,7 @@ import { createPinia } from "pinia";
 import '@/assets/style.css'
 import App from './App.vue'
 import router from './router'
+import { injectSpeedInsights } from "@vercel/speed-insights";
 
 // Quick boot-time redirect based on persisted auth to avoid flashing wrong page
 try {
@@ -24,6 +25,8 @@ try {
 } catch (_e) {
 	// ignore localStorage/url errors
 }
+
+injectSpeedInsights();	
 
 const app = createApp(App);
 const pinia = createPinia();

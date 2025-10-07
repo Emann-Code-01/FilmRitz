@@ -12,6 +12,7 @@
     "@headlessui/vue": "^1.7.23",
     "@supabase/supabase-js": "^2.74.0",
     "@tailwindcss/vite": "^4.1.13",
+    "@vercel/speed-insights": "^1.2.0",
     "axios": "^1.12.2",
     "init": "^0.1.2",
     "pinia": "^3.0.3",
