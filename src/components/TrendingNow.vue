@@ -48,7 +48,7 @@
 import { ref, onMounted } from "vue"
 import { Swiper, SwiperSlide } from "swiper/vue"
 import { Navigation } from "swiper/modules"
-import { useModalStore } from "../store/modalStore"
+import { useModalStore } from "../stores/modalStore"
 import { fetchTrendingMovies } from "../api/tmdb"
 
 const movies = ref<any[]>([])

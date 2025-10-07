@@ -14,7 +14,7 @@
     </div>
     <div class="flex space-x-4" v-if="router.currentRoute.value.path === '/ng/' || auth.isLoggedIn">
       <template v-if="!auth.isLoggedIn && router.currentRoute.value.path === '/ng/'">
-        <router-link to="/signin"
+        <router-link to="/login"
           class="px-6 py-1 rounded bg-[#b20710] hover:bg-[#e32125] text-white font-[Gilroy-SemiBold] transition-all animate-fade-up duration-500">
           Sign In
         </router-link>
@@ -24,8 +24,10 @@
         <router-link to="/profile" class="px-4 py-2 rounded border border-gray-400 hover:border-red-500 transition">
           Profile
         </router-link>
-        <button @click="handleLogout" class="px-4 py-2 rounded bg-gray-700 hover:bg-gray-800 transition">
-          Logout
+        <button v-if="isLoggedIn" @click="logout" :disabled="isLoggingOut"
+          class="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md font-semibold transition disabled:opacity-50">
+          <span v-if="!isLoggingOut">Log Out</span>
+          <span v-else>Logging out...</span>
         </button>
       </template>
     </div>
@@ -34,19 +36,21 @@
 
 <script setup lang="ts">
 import Logo from '@/assets/filmritzlogo.svg';
-import { useAuthStore } from "../store/auth";
+import { ref, computed } from "vue";
+import { useAuthStore } from "../stores/auth";
 import { useRouter } from "vue-router";
 
 const auth = useAuthStore();
 const router = useRouter();
+const isLoggingOut = ref(false);
 
-// handle logout
-const handleLogout = async () => {
-  try {
-    auth.logout();
-    router.push("/signin");
-  } catch (err) {
-    console.error("Logout failed:", err);
-  }
-};
+const isLoggedIn = computed(() => !!auth.user);
+
+async function logout() {
+  isLoggingOut.value = true;
+  await auth.signOut();
+  router.push("/ng/");
+  isLoggingOut.value = false;
+}
+
 </script>

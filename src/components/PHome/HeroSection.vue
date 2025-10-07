@@ -1,5 +1,5 @@
 <template>
-    <div class="relative w-full overflow-hidden h-screen md:-mt-44 xl:mt-auto bg-fixed bg-center bg-cover bg-no-repeat transition-all"
+    <div class="relative w-full overflow-hidden h-screen xl:mt-auto bg-fixed bg-center bg-cover bg-no-repeat transition-all mb-9"
         :style="{ backgroundImage: loaded ? `url('${bgUrl}')` : 'none' }">
         <div v-if="!loaded" class="absolute inset-0 bg-black/80"></div>
         <div class="absolute inset-0 bg-[linear-gradient(to_bottom,_#000000CC_10%,_#00000099_50%,_#000000_100%)]"></div>
@@ -20,7 +20,7 @@
                 <div class="grid md:flex gap-3 place-items-center">
                     <div class="relative md:w-96">
                         <input v-model="email" id="emailInput" type="email" autocomplete="email" placeholder=" " :class="[
-                            'peer w-50 md:w-full border border-[#808080] bg-black/50 text-white rounded-sm px-3 pt-5 pb-2 min-w-96 font-[Gilroy-Medium]',
+                            'peer w-50 md:w-full border border-[#808080] bg-black/50 text-white rounded-sm caret-white px-3 pt-5 pb-2 min-w-80 md:min-w-96 font-[Gilroy-Medium]',
                             'focus:outline-none focus:ring-2 text-base transition-all',
                             ringColor
                         ]" />
@@ -32,6 +32,13 @@
                         ]">
                             Email address
                         </label>
+                        <div class="md:hidden">
+                            <p v-if="showError"
+                                class="relative text-red-500 text-sm mt-1 flex items-center text-center gap-1 w-max">
+                                <i class="pi pi-times-circle flex items-center text-xs"></i>
+                                {{ errorMessage }}
+                            </p>
+                        </div>
                     </div>
                     <button @click="handleGetStarted"
                         class="gap-3 bg-[#b20710] text-white font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500 cursor-pointer">
@@ -39,7 +46,7 @@
                         <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
                     </button>
                 </div>
-                <div class="">
+                <div class="hidden md:flex">
                     <p v-if="showError"
                         class="relative text-red-500 text-sm mt-1 flex items-center text-center gap-1 w-max">
                         <i class="pi pi-times-circle flex items-center text-xs"></i>
@@ -86,7 +93,7 @@ function onImageLoaded() {
 function handleGetStarted() {
     touched.value = true
     if (isValidEmail(email.value)) {
-        router.push({ path: "/signup" })
+        router.push({ path: "/login" })
     }
 }
 

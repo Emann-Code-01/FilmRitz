@@ -439,8 +439,8 @@
             <div class="" v-for="(faq, index) in faqs" :key="id">
                 <div class=" space-y-0.5 transition-all duration-900 animate-fade-up">
                     <button @click="toggle(index)"
-                        class="font-[Gilroy-Medium] cursor-pointer flex relative w-full justify-between px-5 bg-white/20 hover:bg-white/30 py-7 transition-all duration-900 animate-fade-up text-xl md:text-2xl">
-                        <h1 class="text-nowrap">{{ faq.question }}</h1>
+                        class="font-[Gilroy-Medium] cursor-pointer flex relative w-full justify-between place-items-center px-5 bg-white/20 hover:bg-white/30 py-7 transition-all duration-900 animate-fade-up text-xl md:text-2xl">
+                        <h1 class=" text-nowrap">{{ faq.question }}</h1>
                         <span @click="openFAQ">
                             <svg v-if="activeIndex !== index" viewBox="0 0 36 36" width="36" height="36"
                                 data-icon="PlusLarge" data-icon-id=":r38:" aria-hidden="true"
@@ -449,14 +449,20 @@
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M17 17V3H19V17H33V19H19V33H17V19H3V17H17Z" fill="currentColor"></path>
                             </svg>
+                            <svg v-else viewBox="0 0 36 36" width="36" height="36" data-icon="PlusLarge"
+                                data-icon-id=":r9:" aria-hidden="true" class="tramsform -rotate-45"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" role="img">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M17 17V3H19V17H33V19H19V33H17V19H3V17H17Z" fill="currentColor"></path>
+                            </svg>
                         </span>
                     </button>
                     <transition :duration="550" name="nested">
                         <div v-if="activeIndex === index"
-                            class="relative px-5 py-3 w-full font-[Gilroy-Medium] text-xl md:text-2xl bg-white/20 leading-10 transition-all duration-900 animate-fade outer">
+                            class="relative px-5 py-3 space-y-3 w-full font-[Gilroy-Medium] text-xl md:text-2xl bg-white/20 leading-10 transition-all duration-900 animate-fade outer">
                             <p class="transition-all duration-900 animate-fade-up inner">{{ faq.answer1 }}
                             </p>
-                            <p class="mt-5 max-w-6xl transition-all duration-900 animate-fade-up inner">
+                            <p class="max-w-6xl transition-all duration-900 animate-fade-up inner">
                                 {{ faq.answer2 }}
                             </p>
                         </div>
@@ -471,7 +477,7 @@
             <div class="flex gap-3 place-items-center flex-col md:gap-2">
                 <div class="relative md:w-96">
                     <input v-model="email" type="email" name="email" autocomplete="email" placeholder=" " :class="[
-                        'peer w-50 md:w-full border border-[#808080] bg-black/50 text-white rounded-sm px-3 pt-5 pb-2 min-w-96 font-[Gilroy-Medium]',
+                        'peer w-50 md:w-full border border-[#808080] bg-black/50 text-white rounded-sm caret-white px-3 pt-5 pb-2 min-w-96 font-[Gilroy-Medium]',
                         'focus:outline-none focus:ring-2 text-base transition-all',
                         ringColor
                     ]" />
@@ -487,7 +493,7 @@
                 </div>
                 <router-link
                     class="gap-3 bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500"
-                    to="/signup">
+                    to="/login">
                     Get Started
                     <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
                 </router-link>

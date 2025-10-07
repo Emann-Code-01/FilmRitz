@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle, DialogDescription, TransitionRoot } from "@headlessui/vue"
 import { ref, watch } from "vue"
-import { useModalStore } from "../../store/modalStore"
+import { useModalStore } from "../../stores/modalStore"
 import { getMovieDetails } from "../../api/tmdb"
 
 const modalStore = useModalStore()

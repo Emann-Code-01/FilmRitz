@@ -1,37 +1,33 @@
 // src/router/index.ts
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-// import Home from "@/pages/HomePage.vue";
-import PreviewHome from "@/pages/PreviewHome.vue";
-import Home from "@/pages/HomePage.vue";
-// import Signup from "@/pages/SignIn.vue";
-// import Profile from "@/pages/Profile.vue";
-import { useAuthStore } from "../store/auth";
+import PreviewHome from "@/views/PreviewHome.vue";
+// import Home from "@/views/HomePage.vue";
+import Auth from "@/views/Auth.vue"; // your dual login/signup page
+import { useAuthStore } from "../stores/auth";
 
 const routes: RouteRecordRaw[] = [
-  // { path: "/", name: "Home", component: Home, meta: { requiresAuth: true } },
+  // {
+  //   path: "/",
+  //   name: "Home",
+  //   component: Home,
+  //   meta: { requiresAuth: true },
+  // },
   {
-    path: "/ng/",
+    path: "/ng",
     name: "PreviewHome",
     component: PreviewHome,
     meta: { guestOnly: true },
   },
   {
-    path: "/",
-    name: "Home",
-    component: Home,
-    meta: { requiresAuth: true },
+    path: "/login",
+    name: "Auth",
+    component: Auth,
+    meta: { guestOnly: true },
   },
-  // { path: "/signin", name: "SignIn", component: Signup },
-  // {
-  //   path: "/profile",
-  //   name: "Profile",
-  //   component: Profile,
-  //   meta: { requiresAuth: true },
-  // },
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
-    component: () => import("@/pages/error/NotAvailable.vue"),
+    component: () => import("@/views/error/NotAvailable.vue"),
   },
 ];
 
@@ -45,10 +41,14 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const auth = useAuthStore();
-  const isLoggedIn = auth.isLoggedIn;
+
+  // Make sure store reflects Supabase session
+  auth.syncUser();
+
+  const isLoggedIn = !!auth.user;
 
   if (to.meta.requiresAuth && !isLoggedIn) {
-    next("/ng/");
+    next("/ng");
   } else if (to.meta.guestOnly && isLoggedIn) {
     next("/");
   } else {

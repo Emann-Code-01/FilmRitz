@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useModalStore } from "../../store/modalStore"
+import { useModalStore } from "../../stores/modalStore"
 
 const props = defineProps<{
   movie: {
