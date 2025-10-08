@@ -78,7 +78,7 @@ const handleAuth = async () => {
     if (!auth.error) {
         success.value = true;
         if (!isSignUp.value) {
-            setTimeout(() => router.push("/"),);
+            setTimeout(() => router.push("/ng"),);
         }
     }
 };
