@@ -9,16 +9,17 @@
 
             <form @submit.prevent="handleAuth" class="space-y-5">
                 <div>
-                    <label class="block text-gray-300 text-sm mb-2">Email</label>
-                    <input v-model="email" type="email" placeholder="Enter your email" required
+                    <label for="email" class="block text-gray-300 text-sm mb-2">Email</label>
+                    <input id="email" name="email" v-model="email" type="email" autocomplete="email"
+                        placeholder="Enter your email" required
                         class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 caret-white focus:ring-red-600 focus:outline-none" />
                 </div>
 
-                <div>
-                    <label class="block text-gray-300 text-sm mb-2">Password</label>
-                    <input v-model="password" type="password" placeholder="Enter your password" required minlength="6"
-                        class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 caret-white focus:ring-red-600 focus:outline-none" />
-                </div>
+                <!-- Password -->
+                <input id="password" name="password" v-model="password" type="password"
+                    :autocomplete="isSignUp ? 'new-password' : 'current-password'" placeholder="Enter your password"
+                    required minlength="6"
+                    class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 caret-white focus:ring-red-600 focus:outline-none" />
 
                 <button type="submit" :disabled="auth.loading"
                     class="w-full py-3 rounded-lg bg-red-600 hover:bg-red-700 transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer font-semibold text-white">
