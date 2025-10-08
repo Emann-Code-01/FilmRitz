@@ -15,7 +15,7 @@
                     membership.
                 </h3>
             </div>
-            <div class="grid" v-if="!auth.isLoggedIn">
+            <div class="grid">
                 <div class="grid md:flex gap-3 place-items-center">
                     <div class="relative md:w-96">
                         <input v-model="email" id="emailInput" type="email" autocomplete="email" placeholder=" " :class="[
@@ -61,13 +61,11 @@
 import HeroImg from '../../assets/Hero Image.png'
 import { ref, computed, onMounted } from "vue"
 import { useRouter } from "vue-router"
-import { useAuthStore } from "../../stores/auth";
 
 const router = useRouter()
 const email = ref("")
 const loaded = ref(false)
 const touched = ref(false)
-const auth = useAuthStore();
 
 const isValidEmail = (val: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)
 const bgUrl = HeroImg

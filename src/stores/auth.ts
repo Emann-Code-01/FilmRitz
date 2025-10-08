@@ -34,6 +34,7 @@ export const useAuthStore = defineStore("auth", {
     async signOut() {
       await supabase.auth.signOut();
       this.user = null;
+      this.loaded = true; // prevent infinite "loading"
       localStorage.removeItem("user");
     },
 
