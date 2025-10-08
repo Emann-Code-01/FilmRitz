@@ -11,7 +11,7 @@
     </template>
 
     <template v-else>
-      <div class="text-white min-h-screen bg-black">
+      <div class="text-white min-h-screen bg-black mt-12">
         <h1 class="text-center text-4xl font-bold py-10">Welcome back to FilmRitz 🎬</h1>
         <!-- Replace this with your logged-in dashboard -->
         <p class="text-center opacity-80">Movies are loading for your account...</p>
