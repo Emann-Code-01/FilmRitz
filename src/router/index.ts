@@ -39,7 +39,7 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth && !isLoggedIn) {
     next("/login");
   } else if (to.meta.guestOnly && isLoggedIn) {
-    next("/");
+    next("/ng"); // ✅ make sure this matches your Home route
   } else {
     next();
   }

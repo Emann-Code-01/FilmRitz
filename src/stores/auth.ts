@@ -15,20 +15,29 @@ export const useAuthStore = defineStore("auth", {
       this.error = null;
       const { data, error } = await supabase.auth.signUp({ email, password });
       this.loading = false;
-      if (error) this.error = error.message;
-      else this.user = data.user;
+
+      if (error) {
+        this.error = error.message;
+      } else {
+        this.user = data.user;
+        localStorage.setItem("user", JSON.stringify(this.user));
+        window.location.href = "/ng"; // ✅ force full reload redirect
+      }
     },
 
     async signIn(email: string, password: string) {
       this.loading = true;
       this.error = null;
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       this.loading = false;
-      if (error) this.error = error.message;
-      else this.user = data.user;
+
+      if (error) {
+        this.error = error.message;
+      } else {
+        this.user = data.user;
+        localStorage.setItem("user", JSON.stringify(this.user));
+        window.location.href = "/ng"; // ✅ same here
+      }
     },
 
     async signOut() {

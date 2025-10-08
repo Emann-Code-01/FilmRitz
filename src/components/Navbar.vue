@@ -4,12 +4,12 @@
     <div>
       <img v-if="!auth.isLoggedIn" :src="Logo" alt="Filmritz Logo"
         class="transition-all duration-900 animate-fade-up w-44" />
-      <router-link v-else to="/">
+      <router-link v-else to="/ng">
         <img :src="Logo" alt="Filmritz Logo" class="transition-all duration-900 animate-fade-up w-44" />
       </router-link>
     </div>
     <div v-if="auth.isLoggedIn" class="hidden md:flex space-x-6">
-      <router-link to="/" class="hover:text-red-500">Home</router-link>
+      <router-link to="/ng" class="hover:text-red-500">Home</router-link>
       <router-link to="/profile" class="hover:text-red-500">My Watchlist</router-link>
     </div>
     <div class="flex space-x-4" v-if="router.currentRoute.value.path === '/ng' || auth.isLoggedIn">
@@ -25,7 +25,7 @@
           Profile
         </router-link>
         <button v-if="isLoggedIn" @click="logout" :disabled="isLoggingOut"
-          class="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md font-semibold transition disabled:opacity-50">
+          class="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md font-semibold transition cursor-pointer disabled:opacity-50">
           <span v-if="!isLoggingOut">Log Out</span>
           <span v-else>Logging out...</span>
         </button>
