@@ -1,9 +1,8 @@
 <template>
     <div class="relative w-full overflow-hidden h-screen xl:mt-auto bg-fixed bg-center bg-cover bg-no-repeat transition-all mb-9"
-        :style="{ backgroundImage: loaded ? `url('${bgUrl}')` : 'none' }">
+        :style="{ backgroundImage: `url('${bgUrl}')` }">
         <div v-if="!loaded" class="absolute inset-0 bg-black/80"></div>
         <div class="absolute inset-0 bg-[linear-gradient(to_bottom,_#000000CC_10%,_#00000099_50%,_#000000_100%)]"></div>
-        <img :src="bgUrl" alt="" loading="lazy" class="hidden" @load="onImageLoaded" />
         <div
             class="relative z-20 flex flex-col xl:pt-10 text-center items-center justify-center h-full text-white gap-7 transition-all duration-900 animate-fade-up">
             <div class="items-center flex flex-col gap-3">
@@ -16,7 +15,7 @@
                     membership.
                 </h3>
             </div>
-            <div class="grid">
+            <div class="grid" v-if="!auth.isLoggedIn">
                 <div class="grid md:flex gap-3 place-items-center">
                     <div class="relative md:w-96">
                         <input v-model="email" id="emailInput" type="email" autocomplete="email" placeholder=" " :class="[
@@ -58,14 +57,17 @@
     </div>
 </template>
 
-<script setup lang="ts">import HeroImg from '../../assets/Hero Image.png'
-import { ref, computed } from "vue"
+<script setup lang="ts">
+import HeroImg from '../../assets/Hero Image.png'
+import { ref, computed, onMounted } from "vue"
 import { useRouter } from "vue-router"
+import { useAuthStore } from "../../stores/auth";
 
 const router = useRouter()
 const email = ref("")
 const loaded = ref(false)
-const touched = ref(false) // track if button clicked
+const touched = ref(false)
+const auth = useAuthStore();
 
 const isValidEmail = (val: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)
 const bgUrl = HeroImg
@@ -96,6 +98,14 @@ function handleGetStarted() {
         router.push({ path: "/login" })
     }
 }
+
+onMounted(() => {
+    const img = new Image()
+    img.src = bgUrl
+    img.onload = () => {
+        loaded.value = true
+    }
+})
 
 </script>
 

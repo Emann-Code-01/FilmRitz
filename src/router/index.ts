@@ -1,22 +1,14 @@
 // src/router/index.ts
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import PreviewHome from "../views/PreviewHome.vue";
-// import Home from "../views/HomePage.vue";
-import Auth from "../views/Auth.vue"; // your dual login/signup page
+import Home from "../views/Home.vue";
+import Auth from "../views/Auth.vue";
 import { useAuthStore } from "../stores/auth";
 
 const routes: RouteRecordRaw[] = [
-  // {
-  //   path: "/",
-  //   name: "Home",
-  //   component: Home,
-  //   meta: { requiresAuth: true },
-  // },
   {
     path: "/ng",
-    name: "PreviewHome",
-    component: PreviewHome,
-    meta: { guestOnly: true },
+    name: "Home",
+    component: Home,
   },
   {
     path: "/login",
@@ -39,16 +31,13 @@ const router = createRouter({
   },
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const auth = useAuthStore();
-
-  // Make sure store reflects Supabase session
-  auth.syncUser();
-
-  const isLoggedIn = !!auth.user;
+  await auth.syncUser();
+  const isLoggedIn = auth.isLoggedIn;
 
   if (to.meta.requiresAuth && !isLoggedIn) {
-    next("/ng");
+    next("/login");
   } else if (to.meta.guestOnly && isLoggedIn) {
     next("/");
   } else {

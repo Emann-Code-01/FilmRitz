@@ -5,6 +5,7 @@ export const useAuthStore = defineStore("auth", {
   state: () => ({
     user: null as any,
     loading: false,
+    loaded: false,
     error: null as string | null,
   }),
 
@@ -33,12 +34,23 @@ export const useAuthStore = defineStore("auth", {
     async signOut() {
       await supabase.auth.signOut();
       this.user = null;
+      localStorage.removeItem("user");
     },
+
     async syncUser() {
+      this.loaded = false; // start loading
       const { data } = await supabase.auth.getSession();
-      this.user = data.session?.user || null;
+      if (data.session?.user) {
+        this.user = data.session.user;
+        localStorage.setItem("user", JSON.stringify(this.user));
+      } else {
+        const cached = localStorage.getItem("user");
+        this.user = cached ? JSON.parse(cached) : null;
+      }
+      this.loaded = true; // done loading
     },
   },
+
   getters: {
     isLoggedIn: (state) => !!state.user,
   },
