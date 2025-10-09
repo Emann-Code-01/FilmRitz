@@ -504,7 +504,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import TrendingNow from '../TrendingNow.vue';
+import TrendingNow from '../movies/TrendingNow.vue';
 
 const faqs = [
     {

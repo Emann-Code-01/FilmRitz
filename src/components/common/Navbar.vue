@@ -8,7 +8,7 @@
         <img :src="Logo" alt="Filmritz Logo" class="transition-all duration-900 animate-fade-up w-44" />
       </router-link>
     </div>
-    <div v-if="auth.isLoggedIn" class="hidden md:flex space-x-6">
+    <div v-if="auth.isLoggedIn" class="hidden md:flex space-x-6 transition-all duration-900 animate-fade-up">
       <router-link to="/ng" class="hover:text-red-500">Home</router-link>
       <router-link to="/profile" class="hover:text-red-500">My Watchlist</router-link>
     </div>
@@ -21,11 +21,12 @@
       </template>
 
       <template v-else>
-        <router-link to="/profile" class="px-4 py-2 rounded border border-gray-400 hover:border-red-500 transition">
+        <router-link to="/profile"
+          class="px-4 py-2 rounded border border-gray-400 hover:border-red-500 transition-all duration-900 animate-fade-up">
           Profile
         </router-link>
         <button v-if="isLoggedIn" @click="logout" :disabled="isLoggingOut"
-          class="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md font-semibold transition cursor-pointer disabled:opacity-50">
+          class="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md font-semibold transition-all duration-900 animate-fade-up cursor-pointer disabled:opacity-50">
           <span v-if="!isLoggingOut">Log Out</span>
           <span v-else>Logging out...</span>
         </button>
@@ -35,9 +36,9 @@
 </template>
 
 <script setup lang="ts">
-import Logo from '../assets/filmritzlogo.svg';
+import Logo from '../../assets/filmritzlogo.svg';
 import { ref, computed } from "vue";
-import { useAuthStore } from "../stores/auth";
+import { useAuthStore } from "../../stores/auth";
 import { useRouter } from "vue-router";
 
 const auth = useAuthStore();
