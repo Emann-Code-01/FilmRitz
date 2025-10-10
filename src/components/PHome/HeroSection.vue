@@ -1,5 +1,5 @@
 <template>
-    <div class="relative w-full overflow-hidden h-screen xl:mt-auto bg-fixed bg-center bg-cover bg-no-repeat transition-all mb-9"
+    <div class="relative w-full overflow-hidden h-screen bg-fixed bg-center bg-cover bg-no-repeat transition-all mb-9"
         :style="{ backgroundImage: `url('${bgUrl}')` }">
         <div v-if="!loaded" class="absolute inset-0 bg-black/80"></div>
         <div class="absolute inset-0 bg-[linear-gradient(to_bottom,_#000000CC_10%,_#00000099_50%,_#000000_100%)]"></div>

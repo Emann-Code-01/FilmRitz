@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!auth.loaded" class="flex items-center justify-center min-h-screen bg-black text-white">
+    <div v-if="!auth.loaded" class="flex items-center justify-center min-h-screen text-white">
       <p class="animate-pulse text-lg tracking-wide">Loading FilmRitz...</p>
     </div>
 

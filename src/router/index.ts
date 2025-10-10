@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: "/movie/:id",
         name: "MovieDetails",
-        component: MovieDetails,
+        component: () => import("../views/MovieDetails.vue"),
         props: true,
       },
       {
