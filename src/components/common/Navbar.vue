@@ -1,6 +1,6 @@
 <template>
   <nav class=""
-    :class="{ 'absolute top-0 left-0 w-full py-5 md:pr-5 z-50 flex items-center justify-between transition-all animate-ease-out duration-500': auth.isLoggedIn, 'absolute top-0 left-0 w-full py-5 z-50 xl:px-32 pr-5 flex items-center justify-between transition-all animate-ease-out duration-500': !auth.isLoggedIn }">
+    :class="{ 'absolute top-0 left-0 w-full py-5 px-5 z-50 flex items-center justify-between transition-all animate-ease-out duration-500': auth.isLoggedIn, 'absolute top-0 left-0 w-full py-5 z-50 xl:px-32 px-5 flex items-center justify-between transition-all animate-ease-out duration-500': !auth.isLoggedIn }">
     <div class="flex justify-center items-center">
       <img :src="Logo" alt="Filmritz Logo" class="transition-all duration-900 animate-fade-up w-44" />
       <!-- <img :src="Logo2" alt="Filmritz Logo" class="md:hidden transition-all duration-900 animate-fade-up w-44" /> -->
@@ -44,7 +44,7 @@
       <div class="flex space-x-4" v-if="router.currentRoute.value.path === '/ng' || auth.isLoggedIn">
         <div v-if="!auth.isLoggedIn && router.currentRoute.value.path === '/ng'">
           <router-link to="/login"
-            class="px-6 py-1 rounded bg-[#b20710] hover:bg-[#e32125] text-white font-[Gilroy-SemiBold] transition-all animate-fade-up duration-500">
+            class="px-6 py-3 rounded bg-[#b20710] hover:bg-[#e32125] text-white font-[Gilroy-SemiBold] transition-all animate-fade-up duration-500">
             Sign In
           </router-link>
         </div>
