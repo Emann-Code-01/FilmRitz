@@ -1,6 +1,27 @@
 <template>
     <section class="bg-black transition-all duration-900 animate-fade-up relative z-10 overflow-hidden">
-        <div class="container relative transition-all duration-900 animate-fade-up">
+        <div v-if="loading" class="container relative transition-all duration-900 animate-fade-up">
+            <Swiper :slidesPerGroup="4" :loop="false" :breakpoints="{
+                320: { slidesPerView: 2, spaceBetween: 4, slidesPerGroup: 2, },
+                640: { slidesPerView: 3, spaceBetween: 10 },
+                1024: { slidesPerView: 5, spaceBetween: 12 }
+            }" class="netflix-swiper transition-all duration-900 animate-fade-up mySwiper w-full"
+                @reachBeginning="atBeginning = true" @reachEnd="atEnd = true" @fromEdge="resetEdges">
+                <SwiperSlide v-for="(movie, index) in movies" :key="movie.id"
+                    class="relative w-full cursor-pointer transition-all duration-900 animate-fade-up hover:scale-105 py-2 px-2">
+                    <span sizes="(max-width: 640px) 300px, (max-width: 1024px) 500px, 780px" :alt="movie.title"
+                        class="rounded-md hover:rounded-md w-full h-80 transition-all duration-500 animate-fade-up mx-5 bg-amber-900 animate-pulse font-[Gilroy-SemiBold]">Loading
+                        Trending Movies...</span>
+                    <span class="absolute left-2 bottom-3 text-[100px] font-extrabold leading-none image-style">
+                        {{ index + 1 }}
+                    </span>
+                </SwiperSlide>
+            </Swiper>
+        </div>
+        <div v-else-if="error" class="text-red-500 text-center py-8">
+            {{ error }}
+        </div>
+        <div v-else class="container relative transition-all duration-900 animate-fade-up">
             <Swiper :modules="[Navigation]" :slidesPerGroup="4" :loop="false"
                 :navigation="{ nextEl: '.custom-next', prevEl: '.custom-prev' }" :breakpoints="{
                     320: { slidesPerView: 2, spaceBetween: 4, slidesPerGroup: 2, },
@@ -20,7 +41,6 @@
                 </SwiperSlide>
             </Swiper>
         </div>
-
         <div class="custom-prev absolute left-0 top-1/2 -translate-y-1/2 w-10 h-96 flex items-center justify-center bg-black text-white cursor-pointer transition-all duration-500 pr-2"
             :class="{ 'opacity-0 pointer-events-none': atBeginning, 'opacity-100': !atBeginning }">
             <span
@@ -50,26 +70,44 @@ import { Swiper, SwiperSlide } from "swiper/vue"
 import { Navigation } from "swiper/modules"
 import { useModalStore } from "../../stores/modalStore"
 import { fetchTrendingMovies } from "../../api/tmdb"
-import 'swiper/css'
+import "swiper/css"
 
+const modalStore = useModalStore()
+
+// Reactive state
 const movies = ref<any[]>([])
+const loading = ref(false)
+const error = ref<string | null>(null)
 const atBeginning = ref(true)
 const atEnd = ref(false)
-const modalStore = useModalStore();
 
+// Reset navigation edge states
 const resetEdges = () => {
     atBeginning.value = false
     atEnd.value = false
 }
 
-onMounted(async () => {
+// Fetch Trending Movies
+const loadTrendingMovies = async () => {
+    loading.value = true
+    error.value = null
     try {
-        movies.value = (await fetchTrendingMovies()).slice(0, 10)
-    } catch (err) {
-        console.error("Failed to fetch trending movies:", err)
+        const res = await fetchTrendingMovies("week")
+        movies.value = res.slice(0, 10)
+    } catch (err: any) {
+        console.error("❌ Failed to fetch trending movies:", err)
+        error.value = "Couldn’t load trending movies. Please try again later 😔"
+    } finally {
+        loading.value = false
     }
+}
+
+onMounted(() => {
+    loadTrendingMovies()
 })
 </script>
+
+
 
 <style>
 .netflix-swiper .swiper-button-prev,
