@@ -2,7 +2,7 @@
   <nav class=""
     :class="{ 'absolute top-0 left-0 w-full py-5 z-50 xl:p-6 flex items-center justify-between transition-all animate-ease-out duration-500': auth.isLoggedIn, 'absolute top-0 left-0 w-full py-5 z-50 xl:px-32 pr-5 flex items-center justify-between transition-all animate-ease-out duration-500': !auth.isLoggedIn }">
     <div class="flex justify-center items-center">
-      <img :src="Logo" alt="Filmritz Logo" class="hidden md:flex transition-all duration-900 animate-fade-up w-44" />
+      <img :src="Logo" alt="Filmritz Logo" class="transition-all duration-900 animate-fade-up w-44" />
       <!-- <img :src="Logo2" alt="Filmritz Logo" class="md:hidden transition-all duration-900 animate-fade-up w-44" /> -->
       <div v-if="auth.isLoggedIn" class="hidden md:flex space-x-6 transition-all duration-900 animate-fade-up">
         <router-link to="/ng"
