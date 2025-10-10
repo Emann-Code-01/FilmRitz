@@ -34,7 +34,7 @@
         <div class="custom-next absolute right-0 top-1/2 -translate-y-1/2 w-10 h-96 flex items-center justify-center bg-black text-white cursor-pointer transition-all duration-500 pl-2"
             :class="{ 'opacity-0 pointer-events-none': atEnd, 'opacity-100': !atEnd }">
             <span
-                class="flex items-center w-6 h-32 rounded-xl bg-white/10 hover:bg-white/20 transition-all duration-900 animate-fade-up">
+                class="flex items-center w-6 h-32 rounded-xl bg-white/10 hover:bg-white/20 transition-all duration-900 animate-fade-up outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />

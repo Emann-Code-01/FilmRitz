@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import axios from "axios";
 
-const API_URL = "https://api.themoviedb.org/4";
+const API_URL = import.meta.env.VITE_TMDB_BASE_URL as string;
 const ACCESS_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN as string;
 
 // Create a preconfigured axios instance
@@ -10,6 +10,7 @@ const api = axios.create({
   headers: {
     Authorization: `Bearer ${ACCESS_TOKEN}`,
     "Content-Type": "application/json;charset=utf-8",
+    accept: "application/json",
   },
 });
 

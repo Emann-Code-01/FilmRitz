@@ -109,8 +109,8 @@ onMounted(async () => {
   try {
     const [movieRes, creditsRes, similarRes] = await Promise.all([
       api.get(`/movie/${movieId}`),
-      axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${import.meta.env.VITE_TMDB_API_KEY}`),
-      axios.get(`https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${import.meta.env.VITE_TMDB_API_KEY}`),
+      axios.get(`https://api.themoviedb.org/4/movie/${movieId}/credits?api_key=${import.meta.env.VITE_TMDB_API_KEY}`),
+      axios.get(`https://api.themoviedb.org/4/movie/${movieId}/similar?api_key=${import.meta.env.VITE_TMDB_API_KEY}`),
     ]);
 
     movie.value = movieRes.data;
