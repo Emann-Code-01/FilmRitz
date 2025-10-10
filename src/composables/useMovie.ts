@@ -40,7 +40,7 @@ export function useMovies() {
     try {
       upcoming.value = await fetchUpcomingMovies();
     } catch (err: any) {
-      error.value = "Failed to fetch upcoming movies.";
+      error.value = err.message || "Something went wrong";
     } finally {
       loading.value = false;
     }

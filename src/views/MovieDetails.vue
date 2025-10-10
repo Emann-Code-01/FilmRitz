@@ -13,11 +13,11 @@
         <p class="text-gray-300 text-sm line-clamp-3">{{ movie.overview }}</p>
 
         <div class="flex gap-3 mt-4">
-          <button @click="goToWatch"
+          <button ref="initialFocus" @click="goToWatch"
             class="px-4 py-2 bg-red-600 rounded-xl hover:bg-red-700 font-semibold flex items-center gap-2">
             ▶ Watch
           </button>
-          <button @click="toggleWatchlist"
+          <button ref="initialFocus" @click="toggleWatchlist"
             class="px-4 py-2 bg-gray-800 rounded-xl hover:bg-gray-700 flex items-center gap-2">
             <span v-if="inWatchlist">✓ Added</span>
             <span v-else>＋ My List</span>

@@ -24,14 +24,13 @@ watch(
     <Dialog @close="modalStore.closeMovie" class="relative z-50 transition-all duration-200">
       <div class="fixed inset-0 flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-[linear-gradient(to_bottom,_#000000CC_10%,#000000_50%)]"></div>
-
         <DialogPanel class="relative w-full max-w-4xl h-[40em] overflow-hidden rounded-xl text-white shadow-xl">
-          <div v-if="movie?.backdrop_path"
+          <div
             class="absolute inset-0 bg-fixed bg-center bg-cover mx-auto bg-no-repeat transition-all duration-500 animate-fade-up"
             :style="{ backgroundImage: `url(${baseUrl + movie.backdrop_path})` }"></div>
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
 
-          <button @click="modalStore.closeMovie"
+          <button ref="initialFocus" @click="modalStore.closeMovie"
             class="hover:bg-white/30 absolute top-5 right-5 rounded-full p-1 cursor-pointer transition-all duration-300">
             <svg viewBox="0 0 36 36" width="36" height="36" class="transform -rotate-45"
               xmlns="http://www.w3.org/2000/svg" fill="none" role="img">

@@ -438,7 +438,7 @@
                 Asked Question</h1>
             <div class="" v-for="(faq, index) in faqs" :key="id">
                 <div class=" space-y-0.5 transition-all duration-900 animate-fade-up">
-                    <button @click="toggle(index)"
+                    <button ref="initialFocus" @click="toggle(index)"
                         class="font-[Gilroy-Medium] cursor-pointer flex relative w-full h-fit justify-between place-items-center px-5 bg-white/20 hover:bg-white/30 py-7 transition-all duration-900 animate-fade-up text-xl md:text-2xl">
                         <h1 class=" text-nowrap">{{ faq.question }}</h1>
                         <span @click="openFAQ">

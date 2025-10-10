@@ -21,7 +21,7 @@
                     required minlength="6"
                     class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 caret-white focus:ring-red-600 focus:outline-none" />
 
-                <button type="submit" :disabled="auth.loading"
+                <button ref="initialFocus" type="submit" :disabled="auth.loading"
                     class="w-full py-3 rounded-lg bg-red-600 hover:bg-red-700 transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer font-semibold text-white">
                     {{ auth.loading ? (isSignUp ? "Creating Account..." : "Signing In...") : (isSignUp ? "Sign Up" :
                         "Sign In") }}
@@ -41,7 +41,7 @@
 
             <p class="text-gray-400 text-sm text-center mt-6">
                 {{ isSignUp ? "Already have an account?" : "Don’t have an account?" }}
-                <button @click="toggleMode" class="text-red-500 hover:underline font-medium cursor-pointer">
+                <button ref="initialFocus" @click="toggleMode" class="text-red-500 hover:underline font-medium cursor-pointer">
                     {{ isSignUp ? "Sign In" : "Sign Up" }}
                 </button>
             </p>
