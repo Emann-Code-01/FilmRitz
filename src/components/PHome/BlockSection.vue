@@ -439,7 +439,7 @@
             <div class="" v-for="(faq, index) in faqs" :key="id">
                 <div class=" space-y-0.5 transition-all duration-900 animate-fade-up">
                     <button @click="toggle(index)"
-                        class="font-[Gilroy-Medium] cursor-pointer flex relative w-full justify-between place-items-center px-5 bg-white/20 hover:bg-white/30 py-7 transition-all duration-900 animate-fade-up text-xl md:text-2xl">
+                        class="font-[Gilroy-Medium] cursor-pointer flex relative w-full h-fit justify-between place-items-center px-5 bg-white/20 hover:bg-white/30 py-7 transition-all duration-900 animate-fade-up text-xl md:text-2xl">
                         <h1 class=" text-nowrap">{{ faq.question }}</h1>
                         <span @click="openFAQ">
                             <svg v-if="activeIndex !== index" viewBox="0 0 36 36" width="36" height="36"
@@ -459,7 +459,7 @@
                     </button>
                     <transition :duration="550" name="nested">
                         <div v-if="activeIndex === index"
-                            class="relative px-5 py-3 space-y-3 w-full font-[Gilroy-Medium] text-xl md:text-2xl bg-white/20 leading-10 transition-all duration-900 animate-fade outer">
+                            class="relative px-5 py-3 space-y-3 w-full max-h-96 font-[Gilroy-Medium] text-xl md:text-2xl bg-white/20 leading-10 transition-all duration-900 animate-fade outer">
                             <p class="transition-all duration-900 animate-fade-up inner">{{ faq.answer1 }}
                             </p>
                             <p class="max-w-6xl transition-all duration-900 animate-fade-up inner">
@@ -570,33 +570,59 @@ function toggle(index) {
 </script>
 
 <style>
-.nested-enter-active,
-.nested-leave-active {
-    transition: all 0.3s ease-in-out;
+/* Only animate the opening */
+.nested-enter-active {
+    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
 }
 
+/* No transition for closing */
 .nested-leave-active {
-    transition-delay: 0.01s;
+    transition: none;
+    overflow: hidden;
 }
 
-.nested-enter-from,
-.nested-leave-to {
-    transform: translateY(10px);
+/* Start and end states */
+.nested-enter-from {
     opacity: 0;
+    transform: translateY(-5px);
 }
 
-.nested-enter-active .inner,
-.nested-leave-active .inner {
-    transition: all 0.3s ease-in-out;
+.nested-enter-to {
+    max-height: 384px;
+    /* Adjust to match your content */
+    opacity: 1;
+    transform: translateY(0);
 }
 
+/* Close instantly */
+.nested-leave-from {
+    max-height: 384px;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.nested-leave-to {
+    opacity: 0;
+    transform: translateY(-5px);
+}
+
+/* Inner element still smooth on open only */
 .nested-enter-active .inner {
-    transition-delay: 0.01s;
+    transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-.nested-enter-from .inner,
-.nested-leave-to .inner {
-    transform: translateX(50px);
-    opacity: 0.001;
+.nested-leave-active .inner {
+    transition: none;
+}
+
+.nested-enter-from .inner {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.nested-enter-to .inner {
+    opacity: 1;
+    transform: translateX(0);
 }
 </style>

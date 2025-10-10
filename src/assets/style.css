@@ -58,6 +58,10 @@ body {
   transition-duration: 0.5s;
 }
 
+.duration-900 {
+  transition-duration: 900ms;
+}
+
 .ease-in {
   transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }

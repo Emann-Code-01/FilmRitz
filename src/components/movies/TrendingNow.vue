@@ -50,6 +50,7 @@ import { Swiper, SwiperSlide } from "swiper/vue"
 import { Navigation } from "swiper/modules"
 import { useModalStore } from "../../stores/modalStore"
 import { fetchTrendingMovies } from "../../api/tmdb"
+import 'swiper/css'
 
 const movies = ref<any[]>([])
 const atBeginning = ref(true)
