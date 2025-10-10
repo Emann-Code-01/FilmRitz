@@ -4,7 +4,7 @@
     <div class="flex justify-center items-center">
       <img :src="Logo" alt="Filmritz Logo" class="transition-all duration-900 animate-fade-up w-44" />
       <!-- <img :src="Logo2" alt="Filmritz Logo" class="md:hidden transition-all duration-900 animate-fade-up w-44" /> -->
-      <div v-if="auth.isLoggedIn" class="hidden md:flex space-x-6 transition-all duration-900 animate-fade-up">
+      <div v-if="auth.isLoggedIn" class="hidden md:flex space-x-6 transition duration-500 animate-fade-up">
         <router-link to="/ng"
           class="hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline">Home</router-link>
         <router-link to="/tvshows"

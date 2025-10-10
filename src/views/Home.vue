@@ -1,7 +1,8 @@
 <template>
   <div>
     <div v-if="!auth.loaded" class="flex items-center justify-center min-h-screen text-white">
-      <p class="animate-pulse text-lg tracking-wide">Loading FilmRitz...</p>
+      <p class="animate-pulse text-lg tracking-wide">Yo, welcome back to FilmRitz — we’ve been expecting you! Let’s dive
+        into what’s trending. 🎬</p>
     </div>
 
     <template v-else-if="!isLoggedIn">
@@ -15,12 +16,21 @@
         <!-- Trending -->
         <section>
           <h2 class="text-2xl font-bold mb-3">🔥 Trending Now</h2>
-          <div v-if="loading">Loading...</div>
+          <div v-if="loading">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4">
+              <div v-for="movie in trending" :key="movie.id" class="cursor-pointer transition hover:scale-105">
+                <span sizes="(max-width: 640px) 300px, (max-width: 1024px) 500px, 780px" :alt="movie.title"
+                  class="rounded-md hover:rounded-md w-full h-80 transition-all duration-500 animate-fade-up mx-5 bg-amber-900 animate-pulse font-[Gilroy-SemiBold]">{{
+                    movie.title }}</span>
+              </div>
+            </div>
+          </div>
           <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4">
-            <div v-for="movie in trending" :key="movie.id" class="cursor-pointer transition hover:scale-105"
+            <div v-for="movie in trending" :key="movie.id"
+              class="cursor-pointer transition-all duration-500 hover:scale-105"
               @click="$router.push(`/movie/${movie.id}`)">
               <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="movie.title" class="rounded-xl" />
-              <p class="mt-2 text-sm">{{ movie.title }}</p>
+              <p class="mt-2 text-sm font-[Gilroy-SemiBold]">{{ movie.title }}</p>
             </div>
           </div>
         </section>
@@ -28,9 +38,18 @@
         <!-- Top Rated -->
         <section>
           <h2 class="text-2xl font-bold mb-3">⭐ Top Rated</h2>
-          <div v-if="loading">Loading...</div>
+          <div v-if="loading">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4">
+              <div v-for="movie in trending" :key="movie.id" class="cursor-pointer transition hover:scale-105">
+                <span sizes="(max-width: 640px) 300px, (max-width: 1024px) 500px, 780px" :alt="movie.title"
+                  class="rounded-md hover:rounded-md w-full h-80 transition-all duration-500 animate-fade-up mx-5 bg-amber-900 animate-pulse font-[Gilroy-SemiBold]">{{
+                    movie.title }}</span>
+              </div>
+            </div>
+          </div>
           <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4">
-            <div v-for="movie in topRated" :key="movie.id" class="cursor-pointer transition hover:scale-105"
+            <div v-for="movie in topRated" :key="movie.id"
+              class="cursor-pointer transition duration-500 hover:scale-105"
               @click="$router.push(`/movie/${movie.id}`)">
               <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="movie.title" class="rounded-xl" />
               <p class="mt-2 text-sm">{{ movie.title }}</p>
@@ -41,9 +60,18 @@
         <!-- Upcoming -->
         <section>
           <h2 class="text-2xl font-bold mb-3">🎬 Coming Soon</h2>
-          <div v-if="loading">Loading...</div>
+          <div v-if="loading">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4">
+              <div v-for="movie in trending" :key="movie.id" class="cursor-pointer transition hover:scale-105">
+                <span sizes="(max-width: 640px) 300px, (max-width: 1024px) 500px, 780px" :alt="movie.title"
+                  class="rounded-md hover:rounded-md w-full h-80 transition-all duration-500 animate-fade-up mx-5 bg-amber-900 animate-pulse font-[Gilroy-SemiBold]">{{
+                    movie.title }}</span>
+              </div>
+            </div>
+          </div>
           <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4">
-            <div v-for="movie in upcoming" :key="movie.id" class="cursor-pointer transition hover:scale-105"
+            <div v-for="movie in upcoming" :key="movie.id"
+              class="cursor-pointer transition-all duration-500 hover:scale-105"
               @click="$router.push(`/movie/${movie.id}`)">
               <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="movie.title" class="rounded-xl" />
               <p class="mt-2 text-sm">{{ movie.title }}</p>
