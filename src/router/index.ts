@@ -3,7 +3,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import MainLayout from "@/components/layout/MainLayout.vue";
 import Home from "../views/Home.vue";
 import Auth from "../views/Auth.vue";
-import MovieDetails from '../views/MovieDetails.vue';
+// import MovieDetails from '../views/MovieDetails.vue';
 import Watch from '../views/Watch.vue';
 import Profile from '../views/Profile.vue';
 import { useAuthStore } from "../stores/auth";

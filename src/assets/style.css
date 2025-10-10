@@ -265,11 +265,13 @@ input:-webkit-autofill:active {
 }
 
 @font-face {
+  font-display: swap;
   font-family: "Gilroy";
   src: url("./fonts/gilroy/Gilroy-Regular.ttf");
 }
 
 @font-face {
+  font-display: swap;
   font-family: gilroy-bold;
   font-style: normal;
   font-weight: 400;
@@ -277,6 +279,7 @@ input:-webkit-autofill:active {
     url(./fonts/gilroy/Gilroy-Bold.ttf) format("truetype");
 }
 @font-face {
+  font-display: swap;
   font-family: gilroy-heavy;
   font-style: normal;
   font-weight: 400;
@@ -284,6 +287,7 @@ input:-webkit-autofill:active {
     url(./fonts/gilroy/Gilroy-Heavy.ttf) format("truetype");
 }
 @font-face {
+  font-display: swap;
   font-family: gilroy-light;
   font-style: normal;
   font-weight: 400;
@@ -291,6 +295,7 @@ input:-webkit-autofill:active {
     url(./fonts/gilroy/Gilroy-Light.ttf) format("truetype");
 }
 @font-face {
+  font-display: swap;
   font-family: gilroy-medium;
   font-style: normal;
   font-weight: 400;
@@ -298,6 +303,7 @@ input:-webkit-autofill:active {
     url(./fonts/gilroy/Gilroy-Medium.ttf) format("truetype");
 }
 @font-face {
+  font-display: swap;
   font-family: gilroy-regular;
   font-style: normal;
   font-weight: 400;
@@ -306,6 +312,7 @@ input:-webkit-autofill:active {
 }
 
 @font-face {
+  font-display: swap;
   font-family: gilroy-semibold;
   font-style: normal;
   font-weight: 400;
