@@ -1,52 +1,64 @@
-// src/composables/useMovies.ts
-import { ref } from "vue"
-import axios from "axios"
+import { ref } from "vue";
+import axios from "axios";
 
-const API_URL = "https://api.themoviedb.org/3"
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY
+const API_URL = "https://api.themoviedb.org/4";
+const ACCESS_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN as string;
+
+// Create a preconfigured axios instance
+const api = axios.create({
+  baseURL: API_URL,
+  headers: {
+    Authorization: `Bearer ${ACCESS_TOKEN}`,
+    "Content-Type": "application/json;charset=utf-8",
+  },
+});
 
 export function useMovies() {
-  const trending = ref<any[]>([])
-  const topRated = ref<any[]>([])
-  const upcoming = ref<any[]>([])
-  const loading = ref(false)
-  const error = ref<string | null>(null)
+  const trending = ref<any[]>([]);
+  const topRated = ref<any[]>([]);
+  const upcoming = ref<any[]>([]);
+  const loading = ref(false);
+  const error = ref<string | null>(null);
 
   const getTrending = async () => {
     try {
-      loading.value = true
-      const res = await axios.get(`${API_URL}/trending/movie/week?api_key=${API_KEY}`)
-      trending.value = res.data.results
+      loading.value = true;
+      const res = await api.get("/trending/movie/week");
+      trending.value = res.data.results;
     } catch (err: any) {
-      error.value = err.message
+      error.value = err.message || "Failed to fetch trending movies.";
     } finally {
-      loading.value = false
+      loading.value = false;
     }
-  }
+  };
 
   const getTopRated = async () => {
     try {
-      loading.value = true
-      const res = await axios.get(`${API_URL}/movie/top_rated?api_key=${API_KEY}`)
-      topRated.value = res.data.results
+      loading.value = true;
+      const res = await api.get("/movie/top_rated", {
+        params: { language: "en-US" },
+      });
+      topRated.value = res.data.results;
     } catch (err: any) {
-      error.value = err.message
+      error.value = err.message || "Failed to fetch top-rated movies.";
     } finally {
-      loading.value = false
+      loading.value = false;
     }
-  }
+  };
 
   const getUpcoming = async () => {
     try {
-      loading.value = true
-      const res = await axios.get(`${API_URL}/movie/upcoming?api_key=${API_KEY}`)
-      upcoming.value = res.data.results
+      loading.value = true;
+      const res = await api.get("/movie/upcoming", {
+        params: { language: "en-US" },
+      });
+      upcoming.value = res.data.results;
     } catch (err: any) {
-      error.value = err.message
+      error.value = err.message || "Failed to fetch upcoming movies.";
     } finally {
-      loading.value = false
+      loading.value = false;
     }
-  }
+  };
 
   return {
     trending,
@@ -56,6 +68,6 @@ export function useMovies() {
     error,
     getTrending,
     getTopRated,
-    getUpcoming
-  }
+    getUpcoming,
+  };
 }

@@ -1,6 +1,6 @@
 <template>
   <section v-if="movie" class="space-y-8">
-    <!-- Hero / Banner -->
+    <!-- 🎬 Hero Banner -->
     <div
       class="relative h-[60vh] rounded-2xl overflow-hidden"
       :style="{
@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <!-- Cast Carousel -->
+    <!-- 🎭 Cast Carousel -->
     <div v-if="cast.length" class="space-y-3">
       <h2 class="text-xl font-semibold">Cast</h2>
       <div class="flex gap-4 overflow-x-auto pb-3">
@@ -53,7 +53,7 @@
       </div>
     </div>
 
-    <!-- Similar Movies -->
+    <!-- 🎥 Similar Movies -->
     <div v-if="similar.length" class="space-y-3">
       <h2 class="text-xl font-semibold">Similar Titles</h2>
       <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -73,6 +73,7 @@
     </div>
   </section>
 
+  <!-- 🌀 Loading State -->
   <div v-else class="h-[80vh] flex items-center justify-center text-gray-400">
     Loading movie details...
   </div>
@@ -81,6 +82,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import axios from "axios";
 
 const route = useRoute();
 const router = useRouter();
@@ -91,16 +93,32 @@ const cast = ref<any[]>([]);
 const similar = ref<any[]>([]);
 const inWatchlist = ref(false);
 
+// TMDB v4 API setup
+const API_URL = "https://api.themoviedb.org/4";
+const ACCESS_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN as string;
+
+const api = axios.create({
+  baseURL: API_URL,
+  headers: {
+    Authorization: `Bearer ${ACCESS_TOKEN}`,
+    "Content-Type": "application/json;charset=utf-8",
+  },
+});
+
 onMounted(async () => {
-  const key = import.meta.env.VITE_TMDB_KEY;
-  const [movieRes, creditsRes, similarRes] = await Promise.all([
-    fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${key}`),
-    fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${key}`),
-    fetch(`https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${key}`)
-  ]);
-  movie.value = await movieRes.json();
-  cast.value = (await creditsRes.json()).cast.slice(0, 10);
-  similar.value = (await similarRes.json()).results.slice(0, 10);
+  try {
+    const [movieRes, creditsRes, similarRes] = await Promise.all([
+      api.get(`/movie/${movieId}`),
+      axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${import.meta.env.VITE_TMDB_API_KEY}`),
+      axios.get(`https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${import.meta.env.VITE_TMDB_API_KEY}`),
+    ]);
+
+    movie.value = movieRes.data;
+    cast.value = creditsRes.data.cast.slice(0, 10);
+    similar.value = similarRes.data.results.slice(0, 10);
+  } catch (err) {
+    console.error("Error fetching movie details:", err);
+  }
 });
 
 function goToWatch() {
@@ -109,6 +127,6 @@ function goToWatch() {
 
 function toggleWatchlist() {
   inWatchlist.value = !inWatchlist.value;
-  // Later connect this to Supabase favorites table
+  // 🔜 Later: connect this with Supabase user favorites
 }
 </script>
