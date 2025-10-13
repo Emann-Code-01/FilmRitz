@@ -41,7 +41,8 @@
 
             <p class="text-gray-400 text-sm text-center mt-6">
                 {{ isSignUp ? "Already have an account?" : "Don’t have an account?" }}
-                <button ref="initialFocus" @click="toggleMode" class="text-red-500 hover:underline font-medium cursor-pointer">
+                <button ref="initialFocus" @click="toggleMode"
+                    class="text-red-500 hover:underline font-medium cursor-pointer">
                     {{ isSignUp ? "Sign In" : "Sign Up" }}
                 </button>
             </p>

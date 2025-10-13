@@ -1,30 +1,10 @@
-<script setup lang="ts">
-import { Dialog, DialogPanel, DialogTitle, DialogDescription, TransitionRoot } from "@headlessui/vue"
-import { ref, watch } from "vue"
-import { useModalStore } from "../../stores/modalStore"
-import { getMovieDetails } from "../../api/tmdb"
-
-const modalStore = useModalStore()
-const movie = ref<any>(null)
-
-const baseUrl = "https://image.tmdb.org/t/p/w1280"
-
-watch(
-  () => modalStore.movieId,
-  async (id) => {
-    if (id) {
-      movie.value = await getMovieDetails(id)
-    }
-  }
-)
-</script>
-
 <template>
   <TransitionRoot :show="modalStore.isMovieModal" as="template">
     <Dialog @close="modalStore.closeMovie" class="relative z-50 transition-all duration-200">
       <div class="fixed inset-0 flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-[linear-gradient(to_bottom,_#000000CC_10%,#000000_50%)]"></div>
-        <DialogPanel class="relative w-full max-w-4xl h-[40em] overflow-hidden rounded-xl text-white shadow-xl">
+        <DialogPanel v-if="movie"
+          class="relative w-full max-w-4xl h-[40em] overflow-hidden rounded-xl text-white shadow-xl">
           <div
             class="absolute inset-0 bg-fixed bg-center bg-cover mx-auto bg-no-repeat transition-all duration-500 animate-fade-up"
             :style="{ backgroundImage: `url(${baseUrl + movie.backdrop_path})` }"></div>
@@ -57,15 +37,64 @@ watch(
               {{ movie?.overview }}
             </DialogDescription>
 
-            <router-link @click="modalStore.closeMovie"
-              class="gap-3 bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500"
-              to="/login">
-              Get Started
-              <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
-            </router-link>
+            <div class="">
+              <router-link v-if="!auth.isLoggedIn" @click="modalStore.closeMovie"
+                class="gap-3 bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500"
+                to="/login">
+                Get Started
+                <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
+              </router-link>
+              <router-link v-else @click="modalStore.closeMovie"
+                class="gap-3 bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500"
+                to="/movie/:id">
+                Check Out
+                <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
+              </router-link>
+            </div>
           </div>
+        </DialogPanel>
+        <DialogPanel v-else class="flex items-center justify-center h-[40em] text-white">
+          Loading movie details...
         </DialogPanel>
       </div>
     </Dialog>
   </TransitionRoot>
 </template>
+
+<script setup lang="ts">
+import { Dialog, DialogPanel, DialogTitle, DialogDescription, TransitionRoot } from "@headlessui/vue"
+import { ref, watch, computed, onMounted } from "vue"
+import { useModalStore } from "../../stores/modalStore"
+import { getMovieDetails } from "../../api/tmdb"
+import { useAuthStore } from "../../stores/auth"
+
+const auth = useAuthStore()
+const modalStore = useModalStore()
+
+const movie = ref<any>(null)
+const isLoggedIn = computed(() => auth.isLoggedIn)
+
+const baseUrl = "https://image.tmdb.org/t/p/w1280"
+
+onMounted(async () => {
+  // Sync user if not loaded
+  if (!auth.loaded) {
+    await auth.syncUser()
+  }
+})
+
+// Watch for modal movie changes
+watch(
+  () => modalStore.movieId,
+  async (id) => {
+    if (id) {
+      try {
+        movie.value = await getMovieDetails(id)
+      } catch (error) {
+        console.error("Failed to fetch movie details:", error)
+      }
+    }
+  }
+)
+
+</script>
