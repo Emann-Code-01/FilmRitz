@@ -7,7 +7,7 @@
 
     <template v-else-if="!isLoggedIn">
       <HeroSection />
-      <!-- <SubPreview /> -->
+      <SubPreview />
       <BlockSection />
     </template>
 
@@ -79,6 +79,7 @@ import { ref, computed, onMounted } from "vue";
 import { useAuthStore } from "../stores/auth";
 import { useMovies } from "../composables/useMovie";
 import HeroSection from "../components/PHome/HeroSection.vue";
+import SubPreview from "../components/PHome/SubPreview.vue"
 import BlockSection from "../components/PHome/BlockSection.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";

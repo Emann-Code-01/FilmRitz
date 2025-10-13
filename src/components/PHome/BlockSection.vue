@@ -459,7 +459,7 @@
                     </button>
                     <transition :duration="550" name="nested">
                         <div v-if="activeIndex === index"
-                            class="relative px-5 py-3 space-y-3 w-full max-h-96 font-[Gilroy-Medium] text-xl md:text-2xl bg-white/20 leading-10 transition-all duration-900 animate-fade outer">
+                            class="relative px-5 py-3 space-y-3 w-full font-[Gilroy-Medium] text-xl md:text-2xl bg-white/20 leading-10 transition-all duration-900 animate-fade outer">
                             <p class="transition-all duration-900 animate-fade-up inner">{{ faq.answer1 }}
                             </p>
                             <p class="max-w-6xl transition-all duration-900 animate-fade-up inner">

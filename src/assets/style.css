@@ -264,6 +264,12 @@ input:-webkit-autofill:active {
   background: #1a1a1a;
 }
 
+@layer components {
+  .custom-container {
+    @apply relative flex items-center justify-center w-full text-center max-w-xs mx-auto;
+  }
+}
+
 @font-face {
   font-display: swap;
   font-family: "Gilroy";
