@@ -24,11 +24,10 @@
             320: { slidesPerView: 1, slidesPerGroup: 1, },
             640: { slidesPerView: 1, },
             1024: { slidesPerView: 1, }
-          }" class="mySwiper transition-all duration-200 animate-fade-up xl:w-full h-screen">
-          }" class="mySwiper transition-all duration-200 animate-fade-up w-full h-screen">
+          }" class="mySwiper transition-all duration-200 xl:w-full h-screen">
           <swiper-slide v-for="movie in trending" :key="movie.id" class="relative overflow-hidden text-white shadow-xl">
             <div
-              class="absolute top-0 inset-0 bg-fixed bg-center bg-cover w-full bg-no-repeat transition-all duration-500 animate-fade-up"
+              class="absolute top-0 inset-0 bg-fixed bg-center bg-cover w-full bg-no-repeat transition-all duration-500 animate-ease-in"
               :style="{ backgroundImage: `url(${baseUrl + movie.backdrop_path})` }"></div>
             <div class="absolute inset-0">
             </div>

@@ -16,11 +16,11 @@
                 @reachBeginning="atBeginning = true" @reachEnd="atEnd = true" @fromEdge="resetEdges">
                 <SwiperSlide v-for="(movie, index) in movies" :key="movie.id" class="">
                     <div
-                        class="relative w-full cursor-pointer transition-all duration-500 animate-fade-up hover:scale-105 py-2 px-2">
+                        class="relative w-full cursor-pointer transition-all duration-500 animate-fade-up hover:scale-105 py-2 px-2 xl:px-5">
                         <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
                             @click="modalStore.open('movie', { movieId: movie.id })"
                             sizes="(max-width: 640px) 300px, (max-width: 1024px) 500px, 780px" :alt="movie.title"
-                            class="rounded-md hover:rounded-md w-full h-80 transition-all duration-500 animate-fade-up mx-5" />
+                            class="rounded-md hover:rounded-md w-full transition-all duration-500 animate-fade-up mx-5" />
                         <span class="absolute left-2 bottom-3 text-[100px] font-extrabold leading-none image-style">
                             {{ index + 1 }}
                         </span>
@@ -39,7 +39,7 @@
                 </svg>
             </span>
         </div>
-        <div class="trending-prev absolute right-0 top-1/2 -translate-y-1/2 w-10 h-96 hidden md:flex items-center justify-center bg-black text-white cursor-pointer transition-all duration-500 pl-2"
+        <div class="trending-next absolute right-0 top-1/2 -translate-y-1/2 w-10 h-96 hidden md:flex items-center justify-center bg-black text-white cursor-pointer transition-all duration-500 pl-2"
             :class="{ 'opacity-0 pointer-events-none': atEnd, 'opacity-100': !atEnd }">
             <span
                 class="flex items-center w-6 h-32 rounded-xl bg-white/10 hover:bg-white/20 transition-all duration-900 animate-fade-up outline-none">

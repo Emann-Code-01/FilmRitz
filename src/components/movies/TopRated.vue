@@ -17,11 +17,11 @@
                 @reachBeginning="atBeginning = true" @reachEnd="atEnd = true" @fromEdge="resetEdges">
                 <SwiperSlide v-for="(movie, index) in top10Trending" :key="movie.id" class="">
                     <div
-                        class="relative w-full cursor-pointer transition-all duration-500 animate-fade-up hover:scale-105 py-2 px-2">
+                        class="relative w-full cursor-pointer transition-all duration-500 animate-fade-up hover:scale-105 py-2 px-2 xl:px-5">
                         <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
                             @click="modalStore.open('movie', { movieId: movie.id })"
                             sizes="(max-width: 640px) 300px, (max-width: 1024px) 500px, 780px" :alt="movie.title"
-                            class="rounded-md hover:rounded-md w-full h-80 transition-all duration-500 animate-fade-up mx-5" />
+                            class="rounded-md hover:rounded-md w-full transition-all duration-500 animate-fade-up mx-5" />
                         <span class="absolute left-2 bottom-3 text-[100px] font-extrabold leading-none image-style">
                             {{ index + 1 }}
                         </span>
