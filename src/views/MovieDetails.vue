@@ -42,9 +42,10 @@
     <div v-if="similar.length" class="space-y-3 px-8">
       <h2 class="text-xl font-semibold">Similar Titles</h2>
       <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <router-link v-for="sim in similar" :key="sim.id" :to="`/movie/${sim.id}`" class="group">
+        <router-link v-for="sim in similar" :key="sim.id" :to="`/movie/${movie.id}`" class="group">
           <img :src="`https://image.tmdb.org/t/p/w500${sim.poster_path}`"
-            class="rounded-xl group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" loading="lazy" />
+            class="rounded-xl group-hover:opacity-80 group-hover:scale-105 transition-all duration-500"
+            loading="lazy" />
           <p class="mt-1 text-sm line-clamp-1">{{ sim.title }}</p>
         </router-link>
       </div>
@@ -58,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import { useModalStore } from "../stores/modalStore"
@@ -92,6 +93,7 @@ const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const fetchMovieDetails = async () => {
   try {
     const movieId = route.params.id as string | undefined;
+    console.log("🎬 Movie ID from route:", movieId);
     if (!movieId || movieId === ":id") {
       console.error("❌ Invalid or missing movie ID in route:", movieId);
       return;
@@ -118,6 +120,13 @@ const fetchMovieDetails = async () => {
 };
 
 onMounted(fetchMovieDetails);
+
+watch(
+  () => route.params.id,
+  (newId) => {
+    if (newId && newId !== ":id") fetchMovieDetails();
+  }
+);
 
 function goToWatch() {
   router.push(`/watch/${movieId}`);

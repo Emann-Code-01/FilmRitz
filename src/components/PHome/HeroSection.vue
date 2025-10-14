@@ -93,7 +93,7 @@ function onImageLoaded() {
 function handleGetStarted() {
     touched.value = true
     if (isValidEmail(email.value)) {
-        router.push({ path: "/login" })
+        router.push({ path: "/ng/login" })
     }
 }
 

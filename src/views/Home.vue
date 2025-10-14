@@ -41,7 +41,8 @@
                 <span class="text-sm font-[Gilroy-Medium]">
                   {{ new Date(movie?.release_date).getFullYear() }}
                 </span>
-                <router-link to="/movie/:id" @click.prevent="modalStore.open('movie', { movieId: movie.id })"
+                <router-link :to="`/ng/movie/${movie.id}`"
+                  @click.prevent="modalStore.open('movie', { movieId: movie.id })"
                   class="grid text-center justify-center items-center text-lg text-white font-[Gilroy-SemiBold] transition-all duration-300">
                   <i class="pi pi-info-circle"></i>
                   <span>Info</span>

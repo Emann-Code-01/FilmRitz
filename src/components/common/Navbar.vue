@@ -43,7 +43,7 @@
     <div class="flex">
       <div class="flex space-x-4" v-if="router.currentRoute.value.path === '/ng' || auth.isLoggedIn">
         <div v-if="!auth.isLoggedIn && router.currentRoute.value.path === '/ng'">
-          <router-link to="/login"
+          <router-link to="/ng/login"
             class="px-6 py-3 rounded bg-[#b20710] hover:bg-[#e32125] text-white font-[Gilroy-SemiBold] transition-all animate-fade-up duration-500">
             Sign In
           </router-link>

@@ -40,13 +40,13 @@
             <div class="pt-3">
               <router-link v-if="!auth.isLoggedIn" @click="modalStore.closeMovie"
                 class="gap-3 bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500"
-                to="/login">
+                to="/ng/login">
                 Get Started
                 <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
               </router-link>
               <router-link v-else @click="modalStore.closeMovie"
                 class="gap-3 bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500"
-                to="/movie/:id">
+                :to="`/ng/movie/${movie.id}`">
                 Check Out
                 <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
               </router-link>

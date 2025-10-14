@@ -19,23 +19,24 @@ const routes: RouteRecordRaw[] = [
         component: Home,
       },
       {
-        path: "/login",
+        path: "login",
         name: "Auth",
         component: Auth,
         meta: { guestOnly: true },
       },
       {
-        path: "/movie/:id",
+        path: "movie/:id",
         name: "MovieDetails",
         component: MovieDetails,
         props: true,
       },
       {
-        path: "/watch/:id",
+        path: "watch/:id",
         name: "Watch",
         component: Watch,
         props: true,
       },
+
       {
         path: "/profile",
         name: "Profile",

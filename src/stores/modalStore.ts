@@ -27,6 +27,6 @@ export const useModalStore = defineStore("modal", () => {
     isMovieModal,
     openMovieModal,
     closeMovie,
-    open, // 👈 don't forget this
+    open,
   }
 })
