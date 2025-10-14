@@ -7,18 +7,19 @@
       <div v-if="auth.isLoggedIn">
         <div class="hidden xl:flex xl:space-x-6 transition duration-500 animate-fade-up">
           <router-link to="/ng"
-            class="hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline">Home</router-link>
+            :class="[isActiveLink('/ng') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">Home</router-link>
           <router-link to="/tvshows"
-            class="hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline">My
+            :class="[isActiveLink('/tvshows') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">My
             TV Shows</router-link>
           <router-link to="/movies"
-            class="hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline">My
+            :class="[isActiveLink('/movies') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">My
             Movies</router-link>
           <router-link to="/new&popular"
-            class="hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline">New &
+            :class="[isActiveLink('/new&popular') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">New
+            &
             Popular</router-link>
           <router-link to="/watchlist"
-            class="hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline">My
+            :class="[isActiveLink('/watchlist') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">My
             Watchlist</router-link>
         </div>
       </div>
@@ -70,18 +71,24 @@ import Logo from '../../assets/filmritzlogo.svg';
 // import Logo2 from '../../assets/FR logo.svg';
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { useAuthStore } from "../../stores/auth";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import 'swiper/css';
 
 
 const auth = useAuthStore();
 const router = useRouter();
+const route = useRoute()
+
+
 const isLoggingOut = ref(false);
 const query = ref("");
 const focused = ref(false);
 const searchInput = ref<HTMLInputElement | null>(null);
 
 const isLoggedIn = computed(() => !!auth.user);
+const isActiveLink = (routePath: string): boolean => {
+  return route.path === routePath;
+};
 
 async function logout() {
   isLoggingOut.value = true;
