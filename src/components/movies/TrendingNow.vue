@@ -68,13 +68,11 @@ const error = ref<string | null>(null)
 const atBeginning = ref(true)
 const atEnd = ref(false)
 
-// Reset navigation edge states
 const resetEdges = () => {
     atBeginning.value = false
     atEnd.value = false
 }
 
-// Fetch Trending Movies
 const loadTrendingMovies = async () => {
     loading.value = true
     error.value = null

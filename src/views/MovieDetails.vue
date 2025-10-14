@@ -56,7 +56,7 @@
               <img :src="`https://image.tmdb.org/t/p/w500${sim.poster_path}`"
                 class="rounded-xl group-hover:opacity-80 group-hover:scale-105 transition-all duration-500"
                 loading="lazy" />
-              <!-- <p class="mt-1 text-sm line-clamp-1">{{ sim.title }}</p> -->
+              <!-- <p class="mt-1 text-sm line-clamp-1">{{ sim.title }}</p> --> 
             </router-link>
           </div>
         </div>
@@ -110,7 +110,6 @@ const fetchMovieDetails = async () => {
 
   try {
     const movieId = route.params.id as string | undefined;
-    console.log("🎬 Movie ID from route:", movieId);
     if (!movieId || movieId === ":id") {
       console.error("❌ Invalid or missing movie ID in route:", movieId);
       return;
