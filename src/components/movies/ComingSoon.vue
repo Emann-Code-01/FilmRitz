@@ -82,7 +82,7 @@ onMounted(async () => {
         await getUpcoming();
     } catch (err: any) {
         console.error("❌ Failed to fetch movies:", err);
-        error.value = "Couldn’t load movies. Please try again later 😔";
+        error.value = "Couldn’t load movies. Please refresh in a bit";
     } finally {
         loading.value = false;
     }

@@ -83,7 +83,7 @@ const loadTrendingMovies = async () => {
         movies.value = res.slice(0, 10)
     } catch (err: any) {
         console.error("❌ Failed to fetch trending movies:", err)
-        error.value = "Couldn’t load trending movies. Please try again later 😔"
+        error.value = "Couldn’t load trending movies. Please refresh in a bit"
     } finally {
         loading.value = false
     }
