@@ -1,9 +1,9 @@
 <template>
     <div class="w-full">
         <Menu as="div" class="relative inline-block text-left">
-            <div
-                class="flex text-white cursor-pointer border-2 hover:ring-1 hover:border-red-600 hover:text-red-600 transition-all duration-500 px-3 py-2 rounded-full">
-                <MenuButton class="inline-flex focus:outline-none items-center cursor-pointer">
+            <div class="flex text-white cursor-pointer">
+                <MenuButton
+                    class="inline-flex focus:outline-none items-center cursor-pointer border-2 hover:ring-1 hover:border-red-600 hover:text-red-600 transition-all duration-500 px-3 py-2 rounded-full">
                     <span class="pi pi-user text-xl"></span>
                     <i class="-mr-1 ml-2 pi pi-caret-down" aria-hidden="true"></i>
                 </MenuButton>

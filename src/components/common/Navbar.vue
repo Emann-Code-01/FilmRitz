@@ -25,7 +25,7 @@
       </div>
     </div>
     <div v-if="auth.isLoggedIn" class="hidden md:flex transition duration-500 animate-fade-up">
-      <div class="relative w-96 mx-auto">
+      <!-- <div class="relative w-96 mx-auto">
         <i class="pi pi-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-300"
           :class="{ 'opacity-0 translate-x-2': query }"></i>
         <i v-if="query"
@@ -39,7 +39,8 @@
           :class="{ 'opacity-0': focused }">
           Search ( / )
         </span>
-      </div>
+      </div> -->
+      <SearchBar />
     </div>
     <div class="flex">
       <div class="flex space-x-4" v-if="router.currentRoute.value.path === '/ng' || auth.isLoggedIn">
@@ -64,6 +65,7 @@
 import Logo from '../../assets/filmritzlogo.svg';
 // import Logo2 from '../../assets/FR logo.svg';
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import SearchBar from '../movies/SearchBar.vue';
 import { useAuthStore } from "../../stores/auth";
 import { useRouter, useRoute } from "vue-router";
 import Profile from '../../views/Profile.vue';

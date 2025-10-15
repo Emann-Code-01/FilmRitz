@@ -55,18 +55,18 @@
       </div>
       <main class="space-y-10 p-6  text-white">
         <section>
-          <h2 class="text-2xl font-bold mb-3">🔥 Trending Now</h2>
+          <h2 class="text-2xl font-[Gilroy-Bold]old mb-3">🔥 Trending Now</h2>
           <TrendingNow />
         </section>
 
         <section>
-          <h2 class="text-2xl font-bold mb-3">⭐ Top Rated</h2>
+          <h2 class="text-2xl font-[Gilroy-Bold]old mb-3">⭐ Top Rated</h2>
           <TopRated />
         </section>
 
         <!-- Upcoming -->
         <section>
-          <h2 class="text-2xl font-bold mb-3">🎬 Coming Soon</h2>
+          <h2 class="text-2xl font-[Gilroy-Bold]old mb-3">🎬 Coming Soon</h2>
           <upComing />
         </section>
       </main>

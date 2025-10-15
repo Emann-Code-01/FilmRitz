@@ -3,7 +3,7 @@
         class="min-h-screen flex items-center justify-center md:bg-[linear-gradient(to_top_left,_rgba(229,9,20,0.65)_0%,_rgba(255,75,0,0.55)_25%,_rgba(25,25,50,0.75)_75%,_rgba(0,0,10,0.85)_100%)] px-4 transition-all duration-700 animate-fade-up">
         <div
             class="bg-[#0b0b0f]/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl w-full max-w-md border border-white/10 relative mt-18">
-            <h1 class="text-3xl font-bold text-white mb-6 text-center">
+            <h1 class="text-3xl font-[Gilroy-Bold]old text-white mb-6 text-center">
                 {{ isSignUp ? "Create a FilmRitz Account" : "Welcome Back to FilmRitz" }}
             </h1>
 
@@ -22,7 +22,7 @@
                     class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 caret-white focus:ring-red-600 focus:outline-none" />
 
                 <button ref="initialFocus" type="submit" :disabled="auth.loading"
-                    class="w-full py-3 rounded-lg bg-red-600 hover:bg-red-700 transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer font-semibold text-white">
+                    class="w-full py-3 rounded-lg bg-red-600 hover:bg-red-700 transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer font-[Gilroy-SemiBold]bold text-white">
                     {{ auth.loading ? (isSignUp ? "Creating Account..." : "Signing In...") : (isSignUp ? "Sign Up" :
                         "Sign In") }}
                 </button>

@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen bg-black text-white">
-    <h1 class="text-5xl font-bold mb-4 animate-pulse">🚧 Page Not Available</h1>
+    <h1 class="text-5xl font-[Gilroy-Bold]old mb-4 animate-pulse">🚧 Page Not Available</h1>
     <p class="text-lg text-gray-400 mb-6">
       This page is under construction. Check back soon!
     </p>

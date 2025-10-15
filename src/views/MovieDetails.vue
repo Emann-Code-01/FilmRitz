@@ -13,7 +13,7 @@
 
         <div class="flex gap-3 mt-4 transition-all duration-500 animate-fade-up">
           <button @click="goToWatch"
-            class="px-4 py-2 bg-red-600 rounded-xl hover:bg-red-700 font-semibold flex items-center gap-2">
+            class="px-4 py-2 bg-red-600 rounded-xl hover:bg-red-700 font-[Gilroy-SemiBold]bold flex items-center gap-2">
             ▶ Watch
           </button>
           <button @click="toggleWatchlist"
