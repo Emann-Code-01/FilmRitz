@@ -8,18 +8,18 @@
         <div class="hidden xl:flex xl:space-x-6 transition duration-500 animate-fade-up">
           <router-link to="/ng"
             :class="[isActiveLink('/ng') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">Home</router-link>
-          <router-link to="/tvshows"
-            :class="[isActiveLink('/tvshows') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">My
+          <router-link to="/ng/tvshows"
+            :class="[isActiveLink('/ng/tvshows') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">My
             TV Shows</router-link>
-          <router-link to="/movies"
-            :class="[isActiveLink('/movies') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">My
+          <router-link to="/ng/movies"
+            :class="[isActiveLink('/ng/movies') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">My
             Movies</router-link>
-          <router-link to="/new&popular"
-            :class="[isActiveLink('/new&popular') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">New
+          <router-link to="/ng/new&popular"
+            :class="[isActiveLink('/ng/new&popular') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">New
             &
             Popular</router-link>
-          <router-link to="/watchlist"
-            :class="[isActiveLink('/watchlist') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">My
+          <router-link to="/ng/watchlist"
+            :class="[isActiveLink('/ng/watchlist') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">My
             Watchlist</router-link>
         </div>
       </div>
@@ -50,16 +50,10 @@
           </router-link>
         </div>
 
-        <div v-else>
-          <!-- <router-link to="/profile"
-            class="px-4 py-2 rounded-md font-semibold cursor-pointer border border-gray-400 hover:border-red-500 transition-all duration-900 animate-fade-up">
-            Profile
-          </router-link> -->
-          <button ref="initialFocus" v-if="isLoggedIn" @click="logout" :disabled="isLoggingOut"
-            class="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md font-semibold transition-all duration-900 animate-fade-up cursor-pointer disabled:opacity-50">
-            <span v-if="!isLoggingOut">Log Out</span>
-            <span v-else>Logging out...</span>
-          </button>
+        <div v-else
+          class="flex justify-between items-center text-white transition-all duration-900 animate-fade-up relative">
+          <Profile />
+          <!--make sure you change the user icon to allow users input their own profile picture-->
         </div>
       </div>
     </div>
@@ -72,31 +66,22 @@ import Logo from '../../assets/filmritzlogo.svg';
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { useAuthStore } from "../../stores/auth";
 import { useRouter, useRoute } from "vue-router";
+import Profile from '../../views/Profile.vue';
 import 'swiper/css';
 
 
 const auth = useAuthStore();
 const router = useRouter();
-const route = useRoute()
+const route = useRoute();
 
-
-const isLoggingOut = ref(false);
 const query = ref("");
 const focused = ref(false);
+
 const searchInput = ref<HTMLInputElement | null>(null);
 
-const isLoggedIn = computed(() => !!auth.user);
 const isActiveLink = (routePath: string): boolean => {
   return route.path === routePath;
 };
-
-async function logout() {
-  isLoggingOut.value = true;
-  await auth.signOut();
-  router.push("/ng");
-  isLoggingOut.value = false;
-}
-
 const handleShortcut = (e: KeyboardEvent) => {
   if (e.key === "/") {
     e.preventDefault();
@@ -111,7 +96,6 @@ const handleShortcut = (e: KeyboardEvent) => {
 onMounted(() => {
   window.addEventListener("keydown", handleShortcut);
 });
-
 onBeforeUnmount(() => {
   window.removeEventListener("keydown", handleShortcut);
 });

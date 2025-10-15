@@ -78,25 +78,20 @@
 import { ref, computed, onMounted } from "vue";
 import { useAuthStore } from "../stores/auth";
 import { useMovies } from "../composables/useMovie";
+import { useModalStore } from "../stores/modalStore";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import HeroSection from "../components/PHome/HeroSection.vue";
 import SubPreview from "../components/PHome/SubPreview.vue"
 import BlockSection from "../components/PHome/BlockSection.vue";
-import { Swiper, SwiperSlide } from "swiper/vue";
-import { Pagination, Autoplay, Navigation } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import { useModalStore } from "../stores/modalStore";
 import TrendingNow from "../components/movies/TrendingNow.vue";
 import TopRated from "../components/movies/TopRated.vue";
 import upComing from "../components/movies/ComingSoon.vue";
 
-// --- Stores ---
 const auth = useAuthStore();
 const modalStore = useModalStore();
 const isLoggedIn = computed(() => auth.isLoggedIn);
 
-// --- Movies composable ---
 const { trending, upcoming, getTrending, getTopRated, getUpcoming, loading, error } = useMovies();
 
 const baseUrl = "https://image.tmdb.org/t/p/w1280";
