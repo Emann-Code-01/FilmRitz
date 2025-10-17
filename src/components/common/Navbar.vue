@@ -73,7 +73,10 @@
     >
       <SearchBar />
     </div>
-    <div class="flex xl:gap-8 items-center gap-5">
+    <div
+      class="flex xl:gap-8 items-center gap-5"
+      v-if="!auth.isLoggedIn && router.currentRoute.value.path === '/ng'"
+    >
       <button
         class="flex md:hidden cursor-pointer"
         type="button"
