@@ -1,21 +1,47 @@
 <template>
   <TransitionRoot :show="modalStore.isMovieModal" as="template">
-    <Dialog @close="modalStore.closeMovie" class="relative z-50 transition-all duration-200">
+    <Dialog
+      @close="modalStore.closeMovie"
+      class="relative z-50 transition-all duration-200"
+    >
       <div class="fixed inset-0 flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-[linear-gradient(to_bottom,_#000000CC_10%,#000000_50%)]"></div>
-        <DialogPanel v-if="movie"
-          class="relative w-full max-w-4xl h-[40em] overflow-hidden rounded-xl text-white shadow-xl">
+        <div
+          class="absolute inset-0 bg-[linear-gradient(to_bottom,_#000000CC_10%,#000000_50%)]"
+        ></div>
+        <DialogPanel
+          v-if="movie"
+          class="relative w-full max-w-4xl h-[40em] overflow-hidden rounded-xl text-white shadow-xl"
+        >
           <div
             class="absolute inset-0 bg-fixed bg-center bg-cover mx-auto bg-no-repeat transition-all duration-500 animate-fade-up"
-            :style="{ backgroundImage: `url(${baseUrl + movie.backdrop_path})` }"></div>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
+            :style="{
+              backgroundImage: `url(${baseUrl + movie.backdrop_path})`,
+            }"
+          ></div>
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"
+          ></div>
 
-          <button ref="initialFocus" @click="modalStore.closeMovie"
-            class="hover:bg-white/30 absolute top-5 right-5 rounded-full p-1 cursor-pointer transition-all duration-300">
-            <svg viewBox="0 0 36 36" width="36" height="36" class="transform -rotate-45"
-              xmlns="http://www.w3.org/2000/svg" fill="none" role="img">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M17 17V3H19V17H33V19H19V33H17V19H3V17H17Z"
-                fill="currentColor"></path>
+          <button
+            ref="initialFocus"
+            @click="modalStore.closeMovie"
+            class="hover:bg-white/30 absolute top-5 right-5 rounded-full p-1 cursor-pointer transition-all duration-300"
+          >
+            <svg
+              viewBox="0 0 36 36"
+              width="36"
+              height="36"
+              class="transform -rotate-45"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              role="img"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M17 17V3H19V17H33V19H19V33H17V19H3V17H17Z"
+                fill="currentColor"
+              ></path>
             </svg>
           </button>
 
@@ -25,7 +51,9 @@
             </DialogTitle>
 
             <div class="flex items-center gap-4">
-              <span class="px-2 py-1 bg-green-700 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]">
+              <span
+                class="px-2 py-1 bg-green-700 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]"
+              >
                 {{ movie?.vote_average.toFixed(1) }}
               </span>
               <span class="text-sm font-[Gilroy-Medium]">
@@ -33,27 +61,45 @@
               </span>
             </div>
 
-            <DialogDescription as="p" class="mt-3 max-w-2xl text-xl font-[Gilroy-SemiBold]">
-              {{ movie?.overview }}
+            <DialogDescription
+              as="p"
+              class="mt-3 max-w-2xl text-xl font-[Gilroy-SemiBold]"
+            >
+              {{
+                expanded ? movie?.overview : truncateText(movie?.overview, 30)
+              }}
             </DialogDescription>
 
             <div class="pt-3">
-              <router-link v-if="!auth.isLoggedIn" @click="modalStore.closeMovie"
+              <router-link
+                v-if="!auth.isLoggedIn"
+                @click="modalStore.closeMovie"
                 class="gap-3 bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500"
-                to="/ng/login">
+                to="/ng/login"
+              >
                 Get Started
-                <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
+                <i
+                  class="pi pi-chevron-right text-xl group-hover:animate-pulse"
+                ></i>
               </router-link>
-              <router-link v-else @click="modalStore.closeMovie"
+              <router-link
+                v-else
+                @click="modalStore.closeMovie"
                 class="gap-3 bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500"
-                :to="`/ng/movie/${movie.id}`">
+                :to="`/ng/movie/${movie.id}`"
+              >
                 Check Out
-                <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
+                <i
+                  class="pi pi-chevron-right text-xl group-hover:animate-pulse"
+                ></i>
               </router-link>
             </div>
           </div>
         </DialogPanel>
-        <DialogPanel v-else class="flex items-center justify-center h-[40em] text-white">
+        <DialogPanel
+          v-else
+          class="flex items-center justify-center h-[40em] text-white"
+        >
           Loading movie details...
         </DialogPanel>
       </div>
@@ -62,26 +108,40 @@
 </template>
 
 <script setup lang="ts">
-import { Dialog, DialogPanel, DialogTitle, DialogDescription, TransitionRoot } from "@headlessui/vue"
-import { ref, watch, computed, onMounted } from "vue"
-import { useModalStore } from "../../stores/modalStore"
-import { getMovieDetails } from "../../api/tmdb"
-import { useAuthStore } from "../../stores/auth"
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  DialogDescription,
+  TransitionRoot,
+} from "@headlessui/vue";
+import { ref, watch, computed, onMounted } from "vue";
+import { useModalStore } from "../../stores/modalStore";
+import { getMovieDetails } from "../../api/tmdb";
+import { useAuthStore } from "../../stores/auth";
 
-const auth = useAuthStore()
-const modalStore = useModalStore()
+const auth = useAuthStore();
+const modalStore = useModalStore();
 
-const movie = ref<any>(null)
-const isLoggedIn = computed(() => auth.isLoggedIn)
+const movie = ref<any>(null);
+const expanded = ref(false);
 
-const baseUrl = "https://image.tmdb.org/t/p/w1280"
+const isLoggedIn = computed(() => auth.isLoggedIn);
+
+const baseUrl = "https://image.tmdb.org/t/p/w1280";
+
+function truncateText(text: string, limit = 30) {
+  if (!text) return "";
+  const words = text.split(" ");
+  return words.length > limit ? words.slice(0, limit).join(" ") + "..." : text;
+}
 
 onMounted(async () => {
   // Sync user if not loaded
   if (!auth.loaded) {
-    await auth.syncUser()
+    await auth.syncUser();
   }
-})
+});
 
 // Watch for modal movie changes
 watch(
@@ -89,12 +149,11 @@ watch(
   async (id) => {
     if (id) {
       try {
-        movie.value = await getMovieDetails(id)
+        movie.value = await getMovieDetails(id);
       } catch (error) {
-        console.error("Failed to fetch movie details:", error)
+        console.error("Failed to fetch movie details:", error);
       }
     }
   }
-)
-
+);
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="relative z-40 w-full mx-auto">
     <div
-      class="flex items-center gap-3 bg-white/10 backdrop-blur-xl w-lg px-4 py-3 rounded-2xl border border-white/10 focus-within:ring-2 ring-red-500/70 transition-all duration-300"
+      class="flex items-center gap-3 bg-white/10 backdrop-blur-xl w-sm mx-auto md:w-lg px-4 py-3 rounded-2xl border border-white/10 focus-within:ring-2 ring-red-500/70 transition-all duration-300"
     >
       <i class="pi pi-search text-gray-300 text-lg"></i>
       <input
@@ -78,6 +78,9 @@ const { searchMovies, searchResults, loading, error } = useMovies();
 const modalStore = useModalStore();
 
 const query = ref("");
+
+const emit = defineEmits(["close"]);
+
 let debounceTimer: ReturnType<typeof setTimeout>;
 
 const getPoster = (path: string) =>
@@ -104,7 +107,10 @@ watch(query, (newVal) => {
 });
 
 function openMovieModal(movie: any) {
-  modalStore.open("movie", { movieId: movie.id });
+  emit("close");
+  setTimeout(() => {
+    modalStore.open("movie", { movieId: movie.id });
+  }, 300); // wait for animation to finish
   query.value = "";
   searchResults.value = [];
 }
