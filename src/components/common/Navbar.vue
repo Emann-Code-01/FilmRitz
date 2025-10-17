@@ -12,7 +12,7 @@
       <img
         :src="Logo"
         alt="Filmritz Logo"
-        class="transition-all duration-900 animate-fade-up w-44"
+        class="transition-all duration-900 animate-fade-up w-44 -ml-10"
       />
       <!-- <img :src="Logo2" alt="Filmritz Logo" class="md:hidden transition-all duration-900 animate-fade-up w-44" /> -->
       <div v-if="auth.isLoggedIn">
@@ -68,27 +68,14 @@
       </div>
     </div>
     <div
-      v-if="auth.isLoggedIn"
-      class="hidden md:flex transition duration-500 animate-fade-up"
+      class="hidden md:flex xl:flex pr-2 transition duration-500 animate-fade-up cursor-pointer"
     >
-      <!-- <div class="relative w-96 mx-auto">
-        <i class="pi pi-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-300"
-          :class="{ 'opacity-0 translate-x-2': query }"></i>
-        <i v-if="query"
-          class="pi pi-times absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer hover:text-white"
-          @click="query = ''"></i>
-        <input ref="searchInput" v-model="query" type="text" placeholder="Search"
-          class="w-full pl-10 pr-8 py-2 bg-[#0F1117] text-white rounded-xl border border-gray-600 focus:border-[#E50914] outline-none transition-all duration-300"
-          @focus="focused = true" @blur="focused = false" />
-        <span v-if="!query"
-          class="absolute left-10 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none transition-all duration-300"
-          :class="{ 'opacity-0': focused }">
-          Search ( / )
-        </span>
-      </div> -->
       <SearchBar />
     </div>
-    <div class="flex">
+    <div class="flex xl:gap-8 items-center gap-5">
+      <button class="flex md:hidden cursor-pointer">
+        <i class="pi pi-search text-gray-300 text-xl"></i>
+      </button>
       <div
         class="flex space-x-4"
         v-if="router.currentRoute.value.path === '/ng' || auth.isLoggedIn"
