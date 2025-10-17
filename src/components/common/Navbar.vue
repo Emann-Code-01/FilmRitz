@@ -12,7 +12,7 @@
       <img
         :src="Logo"
         alt="Filmritz Logo"
-        class="transition-all duration-900 animate-fade-up w-44 -ml-10"
+        class="transition-all duration-900 animate-fade-up w-44 -ml-10 md:-ml-0"
       />
       <!-- <img :src="Logo2" alt="Filmritz Logo" class="md:hidden transition-all duration-900 animate-fade-up w-44" /> -->
       <div v-if="auth.isLoggedIn">
@@ -68,14 +68,14 @@
       </div>
     </div>
     <div
-      v-if="!auth.isLoggedIn && router.currentRoute.value.path === '/ng'"
+      v-if="router.currentRoute.value.path === '/ng'"
       class="hidden md:flex xl:flex pr-2 transition duration-500 animate-fade-up cursor-pointer"
     >
       <SearchBar />
     </div>
     <div
+      v-if="router.currentRoute.value.path === '/ng'"
       class="flex xl:gap-8 items-center gap-5"
-      v-if="!auth.isLoggedIn && router.currentRoute.value.path === '/ng'"
     >
       <button
         class="flex md:hidden cursor-pointer"
