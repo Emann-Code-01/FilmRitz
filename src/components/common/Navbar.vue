@@ -68,6 +68,7 @@
       </div>
     </div>
     <div
+      v-if="!auth.isLoggedIn && router.currentRoute.value.path === '/ng'"
       class="hidden md:flex xl:flex pr-2 transition duration-500 animate-fade-up cursor-pointer"
     >
       <SearchBar />
@@ -92,9 +93,7 @@
             leave-from="opacity-100 translate-y-0"
             leave-to="opacity-0 -translate-y-5"
           >
-            <div
-              class="fixed top-5 left-0 w-full z-[9999] backdrop-blur-md"
-            >
+            <div class="fixed top-5 left-0 w-full z-[9999] backdrop-blur-md">
               <SearchBar @close="closeModal" />
             </div>
           </TransitionChild>
