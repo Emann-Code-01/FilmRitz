@@ -1,30 +1,76 @@
 <template>
-  <nav class=""
-    :class="{ 'absolute top-0 left-0 w-full py-5 px-5 z-50 flex items-center justify-between transition-all animate-ease-out duration-500': auth.isLoggedIn, 'absolute top-0 left-0 w-full py-5 z-50 xl:px-32 px-5 flex items-center justify-between transition-all animate-ease-out duration-500': !auth.isLoggedIn }">
+  <nav
+    class=""
+    :class="{
+      'absolute top-0 left-0 w-full py-5 px-5 z-50 flex items-center justify-between transition-all animate-ease-out duration-500':
+        auth.isLoggedIn,
+      'absolute top-0 left-0 w-full py-5 z-50 xl:px-32 px-5 flex items-center justify-between transition-all animate-ease-out duration-500':
+        !auth.isLoggedIn,
+    }"
+  >
     <div class="flex justify-center items-center">
-      <img :src="Logo" alt="Filmritz Logo" class="transition-all duration-900 animate-fade-up w-44" />
+      <img
+        :src="Logo"
+        alt="Filmritz Logo"
+        class="transition-all duration-900 animate-fade-up w-44"
+      />
       <!-- <img :src="Logo2" alt="Filmritz Logo" class="md:hidden transition-all duration-900 animate-fade-up w-44" /> -->
       <div v-if="auth.isLoggedIn">
-        <div class="hidden xl:flex xl:space-x-6 transition duration-500 animate-fade-up">
-          <router-link to="/ng"
-            :class="[isActiveLink('/ng') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">Home</router-link>
-          <router-link to="/ng/tvshows"
-            :class="[isActiveLink('/ng/tvshows') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">My
-            TV Shows</router-link>
-          <router-link to="/ng/movies"
-            :class="[isActiveLink('/ng/movies') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">My
-            Movies</router-link>
-          <router-link to="/ng/new&popular"
-            :class="[isActiveLink('/ng/new&popular') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">New
-            &
-            Popular</router-link>
-          <router-link to="/ng/watchlist"
-            :class="[isActiveLink('/ng/watchlist') ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in' : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false']">My
-            Watchlist</router-link>
+        <div
+          class="hidden xl:flex xl:space-x-6 transition duration-500 animate-fade-up"
+        >
+          <router-link
+            to="/ng"
+            :class="[
+              isActiveLink('/ng')
+                ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
+                : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
+            ]"
+            >Home</router-link
+          >
+          <router-link
+            to="/ng/tvshows"
+            :class="[
+              isActiveLink('/ng/tvshows')
+                ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
+                : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
+            ]"
+            >My TV Shows</router-link
+          >
+          <router-link
+            to="/ng/movies"
+            :class="[
+              isActiveLink('/ng/movies')
+                ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
+                : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
+            ]"
+            >My Movies</router-link
+          >
+          <router-link
+            to="/ng/new&popular"
+            :class="[
+              isActiveLink('/ng/new&popular')
+                ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
+                : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
+            ]"
+            >New & Popular</router-link
+          >
+          <router-link
+            to="/ng/watchlist"
+            :class="[
+              isActiveLink('/ng/watchlist')
+                ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
+                : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
+            ]"
+            >My Watchlist</router-link
+          >
         </div>
       </div>
     </div>
-    <div v-if="auth.isLoggedIn" class="hidden md:flex transition duration-500 animate-fade-up">
+    <div
+      v-if="auth.isLoggedIn"
+      class="hidden md:flex transition duration-500 animate-fade-up"
+    >
       <!-- <div class="relative w-96 mx-auto">
         <i class="pi pi-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-300"
           :class="{ 'opacity-0 translate-x-2': query }"></i>
@@ -43,16 +89,25 @@
       <SearchBar />
     </div>
     <div class="flex">
-      <div class="flex space-x-4" v-if="router.currentRoute.value.path === '/ng' || auth.isLoggedIn">
-        <div v-if="!auth.isLoggedIn && router.currentRoute.value.path === '/ng'">
-          <router-link to="/ng/login"
-            class="px-6 py-3 rounded bg-[#b20710] hover:bg-[#e32125] text-white font-[Gilroy-SemiBold] transition-all animate-fade-up duration-500">
+      <div
+        class="flex space-x-4"
+        v-if="router.currentRoute.value.path === '/ng' || auth.isLoggedIn"
+      >
+        <div
+          v-if="!auth.isLoggedIn && router.currentRoute.value.path === '/ng'"
+        >
+          <router-link
+            to="/ng/login"
+            class="px-6 py-3 rounded bg-[#b20710] hover:bg-[#e32125] text-white font-[Gilroy-SemiBold] transition-all animate-fade-up duration-500"
+          >
             Sign In
           </router-link>
         </div>
 
-        <div v-else
-          class="flex justify-between items-center text-white transition-all duration-900 animate-fade-up relative">
+        <div
+          v-else
+          class="flex justify-between items-center text-white transition-all duration-900 animate-fade-up relative"
+        >
           <Profile />
           <!--make sure you change the user icon to allow users input their own profile picture-->
         </div>
@@ -62,15 +117,14 @@
 </template>
 
 <script setup lang="ts">
-import Logo from '../../assets/filmritzlogo.svg';
+import Logo from "../../assets/filmritzlogo.svg";
 // import Logo2 from '../../assets/FR logo.svg';
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
-import SearchBar from '../movies/SearchBar.vue';
+import SearchBar from "../movies/SearchBar.vue";
 import { useAuthStore } from "../../stores/auth";
 import { useRouter, useRoute } from "vue-router";
-import Profile from '../../views/Profile.vue';
-import 'swiper/css';
-
+import Profile from "../../views/Profile.vue";
+import "swiper/css";
 
 const auth = useAuthStore();
 const router = useRouter();

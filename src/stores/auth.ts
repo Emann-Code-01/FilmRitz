@@ -21,14 +21,17 @@ export const useAuthStore = defineStore("auth", {
       } else {
         this.user = data.user;
         localStorage.setItem("user", JSON.stringify(this.user));
-        window.location.href = "/ng"; // ✅ force full reload redirect
+        window.location.href = "/ng"; // ✅ redirect
       }
     },
 
     async signIn(email: string, password: string) {
       this.loading = true;
       this.error = null;
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
       this.loading = false;
 
       if (error) {
@@ -36,7 +39,7 @@ export const useAuthStore = defineStore("auth", {
       } else {
         this.user = data.user;
         localStorage.setItem("user", JSON.stringify(this.user));
-        window.location.href = "/ng"; // ✅ same here
+        window.location.href = "/ng"; // ✅ redirect
       }
     },
 
@@ -48,7 +51,7 @@ export const useAuthStore = defineStore("auth", {
     },
 
     async syncUser() {
-      this.loaded = false; // start loading
+      this.loaded = false;
       const { data } = await supabase.auth.getSession();
       if (data.session?.user) {
         this.user = data.session.user;
@@ -57,7 +60,7 @@ export const useAuthStore = defineStore("auth", {
         const cached = localStorage.getItem("user");
         this.user = cached ? JSON.parse(cached) : null;
       }
-      this.loaded = true; // done loading
+      this.loaded = true;
     },
   },
 
