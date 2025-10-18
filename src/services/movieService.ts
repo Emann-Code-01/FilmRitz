@@ -1,11 +1,10 @@
 import axios from "axios";
-import { Movie } from "../types/Movie";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 
 export const movieService = {
-  async searchMovies(query: string): Promise<Movie[]> {
+  async searchMovies(query: string) {
     try {
       const response = await axios.get(`${BASE_URL}/search/movie`, {
         params: {
@@ -22,38 +21,26 @@ export const movieService = {
     }
   },
 
-  async getTrending(): Promise<Movie[]> {
+  async discoverMovies(filters: {
+    genre?: number;
+    year?: number;
+    rating?: number;
+    type?: "movie" | "tv";
+  }) {
     try {
-      const response = await axios.get(`${BASE_URL}/trending/movie/week`, {
-        params: { api_key: API_KEY },
+      const response = await axios.get(`${BASE_URL}/discover/movie`, {
+        params: {
+          api_key: API_KEY,
+          with_genres: filters.genre || "",
+          primary_release_year: filters.year || "",
+          "vote_average.gte": filters.rating || 0,
+          with_original_language: "en",
+          sort_by: "popularity.desc",
+        },
       });
       return response.data.results;
     } catch (err) {
-      console.error("❌ Fetch trending failed:", err);
-      return [];
-    }
-  },
-
-  async getTopRated(): Promise<Movie[]> {
-    try {
-      const response = await axios.get(`${BASE_URL}/movie/top_rated`, {
-        params: { api_key: API_KEY, language: "en-US" },
-      });
-      return response.data.results;
-    } catch (err) {
-      console.error("❌ Fetch top rated failed:", err);
-      return [];
-    }
-  },
-
-  async getUpcoming(): Promise<Movie[]> {
-    try {
-      const response = await axios.get(`${BASE_URL}/movie/upcoming`, {
-        params: { api_key: API_KEY, language: "en-US" },
-      });
-      return response.data.results;
-    } catch (err) {
-      console.error("❌ Fetch upcoming failed:", err);
+      console.error("❌ Discover movies failed:", err);
       return [];
     }
   },

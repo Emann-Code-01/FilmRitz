@@ -33,7 +33,7 @@
       {{ error }}
     </div>
 
-    <!-- ✅ Results list (limited to 7) -->
+    <!-- Results dropdown -->
     <div
       v-if="searchResults.length > 0 && query"
       class="absolute top-[110%] w-full bg-black/90 backdrop-blur-2xl rounded-2xl border border-white/10 shadow-2xl max-h-[60vh] overflow-y-auto transition-all duration-300"
@@ -42,7 +42,7 @@
         v-for="movie in limitedResults"
         :key="movie.id"
         class="flex items-center gap-4 p-3 hover:bg-white/10 cursor-pointer transition-all duration-200"
-        @click="openMovieModal(movie)"
+        @click="selectMovie(movie)"
       >
         <img
           :src="getPoster(movie.poster_path)"
@@ -55,19 +55,18 @@
           </h3>
           <p class="text-gray-400 text-sm">
             {{ new Date(movie.release_date).getFullYear() }} · ⭐
-            {{ movie.vote_average.toFixed(1) }}
+            {{ movie.vote_average?.toFixed(1) }}
           </p>
         </div>
       </div>
 
-      <!-- ✅ “View More” button -->
       <div
         v-if="searchResults.length > 7"
         class="text-center py-3 border-t border-white/10"
       >
         <button
           @click="goToSearchPage"
-          class="text-red-500 hover:text-red-400 font-[Gilroy-SemiBold] transition-all"
+          class="text-red-500 hover:text-red-400 font-[Gilroy-SemiBold] transition-all cursor-pointer"
         >
           View more results
         </button>
@@ -101,7 +100,7 @@ let debounceTimer: ReturnType<typeof setTimeout>;
 const getPoster = (path: string) =>
   path
     ? `https://image.tmdb.org/t/p/w500${path}`
-    : "https://via.placeholder.com/300x450?text=No+Image";
+    : `https://dummyimage.com/300x450/000/fff&text=No+Image`;
 
 const limitedResults = computed(() => searchResults.value.slice(0, 7));
 
@@ -115,19 +114,22 @@ watch(query, (newVal) => {
     try {
       loading.value = true;
       await searchMovies(newVal);
-    } catch (err: any) {
-      console.error("❌ Search failed:", err);
     } finally {
       loading.value = false;
     }
   }, 600);
 });
 
-function openMovieModal(movie: any) {
-  emit("close");
-  setTimeout(() => {
-    modalStore.open("movie", { movieId: movie.id });
-  }, 300);
+// ✅ Clicking on a movie
+function selectMovie(movie: any) {
+  emit("close"); // closes search bar
+  modalStore.open("movie", { movieId: movie.id });
+
+  // If we are not on SearchPage, navigate there
+  if (router.currentRoute.value.name !== "Search") {
+    router.push({ name: "Search", query: { q: movie.title } });
+  }
+
   query.value = "";
   searchResults.value = [];
 }
@@ -137,20 +139,12 @@ function clearSearch() {
   searchResults.value = [];
 }
 
+// Go to search page without selecting a movie
 function goToSearchPage() {
   if (!query.value.trim()) return;
   router.push({ name: "Search", query: { q: query.value.trim() } });
   query.value = "";
   searchResults.value = [];
+  emit("close");
 }
 </script>
-
-<style scoped>
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-thumb {
-  background: #444;
-  border-radius: 8px;
-}
-</style>

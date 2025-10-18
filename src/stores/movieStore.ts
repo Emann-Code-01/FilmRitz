@@ -8,10 +8,17 @@ export const useMovieStore = defineStore("movieStore", {
     topRated: [] as Movie[],
     upcoming: [] as Movie[],
     searchResults: [] as Movie[],
+    filteredResults: [] as Movie[], // New: filtered view
     loading: false,
     searching: false,
     error: null as string | null,
     lastFetched: 0,
+    filter: {
+      genre: null as number | null,
+      type: "" as "movie" | "tv" | "",
+      year: null as number | null,
+      rating: 0,
+    },
   }),
 
   getters: {
@@ -29,7 +36,6 @@ export const useMovieStore = defineStore("movieStore", {
         upcoming,
         error,
       } = useMovies();
-
       const now = Date.now();
       const CACHE_TTL = 1000 * 60 * 10; // 10 min cache
 
@@ -57,6 +63,7 @@ export const useMovieStore = defineStore("movieStore", {
       const { searchMovies, searchResults, error } = useMovies();
       if (!query.trim()) {
         this.searchResults = [];
+        this.filteredResults = [];
         return;
       }
 
@@ -65,12 +72,29 @@ export const useMovieStore = defineStore("movieStore", {
       try {
         await searchMovies(query);
         this.searchResults = searchResults.value;
+        this.applyFilters(); // Apply filters after search
       } catch (err: any) {
         console.error("❌ Search failed:", err);
         this.error = error.value || "Search failed.";
       } finally {
         this.searching = false;
       }
+    },
+
+    applyFilters() {
+      this.filteredResults = this.searchResults.filter((movie) => {
+        if (this.filter.genre && !movie.genre_ids?.includes(this.filter.genre))
+          return false;
+        if (
+          this.filter.year &&
+          new Date(movie.release_date).getFullYear() !== this.filter.year
+        )
+          return false;
+        if (this.filter.rating && movie.vote_average < this.filter.rating)
+          return false;
+        if (this.filter.type && movie.type !== this.filter.type) return false;
+        return true;
+      });
     },
   },
 });

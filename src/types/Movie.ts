@@ -5,9 +5,9 @@ export interface Movie {
   overview: string;
   poster_path: string;
   backdrop_path?: string;
-  release_date?: string; // Movie release date
+  release_date: string; // Movie release date
   first_air_date?: string; // TV show release date
-  vote_average?: number;
+  vote_average: number;
   vote_count?: number;
   popularity?: number;
   genres?: { id: number; name: string }[];
@@ -17,4 +17,5 @@ export interface Movie {
   trailerUrl?: string;
   addedToWatchlist?: boolean;
   rating?: number;
+  media_type: "movie" | "tv";
 }
