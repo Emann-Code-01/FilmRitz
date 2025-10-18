@@ -33,12 +33,13 @@
       {{ error }}
     </div>
 
+    <!-- ✅ Results list (limited to 7) -->
     <div
       v-if="searchResults.length > 0 && query"
       class="absolute top-[110%] w-full bg-black/90 backdrop-blur-2xl rounded-2xl border border-white/10 shadow-2xl max-h-[60vh] overflow-y-auto transition-all duration-300"
     >
       <div
-        v-for="movie in searchResults"
+        v-for="movie in limitedResults"
         :key="movie.id"
         class="flex items-center gap-4 p-3 hover:bg-white/10 cursor-pointer transition-all duration-200"
         @click="openMovieModal(movie)"
@@ -58,6 +59,19 @@
           </p>
         </div>
       </div>
+
+      <!-- ✅ “View More” button -->
+      <div
+        v-if="searchResults.length > 7"
+        class="text-center py-3 border-t border-white/10"
+      >
+        <button
+          @click="goToSearchPage"
+          class="text-red-500 hover:text-red-400 font-[Gilroy-SemiBold] transition-all"
+        >
+          View more results
+        </button>
+      </div>
     </div>
 
     <div
@@ -70,15 +84,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
+import { useRouter } from "vue-router";
 import { useMovies } from "../../composables/useMovie";
 import { useModalStore } from "../../stores/modalStore";
 
 const { searchMovies, searchResults, loading, error } = useMovies();
 const modalStore = useModalStore();
+const router = useRouter();
 
 const query = ref("");
-
 const emit = defineEmits(["close"]);
 
 let debounceTimer: ReturnType<typeof setTimeout>;
@@ -87,6 +102,8 @@ const getPoster = (path: string) =>
   path
     ? `https://image.tmdb.org/t/p/w500${path}`
     : "https://via.placeholder.com/300x450?text=No+Image";
+
+const limitedResults = computed(() => searchResults.value.slice(0, 7));
 
 watch(query, (newVal) => {
   clearTimeout(debounceTimer);
@@ -110,12 +127,19 @@ function openMovieModal(movie: any) {
   emit("close");
   setTimeout(() => {
     modalStore.open("movie", { movieId: movie.id });
-  }, 300); // wait for animation to finish
+  }, 300);
   query.value = "";
   searchResults.value = [];
 }
 
 function clearSearch() {
+  query.value = "";
+  searchResults.value = [];
+}
+
+function goToSearchPage() {
+  if (!query.value.trim()) return;
+  router.push({ name: "Search", query: { q: query.value.trim() } });
   query.value = "";
   searchResults.value = [];
 }
@@ -125,7 +149,6 @@ function clearSearch() {
 ::-webkit-scrollbar {
   width: 6px;
 }
-
 ::-webkit-scrollbar-thumb {
   background: #444;
   border-radius: 8px;

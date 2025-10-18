@@ -1,6 +1,6 @@
-// src/stores/movieStore.ts
 import { defineStore } from "pinia";
-import { useMovies, Movie } from "../composables/useMovie";
+import { useMovies } from "../composables/useMovie";
+import { Movie } from "../types/Movie";
 
 export const useMovieStore = defineStore("movieStore", {
   state: () => ({
@@ -29,6 +29,7 @@ export const useMovieStore = defineStore("movieStore", {
         upcoming,
         error,
       } = useMovies();
+
       const now = Date.now();
       const CACHE_TTL = 1000 * 60 * 10; // 10 min cache
 

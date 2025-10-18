@@ -1,39 +1,38 @@
 import { ref } from "vue";
-import axios from "axios";
+import { Movie } from "../types/Movie";
+import { movieService } from "../services/movieService";
 import {
   fetchTrendingMovies,
   fetchTopRatedMovies,
   fetchUpcomingMovies,
 } from "../api/tmdb";
 
-export interface Movie {
-  id: number;
-  title: string;
-  poster_path: string;
-  backdrop_path: string;
-  overview: string;
-  release_date: string;
-  vote_average: number;
-}
-
-const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-const baseUrl = "https://api.themoviedb.org/3";
-
 export function useMovies() {
-  const trending = ref<any[]>([]);
-  const topRated = ref<any[]>([]);
-  const upcoming = ref<any[]>([]);
+  const trending = ref<Movie[]>([]);
+  const topRated = ref<Movie[]>([]);
+  const upcoming = ref<Movie[]>([]);
   const searchResults = ref<Movie[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);
 
-  const getTrending = async () => {
+  // Cache timestamps
+  const lastFetched = ref<number>(0);
+  const CACHE_TTL = 1000 * 60 * 10; // 10 minutes
+
+  const getTrending = async (force = false) => {
+    const now = Date.now();
+    if (!force && trending.value.length && now - lastFetched.value < CACHE_TTL)
+      return;
+
     loading.value = true;
+    error.value = null;
+
     try {
       trending.value = await fetchTrendingMovies("week");
+      lastFetched.value = now;
     } catch (err: any) {
+      console.error("❌ Failed to fetch trending:", err);
       error.value = "Failed to fetch trending movies.";
-      console.error(err);
     } finally {
       loading.value = false;
     }
@@ -44,6 +43,7 @@ export function useMovies() {
     try {
       topRated.value = await fetchTopRatedMovies();
     } catch (err: any) {
+      console.error("❌ Failed to fetch top rated:", err);
       error.value = "Failed to fetch top rated movies.";
     } finally {
       loading.value = false;
@@ -55,19 +55,32 @@ export function useMovies() {
     try {
       upcoming.value = await fetchUpcomingMovies();
     } catch (err: any) {
-      error.value = err.message || "Something went wrong";
+      console.error("❌ Failed to fetch upcoming:", err);
+      error.value = "Failed to fetch upcoming movies.";
     } finally {
       loading.value = false;
     }
   };
 
   const searchMovies = async (query: string) => {
-    const { data } = await axios.get(
-      `${baseUrl}/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
-        query
-      )}`
-    );
-    searchResults.value = data.results;
+    if (!query.trim()) {
+      searchResults.value = [];
+      return;
+    }
+
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const results = await movieService.searchMovies(query);
+      searchResults.value = results;
+    } catch (err: any) {
+      console.error("❌ Search failed:", err);
+      error.value = "Failed to search movies.";
+      searchResults.value = [];
+    } finally {
+      loading.value = false;
+    }
   };
 
   return {
@@ -75,11 +88,11 @@ export function useMovies() {
     topRated,
     upcoming,
     searchResults,
+    loading,
     error,
     getTrending,
     getTopRated,
     getUpcoming,
     searchMovies,
-    loading,
   };
 }

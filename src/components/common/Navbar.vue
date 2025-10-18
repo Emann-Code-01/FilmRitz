@@ -68,13 +68,19 @@
       </div>
     </div>
     <div
-      v-if="router.currentRoute.value.path === '/ng'"
+      v-if="
+        router.currentRoute.value.path.startsWith('/ng') &&
+        router.currentRoute.value.path !== '/ng/login'
+      "
       class="hidden md:flex xl:flex pr-2 transition duration-500 animate-fade-up cursor-pointer"
     >
       <SearchBar />
     </div>
     <div
-      v-if="router.currentRoute.value.path === '/ng'"
+      v-if="
+        router.currentRoute.value.path.startsWith('/ng') &&
+        router.currentRoute.value.path !== '/ng/login'
+      "
       class="flex xl:gap-8 items-center gap-5"
     >
       <button

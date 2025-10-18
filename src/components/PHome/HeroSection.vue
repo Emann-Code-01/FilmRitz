@@ -94,7 +94,6 @@
 import HeroImg from "../../assets/Hero Image.png";
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import SearchBar from "../movies/SearchBar.vue";
 
 const router = useRouter();
 const email = ref("");

@@ -5,6 +5,7 @@ import Home from "../views/Home.vue";
 import Auth from "../views/Auth.vue";
 import MovieDetails from "../views/MovieDetails.vue";
 import Watch from "../views/Watch.vue";
+import Search from "../views/Search.vue";
 import Profile from "../views/Profile.vue";
 import { useAuthStore } from "../stores/auth";
 
@@ -36,7 +37,11 @@ const routes: RouteRecordRaw[] = [
         component: Watch,
         props: true,
       },
-
+      {
+        path: "/ng/search",
+        name: "Search",
+        component: Search,
+      },
       {
         path: "/profile",
         name: "Profile",
