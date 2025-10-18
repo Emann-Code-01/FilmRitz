@@ -110,10 +110,12 @@
       </TransitionRoot>
       <div
         class="flex space-x-4"
-        v-if="router.currentRoute.value.path === '/ng' || auth.isLoggedIn"
+        v-if="router.currentRoute.value.path !== '/ng/login' || auth.isLoggedIn"
       >
         <div
-          v-if="!auth.isLoggedIn && router.currentRoute.value.path === '/ng'"
+          v-if="
+            !auth.isLoggedIn && router.currentRoute.value.path !== '/ng/login'
+          "
         >
           <router-link
             to="/ng/login"

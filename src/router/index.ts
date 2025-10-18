@@ -7,6 +7,7 @@ import MovieDetails from "../views/MovieDetails.vue";
 import Watch from "../views/Watch.vue";
 import Search from "../views/Search.vue";
 import Profile from "../views/Profile.vue";
+import ForgotPassword from "../views/ForgotPassword.vue";
 import { useAuthStore } from "../stores/auth";
 
 const routes: RouteRecordRaw[] = [
@@ -47,6 +48,11 @@ const routes: RouteRecordRaw[] = [
         name: "Profile",
         component: Profile,
         meta: { requiresAuth: true },
+      },
+      {
+        path: "/forgot-password",
+        name: "ForgotPassword",
+        component: ForgotPassword,
       },
       {
         path: "/:pathMatch(.*)*",
