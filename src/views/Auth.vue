@@ -100,7 +100,7 @@
           Forgot your password?
           <button
             @click="goToForgotPassword"
-            class="text-indigo-400 hover:underline"
+            class="text-indigo-400 hover:underline cursor-pointer"
           >
             Reset it
           </button>
