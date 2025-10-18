@@ -2,12 +2,13 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import MainLayout from "@/components/layout/MainLayout.vue";
 import Home from "../views/Home.vue";
-import Auth from "../views/Auth.vue";
-import MovieDetails from "../views/MovieDetails.vue";
+import Auth from "../components/auth/Auth.vue";
+import MovieDetails from "../components/movies/MovieDetails.vue";
 import Watch from "../views/Watch.vue";
 import Search from "../views/Search.vue";
 import Profile from "../views/Profile.vue";
-import ForgotPassword from "../views/ForgotPassword.vue";
+import ForgotPassword from "../components/auth/ForgotPassword.vue";
+import ResetPassword from "../components/auth/ResetPassword.vue";
 import { useAuthStore } from "../stores/auth";
 
 const routes: RouteRecordRaw[] = [
@@ -55,6 +56,11 @@ const routes: RouteRecordRaw[] = [
         component: ForgotPassword,
       },
       {
+        path: "/reset-password",
+        name: "ResetPassword",
+        component: ResetPassword,
+      },
+      {
         path: "/:pathMatch(.*)*",
         name: "NotFound",
         component: () => import("../views/error/NotAvailable.vue"),
@@ -75,6 +81,7 @@ router.beforeEach(async (to, from, next) => {
   const auth = useAuthStore();
   await auth.syncUser();
   const isLoggedIn = auth.isLoggedIn;
+  const visitedLogin = localStorage.getItem("visitedLogin");
 
   if (to.meta.requiresAuth && !isLoggedIn) {
     next("/login");
@@ -83,6 +90,15 @@ router.beforeEach(async (to, from, next) => {
   } else {
     next();
   }
+
+  if (
+    ["/forgot-password", "/reset-password"].includes(to.path) &&
+    !visitedLogin
+  ) {
+    return next("/ng/login"); // redirect to login if not visited
+  }
+
+  next();
 });
 
 export default router;

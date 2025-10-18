@@ -153,6 +153,7 @@ const isActiveLink = (routePath: string): boolean => {
 const goTo = (path: string) => router.push(path);
 
 async function logout() {
+  localStorage.removeItem("visitedLogin");
   isLoggingOut.value = true;
   await auth.signOut();
   router.push("/ng");

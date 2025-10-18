@@ -113,8 +113,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthStore } from "../stores/auth";
-import { supabase } from "../lib/supabaseClient";
+import { useAuthStore } from "../../stores/auth";
+import { supabase } from "../../lib/supabaseClient";
 
 const auth = useAuthStore();
 const router = useRouter();
@@ -136,6 +136,7 @@ const goToForgotPassword = () => {
 
 // ✅ Pull prefilled email if it exists
 onMounted(() => {
+  localStorage.setItem("visitedLogin", "true");
   const savedEmail = localStorage.getItem("prefillEmail");
   if (savedEmail) {
     email.value = savedEmail;
