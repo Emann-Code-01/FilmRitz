@@ -84,21 +84,22 @@ router.beforeEach(async (to, from, next) => {
   const visitedLogin = localStorage.getItem("visitedLogin");
 
   if (to.meta.requiresAuth && !isLoggedIn) {
-    next("/login");
-  } else if (to.meta.guestOnly && isLoggedIn) {
-    next("/ng"); // ✅ make sure this matches your Home route
-  } else {
-    next();
+    return next("/login");
+  }
+
+  if (to.meta.guestOnly && isLoggedIn) {
+    return next("/ng");
   }
 
   if (
     ["/forgot-password", "/reset-password"].includes(to.path) &&
     !visitedLogin
   ) {
-    return next("/ng/login"); // redirect to login if not visited
+    return next("/ng/login");
   }
 
   next();
 });
+
 
 export default router;
