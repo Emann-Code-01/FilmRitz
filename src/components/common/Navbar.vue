@@ -9,12 +9,13 @@
     }"
   >
     <div class="flex justify-center items-center">
-      <img
-        :src="Logo"
-        alt="Filmritz Logo"
-        class="transition-all duration-900 animate-fade-up w-44 -ml-10 md:-ml-0"
-      />
-      <!-- <img :src="Logo2" alt="Filmritz Logo" class="md:hidden transition-all duration-900 animate-fade-up w-44" /> -->
+      <router-link to="/ng" class="curos-pointer">
+        <img
+          :src="Logo"
+          alt="Filmritz Logo"
+          class="transition-all duration-900 animate-fade-up w-44 -ml-10 md:-ml-0"
+        />
+      </router-link>
       <div v-if="auth.isLoggedIn">
         <div
           class="hidden xl:flex xl:space-x-6 transition duration-500 animate-fade-up"
@@ -139,7 +140,6 @@
 
 <script setup lang="ts">
 import Logo from "../../assets/filmritzlogo.svg";
-// import Logo2 from '../../assets/FR logo.svg';
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import SearchBar from "../movies/SearchBar.vue";
 import { useAuthStore } from "../../stores/auth";

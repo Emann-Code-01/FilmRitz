@@ -1,12 +1,13 @@
+// src/types/Movie.ts
 export interface Movie {
   id: number;
-  title: string; // For movies
-  name?: string; // For TV shows
+  title: string; // For movies and normalized title for tv
+  name?: string; // Original tv name (optional)
   overview: string;
   poster_path: string;
   backdrop_path?: string;
-  release_date: string; // Movie release date
-  first_air_date?: string; // TV show release date
+  release_date: string; // release_date or first_air_date normalized into this
+  first_air_date?: string;
   vote_average: number;
   vote_count?: number;
   popularity?: number;

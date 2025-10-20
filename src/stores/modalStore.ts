@@ -2,31 +2,47 @@ import { ref } from "vue"
 import { defineStore } from "pinia"
 
 export const useModalStore = defineStore("modal", () => {
-  const movieId = ref<number | null>(null)
-  const isMovieModal = ref(false)
+  // ✅ State
+  const itemId = ref<number | null>(null)
+  const mediaType = ref<"movie" | "tv" | null>(null)
+  const isModalOpen = ref(false)
 
-  function openMovieModal(id: number) {
-    movieId.value = id
-    isMovieModal.value = true
+  // ✅ Open modal (generic for both movie + tv)
+  function openModal(id: number, type: "movie" | "tv") {
+    itemId.value = id
+    mediaType.value = type
+    isModalOpen.value = true
   }
 
-  function closeMovie() {
-    isMovieModal.value = false
-    movieId.value = null
+  // ✅ Close modal
+  function closeModal() {
+    isModalOpen.value = false
+    itemId.value = null
+    mediaType.value = null
   }
 
-  // ✅ generic open
-  function open(type: "movie" | "trailer", payload?: { movieId?: number }) {
-    if (type === "movie" && payload?.movieId) {
-      openMovieModal(payload.movieId)
+  // ✅ Flexible open method
+  function open(
+    type: "movie" | "tv" | "media" | "trailer",
+    payload?: { id?: number; movieId?: number; mediaType?: "movie" | "tv" }
+  ) {
+    // Determine the ID
+    const resolvedId = payload?.id ?? payload?.movieId
+    // Determine the media type
+    const resolvedType =
+      payload?.mediaType ?? (type === "movie" || type === "tv" ? type : "movie")
+
+    if (resolvedId && (resolvedType === "movie" || resolvedType === "tv")) {
+      openModal(resolvedId, resolvedType)
     }
   }
 
   return {
-    movieId,
-    isMovieModal,
-    openMovieModal,
-    closeMovie,
+    itemId,
+    mediaType,
+    isModalOpen,
+    openModal,
+    closeModal,
     open,
   }
 })

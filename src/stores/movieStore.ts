@@ -1,3 +1,4 @@
+// src/stores/movieStore.ts
 import { defineStore } from "pinia";
 import { useMovies } from "../composables/useMovie";
 import { Movie } from "../types/Movie";
@@ -8,7 +9,7 @@ export const useMovieStore = defineStore("movieStore", {
     topRated: [] as Movie[],
     upcoming: [] as Movie[],
     searchResults: [] as Movie[],
-    filteredResults: [] as Movie[], // New: filtered view
+    filteredResults: [] as Movie[],
     loading: false,
     searching: false,
     error: null as string | null,
@@ -27,24 +28,14 @@ export const useMovieStore = defineStore("movieStore", {
 
   actions: {
     async loadMovies(force = false) {
-      const {
-        getTrending,
-        getTopRated,
-        getUpcoming,
-        trending,
-        topRated,
-        upcoming,
-        error,
-      } = useMovies();
+      const { getTrending, getTopRated, getUpcoming, trending, topRated, upcoming, error } = useMovies();
       const now = Date.now();
-      const CACHE_TTL = 1000 * 60 * 10; // 10 min cache
+      const CACHE_TTL = 1000 * 60 * 10;
 
-      if (!force && this.hasMovies && now - this.lastFetched < CACHE_TTL)
-        return;
+      if (!force && this.hasMovies && now - this.lastFetched < CACHE_TTL) return;
 
       this.loading = true;
       this.error = null;
-
       try {
         await Promise.all([getTrending(), getTopRated(), getUpcoming()]);
         this.trending = trending.value;
@@ -72,7 +63,7 @@ export const useMovieStore = defineStore("movieStore", {
       try {
         await searchMovies(query);
         this.searchResults = searchResults.value;
-        this.applyFilters(); // Apply filters after search
+        this.applyFilters();
       } catch (err: any) {
         console.error("❌ Search failed:", err);
         this.error = error.value || "Search failed.";
@@ -83,16 +74,11 @@ export const useMovieStore = defineStore("movieStore", {
 
     applyFilters() {
       this.filteredResults = this.searchResults.filter((movie) => {
-        if (this.filter.genre && !movie.genre_ids?.includes(this.filter.genre))
-          return false;
-        if (
-          this.filter.year &&
-          new Date(movie.release_date).getFullYear() !== this.filter.year
-        )
-          return false;
-        if (this.filter.rating && movie.vote_average < this.filter.rating)
-          return false;
-        if (this.filter.type && movie.type !== this.filter.type) return false;
+        if (this.filter.genre && !movie.genre_ids?.includes(this.filter.genre)) return false;
+        if (this.filter.year && new Date((movie.release_date || "").slice(0, 10)).getFullYear() !== this.filter.year) return false;
+        if (this.filter.rating && movie.vote_average < this.filter.rating) return false;
+        // Use normalized media_type
+        if (this.filter.type && movie.media_type !== this.filter.type) return false;
         return true;
       });
     },

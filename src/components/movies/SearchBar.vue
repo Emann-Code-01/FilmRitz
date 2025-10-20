@@ -1,7 +1,8 @@
+<!-- src/components/movies/SearchBar.vue -->
 <template>
   <div class="relative z-40 w-full mx-auto">
     <div
-      class="flex items-center gap-3 bg-white/10 backdrop-blur-xl w-sm mx-auto md:w-lg px-4 py-3 rounded-2xl border border-white/10 focus-within:ring-2 ring-red-500/70 transition-all duration-300"
+      class="flex items-center gap-3 bg-white/10 backdrop-blur-xl w-sm mx-auto px-4 py-3 rounded-2xl border border-white/10 focus-within:ring-2 ring-red-500/70 transition-all duration-300"
     >
       <i class="pi pi-search text-gray-300 text-lg"></i>
       <input
@@ -23,9 +24,8 @@
       v-if="loading"
       class="absolute left-0 right-0 text-center py-4 text-gray-400 animate-pulse"
     >
-      Searching movies...
+      Searching...
     </div>
-
     <div
       v-if="error"
       class="absolute left-0 right-0 text-center py-4 text-red-400"
@@ -33,29 +33,28 @@
       {{ error }}
     </div>
 
-    <!-- Results dropdown -->
     <div
       v-if="searchResults.length > 0 && query"
       class="absolute top-[110%] w-full bg-black/90 backdrop-blur-2xl rounded-2xl border border-white/10 shadow-2xl max-h-[60vh] overflow-y-auto transition-all duration-300"
     >
       <div
-        v-for="movie in limitedResults"
-        :key="movie.id"
+        v-for="item in limitedResults"
+        :key="item.id + '-' + item.media_type"
         class="flex items-center gap-4 p-3 hover:bg-white/10 cursor-pointer transition-all duration-200"
-        @click="selectMovie(movie)"
+        @click="selectMovie(item)"
       >
         <img
-          :src="getPoster(movie.poster_path)"
+          :src="getPoster(item.poster_path)"
           alt="poster"
           class="w-14 h-20 object-cover rounded-lg shadow-md"
         />
         <div class="flex flex-col justify-center">
           <h3 class="text-white font-[Gilroy-SemiBold] text-base line-clamp-1">
-            {{ movie.title }}
+            {{ item.title }}
           </h3>
           <p class="text-gray-400 text-sm">
-            {{ new Date(movie.release_date).getFullYear() }} · ⭐
-            {{ movie.vote_average?.toFixed(1) }}
+            {{ new Date(item.release_date).getFullYear() }} · ⭐
+            {{ item.vote_average?.toFixed(1) }} · {{ item.media_type }}
           </p>
         </div>
       </div>
@@ -101,7 +100,6 @@ const getPoster = (path: string) =>
   path
     ? `https://image.tmdb.org/t/p/w500${path}`
     : `https://dummyimage.com/300x450/000/fff&text=No+Image`;
-
 const limitedResults = computed(() => searchResults.value.slice(0, 7));
 
 watch(query, (newVal) => {
@@ -120,16 +118,16 @@ watch(query, (newVal) => {
   }, 600);
 });
 
-// ✅ Clicking on a movie
-function selectMovie(movie: any) {
-  emit("close"); // closes search bar
-  modalStore.open("movie", { movieId: movie.id });
-
-  // If we are not on SearchPage, navigate there
+function selectMovie(item: any) {
+  emit("close");
+  // open modal with type info
+  if (typeof modalStore.open === "function")
+    modalStore.open("movie", { movieId: item.id, mediaType: item.media_type });
+  else if (typeof (modalStore as any).openMovieModal === "function")
+    (modalStore as any).openMovieModal(item.id);
   if (router.currentRoute.value.name !== "Search") {
-    router.push({ name: "Search", query: { q: movie.title } });
+    router.push({ name: "Search", query: { q: item.title } });
   }
-
   query.value = "";
   searchResults.value = [];
 }
@@ -139,7 +137,6 @@ function clearSearch() {
   searchResults.value = [];
 }
 
-// Go to search page without selecting a movie
 function goToSearchPage() {
   if (!query.value.trim()) return;
   router.push({ name: "Search", query: { q: query.value.trim() } });

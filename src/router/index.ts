@@ -34,6 +34,11 @@ const routes: RouteRecordRaw[] = [
         props: true,
       },
       {
+        path: '/ng/tv/:id',
+        name: 'TVDetails',
+        component: MovieDetails, // same component handles both
+      },
+      {
         path: "watch/:id",
         name: "Watch",
         component: Watch,

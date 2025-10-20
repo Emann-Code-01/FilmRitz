@@ -167,6 +167,13 @@ body {
     scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 @keyframes bounce {
   0%,
   to {
