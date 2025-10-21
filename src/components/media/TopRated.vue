@@ -158,10 +158,12 @@ function openModal(item: any) {
 .netflix-swiper .swiper-button-next {
   @apply absolute top-1/2 -translate-y-1/2 z-10 w-[3rem] h-[6rem] flex items-center justify-center bg-[#000000]/50 text-[#ffffff] rounded-[0.375rem] cursor-pointer opacity-0 transition-opacity duration-300;
 }
+
 .netflix-swiper:hover .swiper-button-prev,
 .netflix-swiper:hover .swiper-button-next {
   @apply opacity-100;
 }
+
 .image-style {
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.7);
   -webkit-text-fill-color: rgb(0, 0, 0);

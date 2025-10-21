@@ -82,7 +82,7 @@
         router.currentRoute.value.path.startsWith('/ng') &&
         router.currentRoute.value.path !== '/ng/login'
       "
-      class="flex xl:gap-8 items-center gap-5"
+      class="flex items-center gap-5 transition-all animate-fade-up duration-900"
     >
       <button
         class="flex md:hidden cursor-pointer"
@@ -103,7 +103,9 @@
             leave-from="opacity-100 translate-y-0"
             leave-to="opacity-0 -translate-y-5"
           >
-            <div class="fixed top-5 left-0 w-full z-[9999] backdrop-blur-md">
+            <div
+              class="fixed top-0 left-0 w-full z-[9999] h-16 items-center justify-center backdrop-blur-md"
+            >
               <SearchBar @close="closeModal" />
             </div>
           </TransitionChild>
@@ -120,7 +122,7 @@
         >
           <router-link
             to="/ng/login"
-            class="px-6 py-3 rounded bg-[#b20710] hover:bg-[#e32125] text-white font-[Gilroy-SemiBold] transition-all animate-fade-up duration-500"
+            class="px-6 py-3 rounded bg-[#b20710] hover:bg-[#e32125] text-white font-[Gilroy-SemiBold] transition-all animate-fade-up duration-900"
           >
             Sign In
           </router-link>

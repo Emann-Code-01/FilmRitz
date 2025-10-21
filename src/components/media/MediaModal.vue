@@ -1,4 +1,4 @@
-<!-- src/components/media/MovieModal.vue -->
+<!-- src/components/media/MediaModal.vue -->
 <template>
   <TransitionRoot :show="modalStore.isModalOpen" as="template">
     <Dialog
@@ -60,6 +60,9 @@
               <span class="text-sm font-[Gilroy-Medium]">{{
                 new Date(media?.release_date).getFullYear()
               }}</span>
+              <span class="text-sm font-[Gilroy-SemiBold]">
+                {{ media?.genres?.[0]?.name || "Unknown" }}
+              </span>
             </div>
 
             <DialogDescription

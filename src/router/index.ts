@@ -4,13 +4,14 @@ import MainLayout from "@/components/layout/MainLayout.vue";
 import SplashScreen from "../views/SplashScreen.vue";
 import Home from "../views/Home.vue";
 import Auth from "../components/auth/Auth.vue";
-import MovieDetails from "../components/media/MovieDetails.vue";
+import MovieDetails from "../components/media/MediaDetails.vue";
 import Watch from "../views/Watch.vue";
 import Search from "../views/Search.vue";
 import Profile from "../views/Profile.vue";
 import ForgotPassword from "../components/auth/ForgotPassword.vue";
 import ResetPassword from "../components/auth/ResetPassword.vue";
 import { useAuthStore } from "../stores/auth";
+import GenreView from "../views/GenreView.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -50,6 +51,11 @@ const routes: RouteRecordRaw[] = [
         name: "Watch",
         component: Watch,
         props: true,
+      },
+      {
+        path: "/genre/:id",
+        name: "GenreView",
+        component: GenreView,
       },
       {
         path: "search",

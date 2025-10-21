@@ -9,9 +9,11 @@
         class="w-48 h-80 bg-amber-900 rounded-md animate-pulse"
       ></div>
     </div>
+
     <div v-else-if="error" class="text-red-500 text-center py-8">
       {{ error }}
     </div>
+
     <div
       v-else
       class="container relative transition-all duration-900 animate-fade-up"
@@ -31,17 +33,23 @@
         @reachEnd="atEnd = true"
         @fromEdge="resetEdges"
       >
-        <SwiperSlide v-for="(movie, index) in movies" :key="movie.id" class="">
+        <SwiperSlide v-for="(item, index) in mediaList" :key="item.id">
           <div
             class="relative w-full cursor-pointer transition-all duration-500 animate-fade-up hover:scale-105 py-2 px-2 xl:px-5"
           >
             <img
-              :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
-              @click="modalStore.open('movie', { movieId: movie.id })"
+              :src="`https://image.tmdb.org/t/p/w500${item.poster_path}`"
+              @click="
+                modalStore.open(item.media_type, {
+                  movieId: item.id,
+                  mediaType: item.media_type,
+                })
+              "
               sizes="(max-width: 640px) 300px, (max-width: 1024px) 500px, 780px"
-              :alt="movie.title"
+              :alt="item.title"
               class="rounded-md hover:rounded-md w-full transition-all duration-500 animate-fade-up mx-5"
             />
+
             <span
               v-if="!auth.isLoggedIn"
               class="absolute left-2 bottom-3 text-[100px] font-extrabold leading-none image-style"
@@ -52,6 +60,7 @@
         </SwiperSlide>
       </Swiper>
     </div>
+
     <div
       class="trending-prev absolute left-0 top-1/2 -translate-y-1/2 w-10 h-96 hidden md:flex items-center justify-center bg-black text-white cursor-pointer transition-all duration-500 pr-2"
       :class="{
@@ -78,6 +87,7 @@
         </svg>
       </span>
     </div>
+
     <div
       class="trending-next absolute right-0 top-1/2 -translate-y-1/2 w-10 h-96 hidden md:flex items-center justify-center bg-black text-white cursor-pointer transition-all duration-500 pl-2"
       :class="{ 'opacity-0 pointer-events-none': atEnd, 'opacity-100': !atEnd }"
@@ -109,15 +119,14 @@ import { ref, onMounted } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation } from "swiper/modules";
 import { useModalStore } from "../../stores/modalStore";
-import { fetchTrendingMovies } from "../../api/tmdb";
+import { fetchTrendingMedia } from "../../api/tmdb"; // ✅ updated import
 import { useAuthStore } from "../../stores/auth";
 
 const modalStore = useModalStore();
 const auth = useAuthStore();
 
-const movies = ref<any[]>([]);
+const mediaList = ref<any[]>([]);
 const error = ref<string | null>(null);
-
 const loading = ref(false);
 const atBeginning = ref(true);
 const atEnd = ref(false);
@@ -127,26 +136,27 @@ const resetEdges = () => {
   atEnd.value = false;
 };
 
-const loadTrendingMovies = async () => {
+const loadTrendingMedia = async () => {
   loading.value = true;
   error.value = null;
   try {
-    const res = await fetchTrendingMovies("week");
-    movies.value = res.slice(0, 10);
+    const res = await fetchTrendingMedia("week");
+    mediaList.value = res.slice(0, 10);
   } catch (err: any) {
-    console.error("❌ Failed to fetch trending movies:", err);
-    error.value = "Couldn’t load trending movies. Please refresh in a bit";
+    console.error("❌ Failed to fetch trending media:", err);
+    error.value =
+      "Couldn’t load trending movies and shows. Please refresh in a bit";
   } finally {
     loading.value = false;
   }
 };
 
 onMounted(() => {
-  loadTrendingMovies();
+  loadTrendingMedia();
 });
 </script>
 
-<style>
+<style scoped>
 .netflix-swiper .swiper-button-prev,
 .netflix-swiper .swiper-button-next {
   @apply absolute top-1/2 -translate-y-1/2 z-10 w-[3rem] h-[6rem] flex items-center justify-center bg-[#000000]/50 text-[#ffffff] rounded-[0.375rem] cursor-pointer opacity-0 transition-opacity duration-300;

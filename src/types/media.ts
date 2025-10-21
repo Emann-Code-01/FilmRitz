@@ -1,4 +1,4 @@
-// src/types/Movie.ts
+// src/types/Media.ts
 export interface Media {
   id: number;
   title: string; // For movies and normalized title for tv

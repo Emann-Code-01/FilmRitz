@@ -95,7 +95,7 @@
   >
     <div
       v-if="loading"
-      class="text-white text-center py-20 font-[Gilroy-SemiBold]"
+      class="text-white text-center bg-black/75 animate-pulse h-screen w-full items-center relative flex justify-center py-20 font-[Gilroy-SemiBold]"
     >
       🎬 Loading Movie Slide...
     </div>
@@ -146,9 +146,15 @@
               }}
             </span>
 
+            <span class="text-sm font-[Gilroy-SemiBold]">
+              {{ item.genres?.[0]?.name || "Unknown" }}
+            </span>
+
             <router-link
-              :to="`/ng/${item.media_type}/${item.id}`"
-              @click.prevent="modalStore.open(item.media_type, { id: item.id })"
+              to=""
+              @click.prevent.stop="
+                modalStore.open(item.media_type, { id: item.id })
+              "
               class="grid text-center justify-center items-center text-lg text-white font-[Gilroy-SemiBold] transition-all duration-300"
             >
               <i class="pi pi-info-circle"></i>

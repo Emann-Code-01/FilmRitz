@@ -125,9 +125,9 @@ function selectMovie(item: any) {
     modalStore.open("movie", { movieId: item.id, mediaType: item.media_type });
   else if (typeof (modalStore as any).openMovieModal === "function")
     (modalStore as any).openMovieModal(item.id);
-  if (router.currentRoute.value.name !== "Search") {
-    router.push({ name: "Search", query: { q: item.title } });
-  }
+  // if (router.currentRoute.value.name !== "Search") {
+  //   router.push({ name: "Search", query: { q: item.title } });
+  // }
   query.value = "";
   searchResults.value = [];
 }

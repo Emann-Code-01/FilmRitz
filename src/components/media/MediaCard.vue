@@ -3,7 +3,7 @@
 import { useModalStore } from "../../stores/modalStore";
 
 const props = defineProps<{
-  movie: {
+  media: {
     id: number;
     title: string;
     poster_path: string;
@@ -16,12 +16,12 @@ const modalStore = useModalStore();
 function openModal() {
   // support both modal API styles (safe-guard)
   if (typeof modalStore.open === "function") {
-    modalStore.open("movie", {
-      movieId: props.movie.id,
-      mediaType: props.movie.media_type ?? "movie",
+    modalStore.open(props.media.media_type ?? "movie", {
+      movieId: props.media.id,
+      mediaType: props.media.media_type ?? "movie",
     });
   } else if (typeof (modalStore as any).openMovieModal === "function") {
-    (modalStore as any).openMovieModal(props.movie.id);
+    (modalStore as any).openMovieModal(props.media.id);
   }
 }
 </script>
@@ -32,10 +32,10 @@ function openModal() {
     @click="openModal"
   >
     <img
-      :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
-      :alt="movie.title"
+      :src="`https://image.tmdb.org/t/p/w500${media.poster_path}`"
+      :alt="media.title"
       class="rounded-lg shadow-lg"
     />
-    <h3 class="mt-2 text-white text-sm font-medium">{{ movie.title }}</h3>
+    <h3 class="mt-2 text-white text-sm font-medium">{{ media.title }}</h3>
   </div>
 </template>

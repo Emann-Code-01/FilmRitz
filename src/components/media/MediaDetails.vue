@@ -1,4 +1,4 @@
-<!-- src/views/MovieDetails.vue -->
+<!-- src/views/MediaDetails.vue -->
 <template>
   <section v-if="media" class="space-y-8">
     <div
@@ -42,43 +42,31 @@
     </div>
 
     <div>
-      <div v-if="loading" class="flex space-x-4 overflow-x-auto py-4">
+      <div
+        v-if="cast.length"
+        class="space-y-3 transition-all duration-500 animate-fade-up px-8 py-3"
+      >
+        <h2 class="text-xl font-[Gilroy-Bold]">Cast</h2>
         <div
-          v-for="n in 5"
-          :key="n"
-          class="w-48 h-80 bg-amber-900 rounded-md animate-pulse"
-        ></div>
-      </div>
-
-      <div v-else>
-        <div
-          v-if="cast.length"
-          class="space-y-3 transition-all duration-500 animate-fade-up px-8 py-3"
+          class="flex gap-4 overflow-x-auto pb-3 transition-all duration-900 animate-fade-up"
         >
-          <h2 class="text-xl font-[Gilroy-Bold]">Cast</h2>
           <div
-            class="flex gap-4 overflow-x-auto pb-3 transition-all duration-900 animate-fade-up"
+            v-for="actor in cast"
+            :key="actor.id"
+            class="flex-shrink-0 w-28 text-center py-3"
           >
-            <div
-              v-for="actor in cast"
-              :key="actor.id"
-              class="flex-shrink-0 w-28 text-center py-3"
-            >
-              <img
-                v-if="actor.profile_path"
-                :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
-                loading="lazy"
-                class="rounded-xl mb-1 hover:scale-105 transition-all duration-300"
-              />
-              <p class="text-sm font-[Gilroy-SemiBold] line-clamp-1">
-                {{ actor.name }}
-              </p>
-              <p
-                class="text-xs text-gray-400 font-[Gilroy-Medium] line-clamp-1"
-              >
-                {{ actor.character }}
-              </p>
-            </div>
+            <img
+              v-if="actor.profile_path"
+              :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
+              loading="lazy"
+              class="rounded-xl mb-1 hover:scale-105 transition-all duration-300"
+            />
+            <p class="text-sm font-[Gilroy-SemiBold] line-clamp-1">
+              {{ actor.name }}
+            </p>
+            <p class="text-xs text-gray-400 font-[Gilroy-Medium] line-clamp-1">
+              {{ actor.character }}
+            </p>
           </div>
         </div>
       </div>
