@@ -1,4 +1,4 @@
-<!-- src/components/movies/ComingSoon.vue -->
+<!-- src/components/media/ComingSoon.vue -->
 <template>
   <section class="bg-black transition-all duration-900 animate-fade-up relative z-10 overflow-hidden">
     <div v-if="loading" class="flex space-x-4 overflow-x-auto py-4">
@@ -37,7 +37,7 @@ import { ref, onMounted, computed } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation } from "swiper/modules";
 import { useModalStore } from "../../stores/modalStore";
-import { useMovies } from "../../composables/useMovie";
+import { useMedia } from "../../composables/useMedia";
 import { useAuthStore } from "../../stores/auth";
 
 const props = defineProps<{ mediaType?: "movie" | "tv" | "all" }>();
@@ -48,7 +48,7 @@ const atBeginning = ref(true);
 const atEnd = ref(false);
 const loading = ref(false);
 
-const { upcoming, upcomingTV, getUpcoming, getUpcomingTV, error } = useMovies();
+const { upcoming, upcomingTV, getUpcoming, getUpcomingTV, error } = useMedia();
 
 const top10 = computed(() => (props.mediaType === "tv" ? upcomingTV.value.slice(0, 10) : upcoming.value.slice(0, 10)));
 

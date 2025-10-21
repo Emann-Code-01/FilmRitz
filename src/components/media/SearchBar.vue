@@ -1,4 +1,4 @@
-<!-- src/components/movies/SearchBar.vue -->
+<!-- src/components/media/SearchBar.vue -->
 <template>
   <div class="relative z-40 w-full mx-auto">
     <div
@@ -84,10 +84,10 @@
 <script setup lang="ts">
 import { ref, watch, computed } from "vue";
 import { useRouter } from "vue-router";
-import { useMovies } from "../../composables/useMovie";
+import { useMedia } from "../../composables/useMedia";
 import { useModalStore } from "../../stores/modalStore";
 
-const { searchMovies, searchResults, loading, error } = useMovies();
+const { searchMovies, searchResults, loading, error } = useMedia();
 const modalStore = useModalStore();
 const router = useRouter();
 

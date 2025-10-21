@@ -1,15 +1,15 @@
 // src/stores/movieStore.ts
 import { defineStore } from "pinia";
-import { useMovies } from "../composables/useMovie";
-import { Movie } from "../types/Movie";
+import { useMedia } from "../composables/useMedia";
+import { Media } from "../types/media";
 
-export const useMovieStore = defineStore("movieStore", {
+export const useMediatore = defineStore("movieStore", {
   state: () => ({
-    trending: [] as Movie[],
-    topRated: [] as Movie[],
-    upcoming: [] as Movie[],
-    searchResults: [] as Movie[],
-    filteredResults: [] as Movie[],
+    trending: [] as Media[],
+    topRated: [] as Media[],
+    upcoming: [] as Media[],
+    searchResults: [] as Media[],
+    filteredResults: [] as Media[],
     loading: false,
     searching: false,
     error: null as string | null,
@@ -28,7 +28,7 @@ export const useMovieStore = defineStore("movieStore", {
 
   actions: {
     async loadMovies(force = false) {
-      const { getTrending, getTopRated, getUpcoming, trending, topRated, upcoming, error } = useMovies();
+      const { getTrending, getTopRated, getUpcoming, trending, topRated, upcoming, error } = useMedia();
       const now = Date.now();
       const CACHE_TTL = 1000 * 60 * 10;
 
@@ -51,7 +51,7 @@ export const useMovieStore = defineStore("movieStore", {
     },
 
     async searchMovies(query: string) {
-      const { searchMovies, searchResults, error } = useMovies();
+      const { searchMovies, searchResults, error } = useMedia();
       if (!query.trim()) {
         this.searchResults = [];
         this.filteredResults = [];

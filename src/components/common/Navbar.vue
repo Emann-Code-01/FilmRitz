@@ -141,7 +141,7 @@
 <script setup lang="ts">
 import Logo from "../../assets/filmritzlogo.svg";
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
-import SearchBar from "../movies/SearchBar.vue";
+import SearchBar from "../media/SearchBar.vue";
 import { useAuthStore } from "../../stores/auth";
 import { useRouter, useRoute } from "vue-router";
 import Profile from "../../views/Profile.vue";

@@ -1,7 +1,7 @@
-// src/composables/useMovies.ts
+// src/composables/useMedia.ts
 import { ref } from "vue";
-import { Movie } from "../types/Movie";
-import { movieService } from "../services/movieService";
+import { Media } from "../types/media";
+import { movieService } from "../services/mediaService";
 import {
   fetchTrendingMovies,
   fetchTopRatedMovies,
@@ -12,17 +12,17 @@ import {
   fetchTrendingMedia,
 } from "../api/tmdb";
 
-export function useMovies() {
-  const trending = ref<Movie[]>([]);
-  const topRated = ref<Movie[]>([]);
-  const upcoming = ref<Movie[]>([]);
-  const trendingTV = ref<Movie[]>([]);
-  const topRatedTV = ref<Movie[]>([]);
-  const upcomingTV = ref<Movie[]>([]);
-  const trendingAll = ref<Movie[]>([]);
+export function useMedia() {
+  const trending = ref<Media[]>([]);
+  const topRated = ref<Media[]>([]);
+  const upcoming = ref<Media[]>([]);
+  const trendingTV = ref<Media[]>([]);
+  const topRatedTV = ref<Media[]>([]);
+  const upcomingTV = ref<Media[]>([]);
+  const trendingAll = ref<Media[]>([]);
 
-  const searchResults = ref<Movie[]>([]);
-  const discoverResults = ref<Movie[]>([]);
+  const searchResults = ref<Media[]>([]);
+  const discoverResults = ref<Media[]>([]);
 
   const loading = ref(false);
   const error = ref<string | null>(null);
@@ -142,7 +142,7 @@ export function useMovies() {
       searchResults.value = results;
     } catch (err: any) {
       console.error("❌ Search failed:", err);
-      error.value = "Failed to search movies/TV.";
+      error.value = "Failed to search media/TV.";
     } finally {
       loading.value = false;
     }

@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import MovieModal from './components/movies/MovieModal.vue'; 
+import MovieModal from './components/media/MovieModal.vue'; 
 </script>-->
 
 <template>
@@ -23,7 +23,7 @@ import MovieModal from './components/movies/MovieModal.vue';
 import { ref } from 'vue';
 import { useAuthStore } from "./stores/auth";
 import { useRouter } from "vue-router";
-import MovieModal from './components/movies/MovieModal.vue';
+import MovieModal from './components/media/MovieModal.vue';
 
 const auth = useAuthStore();
 const router = useRouter();

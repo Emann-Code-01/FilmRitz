@@ -1,5 +1,5 @@
 // src/types/Movie.ts
-export interface Movie {
+export interface Media {
   id: number;
   title: string; // For movies and normalized title for tv
   name?: string; // Original tv name (optional)

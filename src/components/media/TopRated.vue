@@ -1,4 +1,4 @@
-<!-- src/components/movies/TopRated.vue -->
+<!-- src/components/media/TopRated.vue -->
 <template>
   <section
     class="bg-black transition-all duration-900 animate-fade-up relative z-10 overflow-hidden"
@@ -109,7 +109,7 @@ import { ref, onMounted, computed } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation } from "swiper/modules";
 import { useModalStore } from "../../stores/modalStore";
-import { useMovies } from "../../composables/useMovie";
+import { useMedia } from "../../composables/useMedia";
 import { useAuthStore } from "../../stores/auth";
 
 const props = defineProps<{ mediaType?: "movie" | "tv" | "all" }>();
@@ -120,7 +120,7 @@ const atBeginning = ref(true);
 const atEnd = ref(false);
 const loading = ref(false);
 
-const { topRated, topRatedTV, getTopRated, getTopRatedTV, error } = useMovies();
+const { topRated, topRatedTV, getTopRated, getTopRatedTV, error } = useMedia();
 
 const top10 = computed(() => {
   if (props.mediaType === "tv") return topRatedTV.value.slice(0, 10);

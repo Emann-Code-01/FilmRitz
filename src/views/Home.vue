@@ -45,9 +45,9 @@ import { useAuthStore } from "../stores/auth";
 import HeroSection from "../components/PHome/HeroSection.vue";
 import SubPreview from "../components/PHome/SubPreview.vue";
 import BlockSection from "../components/PHome/BlockSection.vue";
-import TrendingNow from "../components/movies/TrendingNow.vue";
-import TopRated from "../components/movies/TopRated.vue";
-import upComing from "../components/movies/ComingSoon.vue";
+import TrendingNow from "../components/media/TrendingNow.vue";
+import TopRated from "../components/media/TopRated.vue";
+import upComing from "../components/media/ComingSoon.vue";
 
 const auth = useAuthStore();
 const isLoggedIn = computed(() => auth.isLoggedIn);

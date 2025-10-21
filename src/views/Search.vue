@@ -71,12 +71,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
-import { useMovieStore } from "../stores/movieStore";
+import { useMediatore } from "../stores/mediaStore";
 import { useModalStore } from "../stores/modalStore";
-import FilterPanel from "../components/movies/FilterPanel.vue";
+import FilterPanel from "../components/media/FilterPanel.vue";
 
 const route = useRoute();
-const store = useMovieStore();
+const store = useMediatore();
 const modalStore = useModalStore();
 
 const query = ref((route.query.q as string) || "");

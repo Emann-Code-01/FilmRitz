@@ -172,7 +172,7 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import { useModalStore } from "../../stores/modalStore";
 import { useAuthStore } from "../../stores/auth";
-import { useMovies } from "../../composables/useMovie";
+import { useMedia } from "../../composables/useMedia";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -194,7 +194,7 @@ const {
   getUpcoming,
   loading,
   error,
-} = useMovies();
+} = useMedia();
 
 const baseUrl = "https://image.tmdb.org/t/p/w1280";
 

@@ -4,7 +4,7 @@ import MainLayout from "@/components/layout/MainLayout.vue";
 import SplashScreen from "../views/SplashScreen.vue";
 import Home from "../views/Home.vue";
 import Auth from "../components/auth/Auth.vue";
-import MovieDetails from "../components/movies/MovieDetails.vue";
+import MovieDetails from "../components/media/MovieDetails.vue";
 import Watch from "../views/Watch.vue";
 import Search from "../views/Search.vue";
 import Profile from "../views/Profile.vue";

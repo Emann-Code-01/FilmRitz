@@ -1,4 +1,4 @@
-<!-- src/components/movies/MovieModal.vue -->
+<!-- src/components/media/MovieModal.vue -->
 <template>
   <TransitionRoot :show="modalStore.isModalOpen" as="template">
     <Dialog

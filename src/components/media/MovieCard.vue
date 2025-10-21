@@ -1,4 +1,4 @@
-<!-- src/components/movies/MovieCard.vue -->
+<!-- src/components/media/MovieCard.vue -->
 <script setup lang="ts">
 import { useModalStore } from "../../stores/modalStore";
 
