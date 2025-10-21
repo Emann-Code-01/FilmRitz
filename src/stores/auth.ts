@@ -21,7 +21,7 @@ export const useAuthStore = defineStore("auth", {
       } else {
         this.user = data.user;
         localStorage.setItem("user", JSON.stringify(this.user));
-        window.location.href = "/ng"; // ✅ redirect
+        window.location.href = "/ng/splash"; // ✅ redirect to splash
       }
     },
 
@@ -39,7 +39,7 @@ export const useAuthStore = defineStore("auth", {
       } else {
         this.user = data.user;
         localStorage.setItem("user", JSON.stringify(this.user));
-        window.location.href = "/ng"; // ✅ redirect
+        window.location.href = "/ng/splash"; // ✅ redirect to splash
       }
     },
 

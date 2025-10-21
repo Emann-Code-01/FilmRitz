@@ -13,7 +13,7 @@ try {
 	const url = new URL(window.location.href);
 	if (url.pathname === '/' || url.pathname === '') {
 		if (!isLoggedIn) {
-			url.pathname = '/ng';
+			url.pathname = '/ng/splash';
 			window.location.replace(url.toString());
 		} else {
 			// already logged in, ensure the path stays '/'

@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="!isLoggedIn"
     class="relative w-full overflow-hidden h-screen bg-fixed bg-center bg-cover bg-no-repeat transition-all mb-9"
     :style="{ backgroundImage: `url('${bgUrl}')` }"
   >
@@ -88,20 +89,114 @@
       </div>
     </div>
   </div>
+  <div
+    v-else
+    class="relative w-full transition-all duration-900 animate-fade-up"
+  >
+    <div
+      v-if="loading"
+      class="text-white text-center py-20 font-[Gilroy-SemiBold]"
+    >
+      🎬 Loading Movie Slide...
+    </div>
+    <div v-else-if="error" class="text-red-500 text-center py-20">
+      {{ error }}
+    </div>
+
+    <swiper
+      v-else
+      :modules="[Pagination, Autoplay, Navigation]"
+      :slides-per-view="1"
+      :slides-per-group="1"
+      :autoplay="{ delay: 4000, disableOnInteraction: true }"
+      :pagination="{ dynamicBullets: true }"
+      :loop="trendingAll.length > 1"
+      class="mySwiper transition-all duration-200 xl:w-full h-screen"
+    >
+      <swiper-slide
+        v-for="item in trendingAll"
+        :key="item.id + item.media_type"
+        class="relative overflow-hidden text-white shadow-xl"
+      >
+        <div
+          class="absolute top-0 inset-0 bg-fixed bg-center bg-cover w-full bg-no-repeat transition-all duration-500 animate-ease-in"
+          :style="{
+            backgroundImage: `url(${baseUrl + item.backdrop_path})`,
+          }"
+        ></div>
+
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/90 flex flex-col justify-end p-10"
+        >
+          <h2 class="text-4xl font-[Gilroy-Bold] mb-3">
+            {{ item.title || item.name }}
+          </h2>
+
+          <div class="flex items-center gap-4">
+            <span
+              class="px-2 py-1 bg-green-700 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]"
+            >
+              {{ item?.vote_average?.toFixed(1) }}
+            </span>
+            <span class="text-sm font-[Gilroy-Medium]">
+              {{
+                new Date(
+                  item.release_date ?? item.first_air_date ?? ""
+                ).getFullYear()
+              }}
+            </span>
+
+            <router-link
+              :to="`/ng/${item.media_type}/${item.id}`"
+              @click.prevent="modalStore.open(item.media_type, { id: item.id })"
+              class="grid text-center justify-center items-center text-lg text-white font-[Gilroy-SemiBold] transition-all duration-300"
+            >
+              <i class="pi pi-info-circle"></i>
+              <span>Info</span>
+            </router-link>
+          </div>
+
+          <p class="text-lg text-gray-300 font-[Gilroy-Medium] line-clamp-3">
+            {{ item.overview }}
+          </p>
+        </div>
+      </swiper-slide>
+    </swiper>
+  </div>
 </template>
 
 <script setup lang="ts">
 import HeroImg from "../../assets/Hero Image.png";
 import { ref, computed, onMounted } from "vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Pagination, Autoplay, Navigation } from "swiper/modules";
+import { useModalStore } from "../../stores/modalStore";
+import { useAuthStore } from "../../stores/auth";
+import { useMovies } from "../../composables/useMovie";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const auth = useAuthStore();
+const modalStore = useModalStore();
+
 const email = ref("");
+
 const loaded = ref(false);
 const touched = ref(false);
 
 const isValidEmail = (val: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
 const bgUrl = HeroImg;
+
+const {
+  trendingAll,
+  getTrendingAll,
+  getTopRated,
+  getUpcoming,
+  loading,
+  error,
+} = useMovies();
+
+const baseUrl = "https://image.tmdb.org/t/p/w1280";
 
 const ringColor = computed(() => {
   if (email.value === "") return "focus:ring-[#BDBCBB]";
@@ -109,12 +204,11 @@ const ringColor = computed(() => {
     ? "focus:ring-green-500"
     : "focus:ring-red-500";
 });
-
+const isLoggedIn = computed(() => auth.isLoggedIn);
 const showError = computed(() => {
   if (!touched.value && email.value === "") return false;
   return !isValidEmail(email.value);
 });
-
 const errorMessage = computed(() => {
   if (email.value === "") return "Email is required.";
   return "Please enter a valid email address.";
@@ -133,5 +227,23 @@ onMounted(() => {
   const img = new Image();
   img.src = bgUrl;
   img.onload = () => (loaded.value = true);
+});
+
+onMounted(async () => {
+  // Sync user if not loaded
+  if (!auth.loaded) auth.syncUser();
+
+  loading.value = true;
+  error.value = null;
+
+  try {
+    // Fetch all three categories in parallel
+    await Promise.all([getTrendingAll(), getTopRated(), getUpcoming()]);
+  } catch (err: any) {
+    console.error("❌ Failed to fetch movies:", err);
+    error.value = "Couldn’t load movies. Please refresh in a bit";
+  } finally {
+    loading.value = false;
+  }
 });
 </script>
