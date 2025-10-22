@@ -13,7 +13,7 @@
         <img
           :src="Logo"
           alt="Filmritz Logo"
-          class="transition-all duration-900 animate-fade-up w-44 -ml-10 md:-ml-0"
+          class="transition-all duration-900 animate-fade-up w-44 -ml-5 md:-ml-0"
         />
       </router-link>
       <div v-if="auth.isLoggedIn">
