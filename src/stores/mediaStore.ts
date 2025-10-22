@@ -1,7 +1,7 @@
 // src/stores/movieStore.ts
 import { defineStore } from "pinia";
 import { useMedia } from "../composables/useMedia";
-import { Media } from "../types/media";
+import type { Media } from "../types/media"; // ✅ Ensure Media includes media_type: "movie" | "tv"
 
 export const useMediatore = defineStore("movieStore", {
   state: () => ({
@@ -28,7 +28,16 @@ export const useMediatore = defineStore("movieStore", {
 
   actions: {
     async loadMovies(force = false) {
-      const { getTrending, getTopRated, getUpcoming, trending, topRated, upcoming, error } = useMedia();
+      const {
+        getTrending,
+        getTopRated,
+        getUpcoming,
+        trending,
+        topRated,
+        upcoming,
+        error,
+      } = useMedia();
+
       const now = Date.now();
       const CACHE_TTL = 1000 * 60 * 10;
 
@@ -50,8 +59,9 @@ export const useMediatore = defineStore("movieStore", {
       }
     },
 
-    async searchMovies(query: string) {
-      const { searchMovies, searchResults, error } = useMedia();
+    // 🔎 Unified Search for both Movies + TV shows
+    async searchMulti(query: string) {
+      const { searchMulti, searchResults, error } = useMedia(); // ✅ use searchMulti instead of searchMulti
       if (!query.trim()) {
         this.searchResults = [];
         this.filteredResults = [];
@@ -61,8 +71,15 @@ export const useMediatore = defineStore("movieStore", {
       this.searching = true;
       this.error = null;
       try {
-        await searchMovies(query);
-        this.searchResults = searchResults.value;
+        // 🔹 searchMulti should fetch both "movie" + "tv"
+        await searchMulti(query);
+
+        // Normalize results to always include media_type
+        this.searchResults = searchResults.value.map((item: Media) => ({
+          ...item,
+          media_type: item.media_type || (item.title ? "movie" : "tv"),
+        }));
+
         this.applyFilters();
       } catch (err: any) {
         console.error("❌ Search failed:", err);
@@ -72,13 +89,24 @@ export const useMediatore = defineStore("movieStore", {
       }
     },
 
+    // 🎛 Apply Filters (genre, year, rating, type)
     applyFilters() {
-      this.filteredResults = this.searchResults.filter((movie) => {
-        if (this.filter.genre && !movie.genre_ids?.includes(this.filter.genre)) return false;
-        if (this.filter.year && new Date((movie.release_date || "").slice(0, 10)).getFullYear() !== this.filter.year) return false;
-        if (this.filter.rating && movie.vote_average < this.filter.rating) return false;
-        // Use normalized media_type
-        if (this.filter.type && movie.media_type !== this.filter.type) return false;
+      this.filteredResults = this.searchResults.filter((media: Media) => {
+        const { genre, year, rating, type } = this.filter;
+
+        if (genre && !media.genre_ids?.includes(genre)) return false;
+
+        const releaseYear =
+          media.release_date?.slice(0, 4) ||
+          media.first_air_date?.slice(0, 4) ||
+          null;
+
+        if (year && releaseYear !== String(year)) return false;
+
+        if (rating && media.vote_average < rating) return false;
+
+        if (type && media.media_type !== type) return false;
+
         return true;
       });
     },

@@ -87,7 +87,7 @@ import { useRouter } from "vue-router";
 import { useMedia } from "../../composables/useMedia";
 import { useModalStore } from "../../stores/modalStore";
 
-const { searchMovies, searchResults, loading, error } = useMedia();
+const { searchMulti, searchResults, loading, error } = useMedia();
 const modalStore = useModalStore();
 const router = useRouter();
 
@@ -111,7 +111,7 @@ watch(query, (newVal) => {
   debounceTimer = setTimeout(async () => {
     try {
       loading.value = true;
-      await searchMovies(newVal);
+      await searchMulti(newVal);
     } finally {
       loading.value = false;
     }

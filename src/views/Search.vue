@@ -33,13 +33,13 @@
     >
       <div
         v-for="item in visibleResults"
-        :key="item.id + item.media_type"
+        :key="item.id + '-' + (item.media_type || 'unknown')"
         class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 transition-all border border-white/10 hover:border-red-500/40"
         @click="openMediaModal(item)"
       >
         <img
           :src="getPoster(item)"
-          alt=""
+          alt="Poster"
           class="w-full h-64 object-cover group-hover:scale-105 transition-all duration-300"
         />
         <div
@@ -47,7 +47,7 @@
         ></div>
         <div class="absolute bottom-3 left-3">
           <h3 class="text-white font-[Gilroy-SemiBold] text-base line-clamp-1">
-            {{ item.title }}
+            {{ item.title || item.name }}
           </h3>
           <p class="text-gray-400 text-sm">
             {{ getYear(item) }} · ⭐ {{ item.vote_average?.toFixed(1) }}
@@ -73,6 +73,7 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useMediatore } from "../stores/mediaStore";
 import { useModalStore } from "../stores/modalStore";
+import type { Media } from "../types/media";
 import FilterPanel from "../components/media/FilterPanel.vue";
 
 const route = useRoute();
@@ -89,46 +90,52 @@ const filters = ref<{
   type?: string;
 }>({});
 
-// Filter panel
-const onFilterApply = (newFilters: typeof filters.value) =>
-  (filters.value = newFilters);
-const onFilterClear = () => (filters.value = {});
+// when user clicks "Apply" in FilterPanel
+function onFilterApply(newFilters: typeof filters.value) {
+  filters.value = newFilters;
+}
 
-// Filtered results
+// when user clicks "Clear"
+function onFilterClear() {
+  filters.value = {};
+}
+
+// 🔍 Filter logic
 const filteredResults = computed(() =>
-  store.searchResults.filter((item) => {
+  store.searchResults.filter((item: Media) => {
     if (
       filters.value.genre &&
       !item.genre_ids?.includes(Number(filters.value.genre))
     )
       return false;
-    if (
-      filters.value.year &&
-      item.release_date?.slice(0, 4) !== String(filters.value.year) &&
-      item.first_air_date?.slice(0, 4) !== String(filters.value.year)
-    )
-      return false;
+
+    const year =
+      item.release_date?.slice(0, 4) || item.first_air_date?.slice(0, 4);
+    if (filters.value.year && year !== String(filters.value.year)) return false;
+
     if (filters.value.rating && item.vote_average < filters.value.rating)
       return false;
+
     if (filters.value.type && item.media_type !== filters.value.type)
       return false;
+
     return true;
   })
 );
 
-// Pagination
+// Pagination (20 per page)
 const visibleCount = ref(20);
 const visibleResults = computed(() =>
   filteredResults.value.slice(0, visibleCount.value)
 );
 const showMore = () => (visibleCount.value += 20);
 
-// Fetch results
+// Fetch TMDB results
 async function fetchResults(searchQuery: string) {
   if (!searchQuery.trim()) return;
   loading.value = true;
   try {
-    await store.searchMovies(searchQuery); // make sure it fetches both movies & tv with media_type
+    await store.searchMulti(searchQuery);
   } finally {
     loading.value = false;
   }
@@ -137,7 +144,7 @@ async function fetchResults(searchQuery: string) {
 // Initial fetch
 onMounted(() => fetchResults(query.value));
 
-// Watch route query changes
+// Watch for query changes
 watch(
   () => route.query.q,
   (newQuery) => {
@@ -148,21 +155,22 @@ watch(
   }
 );
 
-// Open modal
-function openMediaModal(item: any) {
+// Modal open handler
+function openMediaModal(item: Media) {
   const type = item.media_type ?? "movie";
   modalStore.open(type, { movieId: item.id });
 }
 
 // Helpers
-const getPoster = (item: any) =>
-  item.poster_path
+function getPoster(item: any) {
+  return item.poster_path
     ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
     : "https://dummyimage.com/300x450/000/fff&text=No+Image";
-const getYear = (item: any) =>
-  item.media_type === "tv"
+}
+
+function getYear(item: any) {
+  return item.media_type === "tv"
     ? item.first_air_date?.slice(0, 4) ?? "-"
     : item.release_date?.slice(0, 4) ?? "-";
+}
 </script>
-
-<style scoped></style>

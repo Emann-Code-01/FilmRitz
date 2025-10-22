@@ -14,10 +14,10 @@
       ></div>
 
       <div
-        class="absolute bottom-8 left-8 max-w-2xl space-y-3 transition-all duration-500 animate-fade-up"
+        class="absolute bottom-8 left-8 max-w-5xl space-y-3 transition-all duration-500 animate-fade-up"
       >
         <h1 class="text-4xl font-[Gilroy-Bold]">{{ media.title }}</h1>
-        <p class="text-lg text-gray-300 font-[Gilroy-Medium] line-clamp-3">
+        <p class="text-lg text-gray-300 font-[Gilroy-Medium]">
           {{ media.overview }}
         </p>
 

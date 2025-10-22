@@ -164,3 +164,53 @@ export const searchMulti = async (query: string, page = 1) => {
     .filter((r: any) => r.media_type === "movie" || r.media_type === "tv")
     .map((r: any) => normalize(r));
 };
+
+
+// --------------------------- FILTERED SEARCH HELPER ---------------------------
+
+/**
+ * Extended version of searchMulti that supports filtering by:
+ * - media type (movie, tv, or all)
+ * - release year range
+ * - minimum rating
+ *
+ * Uses the existing searchMulti() and filters results locally.
+ */
+export const searchMoviesAndShows = async (
+  query: string,
+  filters: {
+    mediaType?: string;
+    yearFrom?: string;
+    yearTo?: string;
+    rating?: number;
+  } = {}
+) => {
+  if (!query.trim()) return [];
+
+  // Reuse your existing TMDB multi search
+  const results = await searchMulti(query);
+
+  // Apply filters to the normalized list
+  return results.filter((item: any) => {
+    const year =
+      parseInt(item.release_date?.slice(0, 4) || item.first_air_date?.slice(0, 4)) || 0;
+    const rating = item.vote_average || 0;
+
+    const matchesMediaType =
+      !filters.mediaType || filters.mediaType === "all"
+        ? true
+        : item.media_type === filters.mediaType;
+
+    const matchesYearFrom = filters.yearFrom ? year >= Number(filters.yearFrom) : true;
+    const matchesYearTo = filters.yearTo ? year <= Number(filters.yearTo) : true;
+    const matchesRating = filters.rating ? rating >= Number(filters.rating) : true;
+
+    return matchesMediaType && matchesYearFrom && matchesYearTo && matchesRating;
+  });
+};
+
+
+export function getPoster(path: string | null, size: string = "w500") {
+  if (!path) return "/no-poster.jpg"; // fallback if no poster path
+  return `https://image.tmdb.org/t/p/${size}${path}`;
+}

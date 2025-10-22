@@ -17,7 +17,7 @@ function normalizeItem(item: any) {
 
 export const movieService = {
   // Search multi (movie + tv)
-  async searchMovies(query: string) {
+  async searchMulti(query: string) {
     try {
       const response = await axios.get(`${BASE_URL}/search/multi`, {
         params: {

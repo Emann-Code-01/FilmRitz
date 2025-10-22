@@ -130,7 +130,7 @@ export function useMedia() {
   };
 
   // 🔍 Use movieService for Searching
-  const searchMovies = async (query: string) => {
+  const searchMulti = async (query: string) => {
     if (!query.trim()) {
       searchResults.value = [];
       return;
@@ -138,7 +138,7 @@ export function useMedia() {
     loading.value = true;
     error.value = null;
     try {
-      const results = await movieService.searchMovies(query);
+      const results = await movieService.searchMulti(query);
       searchResults.value = results;
     } catch (err: any) {
       console.error("❌ Search failed:", err);
@@ -186,7 +186,7 @@ export function useMedia() {
     getTopRatedTV,
     getUpcomingTV,
     getTrendingAll,
-    searchMovies,
+    searchMulti,
     discover, // new
   };
 }
