@@ -17,18 +17,21 @@ function normalizeItem(item: any) {
 
 export const movieService = {
   // Search multi (movie + tv)
-  async searchMulti(query: string) {
+  async searchMulti(query: string, page = 1) {
     try {
       const response = await axios.get(`${BASE_URL}/search/multi`, {
         params: {
           api_key: API_KEY,
           query,
+          page, // ✅ TMDB supports pagination
           include_adult: false,
           language: "en-US",
         },
       });
       const raw = response.data.results || [];
-      return raw.filter((r: any) => r.media_type === "movie" || r.media_type === "tv").map(normalizeItem);
+      return raw
+        .filter((r: any) => r.media_type === "movie" || r.media_type === "tv")
+        .map(normalizeItem);
     } catch (err) {
       console.error("❌ Movie search failed:", err);
       return [];

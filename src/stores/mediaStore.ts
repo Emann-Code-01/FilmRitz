@@ -20,6 +20,8 @@ export const useMediatore = defineStore("movieStore", {
       year: null as number | null,
       rating: 0,
     },
+    currentPage: 1,
+    totalPages: 1,
   }),
 
   getters: {
@@ -60,27 +62,27 @@ export const useMediatore = defineStore("movieStore", {
     },
 
     // 🔎 Unified Search for both Movies + TV shows
-    async searchMulti(query: string) {
-      const { searchMulti, searchResults, error } = useMedia(); // ✅ use searchMulti instead of searchMulti
+    async searchMulti(query: string, page = 1) {
+      const { searchMulti, searchResults, error } = useMedia();
+
       if (!query.trim()) {
         this.searchResults = [];
-        this.filteredResults = [];
         return;
       }
 
       this.searching = true;
       this.error = null;
+
       try {
-        // 🔹 searchMulti should fetch both "movie" + "tv"
-        await searchMulti(query);
+        await searchMulti(query, page);
 
-        // Normalize results to always include media_type
-        this.searchResults = searchResults.value.map((item: Media) => ({
-          ...item,
-          media_type: item.media_type || (item.title ? "movie" : "tv"),
-        }));
+        // If this is page 1 → reset results, otherwise append
+        if (page === 1) {
+          this.searchResults = searchResults.value;
+        } else {
+          this.searchResults = [...this.searchResults, ...searchResults.value];
+        }
 
-        this.applyFilters();
       } catch (err: any) {
         console.error("❌ Search failed:", err);
         this.error = error.value || "Search failed.";

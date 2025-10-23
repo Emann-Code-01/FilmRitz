@@ -186,3 +186,4 @@ onMounted(() => {
   text-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.5);
 }
 </style>
+

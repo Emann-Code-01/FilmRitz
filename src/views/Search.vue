@@ -66,12 +66,13 @@
     </div>
 
     <!-- View More -->
-    <div v-if="filteredResults.length > visibleCount" class="text-center mt-6">
+    <div v-if="filteredResults.length" class="text-center mt-6">
       <button
         @click="showMore"
-        class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded font-[Gilroy-SemiBold]"
+        :disabled="loading"
+        class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded font-[Gilroy-SemiBold] disabled:opacity-50"
       >
-        View More
+        {{ loading ? "Loading..." : "View More" }}
       </button>
     </div>
   </div>
@@ -92,6 +93,8 @@ const modalStore = useModalStore();
 
 const query = ref((route.query.q as string) || "");
 const loading = ref(false);
+
+const currentPage = ref(1);
 
 const filters = ref<{
   genre?: string;
@@ -146,19 +149,18 @@ const filteredResults = computed(() =>
   })
 );
 
-// Pagination (20 per page)
-const visibleCount = ref(20);
-const visibleResults = computed(() =>
-  filteredResults.value.slice(0, visibleCount.value)
-);
-const showMore = () => (visibleCount.value += 20);
+const visibleResults = computed(() => filteredResults.value);
+const showMore = async () => {
+  await fetchResults(query.value, currentPage.value + 1);
+};
 
 // Fetch TMDB results
-async function fetchResults(searchQuery: string) {
+async function fetchResults(searchQuery: string, page = 1) {
   if (!searchQuery.trim()) return;
   loading.value = true;
   try {
-    await store.searchMulti(searchQuery);
+    await store.searchMulti(searchQuery, page);
+    currentPage.value = page;
   } finally {
     loading.value = false;
   }

@@ -130,7 +130,7 @@ export function useMedia() {
   };
 
   // 🔍 Use movieService for Searching
-  const searchMulti = async (query: string) => {
+  const searchMulti = async (query: string, page = 1) => {
     if (!query.trim()) {
       searchResults.value = [];
       return;
@@ -138,7 +138,7 @@ export function useMedia() {
     loading.value = true;
     error.value = null;
     try {
-      const results = await movieService.searchMulti(query);
+      const results = await movieService.searchMulti(query, page); // ✅ pass page to service
       searchResults.value = results;
     } catch (err: any) {
       console.error("❌ Search failed:", err);
