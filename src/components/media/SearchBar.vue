@@ -10,6 +10,7 @@
         type="text"
         placeholder="Search for movies, actors, or genres..."
         class="flex-1 bg-transparent outline-none text-white placeholder-gray-400 font-[Gilroy-Medium] text-lg"
+        @keydown.enter="goToSearchPage"
       />
       <button
         v-if="query"
@@ -56,6 +57,15 @@
             {{ new Date(item.release_date).getFullYear() }} · ⭐
             {{ item.vote_average?.toFixed(1) }} · {{ item.media_type }}
           </p>
+          <span class="flex flex-wrap gap-2">
+            <span
+              v-for="genreName in getGenreNames(getGenreIdsFromMedia(item))"
+              :key="genreName"
+              class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40"
+            >
+              {{ genreName }}
+            </span>
+          </span>
         </div>
       </div>
 
@@ -85,6 +95,7 @@
 import { ref, watch, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useMedia } from "../../composables/useMedia";
+import { genreMap } from "../../types/genres";
 import { useModalStore } from "../../stores/modalStore";
 
 const { searchMulti, searchResults, loading, error } = useMedia();
@@ -132,14 +143,33 @@ function selectMovie(item: any) {
   searchResults.value = [];
 }
 
+function getGenreIdsFromMedia(media: any): number[] {
+  if (!media) return [];
+  if (Array.isArray(media.genre_ids)) return media.genre_ids;
+  if (Array.isArray(media.genres))
+    return media.genres.map((g: { id: number }) => g.id);
+  return [];
+}
+
+function getGenreNames(genreIds?: number[]) {
+  if (!genreIds || !genreIds.length) return ["Unknown"];
+  return genreIds.map((id) => genreMap[id]).filter(Boolean);
+}
+
 function clearSearch() {
   query.value = "";
   searchResults.value = [];
 }
 
 function goToSearchPage() {
-  if (!query.value.trim()) return;
-  router.push({ name: "Search", query: { q: query.value.trim() } });
+  const searchTerm = query.value.trim();
+  if (!searchTerm) return;
+
+  router.push({
+    name: "Search",
+    query: { q: searchTerm },
+  });
+
   query.value = "";
   searchResults.value = [];
   emit("close");

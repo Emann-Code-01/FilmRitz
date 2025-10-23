@@ -53,7 +53,7 @@ const routes: RouteRecordRaw[] = [
         props: true,
       },
       {
-        path: "/genre/:id",
+        path: "/genre/:name",
         name: "GenreView",
         component: GenreView,
       },

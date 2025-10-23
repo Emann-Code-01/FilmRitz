@@ -1,15 +1,14 @@
 <template>
   <nav
-    class=""
-    :class="{
-      'absolute top-0 left-0 w-full py-5 px-5 z-50 flex items-center justify-between transition-all animate-ease-out duration-500':
-        auth.isLoggedIn,
-      'absolute top-0 left-0 w-full py-5 z-50 xl:px-32 px-5 flex items-center justify-between transition-all animate-ease-out duration-500':
-        !auth.isLoggedIn,
-    }"
+    :class="[
+      auth.isLoggedIn
+        ? 'fixed top-0 left-0 w-full py-5 px-5 z-50 flex items-center justify-between transition-all duration-500 ease-out'
+        : 'fixed top-0 left-0 w-full py-5 xl:px-32 px-5 z-50 flex items-center justify-between transition-all duration-500 ease-out',
+      scrolled ? 'bg-black/90 backdrop-blur-xl shadow-lg' : 'bg-transparent',
+    ]"
   >
     <div class="flex justify-center items-center">
-      <router-link to="/ng" class="curos-pointer">
+      <router-link to="/ng" class="cusor-pointer">
         <img
           :src="Logo"
           alt="Filmritz Logo"
@@ -104,7 +103,7 @@
             leave-to="opacity-0 -translate-y-5"
           >
             <div
-              class="fixed top-0 left-0 w-full z-[9999] h-16 items-center justify-center backdrop-blur-md"
+              class="fixed top-0 left-0 w-full z-[9999] h-18 pt-2.5 items-center justify-center backdrop-blur-md"
             >
               <SearchBar @close="closeModal" />
             </div>
@@ -154,8 +153,7 @@ const auth = useAuthStore();
 const router = useRouter();
 const route = useRoute();
 
-const query = ref("");
-const focused = ref(false);
+const scrolled = ref(false);
 const isOpen = ref(false);
 
 const searchInput = ref<HTMLInputElement | null>(null);
@@ -180,6 +178,18 @@ function closeModal() {
 function openModal() {
   isOpen.value = true;
 }
+
+function handleScroll() {
+  scrolled.value = window.scrollY > window.innerHeight * 0.2;
+}
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
 
 onMounted(() => {
   window.addEventListener("keydown", handleShortcut);

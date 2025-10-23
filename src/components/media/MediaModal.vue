@@ -13,15 +13,22 @@
           v-if="media"
           class="relative w-full max-w-4xl h-[40em] overflow-hidden rounded-xl text-white shadow-xl"
         >
-          <div
-            class="absolute inset-0 bg-fixed bg-center bg-cover mx-auto bg-no-repeat transition-all duration-500 animate-fade-up"
-            :style="{
-              backgroundImage: `url(${baseUrl + media.backdrop_path})`,
-            }"
-          ></div>
-          <div
-            class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"
-          ></div>
+          <div class="">
+            <div
+              class="absolute inset-0 bg-black/50 bg-fixed bg-center bg-cover mx-auto bg-no-repeat transition-all duration-300 animate-pulse"
+              v-if="loading"
+            ></div>
+            <div
+              v-else
+              class="absolute inset-0 bg-fixed bg-center bg-cover mx-auto bg-no-repeat transition-all duration-500 animate-fade-up"
+              :style="{
+                backgroundImage: `url(${baseUrl + media.backdrop_path})`,
+              }"
+            ></div>
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"
+            ></div>
+          </div>
 
           <button
             ref="initialFocus"
@@ -47,9 +54,11 @@
           </button>
 
           <div class="absolute bottom-0 left-0 z-10 p-6 space-y-3">
-            <DialogTitle as="h2" class="text-6xl font-[Gilroy-Bold]">{{
-              media?.title
-            }}</DialogTitle>
+            <DialogTitle
+              as="h2"
+              class="md:text-6xl text-3xl font-[Gilroy-Bold]"
+              >{{ media?.title }}</DialogTitle
+            >
 
             <div class="flex items-center gap-4">
               <span
@@ -60,9 +69,17 @@
               <span class="text-sm font-[Gilroy-Medium]">{{
                 new Date(media?.release_date).getFullYear()
               }}</span>
-              <span class="text-sm font-[Gilroy-SemiBold]">
-                {{ media?.genres?.[0]?.name || "Unknown" }}
-              </span>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  v-for="genreName in getGenreNames(
+                    getGenreIdsFromMedia(media)
+                  )"
+                  :key="genreName"
+                  class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40"
+                >
+                  {{ genreName }}
+                </span>
+              </div>
             </div>
 
             <DialogDescription
@@ -123,6 +140,7 @@ import {
 import { ref, watch, computed, onMounted } from "vue";
 import { useModalStore } from "../../stores/modalStore";
 import { getMediaDetails } from "../../api/tmdb";
+import { genreMap } from "../../types/genres";
 import { useAuthStore } from "../../stores/auth";
 
 const auth = useAuthStore();
@@ -146,6 +164,19 @@ const detailRoute = computed(() => {
     ? `/ng/tv/${media.value.id}`
     : `/ng/movie/${media.value.id}`;
 });
+
+function getGenreIdsFromMedia(media: any): number[] {
+  if (!media) return [];
+  if (Array.isArray(media.genre_ids)) return media.genre_ids;
+  if (Array.isArray(media.genres))
+    return media.genres.map((g: { id: number }) => g.id);
+  return [];
+}
+
+function getGenreNames(genreIds?: number[]) {
+  if (!genreIds || !genreIds.length) return ["Unknown"];
+  return genreIds.map((id) => genreMap[id]).filter(Boolean);
+}
 
 onMounted(async () => {
   if (!auth.loaded) await auth.syncUser();

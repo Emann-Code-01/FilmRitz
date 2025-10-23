@@ -146,9 +146,15 @@
               }}
             </span>
 
-            <span class="text-sm font-[Gilroy-SemiBold]">
-              {{ item.genres?.[0]?.name || "Unknown" }}
-            </span>
+            <div class="md:flex gap-2 hidden">
+              <span
+                v-for="genreName in getGenreNames(item.genre_ids)"
+                :key="genreName"
+                class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40"
+              >
+                {{ genreName }}
+              </span>
+            </div>
 
             <router-link
               to=""
@@ -160,6 +166,16 @@
               <i class="pi pi-info-circle"></i>
               <span>Info</span>
             </router-link>
+          </div>
+
+          <div class="flex gap-2 md:hidden">
+            <span
+              v-for="genreName in getGenreNames(item.genre_ids)"
+              :key="genreName"
+              class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40"
+            >
+              {{ genreName }}
+            </span>
           </div>
 
           <p class="text-lg text-gray-300 font-[Gilroy-Medium] line-clamp-3">
@@ -179,6 +195,7 @@ import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import { useModalStore } from "../../stores/modalStore";
 import { useAuthStore } from "../../stores/auth";
 import { useMedia } from "../../composables/useMedia";
+import { genreMap } from "../../types/genres";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -227,6 +244,11 @@ function handleGetStarted() {
     localStorage.setItem("prefillEmail", email.value);
     router.push({ path: "/ng/login" });
   }
+}
+
+function getGenreNames(genreIds?: number[]) {
+  if (!genreIds || !genreIds.length) return ["Unknown"];
+  return genreIds.map((id) => genreMap[id]).filter(Boolean);
 }
 
 onMounted(() => {

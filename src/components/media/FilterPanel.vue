@@ -74,12 +74,11 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { genreMap } from "../../types/genres";
+import { genreNameToId } from "../../types/genres";
 import { useMediatore } from "../../stores/mediaStore";
 
 const store = useMediatore();
 
-// ✅ Emits that match Search.vue
 const emit = defineEmits(["apply", "clear"]);
 
 const localFilters = ref({
@@ -89,10 +88,10 @@ const localFilters = ref({
   type: "",
 });
 
-// Convert genre map to array for dropdown
+// ✅ Use genreNameToId (name ➜ id)
 const genres = computed(() =>
-  Object.entries(genreMap).map(([id, name]) => ({
-    id: Number(id),
+  Object.entries(genreNameToId).map(([name, id]) => ({
+    id,
     name,
   }))
 );

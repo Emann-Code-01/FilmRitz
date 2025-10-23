@@ -2,11 +2,12 @@
 <template>
   <section v-if="media" class="space-y-8">
     <div
-      class="relative h-[60vh] overflow-hidden"
+      class="relative h-[85vh] overflow-hidden"
       :style="{
         backgroundImage: `url(https://image.tmdb.org/t/p/original${media.backdrop_path})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
+        backgroundRepeat: 'norepeat',
       }"
     >
       <div
@@ -14,12 +15,31 @@
       ></div>
 
       <div
-        class="absolute bottom-8 left-8 max-w-5xl space-y-3 transition-all duration-500 animate-fade-up"
+        class="absolute bottom-0 hidden md:flex flex-col md:left-8 max-w-5xl space-y-3 transition-all duration-500 animate-fade-up"
       >
         <h1 class="text-4xl font-[Gilroy-Bold]">{{ media.title }}</h1>
         <p class="text-lg text-gray-300 font-[Gilroy-Medium]">
           {{ media.overview }}
         </p>
+        <div class="flex items-center gap-4">
+          <span
+            class="px-2 py-1 bg-green-700 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]"
+          >
+            {{ media?.vote_average?.toFixed(1) }}
+          </span>
+          <span class="text-sm font-[Gilroy-Medium]">{{
+            new Date(media?.release_date).getFullYear()
+          }}</span>
+          <div class="flex flex-wrap gap-2">
+            <span
+              v-for="genreName in getGenreNames(getGenreIdsFromMedia(media))"
+              :key="genreName"
+              class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40"
+            >
+              {{ genreName }}
+            </span>
+          </div>
+        </div>
 
         <div
           class="flex gap-3 mt-4 transition-all duration-500 animate-fade-up"
@@ -38,6 +58,49 @@
             <span v-else>＋ My List</span>
           </button>
         </div>
+      </div>
+    </div>
+
+    <div class="md:hidden flex flex-col px-8 -mt-56 relative space-y-3">
+      <h1 class="text-4xl font-[Gilroy-Bold]">{{ media.title }}</h1>
+      <p class="text-lg text-gray-300 font-[Gilroy-Medium]">
+        {{ media.overview }}
+      </p>
+      <div class="flex items-center gap-4">
+        <span
+          class="px-2 py-1 bg-green-700 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]"
+        >
+          {{ media?.vote_average?.toFixed(1) }}
+        </span>
+        <span class="text-sm font-[Gilroy-Medium]">{{
+          new Date(media?.release_date).getFullYear()
+        }}</span>
+      </div>
+
+      <div class="space-x-3">
+        <span
+          v-for="genreName in getGenreNames(getGenreIdsFromMedia(media))"
+          :key="genreName"
+          class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40"
+        >
+          {{ genreName }}
+        </span>
+      </div>
+
+      <div class="flex gap-3 transition-all duration-500 animate-fade-up">
+        <button
+          @click="goToWatch"
+          class="px-4 py-2 bg-red-600 rounded-xl hover:bg-red-700 font-[Gilroy-SemiBold]bold flex items-center gap-2"
+        >
+          ▶ Watch
+        </button>
+        <button
+          @click="toggleWatchlist"
+          class="px-4 py-2 bg-gray-800 rounded-xl hover:bg-gray-700 flex items-center gap-2 font-[Gilroy-Medium]"
+        >
+          <span v-if="inWatchlist">✓ Added</span>
+          <span v-else>＋ My List</span>
+        </button>
       </div>
     </div>
 
@@ -116,6 +179,7 @@ import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import { getMediaDetails } from "../../api/tmdb";
+import { genreMap } from "../../types/genres";
 import { useModalStore } from "../../stores/modalStore";
 
 const media = ref<any | null>(null);
@@ -176,6 +240,19 @@ const fetchDetails = async () => {
   }
 };
 
+function getGenreIdsFromMedia(media: any): number[] {
+  if (!media) return [];
+  if (Array.isArray(media.genre_ids)) return media.genre_ids;
+  if (Array.isArray(media.genres))
+    return media.genres.map((g: { id: number }) => g.id);
+  return [];
+}
+
+function getGenreNames(genreIds?: number[]) {
+  if (!genreIds || !genreIds.length) return ["Unknown"];
+  return genreIds.map((id) => genreMap[id]).filter(Boolean);
+}
+
 onMounted(fetchDetails);
 
 watch(
@@ -206,7 +283,7 @@ watch(
 
 function goToWatch() {
   const id = route.params.id as string;
-  router.push(`/watch/${id}`);
+  router.push(`#`);
 }
 
 function toggleWatchlist() {

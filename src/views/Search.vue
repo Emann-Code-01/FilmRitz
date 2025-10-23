@@ -43,7 +43,7 @@
           class="w-full h-64 object-cover group-hover:scale-105 transition-all duration-300"
         />
         <div
-          class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent opacity-70 group-hover:opacity-100 transition-all"
+          class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent opacity-90 group-hover:opacity-100 transition-all"
         ></div>
         <div class="absolute bottom-3 left-3">
           <h3 class="text-white font-[Gilroy-SemiBold] text-base line-clamp-1">
@@ -52,6 +52,15 @@
           <p class="text-gray-400 text-sm">
             {{ getYear(item) }} · ⭐ {{ item.vote_average?.toFixed(1) }}
           </p>
+          <div class="flex flex-wrap gap-2">
+            <span
+              v-for="genreName in getGenreNames(getGenreIdsFromMedia(item))"
+              :key="genreName"
+              class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40"
+            >
+              {{ genreName }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -73,6 +82,7 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useMediatore } from "../stores/mediaStore";
 import { useModalStore } from "../stores/modalStore";
+import { genreMap } from "../types/genres";
 import type { Media } from "../types/media";
 import FilterPanel from "../components/media/FilterPanel.vue";
 
@@ -98,6 +108,19 @@ function onFilterApply(newFilters: typeof filters.value) {
 // when user clicks "Clear"
 function onFilterClear() {
   filters.value = {};
+}
+
+function getGenreIdsFromMedia(media: any): number[] {
+  if (!media) return [];
+  if (Array.isArray(media.genre_ids)) return media.genre_ids;
+  if (Array.isArray(media.genres))
+    return media.genres.map((g: { id: number }) => g.id);
+  return [];
+}
+
+function getGenreNames(genreIds?: number[]) {
+  if (!genreIds || !genreIds.length) return ["Unknown"];
+  return genreIds.map((id) => genreMap[id]).filter(Boolean);
 }
 
 // 🔍 Filter logic

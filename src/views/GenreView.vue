@@ -10,11 +10,7 @@
       v-else-if="media.length"
       class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"
     >
-      <MediaCard
-        v-for="(media, index) in media"
-        :key="index"
-        :media="media"
-      />
+      <MediaCard v-for="(item, index) in media" :key="index" :media="item" />
     </div>
 
     <div v-else class="text-gray-400 text-center mt-8">
@@ -32,10 +28,15 @@ import { Media } from "../types/media";
 import MediaCard from "../components/media/MediaCard.vue";
 
 const route = useRoute();
-const genreName = route.params.name as string;
-const genreId = genreNameToId[genreName.toLowerCase()] ?? null;
-const media = ref<Media[]>([]);
 
+// ✅ Fix: safely extract genre name
+const genreParam = route.params.name;
+const genreName = Array.isArray(genreParam) ? genreParam[0] : genreParam;
+
+// ✅ Still convert to ID using your helper
+const genreId = genreNameToId[genreName.toLowerCase()] ?? null;
+
+const media = ref<Media[]>([]);
 const loading = ref(true);
 
 onMounted(async () => {
@@ -44,12 +45,5 @@ onMounted(async () => {
   const shows = await getShowsByGenre(genreId);
   media.value = [...movies, ...shows];
   loading.value = false;
-});
-
-onMounted(async () => {
-  if (!genreId) return;
-  const movies = await getMoviesByGenre(genreId);
-  const shows = await getShowsByGenre(genreId);
-  media.value = [...movies, ...shows];
 });
 </script>
