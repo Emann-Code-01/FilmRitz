@@ -8,7 +8,7 @@
       <input
         v-model="query"
         type="text"
-        placeholder="Search for movies, actors, or genres..."
+        placeholder="Search for movies, tv shows, or genres..."
         class="flex-1 bg-transparent outline-none text-white placeholder-gray-400 font-[Gilroy-Medium] text-lg"
         @keydown.enter="goToSearchPage"
       />
