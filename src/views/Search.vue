@@ -38,6 +38,7 @@
         @click="openMediaModal(item)"
       >
         <img
+          loading="lazy"
           :src="getPoster(item)"
           alt="Poster"
           class="w-full h-64 object-cover group-hover:scale-105 transition-all duration-300"

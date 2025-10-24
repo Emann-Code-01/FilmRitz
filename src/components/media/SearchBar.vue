@@ -45,6 +45,7 @@
         @click="selectMovie(item)"
       >
         <img
+          loading="lazy"
           :src="getPoster(item.poster_path)"
           alt="poster"
           class="w-14 h-20 object-cover rounded-lg shadow-md"

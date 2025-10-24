@@ -12,6 +12,7 @@ import ForgotPassword from "../components/auth/ForgotPassword.vue";
 import ResetPassword from "../components/auth/ResetPassword.vue";
 import { useAuthStore } from "../stores/auth";
 import GenreView from "../views/GenreView.vue";
+import TvDetails from "../components/media/TvDetails.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -50,6 +51,12 @@ const routes: RouteRecordRaw[] = [
         path: "watch/:id",
         name: "Watch",
         component: Watch,
+        props: true,
+      },
+      {
+        path: "/tv/:id",
+        name: "tv-details",
+        component: TvDetails,
         props: true,
       },
       {

@@ -32,6 +32,7 @@ function openModal() {
     @click="openModal"
   >
     <img
+      loading="lazy"
       :src="`https://image.tmdb.org/t/p/w500${media.poster_path}`"
       :alt="media.title"
       class="rounded-lg shadow-lg"

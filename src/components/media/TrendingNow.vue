@@ -38,6 +38,7 @@
             class="relative w-full cursor-pointer transition-all duration-500 animate-fade-up hover:scale-105 py-2 px-2 xl:px-5"
           >
             <img
+              loading="lazy"
               :src="`https://image.tmdb.org/t/p/w500${item.poster_path}`"
               @click="
                 modalStore.open(item.media_type, {
@@ -186,4 +187,3 @@ onMounted(() => {
   text-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.5);
 }
 </style>
-

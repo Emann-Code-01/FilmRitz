@@ -10,6 +10,7 @@
     <div class="flex justify-center items-center">
       <router-link to="/ng" class="cusor-pointer">
         <img
+          loading="lazy"
           :src="Logo"
           alt="Filmritz Logo"
           class="transition-all duration-900 animate-fade-up w-44 -ml-5 md:-ml-0"

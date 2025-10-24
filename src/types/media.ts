@@ -20,3 +20,29 @@ export interface Media {
   rating?: number;
   media_type: "movie" | "tv";
 }
+
+export interface Season {
+  id: number
+  season_number: number
+  name: string
+  overview: string
+  air_date?: string
+  poster_path?: string
+  episode_count: number
+}
+
+export interface Episode {
+  id: number
+  episode_number: number
+  name: string
+  overview: string
+  still_path?: string
+  air_date?: string
+  vote_average?: number
+}
+
+export interface TVShow extends Media {
+  number_of_seasons: number
+  number_of_episodes: number
+  seasons: Season[]
+}

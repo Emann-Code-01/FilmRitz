@@ -38,6 +38,15 @@
             >
               {{ genreName }}
             </span>
+
+            <span
+              v-if="isTv && media.number_of_seasons"
+              class="ml-2 text-lg text-gray-300 font-[Gilroy-SemiBold]"
+            >
+              {{ media.number_of_seasons }} Season{{
+                media.number_of_seasons > 1 ? "s" : ""
+              }}
+            </span>
           </div>
         </div>
 
@@ -103,6 +112,48 @@
         </button>
       </div>
     </div>
+
+    <!-- ✅ Show latest season only for TV shows -->
+    <div v-if="isTv && latestSeason" class="px-8 space-y-4 mt-10">
+      <h2 class="text-2xl font-[Gilroy-Bold]">Latest Season</h2>
+
+      <div
+        class="bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-all duration-300"
+      >
+        <div class="flex flex-col md:flex-row gap-4">
+          <img
+            loading="lazy"
+            v-if="latestSeason.poster_path"
+            :src="`https://image.tmdb.org/t/p/w300${latestSeason.poster_path}`"
+            alt="Season Poster"
+            class="w-40 h-56 rounded-xl object-cover"
+          />
+          <div>
+            <h3 class="text-xl font-[Gilroy-SemiBold] mb-1">
+              {{ latestSeason.name }}
+            </h3>
+            <p class="text-gray-400 font-[Gilroy-Medium] mb-2">
+              {{ latestSeason.episode_count }} Episodes
+            </p>
+            <p class="text-gray-300 font-[Gilroy-Medium] line-clamp-3">
+              {{ latestSeason.overview }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- View More Button -->
+      <div class="text-center">
+        <RouterLink
+          :to="`/tv/${media.id}`"
+          class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-[Gilroy-SemiBold] transition"
+        >
+          View More Seasons →
+        </RouterLink>
+      </div>
+    </div>
+
+    <TvDetails v-if="false" :tv="{ ...media, seasons: [latestSeason] }" />
 
     <div>
       <div
@@ -175,17 +226,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import { getMediaDetails } from "../../api/tmdb";
 import { genreMap } from "../../types/genres";
 import { useModalStore } from "../../stores/modalStore";
+import TvDetails from "./TvDetails.vue";
 
 const media = ref<any | null>(null);
 const cast = ref<any[]>([]);
 const similar = ref<any[]>([]);
 const error = ref<string | null>(null);
+const latestSeason = ref<any | null>(null);
 
 const loading = ref(false);
 const inWatchlist = ref(false);
@@ -193,6 +246,10 @@ const inWatchlist = ref(false);
 const route = useRoute();
 const router = useRouter();
 const modalStore = useModalStore();
+
+const isTv = computed(
+  () => route.params.type === "tv" || media.value?.media_type === "tv"
+);
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -203,7 +260,6 @@ const fetchDetails = async () => {
     const id = route.params.id as string;
     if (!id || id === ":id") return;
 
-    // detect media type from route (e.g., /ng/tv/:id or /ng/movie/:id)
     const isTv = route.path.includes("/tv/");
     const mediaType = isTv ? "tv" : "movie";
 
@@ -232,6 +288,12 @@ const fetchDetails = async () => {
         media_type: mediaType,
         title: r.title ?? r.name,
       }));
+
+    // ✅ Get latest season if TV show
+    if (mediaType === "tv" && detailsRes.data.seasons?.length) {
+      const seasons = detailsRes.data.seasons;
+      latestSeason.value = seasons[seasons.length - 1];
+    }
   } catch (err: any) {
     console.error("❌ Error fetching details:", err);
     error.value = "Couldn’t load details. Please refresh.";
@@ -263,7 +325,7 @@ watch(
 );
 
 watch(
-  () => modalStore.itemId, // or modalStore.movieId depending on your store
+  () => modalStore.itemId,
   async (id) => {
     if (!id) {
       media.value = null;
@@ -271,7 +333,6 @@ watch(
     }
 
     try {
-      // ✅ Safe cast here
       const type = (modalStore.mediaType ?? "movie") as "movie" | "tv";
       media.value = await getMediaDetails(id, type);
     } catch (error) {
