@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen text-white py-10 px-6 md:px-10 mt-10">
+  <div class="min-h-screen text-white py-10 px-6 md:px-10 mt-10 transition-all duration-900 animate-fade-up">
     <!-- Filter panel -->
     <FilterPanel @apply="onFilterApply" @clear="onFilterClear" />
 
@@ -57,7 +57,7 @@
             <span
               v-for="genreName in getGenreNames(getGenreIdsFromMedia(item))"
               :key="genreName"
-              class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40"
+              class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40 transition-all duration-200"
             >
               {{ genreName }}
             </span>

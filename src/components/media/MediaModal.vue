@@ -76,7 +76,7 @@
                     getGenreIdsFromMedia(media)
                   )"
                   :key="genreName"
-                  class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40"
+                  class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40 transition-all duration-200 cursor-pointer"
                 >
                   {{ genreName }}
                 </span>

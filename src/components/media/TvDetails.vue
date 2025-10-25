@@ -90,7 +90,7 @@
                 {{ ep.episode_number }}. {{ ep.name }}
               </p>
               <p class="text-sm text-gray-400 line-clamp-2">
-                {{ ep.overview || "No description" }}
+                {{ ep.overview }}
               </p>
             </div>
           </div>
