@@ -4,10 +4,12 @@
     class="relative w-full overflow-hidden h-screen bg-fixed bg-center bg-cover bg-no-repeat transition-all mb-9"
     :style="{ backgroundImage: `url('${bgUrl}')` }"
   >
-    <div v-if="!loaded" class="absolute inset-0 bg-black/80"></div>
-    <div
-      class="absolute inset-0 bg-[linear-gradient(to_bottom,_#000000CC_10%,_#00000099_50%,_#000000_100%)]"
-    ></div>
+    <span>
+      <div v-if="!loaded" class="absolute inset-0 bg-black/80"></div>
+      <div
+        class="absolute inset-0 bg-[linear-gradient(to_bottom,_#000000CC_10%,_#00000099_50%,_#000000_100%)]"
+      ></div>
+    </span>
 
     <div
       class="relative z-20 flex flex-col xl:pt-10 text-center items-center justify-center h-full text-white gap-7 transition-all duration-900 animate-fade-up"
@@ -95,9 +97,9 @@
   >
     <div
       v-if="loading"
-      class="text-white text-center bg-black/75 animate-pulse h-screen w-full items-center relative flex justify-center py-20 font-[Gilroy-SemiBold]"
+      class="text-white text-center bg-white/25 animate-pulse h-screen w-full items-center relative flex justify-center py-20 font-[Gilroy-SemiBold]"
     >
-      🎬 Loading Movie Slide...
+      Loading your content...
     </div>
     <div v-else-if="error" class="text-red-500 text-center py-20">
       {{ error }}

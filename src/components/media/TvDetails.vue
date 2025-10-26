@@ -101,7 +101,7 @@
       <div v-if="tv.seasons.length > 2" class="mt-4 text-center">
         <button
           @click="toggleSeasons"
-          class="px-5 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-[Gilroy-SemiBold] transition"
+          class="px-5 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-[Gilroy-SemiBold] transition cursor-pointer"
         >
           {{ showAllSeasons ? "View Less" : "View More" }}
         </button>

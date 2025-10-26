@@ -109,7 +109,7 @@ router.beforeEach(async (to, from, next) => {
   const visitedLogin = localStorage.getItem("visitedLogin");
 
   if (to.meta.requiresAuth && !isLoggedIn) {
-    return next("/login");
+    return next("/ng/login");
   }
 
   if (to.meta.guestOnly && isLoggedIn) {
@@ -120,7 +120,7 @@ router.beforeEach(async (to, from, next) => {
     ["/forgot-password", "/reset-password"].includes(to.path) &&
     !visitedLogin
   ) {
-    return next("/login");
+    return next("/ng/login");
   }
 
   if (to.name === "Splash" && from.name !== "Auth") {
