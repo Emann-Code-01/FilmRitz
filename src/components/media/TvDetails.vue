@@ -89,7 +89,7 @@
               <p class="font-[Gilroy-Medium]">
                 {{ ep.episode_number }}. {{ ep.name }}
               </p>
-              <p class="text-sm text-gray-400 line-clamp-2">
+              <p class="text-sm text-gray-400 font-[Gilroy-Regular] line-clamp-2">
                 {{ ep.overview }}
               </p>
             </div>
