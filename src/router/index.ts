@@ -37,24 +37,24 @@ const routes: RouteRecordRaw[] = [
         meta: { guestOnly: true },
       },
       {
-        path: "movie/:id",
+        path: "movie/:name", // changed from :id
         name: "MovieDetails",
         component: MovieDetails,
         props: true,
       },
       {
-        path: 'tv/:id',
+        path: 'tv/:name',
         name: 'TVDetails',
         component: MovieDetails,
       },
       {
-        path: "watch/:id",
+        path: "watch/:name",
         name: "Watch",
         component: Watch,
         props: true,
       },
       {
-        path: "/tv/:id",
+        path: "/tv/:name",
         name: "tv-details",
         component: TvDetails,
         props: true,

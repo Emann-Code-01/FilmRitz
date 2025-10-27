@@ -36,7 +36,7 @@
             </p>
           </div>
           <router-link
-            :to="`/ng/tv/${tv.id}`"
+            :to="`/ng/tv/${slugify(tv.name)}-${tv.id}`"
             class="inline-block px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-[Gilroy-SemiBold] transition"
           >
             View Full Details
@@ -127,7 +127,8 @@ const latestSeason = ref<any | null>(null);
 
 // ✅ Fetch TV details
 onMounted(async () => {
-  const id = Number(route.params.id);
+  const id = slugToId(route.params.name);
+  if (!id) return;
   tv.value = await getTVDetails(id);
   if (tv.value?.seasons?.length) {
     latestSeason.value = tv.value.seasons[tv.value.seasons.length - 1];
@@ -156,4 +157,26 @@ const displayedSeasons = computed(() => {
 function toggleSeasons() {
   showAllSeasons.value = !showAllSeasons.value;
 }
+
+// --- new helpers ---
+function slugToId(param: string | string[] | undefined): number | null {
+  if (!param) return null;
+  const raw = Array.isArray(param) ? param[0] : param;
+  const str = String(raw);
+  const m = str.match(/-(\d+)$/);
+  if (m) return Number(m[1]);
+  if (/^\d+$/.test(str)) return Number(str);
+  return null;
+}
+
+function slugify(str: string | undefined) {
+  if (!str) return "untitled";
+  return encodeURIComponent(
+    String(str)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "")
+  );
+}
+// --- end helpers ---
 </script>

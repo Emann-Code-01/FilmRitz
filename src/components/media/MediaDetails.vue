@@ -120,15 +120,15 @@
       <div
         class="bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-all duration-300"
       >
-        <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex md:flex-row gap-4">
           <img
             loading="lazy"
             v-if="latestSeason.poster_path"
-            :src="`https://image.tmdb.org/t/p/w300${latestSeason.poster_path}`"
+            :src="`https://image.tmdb.org/t/p/w1280${latestSeason.poster_path}`"
             alt="Season Poster"
             class="w-40 h-56 rounded-xl object-cover"
           />
-          <div>
+          <div class="self-end">
             <h3 class="text-xl font-[Gilroy-SemiBold] mb-1">
               {{ latestSeason.name }}
             </h3>
@@ -142,10 +142,9 @@
         </div>
       </div>
 
-      <!-- View More Button -->
       <div class="text-center">
         <RouterLink
-          :to="`/tv/${media.id}`"
+          :to="`/tv/${slugify(media.title)}-${media.id}`"
           class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-[Gilroy-SemiBold] transition"
         >
           View More Seasons →
@@ -253,24 +252,51 @@ const isTv = computed(
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
+function slugToId(param: string | string[] | undefined): number | null {
+  if (!param) return null;
+  const raw = Array.isArray(param) ? param[0] : param;
+  const str = String(raw);
+  // match trailing -<digits>
+  const m = str.match(/-(\d+)$/);
+  if (m) return Number(m[1]);
+  // if entire param is numeric
+  if (/^\d+$/.test(str)) return Number(str);
+  return null;
+}
+
+function slugify(str: string | undefined) {
+  if (!str) return "untitled";
+  return encodeURIComponent(
+    String(str)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "")
+  );
+}
+
 const fetchDetails = async () => {
   loading.value = true;
   error.value = null;
   try {
-    const id = route.params.id as string;
-    if (!id || id === ":id") return;
+    const rawParam = route.params.name;
+    const idNum = slugToId(rawParam);
+    if (!idNum) {
+      error.value = "Invalid media identifier.";
+      loading.value = false;
+      return;
+    }
 
-    const isTv = route.path.includes("/tv/");
-    const mediaType = isTv ? "tv" : "movie";
+    const isTvPath = route.path.includes("/tv/");
+    const mediaType = isTvPath ? "tv" : "movie";
 
     const [detailsRes, creditsRes, similarRes] = await Promise.all([
-      axios.get(`https://api.themoviedb.org/3/${mediaType}/${id}`, {
+      axios.get(`https://api.themoviedb.org/3/${mediaType}/${idNum}`, {
         params: { api_key: API_KEY, language: "en-US" },
       }),
-      axios.get(`https://api.themoviedb.org/3/${mediaType}/${id}/credits`, {
+      axios.get(`https://api.themoviedb.org/3/${mediaType}/${idNum}/credits`, {
         params: { api_key: API_KEY, language: "en-US" },
       }),
-      axios.get(`https://api.themoviedb.org/3/${mediaType}/${id}/similar`, {
+      axios.get(`https://api.themoviedb.org/3/${mediaType}/${idNum}/similar`, {
         params: { api_key: API_KEY, language: "en-US" },
       }),
     ]);
@@ -317,10 +343,11 @@ function getGenreNames(genreIds?: number[]) {
 
 onMounted(fetchDetails);
 
+// watch route.params.name instead of id
 watch(
-  () => route.params.id,
-  (newId) => {
-    if (newId && newId !== ":id") fetchDetails();
+  () => route.params.name,
+  (newName) => {
+    if (newName) fetchDetails();
   }
 );
 
@@ -343,7 +370,7 @@ watch(
 );
 
 function goToWatch() {
-  const id = route.params.id as string;
+  const id = route.params.name as string; // updated to name
   router.push(`#`);
 }
 

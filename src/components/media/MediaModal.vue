@@ -158,12 +158,23 @@ function truncateText(text: string, limit = 30) {
   return words.length > limit ? words.slice(0, limit).join(" ") + "..." : text;
 }
 
+function slugify(str: string | undefined) {
+  if (!str) return "untitled";
+  return encodeURIComponent(
+    String(str)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "")
+  );
+}
+
 const detailRoute = computed(() => {
   if (!media.value) return "/";
-  // Route to /ng/movie/:id or /ng/tv/:id depending on media_type
+  const title = media.value.title ?? media.value.name ?? "untitled";
+  const slug = `${slugify(title)}-${media.value.id}`;
   return media.value.media_type === "tv"
-    ? `/ng/tv/${media.value.id}`
-    : `/ng/movie/${media.value.id}`;
+    ? `/ng/tv/${slug}`
+    : `/ng/movie/${slug}`;
 });
 
 function getGenreIdsFromMedia(media: any): number[] {
