@@ -21,7 +21,6 @@ export const useAuthStore = defineStore("auth", {
       } else {
         this.user = data.user;
         localStorage.setItem("user", JSON.stringify(this.user));
-        window.location.href = "/ng/splash"; // ✅ redirect to splash
       }
     },
 
@@ -39,14 +38,13 @@ export const useAuthStore = defineStore("auth", {
       } else {
         this.user = data.user;
         localStorage.setItem("user", JSON.stringify(this.user));
-        window.location.href = "/ng/splash"; // ✅ redirect to splash
       }
     },
 
     async signOut() {
       await supabase.auth.signOut();
       this.user = null;
-      this.loaded = true; // prevent infinite "loading"
+      this.loaded = true;
       localStorage.removeItem("user");
     },
 

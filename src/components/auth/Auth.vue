@@ -112,12 +112,13 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
-import { supabase } from "../../lib/supabaseClient";
+// import { supabase } from "../../lib/supabaseClient";
 
 const auth = useAuthStore();
 const router = useRouter();
+const route = useRoute();
 
 const email = ref("");
 const password = ref("");
@@ -161,5 +162,8 @@ const handleAuth = async () => {
   if (!auth.error) {
     success.value = true;
   }
+
+  const redirectPath = (route.query.redirect as string) || "/ng";
+  router.push(redirectPath);
 };
 </script>

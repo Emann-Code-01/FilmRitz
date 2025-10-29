@@ -43,7 +43,7 @@
                     <span class="underline">Sign In</span>
                     <i class="pi pi-chevron-right text-lg"></i>
                 </router-link>
-            </div> -->
+      </div> -->
     </div>
   </div>
 </template>

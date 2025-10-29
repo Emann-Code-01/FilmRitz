@@ -93,29 +93,15 @@
             </DialogDescription>
 
             <div class="pt-3">
-              <router-link
-                v-if="!auth.isLoggedIn"
-                @click="modalStore.closeModal"
-                class="gap-3 bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500"
-                to="/ng/login"
+              <button
+                @click="handleProtectedRoute"
+                class="gap-3 bg-[#b20710] text-white flex items-center w-fit text-xl focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500 cursor-pointer"
               >
-                Sign In
+                {{ auth.isLoggedIn ? "Check Out" : "Sign In" }}
                 <i
                   class="pi pi-chevron-right text-xl group-hover:animate-pulse"
                 ></i>
-              </router-link>
-
-              <router-link
-                v-else
-                @click="modalStore.closeModal"
-                class="gap-3 bg-[#b20710] text-white focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500"
-                :to="detailRoute"
-              >
-                Check Out
-                <i
-                  class="pi pi-chevron-right text-xl group-hover:animate-pulse"
-                ></i>
-              </router-link>
+              </button>
             </div>
           </div>
         </DialogPanel>
@@ -143,7 +129,10 @@ import { useModalStore } from "../../stores/modalStore";
 import { getMediaDetails } from "../../api/tmdb";
 import { genreMap } from "../../types/genres";
 import { useAuthStore } from "../../stores/auth";
+import { useRouter, useRoute } from "vue-router";
 
+const router = useRouter();
+const route = useRoute();
 const auth = useAuthStore();
 const modalStore = useModalStore();
 const loading = ref(false);
@@ -188,6 +177,21 @@ function getGenreIdsFromMedia(media: any): number[] {
 function getGenreNames(genreIds?: number[]) {
   if (!genreIds || !genreIds.length) return ["Unknown"];
   return genreIds.map((id) => genreMap[id]).filter(Boolean);
+}
+
+function handleProtectedRoute() {
+  if (!auth.isLoggedIn) {
+    // ✅ Save where the user wanted to go
+    localStorage.setItem("redirectAfterLogin", detailRoute.value);
+
+    // ✅ Close the modal and go to login page
+    modalStore.closeModal();
+    router.push({ path: "/ng/login", query: { redirect: detailRoute.value } });
+  } else {
+    // ✅ If logged in, just go to the detail page
+    modalStore.closeModal();
+    router.push(detailRoute.value);
+  }
 }
 
 onMounted(async () => {

@@ -37,26 +37,31 @@ const routes: RouteRecordRaw[] = [
         meta: { guestOnly: true },
       },
       {
-        path: "movie/:name", // changed from :id
+        path: "movie/:name", //
         name: "MovieDetails",
         component: MovieDetails,
         props: true,
+        meta: { requiresAuth: true },
       },
       {
         path: 'tv/:name',
         name: 'TVDetails',
         component: MovieDetails,
+        meta: { requiresAuth: true },
+        props: true,
       },
       {
         path: "watch/:name",
         name: "Watch",
         component: Watch,
         props: true,
+        meta: { requiresAuth: true },
       },
       {
         path: "/tv/:name",
         name: "tv-details",
         component: TvDetails,
+        meta: { requiresAuth: true },
         props: true,
       },
       {
@@ -109,7 +114,7 @@ router.beforeEach(async (to, from, next) => {
   const visitedLogin = localStorage.getItem("visitedLogin");
 
   if (to.meta.requiresAuth && !isLoggedIn) {
-    return next("/ng/login");
+    return next({ name: "Auth", query: { redirect: to.fullPath } });
   }
 
   if (to.meta.guestOnly && isLoggedIn) {
