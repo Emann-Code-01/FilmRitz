@@ -7,7 +7,7 @@
       <label class="text-white font-semibold mb-1 block">Genre</label>
       <select
         v-model="localFilters.genre"
-        class="p-2 rounded bg-gray-800 text-white cursor-pointer"
+        class="p-2 rounded bg-gray-800 text-white cursor-pointer capitalize"
       >
         <option value="">All</option>
         <option v-for="genre in genres" :key="genre.id" :value="genre.id">
@@ -41,7 +41,6 @@
       />
     </div>
 
-    <!-- Type -->
     <div>
       <label class="text-white font-semibold mb-1 block">Type</label>
       <select
@@ -51,6 +50,18 @@
         <option value="">All</option>
         <option value="movie">Movie</option>
         <option value="tv">Series</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="text-white font-semibold mb-1 block">Sort By</label>
+      <select
+        v-model="localFilters.sort"
+        class="p-2 rounded bg-gray-800 text-white cursor-pointer"
+      >
+        <option value="">Default</option>
+        <option value="newest">Newest</option>
+        <option value="oldest">Oldest</option>
       </select>
     </div>
 
@@ -86,6 +97,7 @@ const localFilters = ref({
   year: null as number | null,
   rating: null as number | null,
   type: "",
+  sort: "",
 });
 
 // ✅ Use genreNameToId (name ➜ id)
@@ -102,12 +114,19 @@ function applyFilter() {
     year: localFilters.value.year,
     rating: localFilters.value.rating,
     type: localFilters.value.type,
+    sort: localFilters.value.sort, // ✅ include sort
   };
   emit("apply", appliedFilters);
 }
 
 function clearFilter() {
-  localFilters.value = { genre: "", year: null, rating: null, type: "" };
+  localFilters.value = {
+    genre: "",
+    year: null,
+    rating: null,
+    type: "",
+    sort: "", // ✅ reset sort too
+  };
   emit("clear");
 }
 </script>

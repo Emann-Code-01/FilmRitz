@@ -4,7 +4,9 @@
     <div
       class="relative h-[85vh] overflow-hidden"
       :style="{
-        backgroundImage: `url(https://image.tmdb.org/t/p/original${media.backdrop_path})`,
+        backgroundImage: media.backdrop_path
+          ? `url(${baseUrl + media.backdrop_path})`
+          : 'url(https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'norepeat',
@@ -245,6 +247,8 @@ const inWatchlist = ref(false);
 const route = useRoute();
 const router = useRouter();
 const modalStore = useModalStore();
+
+const baseUrl = "https://image.tmdb.org/t/p/w1280";
 
 const isTv = computed(
   () => route.params.type === "tv" || media.value?.media_type === "tv"

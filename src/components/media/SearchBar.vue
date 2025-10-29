@@ -46,7 +46,11 @@
       >
         <img
           loading="lazy"
-          :src="getPoster(item.poster_path)"
+          :src="
+            item.poster_path
+              ? getPoster(item.poster_path)
+              : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'
+          "
           alt="poster"
           class="w-14 h-20 object-cover rounded-lg shadow-md"
         />

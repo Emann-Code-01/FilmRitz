@@ -8,7 +8,7 @@ import {
   fetchUpcomingMovies,
   fetchTrendingTV,
   fetchTopRatedTV,
-  fetchUpcomingTV,
+  fetchOnTheAir,
   fetchTrendingMedia,
 } from "../api/tmdb";
 
@@ -103,7 +103,7 @@ export function useMedia() {
   const getUpcomingTV = async () => {
     loading.value = true;
     try {
-      upcomingTV.value = await fetchUpcomingTV();
+      upcomingTV.value = await fetchOnTheAir();
     } catch (err: any) {
       console.error("❌ Upcoming TV failed:", err);
       error.value = "Failed to fetch upcoming TV shows.";

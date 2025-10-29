@@ -22,7 +22,9 @@
               v-else
               class="absolute inset-0 bg-fixed bg-center bg-cover mx-auto bg-no-repeat transition-all duration-500 animate-fade-up"
               :style="{
-                backgroundImage: `url(${baseUrl + media.backdrop_path})`,
+                backgroundImage: media.backdrop_path
+                  ? `url(${baseUrl + media.backdrop_path})`
+                  : 'url(https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat)',
               }"
             ></div>
             <div
@@ -181,14 +183,11 @@ function getGenreNames(genreIds?: number[]) {
 
 function handleProtectedRoute() {
   if (!auth.isLoggedIn) {
-    // ✅ Save where the user wanted to go
     localStorage.setItem("redirectAfterLogin", detailRoute.value);
 
-    // ✅ Close the modal and go to login page
     modalStore.closeModal();
     router.push({ path: "/ng/login", query: { redirect: detailRoute.value } });
   } else {
-    // ✅ If logged in, just go to the detail page
     modalStore.closeModal();
     router.push(detailRoute.value);
   }

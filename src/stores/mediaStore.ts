@@ -19,6 +19,7 @@ export const useMediatore = defineStore("movieStore", {
       type: "" as "movie" | "tv" | "",
       year: null as number | null,
       rating: 0,
+      sort: "" as "newest" | "oldest" | "",
     },
     currentPage: 1,
     totalPages: 1,
@@ -93,7 +94,7 @@ export const useMediatore = defineStore("movieStore", {
 
     // 🎛 Apply Filters (genre, year, rating, type)
     applyFilters() {
-      this.filteredResults = this.searchResults.filter((media: Media) => {
+      let results = this.searchResults.filter((media: Media) => {
         const { genre, year, rating, type } = this.filter;
 
         if (genre && !media.genre_ids?.includes(genre)) return false;
@@ -111,6 +112,27 @@ export const useMediatore = defineStore("movieStore", {
 
         return true;
       });
+
+      // ✅ Sort by newest/oldest
+      if (this.filter.sort === "newest") {
+        results = results.sort((a, b) => {
+          const dateA =
+            new Date(a.release_date || a.first_air_date || 0).getTime() || 0;
+          const dateB =
+            new Date(b.release_date || b.first_air_date || 0).getTime() || 0;
+          return dateB - dateA; // newest first
+        });
+      } else if (this.filter.sort === "oldest") {
+        results = results.sort((a, b) => {
+          const dateA =
+            new Date(a.release_date || a.first_air_date || 0).getTime() || 0;
+          const dateB =
+            new Date(b.release_date || b.first_air_date || 0).getTime() || 0;
+          return dateA - dateB; // oldest first
+        });
+      }
+
+      this.filteredResults = results;
     },
   },
 });

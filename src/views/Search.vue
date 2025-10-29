@@ -1,5 +1,7 @@
 <template>
-  <div class="min-h-screen text-white py-10 px-6 md:px-10 mt-10 transition-all duration-900 animate-fade-up">
+  <div
+    class="min-h-screen text-white py-10 px-6 md:px-10 mt-10 transition-all duration-900 animate-fade-up"
+  >
     <!-- Filter panel -->
     <FilterPanel @apply="onFilterApply" @clear="onFilterClear" />
 
@@ -11,11 +13,12 @@
     </h1>
 
     <!-- Loading -->
-    <div
-      v-if="loading"
-      class="text-gray-400 text-center mt-10 font-[Gilroy-Bold]"
-    >
-      Loading results...
+    <div v-if="loading" class="flex space-x-4 overflow-x-auto py-4">
+      <div
+        v-for="n in 10"
+        :key="n"
+        class="w-48 h-80 bg-grey-900 rounded-md animate-pulse"
+      ></div>
     </div>
 
     <!-- Empty state -->
@@ -39,19 +42,24 @@
       >
         <img
           loading="lazy"
-          :src="getPoster(item)"
+          :src="
+            item
+              ? getPoster(item)
+              : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'
+          "
           alt="Poster"
           class="w-full h-64 object-cover group-hover:scale-105 transition-all duration-300"
         />
         <div
-          class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent opacity-90 group-hover:opacity-100 transition-all"
+          class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent opacity-100 group-hover:opacity-100 transition-all"
         ></div>
         <div class="absolute bottom-3 left-3">
           <h3 class="text-white font-[Gilroy-SemiBold] text-base line-clamp-1">
             {{ item.title || item.name }}
           </h3>
-          <p class="text-gray-400 text-sm">
-            {{ getYear(item) }} · ⭐ {{ item.vote_average?.toFixed(1) }}
+          <p class="text-gray-400 font-[Gilroy-Medium] text-sm">
+            {{ new Date(item?.release_date).getFullYear() }} · ⭐
+            {{ item.vote_average?.toFixed(1) }}
           </p>
           <div class="flex flex-wrap gap-2">
             <span
@@ -66,14 +74,13 @@
       </div>
     </div>
 
-    <!-- View More -->
-    <div v-if="filteredResults.length" class="text-center mt-6">
+    <div v-if="filteredResults.length > itemsPerPage" class="text-center mt-6">
       <button
-        @click="showMore"
+        @click="toggleView"
         :disabled="loading"
-        class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded font-[Gilroy-SemiBold] disabled:opacity-50"
+        class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded font-[Gilroy-SemiBold] disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {{ loading ? "Loading..." : "View More" }}
+        {{ loading ? "Loading..." : isExpanded ? "Show Less" : "View More" }}
       </button>
     </div>
   </div>
@@ -93,43 +100,25 @@ const store = useMediatore();
 const modalStore = useModalStore();
 
 const query = ref((route.query.q as string) || "");
+
 const loading = ref(false);
+const isExpanded = ref(false);
+
+const itemsPerPage = 10;
+
+const visibleCount = ref(itemsPerPage);
 
 const currentPage = ref(1);
-
 const filters = ref<{
   genre?: string;
   year?: number;
   rating?: number;
   type?: string;
+  sort?: string;
 }>({});
 
-// when user clicks "Apply" in FilterPanel
-function onFilterApply(newFilters: typeof filters.value) {
-  filters.value = newFilters;
-}
-
-// when user clicks "Clear"
-function onFilterClear() {
-  filters.value = {};
-}
-
-function getGenreIdsFromMedia(media: any): number[] {
-  if (!media) return [];
-  if (Array.isArray(media.genre_ids)) return media.genre_ids;
-  if (Array.isArray(media.genres))
-    return media.genres.map((g: { id: number }) => g.id);
-  return [];
-}
-
-function getGenreNames(genreIds?: number[]) {
-  if (!genreIds || !genreIds.length) return ["Unknown"];
-  return genreIds.map((id) => genreMap[id]).filter(Boolean);
-}
-
-// 🔍 Filter logic
-const filteredResults = computed(() =>
-  store.searchResults.filter((item: Media) => {
+const filteredResults = computed(() => {
+  let results = store.searchResults.filter((item: Media) => {
     if (
       filters.value.genre &&
       !item.genre_ids?.includes(Number(filters.value.genre))
@@ -147,15 +136,38 @@ const filteredResults = computed(() =>
       return false;
 
     return true;
-  })
-);
+  });
 
-const visibleResults = computed(() => filteredResults.value);
+  if (filters.value.sort === "newest") {
+    results = results.sort((a, b) => {
+      const dateA = new Date(a.release_date || a.first_air_date || 0).getTime();
+      const dateB = new Date(b.release_date || b.first_air_date || 0).getTime();
+      return dateB - dateA;
+    });
+  } else if (filters.value.sort === "oldest") {
+    results = results.sort((a, b) => {
+      const dateA = new Date(a.release_date || a.first_air_date || 0).getTime();
+      const dateB = new Date(b.release_date || b.first_air_date || 0).getTime();
+      return dateA - dateB;
+    });
+  }
+
+  return results;
+});
+
+const visibleResults = computed(() => {
+  return filteredResults.value.slice(0, visibleCount.value);
+});
 const showMore = async () => {
-  await fetchResults(query.value, currentPage.value + 1);
+  if (visibleCount.value < filteredResults.value.length) {
+    // just reveal more
+    visibleCount.value += itemsPerPage;
+  } else {
+    // fetch next page from API
+    await fetchResults(query.value, currentPage.value + 1);
+  }
 };
 
-// Fetch TMDB results
 async function fetchResults(searchQuery: string, page = 1) {
   if (!searchQuery.trim()) return;
   loading.value = true;
@@ -167,10 +179,56 @@ async function fetchResults(searchQuery: string, page = 1) {
   }
 }
 
-// Initial fetch
+function openMediaModal(item: Media) {
+  const type = item.media_type ?? "movie";
+  modalStore.open(type, { movieId: item.id });
+}
+
+function getPoster(item: any) {
+  return item.poster_path
+    ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
+    : "https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat";
+}
+
+function getYear(item: any) {
+  return item.media_type === "tv"
+    ? item.first_air_date?.slice(0, 4) ?? "-"
+    : item.release_date?.slice(0, 4) ?? "-";
+}
+
+function toggleView() {
+  if (isExpanded.value) {
+    // Collapse back to initial limit
+    visibleCount.value = itemsPerPage;
+  } else {
+    // Expand to show all results
+    showMore();
+  }
+  isExpanded.value = !isExpanded.value;
+}
+
+function onFilterApply(newFilters: typeof filters.value) {
+  filters.value = newFilters;
+}
+function onFilterClear() {
+  filters.value = {};
+}
+
+function getGenreIdsFromMedia(media: any): number[] {
+  if (!media) return [];
+  if (Array.isArray(media.genre_ids)) return media.genre_ids;
+  if (Array.isArray(media.genres))
+    return media.genres.map((g: { id: number }) => g.id);
+  return [];
+}
+
+function getGenreNames(genreIds?: number[]) {
+  if (!genreIds || !genreIds.length) return ["Unknown"];
+  return genreIds.map((id) => genreMap[id]).filter(Boolean);
+}
+
 onMounted(() => fetchResults(query.value));
 
-// Watch for query changes
 watch(
   () => route.query.q,
   (newQuery) => {
@@ -181,22 +239,11 @@ watch(
   }
 );
 
-// Modal open handler
-function openMediaModal(item: Media) {
-  const type = item.media_type ?? "movie";
-  modalStore.open(type, { movieId: item.id });
-}
-
-// Helpers
-function getPoster(item: any) {
-  return item.poster_path
-    ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
-    : "https://dummyimage.com/300x450/000/fff&text=No+Image";
-}
-
-function getYear(item: any) {
-  return item.media_type === "tv"
-    ? item.first_air_date?.slice(0, 4) ?? "-"
-    : item.release_date?.slice(0, 4) ?? "-";
-}
+watch(
+  () => query.value,
+  () => {
+    isExpanded.value = false;
+    visibleCount.value = itemsPerPage;
+  }
+);
 </script>

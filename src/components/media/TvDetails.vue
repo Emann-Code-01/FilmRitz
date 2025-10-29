@@ -7,9 +7,12 @@
         v-if="latestSeason"
         class="relative h-[70vh] mb-10 rounded-2xl overflow-hidden"
         :style="{
-          backgroundImage: `url(https://image.tmdb.org/t/p/original${
+          backgroundImage:
             latestSeason.poster_path || tv.backdrop_path
-          })`,
+              ? `url(https://image.tmdb.org/t/p/original${
+                  latestSeason.poster_path || tv.backdrop_path
+                })`
+              : 'url(https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }"
@@ -80,7 +83,11 @@
           >
             <img
               v-if="ep.still_path"
-              :src="`https://image.tmdb.org/t/p/w300${ep.still_path}`"
+              :src="
+                ep.still_path
+                  ? `https://image.tmdb.org/t/p/w300${ep.still_path}`
+                  : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'
+              "
               alt="Episode thumbnail"
               class="w-28 h-20 object-cover rounded-md"
               loading="lazy"
@@ -89,7 +96,9 @@
               <p class="font-[Gilroy-Medium]">
                 {{ ep.episode_number }}. {{ ep.name }}
               </p>
-              <p class="text-sm text-gray-400 font-[Gilroy-Regular] line-clamp-2">
+              <p
+                class="text-sm text-gray-400 font-[Gilroy-Regular] line-clamp-2"
+              >
                 {{ ep.overview }}
               </p>
             </div>

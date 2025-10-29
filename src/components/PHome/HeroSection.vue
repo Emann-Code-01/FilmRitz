@@ -123,7 +123,9 @@
         <div
           class="absolute top-0 inset-0 bg-fixed bg-center bg-cover w-full bg-no-repeat transition-all duration-500 animate-ease-in"
           :style="{
-            backgroundImage: `url(${baseUrl + item.backdrop_path})`,
+            backgroundImage: item.backdrop_path
+              ? `url(${baseUrl + item.backdrop_path})`
+              : 'url(https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat)',
           }"
         ></div>
 

@@ -92,7 +92,7 @@ export const fetchTopRatedTV = async (page = 1): Promise<TVShow[]> => {
 };
 
 // TMDB doesn’t have /tv/upcoming; use /tv/on_the_air or /tv/airing_today instead.
-export const fetchUpcomingTV = async (page = 1): Promise<TVShow[]> => {
+export const fetchOnTheAir = async (page = 1): Promise<TVShow[]> => {
   try {
     const res = await apiV3.get("/tv/on_the_air", { params: { page } });
     return (res.data.results || []).map((r: any) => normalize(r, "tv")) as TVShow[];

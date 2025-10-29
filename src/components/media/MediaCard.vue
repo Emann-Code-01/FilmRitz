@@ -33,7 +33,11 @@ function openModal() {
   >
     <img
       loading="lazy"
-      :src="`https://image.tmdb.org/t/p/w500${media.poster_path}`"
+      :src="
+        media.poster_path
+          ? `https://image.tmdb.org/t/p/w500${media.poster_path}`
+          : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'
+      "
       :alt="media.title"
       class="rounded-lg shadow-lg"
     />

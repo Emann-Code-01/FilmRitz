@@ -13,7 +13,11 @@
           loading="lazy"
           :src="Logo"
           alt="Filmritz Logo"
-          class="transition-all duration-900 animate-fade-up w-44 -ml-5 md:-ml-0"
+          :class="
+            auth.isLoggedIn
+              ? 'transition-all duration-900 animate-fade-up w-44 -ml-5'
+              : 'transition-all duration-900 animate-fade-up w-44 -ml-5 md:-ml-8'
+          "
         />
       </router-link>
       <div v-if="auth.isLoggedIn">
@@ -181,7 +185,7 @@ function openModal() {
 }
 
 function handleScroll() {
-  scrolled.value = window.scrollY > window.innerHeight * 0.2;
+  scrolled.value = window.scrollY > window.innerHeight * 0.08;
 }
 
 onMounted(() => {
