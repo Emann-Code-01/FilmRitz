@@ -51,7 +51,7 @@
           class="w-full h-64 object-cover group-hover:scale-105 transition-all duration-300"
         />
         <div
-          class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent opacity-100 group-hover:opacity-100 transition-all"
+          class="absolute inset-0 bg-linear-to-t from-black/90 via-transparent opacity-100 group-hover:opacity-100 transition-all"
         ></div>
         <div class="absolute bottom-3 left-3">
           <h3 class="text-white font-[Gilroy-SemiBold] text-base line-clamp-1">

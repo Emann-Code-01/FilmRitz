@@ -96,7 +96,7 @@
         <i class="pi pi-search text-gray-300 text-xl"></i>
       </button>
       <TransitionRoot appear :show="isOpen" as="template">
-        <Dialog as="div" @close="closeModal" class="relative z-[9999]">
+        <Dialog as="div" @close="closeModal" class="relative z-9999">
           <!-- Remove the full-page overlay if you only want it over the navbar -->
           <TransitionChild
             as="template"
@@ -108,7 +108,7 @@
             leave-to="opacity-0 -translate-y-5"
           >
             <div
-              class="fixed top-0 left-0 w-full z-[9999] h-18 pt-2.5 items-center justify-center backdrop-blur-md"
+              class="fixed top-0 left-0 w-full z-9999 h-18 pt-2.5 items-center justify-center backdrop-blur-md"
             >
               <SearchBar @close="closeModal" />
             </div>

@@ -207,7 +207,7 @@
               class="group"
             >
               <img
-                :src="`https://image.tmdb.org/t/p/w500${sim.poster_path}`"
+                :src="`https://image.tmdb.org/t/p/w-1280${sim.poster_path}`"
                 class="rounded-xl group-hover:opacity-80 group-hover:scale-105 transition-all duration-500"
                 loading="lazy"
               />

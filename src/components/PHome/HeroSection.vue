@@ -7,7 +7,7 @@
     <span>
       <div v-if="!loaded" class="absolute inset-0 bg-black/80"></div>
       <div
-        class="absolute inset-0 bg-[linear-gradient(to_bottom,_#000000CC_10%,_#00000099_50%,_#000000_100%)]"
+        class="absolute inset-0 bg-[linear-gradient(to_bottom,#000000CC_10%,#00000099_50%,#000000_100%)]"
       ></div>
     </span>
 
@@ -130,7 +130,7 @@
         ></div>
 
         <div
-          class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/90 flex flex-col justify-end p-10"
+          class="absolute inset-0 bg-linear-to-b from-black/70 via-black/30 to-black/90 flex flex-col justify-end p-10"
         >
           <h2 class="text-4xl font-[Gilroy-Bold] mb-3">
             {{ item.title || item.name }}

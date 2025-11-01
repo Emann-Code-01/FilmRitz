@@ -18,7 +18,7 @@
         }"
       >
         <div
-          class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"
+          class="absolute inset-0 bg-linear-to-t from-black via-black/70 to-transparent"
         ></div>
         <div
           class="absolute bottom-0 left-0 p-6 md:p-10 max-w-3xl space-y-3 animate-fade-up"
@@ -40,9 +40,11 @@
           </div>
           <router-link
             :to="`/ng/tv/${slugify(tv.name)}-${tv.id}`"
-            class="inline-block px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-[Gilroy-SemiBold] transition"
+            class="inline-block place-items-center gap-3 justify-center px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-[Gilroy-SemiBold] transition"
           >
-            View Full Details
+            <span class="flex items-center gap-2"
+              ><i class="pi pi-arrow-left"></i>Back</span
+            >
           </router-link>
         </div>
       </div>
@@ -65,6 +67,10 @@
             <p class="text-gray-400 font-[Gilroy-SemiBold]">
               {{ season.episode_count }} Episodes
             </p>
+            <span class="text-[Gilroy-Bold] text-3xl">·</span>
+            <p class="text-gray-400 font-[Gilroy-SemiBold]">
+              {{ season.air_date }}
+            </p>
           </div>
           <p class="text-gray-400 font-[Gilroy-Medium] line-clamp-3">
             {{ season.overview }}
@@ -79,6 +85,7 @@
           <div
             v-for="ep in episodes"
             :key="ep.id"
+            @click="openModal(ep)"
             class="flex gap-4 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition"
           >
             <img
@@ -104,6 +111,91 @@
             </div>
           </div>
         </div>
+
+        <!-- ✅ Episode Modal (Single) -->
+        <TransitionRoot :show="isOpen" as="template">
+          <Dialog
+            as="div"
+            @close="closeModal"
+            class="relative z-50 transition-all duration-200"
+          >
+            <div class="fixed inset-0 flex items-center justify-center p-4">
+              <div
+                class="absolute inset-0 bg-[linear-gradient(to_bottom,#000000CC_10%,#000000_50%)]"
+              ></div>
+
+              <DialogPanel
+                v-if="selectedEpisode"
+                class="relative w-full max-w-4xl h-[40em] overflow-hidden rounded-xl text-white shadow-xl"
+              >
+                <div>
+                  <div
+                    class="absolute inset-0 bg-black/50 bg-fixed bg-center bg-cover mx-auto bg-no-repeat transition-all duration-300 animate-pulse"
+                    v-if="loading"
+                  ></div>
+                  <div
+                    v-else
+                    class="absolute inset-0 bg-fixed bg-center bg-cover mx-auto bg-no-repeat transition-all duration-500 animate-fade-up"
+                    :style="{
+                      backgroundImage: selectedEpisode.still_path
+                        ? `url(${baseUrl + selectedEpisode.still_path})`
+                        : 'url(https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat)',
+                    }"
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-linear-to-t from-black/80 via-black/50 to-transparent"
+                  ></div>
+                </div>
+
+                <button
+                  @click="closeModal"
+                  class="hover:bg-white/30 absolute top-5 right-5 rounded-full p-1 cursor-pointer transition-all duration-300"
+                >
+                  <svg
+                    viewBox="0 0 36 36"
+                    width="36"
+                    height="36"
+                    class="transform -rotate-45"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    role="img"
+                    loading="lazy"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M17 17V3H19V17H33V19H19V33H17V19H3V17H17Z"
+                      fill="currentColor"
+                    ></path>
+                  </svg>
+                </button>
+
+                <div class="absolute bottom-0 left-0 z-10 p-6 space-y-3">
+                  <DialogTitle
+                    as="h2"
+                    class="md:text-6xl text-3xl font-[Gilroy-Bold]"
+                    >{{ selectedEpisode.name }}</DialogTitle
+                  >
+                  <div class="flex items-center gap-4">
+                    <span
+                      class="px-2 py-1 bg-green-700 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]"
+                    >
+                      {{ selectedEpisode?.vote_average?.toFixed(1) }}
+                    </span>
+                    <span class="text-sm font-[Gilroy-Medium]">{{
+                      selectedEpisode.air_date
+                    }}</span>
+                  </div>
+                  <DialogDescription
+                    class="mt-3 max-w-2xl text-xl font-[Gilroy-Medium]"
+                  >
+                    {{ selectedEpisode.overview }}
+                  </DialogDescription>
+                </div>
+              </DialogPanel>
+            </div>
+          </Dialog>
+        </TransitionRoot>
       </div>
 
       <!-- ✅ View More / View Less Button -->
@@ -126,13 +218,24 @@ import { ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { getTVDetails, getTVSeasonDetails } from "../../api/tmdb";
 import type { TVShow, Episode } from "../../types/media";
+import {
+  TransitionRoot,
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  DialogDescription,
+} from "@headlessui/vue";
 
 const route = useRoute();
 const tv = ref<TVShow | null>(null);
 const episodes = ref<Episode[]>([]);
 const selectedSeason = ref<number | null>(null);
 const showAllSeasons = ref(false);
+const isOpen = ref(false);
 const latestSeason = ref<any | null>(null);
+const loading = ref(false);
+const selectedEpisode = ref<Episode | null>(null); // ✅ only one episode
+const baseUrl = "https://image.tmdb.org/t/p/w1280";
 
 // ✅ Fetch TV details
 onMounted(async () => {
@@ -167,7 +270,7 @@ function toggleSeasons() {
   showAllSeasons.value = !showAllSeasons.value;
 }
 
-// --- new helpers ---
+// --- helpers ---
 function slugToId(param: string | string[] | undefined): number | null {
   if (!param) return null;
   const raw = Array.isArray(param) ? param[0] : param;
@@ -188,4 +291,14 @@ function slugify(str: string | undefined) {
   );
 }
 // --- end helpers ---
+
+function closeModal() {
+  isOpen.value = false;
+  selectedEpisode.value = null;
+}
+
+function openModal(ep: Episode) {
+  selectedEpisode.value = ep;
+  isOpen.value = true;
+}
 </script>

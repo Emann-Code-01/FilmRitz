@@ -7,7 +7,7 @@
     >
       <div class="fixed inset-0 flex items-center justify-center p-4">
         <div
-          class="absolute inset-0 bg-[linear-gradient(to_bottom,_#000000CC_10%,#000000_50%)]"
+          class="absolute inset-0 bg-[linear-gradient(to_bottom,#000000CC_10%,#000000_50%)]"
         ></div>
         <DialogPanel
           v-if="media"
@@ -28,7 +28,7 @@
               }"
             ></div>
             <div
-              class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"
+              class="absolute inset-0 bg-linear-to-t from-black/80 via-black/50 to-transparent"
             ></div>
           </div>
 

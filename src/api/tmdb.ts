@@ -266,7 +266,7 @@ export const searchMoviesAndShows = async (
   });
 };
 
-export function getPoster(path: string | null, size: string = "w500") {
+export function getPoster(path: string | null, size: string = "w-1280") {
   if (!path) return "/no-poster.jpg";
   return `https://image.tmdb.org/t/p/${size}${path}`;
 }
