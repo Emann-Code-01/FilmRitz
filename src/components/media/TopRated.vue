@@ -21,13 +21,14 @@
     >
       <Swiper
         :modules="[Navigation]"
-        :slidesPerGroup="4"
+        :s:modules="[Navigation]"
+        :slidesPerGroup="3"
         :loop="false"
-        :navigation="{ nextEl: '.custom-next', prevEl: '.custom-prev' }"
+        :navigation="{ nextEl: '.trending-next', prevEl: '.trending-prev' }"
         :breakpoints="{
           320: { slidesPerView: 2, spaceBetween: 4, slidesPerGroup: 2 },
-          640: { slidesPerView: 3, spaceBetween: 10 },
-          1024: { slidesPerView: 5, spaceBetween: 12 },
+          640: { slidesPerView: 3.5, spaceBetween: 10 },
+          1024: { slidesPerView: 5.5, spaceBetween: 12 },
         }"
         class="netflix-swiper transition-all duration-900 animate-fade-up mySwiper w-full"
         @reachBeginning="atBeginning = true"

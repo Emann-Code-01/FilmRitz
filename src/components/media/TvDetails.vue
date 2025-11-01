@@ -97,7 +97,7 @@
                 {{ ep.episode_number }}. {{ ep.name }}
               </p>
               <p
-                class="text-sm text-gray-400 font-[Gilroy-Regular] line-clamp-2"
+                class="text-sm text-gray-400 font-[Gilroy-Regular] line-clamp-3"
               >
                 {{ ep.overview }}
               </p>

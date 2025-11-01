@@ -26,7 +26,7 @@ try {
 	// ignore localStorage/url errors
 }
 
-injectSpeedInsights();	
+injectSpeedInsights();
 
 const app = createApp(App);
 const pinia = createPinia();
