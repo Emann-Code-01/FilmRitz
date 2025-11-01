@@ -19,20 +19,13 @@
         @reachBeginning="atBeginning = true" @reachEnd="atEnd = true" @fromEdge="resetEdges">
         <SwiperSlide v-for="(item, index) in top10" :key="item.id">
           <div
-            class="relative w-full cursor-pointer transition-all duration-500 animate-fade-up hover:scale-105 py-2 px-2 xl:px-5"
-          >
-            <img
-              :src="
-                item.backdrop_path
-                  ? `https://image.tmdb.org/t/p/w500${item.backdrop_path}`
-                  : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'
-              "
-              @click="openModal(item)"
-              sizes="(max-width: 640px) 300px, (max-width: 1024px) 500px, 780px"
-              :alt="item.title"
-              loading="lazy"
-              class="rounded-md hover:rounded-md w-full h-80 object-cover transition-all duration-500 animate-fade-up mx-5"
-            />
+            class="relative w-full cursor-pointer transition-all duration-500 animate-fade-up hover:scale-105 py-2 px-2 xl:px-5">
+            <img :src="item.backdrop_path
+                ? `https://image.tmdb.org/t/p/w500${item.backdrop_path}`
+                : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'
+              " @click="openModal(item)" sizes="(max-width: 640px) 300px, (max-width: 1024px) 500px, 780px"
+              :alt="item.title" loading="lazy"
+              class="rounded-md hover:rounded-md w-full h-80 object-cover transition-all duration-500 animate-fade-up mx-5" />
             <span>
               <div v-if="!auth.isLoggedIn" class="absolute left-2 bottom-3 flex items-center">
                 <div class="flex flex-col">
@@ -161,12 +154,40 @@ function getGenreNames(genreIds?: number[]) {
 <style scoped>
 .netflix-swiper .swiper-button-prev,
 .netflix-swiper .swiper-button-next {
-  @apply absolute top-1/2 -translate-y-1/2 z-10 w-12 h-24 flex items-center justify-center bg-[#000000]/50 text-[#ffffff] rounded-md cursor-pointer opacity-0 transition-opacity duration-300;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 3rem;
+  /* w-12 */
+  height: 6rem;
+  /* h-24 */
+  display: flex;
+  /* flex */
+  align-items: center;
+  /* items-center */
+  justify-content: center;
+  /* justify-center */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* bg-[#000000]/50 */
+  color: #ffffff;
+  /* text-[#ffffff] */
+  border-radius: 0.375rem;
+  /* rounded-md */
+  cursor: pointer;
+  /* cursor-pointer */
+  opacity: 0;
+  /* opacity-0 */
+  transition-property: opacity;
+  /* transition-opacity */
+  transition-duration: 300ms;
+  /* duration-300 */
 }
 
 .netflix-swiper:hover .swiper-button-prev,
 .netflix-swiper:hover .swiper-button-next {
-  @apply opacity-100;
+  opacity: 1;
+  /* opacity-100 */
 }
 
 .image-style {
