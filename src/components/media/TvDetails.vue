@@ -80,7 +80,7 @@
 
         <!-- ✅ Episode Modal (Single) -->
         <TransitionRoot :show="isOpen" as="template">
-          <Dialog as="div" @close="closeModal" class="relative z-50 transition-all duration-200">
+          <Dialog as="div" @click="closeModal" class="relative z-10 transition-all duration-200">
             <div class="fixed inset-0 flex items-center justify-center p-4">
               <div class="absolute inset-0 bg-[linear-gradient(to_bottom,#000000CC_10%,#000000_50%)]"></div>
 
