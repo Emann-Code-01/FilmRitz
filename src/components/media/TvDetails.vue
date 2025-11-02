@@ -110,9 +110,14 @@
               </button>
 
               <div class="absolute bottom-0 left-0 z-10 p-6 space-y-3">
-                <DialogTitle as="h2" class="md:text-6xl text-3xl font-[Gilroy-Bold]">
+                <DialogTitle as="h2" class="text-3xl font-[Gilroy-Bold]">
                   {{ selectedEpisode.name }}
                 </DialogTitle>
+                <div class="text-gray-400 font-[Gilroy-Medium]">
+                  {{ selectedEpisode.season_number
+                    ? `Season ${selectedEpisode.season_number}`
+                    : "" }} • Episode {{ selectedEpisode.episode_number }}
+                </div>
                 <div class="flex items-center gap-4">
                   <span class="px-2 py-1 bg-green-700 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]">
                     {{ selectedEpisode?.vote_average?.toFixed(1) }}
@@ -121,7 +126,7 @@
                     {{ selectedEpisode.air_date }}
                   </span>
                 </div>
-                <DialogDescription class="mt-3 max-w-2xl text-xl font-[Gilroy-Medium]">
+                <DialogDescription class="mt-3 max-w-2xl text-lg font-[Gilroy-Medium]">
                   {{ selectedEpisode.overview }}
                 </DialogDescription>
               </div>
@@ -165,7 +170,7 @@ const showAllSeasons = ref(false);
 const isOpen = ref(false);
 const latestSeason = ref<any | null>(null);
 const loading = ref(false);
-const selectedEpisode = ref<Episode | null>(null); // ✅ only one episode
+const selectedEpisode = ref<Episode | null>(null);
 const baseUrl = "https://image.tmdb.org/t/p/w1280";
 
 // ✅ Fetch TV details

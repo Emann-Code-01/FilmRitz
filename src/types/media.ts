@@ -34,6 +34,7 @@ export interface Season {
 export interface Episode {
   id: number
   episode_number: number
+  season_number: number
   name: string
   overview: string
   still_path?: string
