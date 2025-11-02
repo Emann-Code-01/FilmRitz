@@ -1,50 +1,36 @@
 <!-- src/views/MediaDetails.vue -->
 <template>
   <section v-if="media" class="space-y-8">
-    <div
-      class="relative h-[85vh] overflow-hidden"
-      :style="{
-        backgroundImage: media.backdrop_path
-          ? `url(${baseUrl + media.backdrop_path})`
-          : 'url(https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'norepeat',
-      }"
-    >
-      <div
-        class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"
-      ></div>
+    <div class="relative h-[85vh] overflow-hidden" :style="{
+      backgroundImage: media.backdrop_path
+        ? `url(${baseUrl + media.backdrop_path})`
+        : 'url(https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'norepeat',
+    }">
+      <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
 
       <div
-        class="absolute bottom-0 hidden md:flex flex-col md:left-8 max-w-5xl space-y-3 transition-all duration-500 animate-fade-up"
-      >
+        class="absolute bottom-0 hidden md:flex flex-col md:left-8 max-w-5xl space-y-3 transition-all duration-500 animate-fade-up">
         <h1 class="text-4xl font-[Gilroy-Bold]">{{ media.title }}</h1>
         <p class="text-lg text-gray-300 font-[Gilroy-Medium]">
           {{ media.overview }}
         </p>
         <div class="flex items-center gap-4">
-          <span
-            class="px-2 py-1 bg-green-700 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]"
-          >
+          <span class="px-2 py-1 bg-green-700 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]">
             {{ media?.vote_average?.toFixed(1) }}
           </span>
           <span class="text-sm font-[Gilroy-Medium]">{{
             new Date(media?.release_date).getFullYear()
           }}</span>
           <div class="flex flex-wrap gap-2">
-            <span
-              v-for="genreName in getGenreNames(getGenreIdsFromMedia(media))"
-              :key="genreName"
-              class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40 transition-all duration-200"
-            >
+            <span v-for="genreName in getGenreNames(getGenreIdsFromMedia(media))" :key="genreName"
+              class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40 transition-all duration-200">
               {{ genreName }}
             </span>
 
-            <span
-              v-if="isTv && media.number_of_seasons"
-              class="ml-2 text-lg text-gray-300 font-[Gilroy-SemiBold]"
-            >
+            <span v-if="isTv && media.number_of_seasons" class="ml-2 text-lg text-gray-300 font-[Gilroy-SemiBold]">
               {{ media.number_of_seasons }} Season{{
                 media.number_of_seasons > 1 ? "s" : ""
               }}
@@ -52,19 +38,13 @@
           </div>
         </div>
 
-        <div
-          class="flex gap-3 mt-4 transition-all duration-500 animate-fade-up"
-        >
-          <button
-            @click="goToWatch"
-            class="px-4 py-2 bg-red-600 rounded-xl hover:bg-red-700 font-[Gilroy-SemiBold]bold flex items-center gap-2"
-          >
+        <div class="flex gap-3 mt-4 transition-all duration-500 animate-fade-up">
+          <button @click="goToWatch"
+            class="px-4 py-2 bg-red-600 rounded-xl hover:bg-red-700 font-[Gilroy-SemiBold]bold flex items-center gap-2">
             ▶ Watch
           </button>
-          <button
-            @click="toggleWatchlist"
-            class="px-4 py-2 bg-gray-800 rounded-xl hover:bg-gray-700 flex items-center gap-2 font-[Gilroy-Medium]"
-          >
+          <button @click="toggleWatchlist"
+            class="px-4 py-2 bg-gray-800 rounded-xl hover:bg-gray-700 flex items-center gap-2 font-[Gilroy-Medium]">
             <span v-if="inWatchlist">✓ Added</span>
             <span v-else>＋ My List</span>
           </button>
@@ -78,9 +58,7 @@
         {{ media.overview }}
       </p>
       <div class="flex items-center gap-4">
-        <span
-          class="px-2 py-1 bg-green-700 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]"
-        >
+        <span class="px-2 py-1 bg-green-700 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]">
           {{ media?.vote_average?.toFixed(1) }}
         </span>
         <span class="text-sm font-[Gilroy-Medium]">{{
@@ -89,26 +67,19 @@
       </div>
 
       <div class="space-x-3">
-        <span
-          v-for="genreName in getGenreNames(getGenreIdsFromMedia(media))"
-          :key="genreName"
-          class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40"
-        >
+        <span v-for="genreName in getGenreNames(getGenreIdsFromMedia(media))" :key="genreName"
+          class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40">
           {{ genreName }}
         </span>
       </div>
 
       <div class="flex gap-3 transition-all duration-500 animate-fade-up">
-        <button
-          @click="goToWatch"
-          class="px-4 py-2 bg-red-600 rounded-xl hover:bg-red-700 font-[Gilroy-SemiBold]bold flex items-center gap-2"
-        >
+        <button @click="goToWatch"
+          class="px-4 py-2 bg-red-600 rounded-xl hover:bg-red-700 font-[Gilroy-SemiBold]bold flex items-center gap-2">
           ▶ Watch
         </button>
-        <button
-          @click="toggleWatchlist"
-          class="px-4 py-2 bg-gray-800 rounded-xl hover:bg-gray-700 flex items-center gap-2 font-[Gilroy-Medium]"
-        >
+        <button @click="toggleWatchlist"
+          class="px-4 py-2 bg-gray-800 rounded-xl hover:bg-gray-700 flex items-center gap-2 font-[Gilroy-Medium]">
           <span v-if="inWatchlist">✓ Added</span>
           <span v-else>＋ My List</span>
         </button>
@@ -119,17 +90,11 @@
     <div v-if="isTv && latestSeason" class="px-8 space-y-4 mt-10">
       <h2 class="text-2xl font-[Gilroy-Bold]">Latest Season</h2>
 
-      <div
-        class="bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-all duration-300"
-      >
+      <div class="bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-all duration-300">
         <div class="flex md:flex-row gap-4">
-          <img
-            loading="lazy"
-            v-if="latestSeason.poster_path"
-            :src="`https://image.tmdb.org/t/p/w1280${latestSeason.poster_path}`"
-            alt="Season Poster"
-            class="w-40 h-56 rounded-xl object-cover"
-          />
+          <img loading="lazy" v-if="latestSeason.poster_path"
+            :src="`https://image.tmdb.org/t/p/w1280${latestSeason.poster_path}`" alt="Season Poster"
+            class="w-40 h-56 rounded-xl object-cover" />
           <div class="self-end">
             <h3 class="text-xl font-[Gilroy-SemiBold] mb-1">
               {{ latestSeason.name }}
@@ -145,10 +110,8 @@
       </div>
 
       <div class="text-center">
-        <RouterLink
-          :to="`/tv/${slugify(media.title)}-${media.id}`"
-          class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-[Gilroy-SemiBold] transition"
-        >
+        <RouterLink :to="`/tv/${slugify(media.title)}-${media.id}`"
+          class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-[Gilroy-SemiBold] transition">
           View More Seasons →
         </RouterLink>
       </div>
@@ -157,25 +120,12 @@
     <TvDetails v-if="false" :tv="{ ...media, seasons: [latestSeason] }" />
 
     <div>
-      <div
-        v-if="cast.length"
-        class="space-y-3 transition-all duration-500 animate-fade-up px-8 py-3"
-      >
+      <div v-if="cast.length" class="space-y-3 transition-all duration-500 animate-fade-up px-8 py-3">
         <h2 class="text-xl font-[Gilroy-Bold]">Cast</h2>
-        <div
-          class="flex gap-4 overflow-x-auto pb-3 transition-all duration-900 animate-fade-up"
-        >
-          <div
-            v-for="actor in cast"
-            :key="actor.id"
-            class="flex-shrink-0 w-28 text-center py-3"
-          >
-            <img
-              v-if="actor.profile_path"
-              :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
-              loading="lazy"
-              class="rounded-xl mb-1 hover:scale-105 transition-all duration-300"
-            />
+        <div class="flex gap-4 overflow-x-auto pb-3 transition-all duration-900 animate-fade-up">
+          <div v-for="actor in cast" :key="actor.id" class="flex-shrink-0 w-28 text-center py-3">
+            <img v-if="actor.profile_path" :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`" loading="lazy"
+              class="rounded-xl mb-1 hover:scale-105 transition-all duration-300" />
             <p class="text-sm font-[Gilroy-SemiBold] line-clamp-1">
               {{ actor.name }}
             </p>
@@ -189,28 +139,19 @@
 
     <div>
       <div v-if="loading" class="flex space-x-4 overflow-x-auto py-4">
-        <div
-          v-for="n in 5"
-          :key="n"
-          class="w-48 h-80 bg-amber-900 rounded-md animate-pulse"
-        ></div>
+        <div v-for="n in 5" :key="n" class="w-48 h-80 bg-amber-900 rounded-md animate-pulse"></div>
       </div>
 
       <div v-else>
         <div v-if="similar.length" class="space-y-3 px-8">
           <h2 class="text-xl font-[Gilroy-Bold]">Similar Titles</h2>
           <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <router-link
-              v-for="sim in similar"
-              :key="sim.id"
-              :to="simRoute(sim)"
-              class="group"
-            >
-              <img
-                :src="`https://image.tmdb.org/t/p/w-1280${sim.poster_path}`"
+            <router-link v-for="sim in similar" :key="sim.id" :to="simRoute(sim)" class="group">
+              <img :src="sim.poster_path
+                ? `https://image.tmdb.org/t/p/w1280${sim.poster_path}`
+                : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'"
                 class="rounded-xl group-hover:opacity-80 group-hover:scale-105 transition-all duration-500"
-                loading="lazy"
-              />
+                loading="lazy" />
             </router-link>
           </div>
         </div>
@@ -218,10 +159,7 @@
     </div>
   </section>
 
-  <div
-    v-else
-    class="h-[80vh] flex items-center gap-3 justify-center text-gray-400"
-  >
+  <div v-else class="h-[80vh] flex items-center gap-3 justify-center text-gray-400">
     <i class="pi pi-spin pi-spinner"></i>Loading details...
   </div>
 </template>
