@@ -148,7 +148,7 @@
           <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
             <router-link v-for="sim in similar" :key="sim.id" :to="simRoute(sim)" class="group">
               <img :src="sim.poster_path
-                ? `https://image.tmdb.org/t/p/w1280${sim.poster_path}`
+                ? `https://image.tmdb.org/t/p/w300${sim.poster_path}`
                 : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'"
                 class="rounded-xl group-hover:opacity-80 group-hover:scale-105 transition-all duration-500"
                 loading="lazy" />
@@ -321,6 +321,10 @@ function toggleWatchlist() {
 }
 
 function simRoute(sim: any) {
-  return sim.media_type === "tv" ? `/ng/tv/${sim.id}` : `/ng/movie/${sim.id}`;
+  const slug = slugify(sim.title || sim.name);
+  return sim.media_type === "tv"
+    ? `/tv/${slugify(sim.title || sim.name)}-${sim.id}`
+    : `/movie/${slugify(sim.title || sim.name)}-${sim.id}`;
 }
+
 </script>
