@@ -1,7 +1,6 @@
 <template>
   <div
-    class="relative w-full h-screen overflow-hidden bg-black flex flex-col justify-center items-center text-center text-white animate-pulse"
-  >
+    class="relative w-full h-screen overflow-hidden bg-black flex flex-col justify-center items-center text-center text-white animate-pulse">
     <div class="absolute inset-0 bg-white/10"></div>
 
     <div class="z-10 flex flex-col items-center gap-6 px-6">
@@ -18,9 +17,7 @@
       </div>
 
       <!-- Input + Button placeholder -->
-      <div
-        class="flex flex-col md:flex-row gap-3 mt-4 w-full md:w-auto justify-center"
-      >
+      <div class="flex flex-col md:flex-row gap-3 mt-4 w-full md:w-auto justify-center">
         <div class="h-12 w-80 bg-white/20 rounded"></div>
         <div class="h-12 w-40 bg-red-700/60 rounded"></div>
       </div>

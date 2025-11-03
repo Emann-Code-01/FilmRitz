@@ -11,7 +11,7 @@
 
     <div v-else class="container relative transition-all duration-900 animate-fade-up">
       <Swiper :modules="[Navigation]" :s:modules="[Navigation]" :slidesPerGroup="3" :loop="false"
-        :navigation="{ nextEl: '.trending-next', prevEl: '.trending-prev' }" :breakpoints="{
+        :navigation="{ nextEl: '.custom-next', prevEl: '.custom-prev' }" :breakpoints="{
           320: { slidesPerView: 2, spaceBetween: 4, slidesPerGroup: 2 },
           640: { slidesPerView: 3.5, spaceBetween: 10 },
           1024: { slidesPerView: 5.5, spaceBetween: 12 },
@@ -21,8 +21,8 @@
           <div
             class="relative w-full cursor-pointer transition-all duration-500 animate-fade-up hover:scale-105 py-2 px-2 xl:px-5">
             <img :src="item.backdrop_path
-                ? `https://image.tmdb.org/t/p/w500${item.backdrop_path}`
-                : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'
+              ? `https://image.tmdb.org/t/p/w500${item.backdrop_path}`
+              : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'
               " @click="openModal(item)" sizes="(max-width: 640px) 300px, (max-width: 1024px) 500px, 780px"
               :alt="item.title" loading="lazy"
               class="rounded-md hover:rounded-md w-full h-80 object-cover transition-all duration-500 animate-fade-up mx-5" />

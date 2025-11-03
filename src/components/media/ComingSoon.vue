@@ -11,7 +11,7 @@
 
     <div v-else class="container relative transition-all duration-900 animate-fade-up">
       <Swiper :modules="[Navigation]" :slidesPerGroup="3" :loop="false"
-        :navigation="{ nextEl: '.trending-next', prevEl: '.trending-prev' }" :breakpoints="{
+        :navigation="{ nextEl: '.comingsoon-next', prevEl: '.comingsoon-prev' }" :breakpoints="{
           320: { slidesPerView: 2, spaceBetween: 4, slidesPerGroup: 2 },
           640: { slidesPerView: 3.5, spaceBetween: 10 },
           1024: { slidesPerView: 5.5, spaceBetween: 12 },
