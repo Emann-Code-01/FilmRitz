@@ -147,10 +147,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { getTVDetails, getTVSeasonDetails } from "../../api/tmdb";
 import type { TVShow, Episode } from "../../types/media";
+import { useHead } from '@vueuse/head'
 import {
   TransitionRoot,
   Dialog,
@@ -170,6 +171,13 @@ const latestSeason = ref<any | null>(null);
 const loading = ref(false);
 const selectedEpisode = ref<Episode | null>(null);
 const baseUrl = "https://image.tmdb.org/t/p/w1280";
+
+useHead({
+  title: 'FilmRitz | Stream Your Favorite TV Shows',
+  meta: [
+    { name: 'description', content: 'Explore and stream trending TV shows on FilmRitz.' },
+  ],
+})
 
 // ✅ Fetch TV details
 onMounted(async () => {
@@ -235,4 +243,60 @@ function openModal(ep: Episode) {
   selectedEpisode.value = ep;
   isOpen.value = true;
 }
+
+watch(tv, (newTv) => {
+  if (!newTv) return
+
+  const title = newTv.name || 'FilmRitz — Discover Movies & TV Series'
+  const description =
+    newTv.overview?.length > 150
+      ? newTv.overview.slice(0, 147) + '...'
+      : newTv.overview || 'Stream your favorite TV shows on FilmRitz.'
+
+  const image = newTv.backdrop_path
+    ? `https://image.tmdb.org/t/p/w1280${newTv.backdrop_path}`
+    : 'https://filmritz.vercel.app/default-og.jpg'
+
+  useHead({
+    title: `${title} | FilmRitz — Discover Movies & TV Series`,
+    meta: [
+      { name: 'description', content: description },
+      { name: 'keywords', content: `${title}, FilmRitz, TV show, series, streaming, episodes` },
+
+      // Open Graph / Facebook
+      { property: 'og:title', content: `${title} | FilmRitz` },
+      { property: 'og:description', content: description },
+      { property: 'og:image', content: image },
+      { property: 'og:type', content: 'video.tv_show' },
+      { property: 'og:url', content: `https://filmritz.vercel.app${route.fullPath}` },
+
+      // Twitter
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: `${title} | FilmRitz` },
+      { name: 'twitter:description', content: description },
+      { name: 'twitter:image', content: image },
+    ],
+    link: [
+      { rel: 'canonical', href: `https://filmritz.vercel.app${route.fullPath}` },
+    ],
+    script: [
+      {
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'TVSeries',
+          name: title,
+          description,
+          image,
+          numberOfSeasons: newTv.number_of_seasons,
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: newTv.vote_average?.toFixed(1),
+            bestRating: '10',
+          },
+        }),
+      },
+    ],
+  })
+})
 </script>

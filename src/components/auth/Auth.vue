@@ -1,10 +1,8 @@
 <template>
   <div
-    class="min-h-screen flex items-center justify-center md:bg-[linear-gradient(to_top_left,_rgba(229,9,20,0.65)_0%,_rgba(255,75,0,0.55)_25%,_rgba(25,25,50,0.75)_75%,_rgba(0,0,10,0.85)_100%)] px-4 transition-all duration-700 animate-fade-up"
-  >
+    class="min-h-screen flex items-center justify-center md:bg-[linear-gradient(to_top_left,_rgba(229,9,20,0.65)_0%,_rgba(255,75,0,0.55)_25%,_rgba(25,25,50,0.75)_75%,_rgba(0,0,10,0.85)_100%)] px-4 transition-all duration-700 animate-fade-up">
     <div
-      class="bg-[#0b0b0f]/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl w-full max-w-md border border-white/10 relative mt-18"
-    >
+      class="bg-[#0b0b0f]/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl w-full max-w-md border border-white/10 relative mt-18">
       <h1 class="text-3xl font-[Gilroy-Bold] text-white mb-6 text-center">
         {{
           isSignUp ? "Create a FilmRitz Account" : "Welcome Back to FilmRitz"
@@ -14,61 +12,35 @@
       <form @submit.prevent="handleAuth" class="space-y-5">
         <!-- Email -->
         <div>
-          <label for="email" class="block text-gray-300 text-sm mb-2"
-            >Email</label
-          >
-          <input
-            id="email"
-            name="email"
-            v-model="email"
-            type="email"
-            autocomplete="email"
-            placeholder="Enter your email"
-            required
-            class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 caret-white focus:ring-red-600 focus:outline-none"
-          />
+          <label for="email" class="block text-gray-300 text-sm mb-2">Email</label>
+          <input id="email" name="email" v-model="email" type="email" autocomplete="email"
+            placeholder="Enter your email" required
+            class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 caret-white focus:ring-red-600 focus:outline-none" />
         </div>
 
         <div
-          class="flex items-center w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus-within:ring-2 caret-white focus:ring-red-600 focus:outline-none"
-        >
-          <input
-            id="password"
-            name="password"
-            v-model="password"
-            :type="showPassword ? 'text' : 'password'"
-            :autocomplete="isSignUp ? 'new-password' : 'current-password'"
-            placeholder="Enter your password"
-            required
-            minlength="6"
-            class="flex-1 bg-transparent outline-none text-white placeholder-gray-400"
-          />
+          class="flex items-center w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus-within:ring-2 caret-white focus:ring-red-600 focus:outline-none">
+          <input id="password" name="password" v-model="password" :type="showPassword ? 'text' : 'password'"
+            :autocomplete="isSignUp ? 'new-password' : 'current-password'" placeholder="Enter your password" required
+            minlength="6" class="flex-1 bg-transparent outline-none text-white placeholder-gray-400" />
 
           <!-- 👁 Toggle password visibility -->
-          <button
-            v-if="password"
-            type="button"
-            @click="togglePassword"
-            class="text-gray-400 hover:text-white transition-all duration-200 focus:outline-none"
-          >
+          <button v-if="password" type="button" @click="togglePassword"
+            class="text-gray-400 hover:text-white transition-all duration-200 focus:outline-none">
             <i :class="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
           </button>
         </div>
 
-        <button
-          ref="initialFocus"
-          type="submit"
-          :disabled="auth.loading"
-          class="w-full py-3 rounded-lg bg-red-600 hover:bg-red-700 transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer font-[Gilroy-SemiBold] text-white"
-        >
+        <button ref="initialFocus" type="submit" :disabled="auth.loading"
+          class="w-full py-3 rounded-lg bg-red-600 hover:bg-red-700 transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer font-[Gilroy-SemiBold] text-white">
           {{
             auth.loading
               ? isSignUp
                 ? "Creating Account..."
                 : "Signing In..."
               : isSignUp
-              ? "Sign Up"
-              : "Sign In"
+                ? "Sign Up"
+                : "Sign In"
           }}
         </button>
 
@@ -87,21 +59,15 @@
       <div class="text-center mt-6">
         <p class="text-gray-400 text-sm">
           {{ isSignUp ? "Already have an account?" : "Don’t have an account?" }}
-          <button
-            ref="initialFocus"
-            @click="toggleMode"
-            class="text-red-500 hover:underline font-medium cursor-pointer"
-          >
+          <button ref="initialFocus" @click="toggleMode"
+            class="text-red-500 hover:underline font-medium cursor-pointer">
             {{ isSignUp ? "Sign In" : "Sign Up" }}
           </button>
         </p>
         <h1>OR</h1>
         <p class="text-sm text-gray-400">
           Forgot your password?
-          <button
-            @click="goToForgotPassword"
-            class="text-indigo-400 hover:underline cursor-pointer"
-          >
+          <button @click="goToForgotPassword" class="text-indigo-400 hover:underline cursor-pointer">
             Reset it
           </button>
         </p>
@@ -111,9 +77,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
+import { useHead } from "@vueuse/head";
 // import { supabase } from "../../lib/supabaseClient";
 
 const auth = useAuthStore();
@@ -166,4 +133,54 @@ const handleAuth = async () => {
   const redirectPath = (route.query.redirect as string) || "/ng";
   router.push(redirectPath);
 };
+
+const pageTitle = computed(() =>
+  isSignUp.value
+    ? "Create Account | FilmRitz — Discover Movies & TV Series"
+    : "Sign In | FilmRitz — Discover Movies & TV Series"
+)
+
+const ogTitle = computed(() =>
+  isSignUp.value ? "Create Your FilmRitz Account" : "Welcome Back to FilmRitz"
+)
+
+const twitterTitle = computed(() =>
+  isSignUp.value ? "Join FilmRitz Today" : "Sign In to FilmRitz"
+)
+
+useHead({
+  title: pageTitle,
+  meta: [
+    {
+      name: "description",
+      content:
+        "Sign in or create your FilmRitz account to explore, save, and stream your favorite movies and series with ease.",
+    },
+    {
+      name: "keywords",
+      content:
+        "FilmRitz, movie login, FilmRitz account, film streaming, create account, sign in",
+    },
+    { property: "og:title", content: ogTitle },
+    {
+      property: "og:description",
+      content:
+        "Join FilmRitz — your personalized movie and TV discovery platform. Log in or sign up to start watching.",
+    },
+    {
+      property: "og:image",
+      content: "https://filmritz.vercel.app/filmritz-og-image.jpg",
+    },
+    { property: "og:type", content: "website" },
+    { property: "og:url", content: "https://filmritz.vercel.app/auth" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: twitterTitle },
+    {
+      name: "twitter:description",
+      content:
+        "Sign in or create your FilmRitz account to explore and stream your favorite movies and shows.",
+    },
+  ],
+  link: [{ rel: "canonical", href: "https://filmritz.vercel.app/auth" }],
+})
 </script>

@@ -172,6 +172,7 @@ import { getMediaDetails } from "../../api/tmdb";
 import { genreMap } from "../../types/genres";
 import { useModalStore } from "../../stores/modalStore";
 import TvDetails from "./TvDetails.vue";
+import { useHead } from '@vueuse/head'
 
 const media = ref<any | null>(null);
 const cast = ref<any[]>([]);
@@ -310,6 +311,95 @@ watch(
     }
   }
 );
+
+watch(media, (newMedia) => {
+  if (!newMedia) return
+
+  const title = newMedia.title || newMedia.name || 'FilmRitz — Discover Movies & TV Series'
+  const description =
+    newMedia.overview?.length > 150
+      ? newMedia.overview.slice(0, 147) + '...'
+      : newMedia.overview || 'Watch movies and TV shows on FilmRitz.'
+
+  const image = newMedia.backdrop_path
+    ? `https://image.tmdb.org/t/p/w1280${newMedia.backdrop_path}`
+    : 'https://filmritz.vercel.app/default-og.jpg'
+
+  useHead({
+    title: `${title} | FilmRitz — Discover Movies & TV Series`,
+    meta: [
+      {
+        name: 'description',
+        content: description,
+      },
+      {
+        property: 'og:title',
+        content: `${title} | FilmRitz`,
+      },
+      {
+        property: 'og:description',
+        content: description,
+      },
+      {
+        property: 'og:image',
+        content: image,
+      },
+      {
+        property: 'og:type',
+        content: 'video.movie',
+      },
+      {
+        property: 'og:url',
+        content: `https://filmritz.vercel.app${route.fullPath}`,
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
+      {
+        name: 'twitter:title',
+        content: `${title} | FilmRitz`,
+      },
+      {
+        name: 'twitter:description',
+        content: description,
+      },
+      {
+        name: 'twitter:image',
+        content: image,
+      },
+      {
+        name: 'keywords',
+        content: `${title}, FilmRitz, movies, streaming, ${isTv.value ? 'TV shows, series' : 'films, cinema'
+          }`,
+      },
+    ],
+    link: [
+      {
+        rel: 'canonical',
+        href: `https://filmritz.vercel.app${route.fullPath}`,
+      },
+    ],
+    script: [
+      {
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': isTv.value ? 'TVSeries' : 'Movie',
+          name: title,
+          description,
+          image,
+          datePublished: newMedia.release_date || newMedia.first_air_date,
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: newMedia.vote_average?.toFixed(1),
+            bestRating: '10',
+          },
+        }),
+      },
+    ],
+  })
+})
 
 function goToWatch() {
   const id = route.params.name as string; // updated to name

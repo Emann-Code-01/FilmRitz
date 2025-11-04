@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { createHead } from '@vueuse/head'
 import { createPinia } from "pinia";
 import './assets/style.css'
 import App from './App.vue'
@@ -28,7 +29,8 @@ try {
 
 injectSpeedInsights();
 
-const app = createApp(App);
+const app = createApp(App)
+const head = createHead()
 const pinia = createPinia();
-app.use(router).use(pinia).mount('#app');
+app.use(router).use(head).use(pinia).mount('#app');
 

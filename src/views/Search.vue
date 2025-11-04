@@ -1,58 +1,36 @@
 <template>
-  <div
-    class="min-h-screen text-white py-10 px-6 md:px-10 mt-10 transition-all duration-900 animate-fade-up"
-  >
+  <div class="min-h-screen text-white py-10 px-6 md:px-10 mt-10 transition-all duration-900 animate-fade-up">
     <!-- Filter panel -->
     <FilterPanel @apply="onFilterApply" @clear="onFilterClear" />
 
     <h1 class="text-2xl font-[Gilroy-SemiBold] mb-6">
       Search results for "<span class="text-red-500 font-[Gilroy-Bold]">{{
         query
-      }}</span
-      >"
+      }}</span>"
     </h1>
 
     <!-- Loading -->
     <div v-if="loading" class="flex space-x-4 overflow-x-auto py-4">
-      <div
-        v-for="n in 10"
-        :key="n"
-        class="w-48 h-80 bg-grey-900 rounded-md animate-pulse"
-      ></div>
+      <div v-for="n in 10" :key="n" class="w-48 h-80 bg-grey-900 rounded-md animate-pulse"></div>
     </div>
 
     <!-- Empty state -->
-    <div
-      v-else-if="filteredResults.length === 0"
-      class="text-gray-500 text-center mt-10 font-[Gilroy-Bold]"
-    >
+    <div v-else-if="filteredResults.length === 0" class="text-gray-500 text-center mt-10 font-[Gilroy-Bold]">
       No results found.
     </div>
 
     <!-- Results grid -->
-    <div
-      v-else
-      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
-    >
-      <div
-        v-for="item in visibleResults"
-        :key="item.id + '-' + (item.media_type || 'unknown')"
+    <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+      <div v-for="item in visibleResults" :key="item.id + '-' + (item.media_type || 'unknown')"
         class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 transition-all border border-white/10 hover:border-red-500/40"
-        @click="openMediaModal(item)"
-      >
-        <img
-          loading="lazy"
-          :src="
-            item
-              ? getPoster(item)
-              : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'
-          "
-          alt="Poster"
-          class="w-full h-64 object-cover group-hover:scale-105 transition-all duration-300"
-        />
+        @click="openMediaModal(item)">
+        <img loading="lazy" :src="item
+          ? getPoster(item)
+          : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'
+          " alt="Poster" class="w-full h-64 object-cover group-hover:scale-105 transition-all duration-300" />
         <div
-          class="absolute inset-0 bg-linear-to-t from-black/90 via-transparent opacity-100 group-hover:opacity-100 transition-all"
-        ></div>
+          class="absolute inset-0 bg-linear-to-t from-black/90 via-transparent opacity-100 group-hover:opacity-100 transition-all">
+        </div>
         <div class="absolute bottom-3 left-3">
           <h3 class="text-white font-[Gilroy-SemiBold] text-base line-clamp-1">
             {{ item.title || item.name }}
@@ -62,11 +40,8 @@
             {{ item.vote_average?.toFixed(1) }}
           </p>
           <div class="flex flex-wrap gap-2">
-            <span
-              v-for="genreName in getGenreNames(getGenreIdsFromMedia(item))"
-              :key="genreName"
-              class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40 transition-all duration-200"
-            >
+            <span v-for="genreName in getGenreNames(getGenreIdsFromMedia(item))" :key="genreName"
+              class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40 transition-all duration-200">
               {{ genreName }}
             </span>
           </div>
@@ -75,11 +50,8 @@
     </div>
 
     <div v-if="filteredResults.length > itemsPerPage" class="text-center mt-6">
-      <button
-        @click="toggleView"
-        :disabled="loading"
-        class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded font-[Gilroy-SemiBold] disabled:opacity-50 disabled:cursor-not-allowed"
-      >
+      <button @click="toggleView" :disabled="loading"
+        class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded font-[Gilroy-SemiBold] disabled:opacity-50 disabled:cursor-not-allowed">
         {{ loading ? "Loading..." : isExpanded ? "Show Less" : "View More" }}
       </button>
     </div>
@@ -94,6 +66,7 @@ import { useModalStore } from "../stores/modalStore";
 import { genreMap } from "../types/genres";
 import type { Media } from "../types/media";
 import FilterPanel from "../components/media/FilterPanel.vue";
+import { useHead } from '@vueuse/head'
 
 const route = useRoute();
 const store = useMediatore();
@@ -178,6 +151,65 @@ async function fetchResults(searchQuery: string, page = 1) {
     loading.value = false;
   }
 }
+
+useHead({
+  title: 'Search | FilmRitz — Discover Movies & TV Series',
+  meta: [
+    {
+      name: 'description',
+      content: 'Search movies and TV shows on FilmRitz — find your next favorite title.',
+    },
+    { name: 'keywords', content: 'FilmRitz, search, movies, tv shows, streaming' },
+  ],
+  link: [
+    { rel: 'canonical', href: 'https://filmritz.vercel.app/search' },
+  ],
+})
+
+// --- Dynamic SEO based on user query ---
+watch(
+  () => query.value,
+  (newQuery) => {
+    if (!newQuery) return
+    const title = `Search results for "${newQuery}" | FilmRitz — Discover Movies & TV Series`
+    const description = `Explore movies, series, and shows related to "${newQuery}" on FilmRitz.`
+
+    useHead({
+      title,
+      meta: [
+        { name: 'description', content: description },
+        { name: 'keywords', content: `${newQuery}, movies, tv shows, streaming, FilmRitz` },
+
+        // Open Graph / Facebook
+        { property: 'og:title', content: title },
+        { property: 'og:description', content: description },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: `https://filmritz.vercel.app/search?q=${encodeURIComponent(newQuery)}` },
+        { property: 'og:image', content: 'https://filmritz.vercel.app/default-og.jpg' },
+
+        // Twitter
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: title },
+        { name: 'twitter:description', content: description },
+        { name: 'twitter:image', content: 'https://filmritz.vercel.app/default-og.jpg' },
+      ],
+      link: [
+        { rel: 'canonical', href: `https://filmritz.vercel.app/search?q=${encodeURIComponent(newQuery)}` },
+      ],
+      script: [
+        {
+          type: 'application/ld+json',
+          children: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'SearchAction',
+            target: `https://filmritz.vercel.app/search?q={search_term_string}`,
+            'query-input': 'required name=search_term_string',
+          }),
+        },
+      ],
+    })
+  }
+)
 
 function openMediaModal(item: Media) {
   const type = item.media_type ?? "movie";

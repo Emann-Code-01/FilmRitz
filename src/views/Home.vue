@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div
-      v-if="!auth.loaded"
-      class="flex items-center justify-center min-h-screen text-white"
-    >
+    <div v-if="!auth.loaded" class="flex items-center justify-center min-h-screen text-white">
       <p class="animate-pulse text-lg tracking-wide">
         Yo, welcome back to FilmRitz — we’ve been expecting you! Let’s dive into
         what’s trending. 🎬
@@ -48,6 +45,21 @@ import BlockSection from "../components/PHome/BlockSection.vue";
 import TrendingNow from "../components/media/TrendingNow.vue";
 import TopRated from "../components/media/TopRated.vue";
 import upComing from "../components/media/ComingSoon.vue";
+import { useHead } from '@vueuse/head';
+
+useHead({
+  title: 'FilmRitz — Discover Movies & TV Series',
+  meta: [
+    { name: 'description', content: 'Explore trending movies, shows, and actors in a sleek, tactical interface.' },
+    { name: 'keywords', content: 'filmritz, movies, tv shows, vue project' },
+    { property: 'og:title', content: 'FilmRitz — Discover Movies & Series' },
+    { property: 'og:description', content: 'Your gateway to trending films and series.' },
+    { property: 'og:image', content: '/filmritz-preview.png' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'robots', content: 'index, follow' },
+    { name: 'twitter:image', content: '/filmritz-preview.png' },
+  ]
+})
 
 const auth = useAuthStore();
 const isLoggedIn = computed(() => auth.isLoggedIn);

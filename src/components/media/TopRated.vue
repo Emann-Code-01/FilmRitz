@@ -46,7 +46,7 @@
                   </p>
                 </div>
               </div>
-              <div v-else class="absolute bottom-5 left-12 flex flex-col">
+              <div v-else class="absolute bottom-5 left-8 md:left-12 flex flex-col">
                 <h3 class="text-gray-300 text-xl font-[Gilroy-SemiBold] drop-shadow-lg max-w-sm">
                   {{ item.title || item.name }}
                 </h3>

@@ -21,8 +21,8 @@
           <div
             class="relative w-full cursor-pointer transition-all duration-500 animate-fade-up hover:scale-105 py-2 px-2 xl:px-5">
             <img loading="lazy" :src="item.backdrop_path
-                ? `https://image.tmdb.org/t/p/w500${item.backdrop_path}`
-                : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'
+              ? `https://image.tmdb.org/t/p/w500${item.backdrop_path}`
+              : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'
               " @click="openModal(item)" sizes="(max-width: 640px) 300px, (max-width: 1024px) 500px, 780px"
               :alt="item.title"
               class="rounded-md hover:rounded-md w-full transition-all h-80 object-cover duration-500 animate-fade-up mx-5" />
@@ -46,7 +46,7 @@
                   </p>
                 </div>
               </div>
-              <div v-else class="absolute bottom-5 left-12 flex flex-col">
+              <div v-else class="absolute bottom-5 left-8 md:left-12 flex flex-col">
                 <h3 class="text-gray-300 text-xl font-[Gilroy-SemiBold] drop-shadow-lg max-w-sm">
                   {{ item.title || item.name }}
                 </h3>
