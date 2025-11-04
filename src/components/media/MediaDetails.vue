@@ -172,7 +172,7 @@ import { getMediaDetails } from "../../api/tmdb";
 import { genreMap } from "../../types/genres";
 import { useModalStore } from "../../stores/modalStore";
 import TvDetails from "./TvDetails.vue";
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 
 const media = ref<any | null>(null);
 const cast = ref<any[]>([]);

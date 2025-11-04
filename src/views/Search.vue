@@ -66,7 +66,7 @@ import { useModalStore } from "../stores/modalStore";
 import { genreMap } from "../types/genres";
 import type { Media } from "../types/media";
 import FilterPanel from "../components/media/FilterPanel.vue";
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 
 const route = useRoute();
 const store = useMediatore();

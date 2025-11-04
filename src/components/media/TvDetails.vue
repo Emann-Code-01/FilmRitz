@@ -151,7 +151,7 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { getTVDetails, getTVSeasonDetails } from "../../api/tmdb";
 import type { TVShow, Episode } from "../../types/media";
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 import {
   TransitionRoot,
   Dialog,

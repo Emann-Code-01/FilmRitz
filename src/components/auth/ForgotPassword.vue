@@ -47,7 +47,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useHead } from '@vueuse/head';
+import { useHead } from '@unhead/vue';
 import { supabase } from "../../lib/supabaseClient";
 
 const email = ref("");

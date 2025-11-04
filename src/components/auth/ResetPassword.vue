@@ -63,7 +63,7 @@
 import { ref } from "vue";
 import { supabase } from "../../lib/supabaseClient";
 import { useRouter } from "vue-router";
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 
 const router = useRouter();
 const newPassword = ref("");

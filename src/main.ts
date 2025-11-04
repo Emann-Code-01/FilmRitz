@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import { createHead } from '@vueuse/head'
+import { createHead } from '@unhead/vue'
 import { createPinia } from "pinia";
 import './assets/style.css'
 import App from './App.vue'

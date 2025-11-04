@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, computed } from "vue";
 import { useAuthStore } from "../stores/auth";
 import HeroSection from "../components/PHome/HeroSection.vue";
 import SubPreview from "../components/PHome/SubPreview.vue";
@@ -45,7 +45,7 @@ import BlockSection from "../components/PHome/BlockSection.vue";
 import TrendingNow from "../components/media/TrendingNow.vue";
 import TopRated from "../components/media/TopRated.vue";
 import upComing from "../components/media/ComingSoon.vue";
-import { useHead } from '@vueuse/head';
+import { useHead } from '@unhead/vue';
 
 useHead({
   title: 'FilmRitz — Discover Movies & TV Series',
