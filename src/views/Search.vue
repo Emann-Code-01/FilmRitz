@@ -162,7 +162,7 @@ useHead({
     { name: 'keywords', content: 'FilmRitz, search, movies, tv shows, streaming' },
   ],
   link: [
-    { rel: 'canonical', href: 'https://filmritz.vercel.app/search' },
+    { rel: 'canonical', href: 'https://filmritz.vercel.app/ng/search' },
   ],
 })
 
@@ -184,17 +184,17 @@ watch(
         { property: 'og:title', content: title },
         { property: 'og:description', content: description },
         { property: 'og:type', content: 'website' },
-        { property: 'og:url', content: `https://filmritz.vercel.app/search?q=${encodeURIComponent(newQuery)}` },
-        { property: 'og:image', content: 'https://filmritz.vercel.app/default-og.jpg' },
+        { property: 'og:url', content: `https://filmritz.vercel.app/ng/search?q=${encodeURIComponent(newQuery)}` },
+        { property: 'og:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
 
         // Twitter
         { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:title', content: title },
         { name: 'twitter:description', content: description },
-        { name: 'twitter:image', content: 'https://filmritz.vercel.app/default-og.jpg' },
+        { name: 'twitter:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
       ],
       link: [
-        { rel: 'canonical', href: `https://filmritz.vercel.app/search?q=${encodeURIComponent(newQuery)}` },
+        { rel: 'canonical', href: `https://filmritz.vercel.app/ng/search?q=${encodeURIComponent(newQuery)}` },
       ],
       script: [
         {

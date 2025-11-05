@@ -103,28 +103,28 @@ useHead({
     },
 
     // Open Graph (for Facebook / LinkedIn)
-    { property: 'og:title', content: 'Forgot Password | FilmRitz' },
+    { property: 'og:title', content: 'Forgot Password | FilmRitz — Discover Movies & TV Series' },
     {
       property: 'og:description',
       content:
         'Forgot your password? Get a reset link to recover your FilmRitz account and continue exploring movies and shows.',
     },
     { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: 'https://filmritz.vercel.app/forgot-password' },
-    { property: 'og:image', content: 'https://filmritz.vercel.app/default-og.jpg' },
+    { property: 'og:url', content: 'https://filmritz.vercel.app/ng/forgot-password' },
+    { property: 'og:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
 
     // Twitter Card
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: 'Forgot Password | FilmRitz' },
+    { name: 'twitter:title', content: 'Forgot Password | FilmRitz — Discover Movies & TV Series' },
     {
       name: 'twitter:description',
       content:
         'Recover your FilmRitz account easily — request a password reset link sent to your email address.',
     },
-    { name: 'twitter:image', content: 'https://filmritz.vercel.app/default-og.jpg' },
+    { name: 'twitter:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
   ],
   link: [
-    { rel: 'canonical', href: 'https://filmritz.vercel.app/forgot-password' },
+    { rel: 'canonical', href: 'https://filmritz.vercel.app/ng/forgot-password' },
   ],
 })
 </script>

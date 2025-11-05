@@ -35,8 +35,8 @@ useHead({
         'This FilmRitz page is under construction. Stay tuned for exciting updates and new movie experiences.',
     },
     { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: 'https://filmritz.vercel.app/' },
-    { property: 'og:image', content: 'https://filmritz.vercel.app/default-og.jpg' },
+    { property: 'og:url', content: 'https://filmritz.vercel.app/ng' },
+    { property: 'og:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
 
     // Twitter
     { name: 'twitter:card', content: 'summary_large_image' },
@@ -46,8 +46,8 @@ useHead({
       content:
         'The page you’re looking for is currently unavailable. FilmRitz is working hard to bring new experiences your way!',
     },
-    { name: 'twitter:image', content: 'https://filmritz.vercel.app/default-og.jpg' },
+    { name: 'twitter:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
   ],
-  link: [{ rel: 'canonical', href: 'https://filmritz.vercel.app/' }],
+  link: [{ rel: 'canonical', href: 'https://filmritz.vercel.app/ng' }],
 })
 </script>

@@ -122,8 +122,8 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if (
-    ["/forgot-password", "/reset-password"].includes(to.path) &&
-    !visitedLogin
+    ["/ng/forgot-password", "/ng/reset-password"].includes(to.path) &&
+    !visitedLogin && !isLoggedIn
   ) {
     return next("/ng/login");
   }

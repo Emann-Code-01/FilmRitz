@@ -323,7 +323,7 @@ watch(media, (newMedia) => {
 
   const image = newMedia.backdrop_path
     ? `https://image.tmdb.org/t/p/w1280${newMedia.backdrop_path}`
-    : 'https://filmritz.vercel.app/default-og.jpg'
+    : 'https://filmritz.vercel.app/ng/filmritzlogo.jpg'
 
   useHead({
     title: `${title} | FilmRitz — Discover Movies & TV Series`,
@@ -334,7 +334,7 @@ watch(media, (newMedia) => {
       },
       {
         property: 'og:title',
-        content: `${title} | FilmRitz`,
+        content: `${title} | FilmRitz — Discover Movies & TV Series`,
       },
       {
         property: 'og:description',
@@ -350,7 +350,7 @@ watch(media, (newMedia) => {
       },
       {
         property: 'og:url',
-        content: `https://filmritz.vercel.app${route.fullPath}`,
+        content: `https://filmritz.vercel.app/ng/${route.fullPath}`,
       },
       {
         name: 'twitter:card',
@@ -358,7 +358,7 @@ watch(media, (newMedia) => {
       },
       {
         name: 'twitter:title',
-        content: `${title} | FilmRitz`,
+        content: `${title} | FilmRitz — Discover Movies & TV Series`,
       },
       {
         name: 'twitter:description',
@@ -377,7 +377,7 @@ watch(media, (newMedia) => {
     link: [
       {
         rel: 'canonical',
-        href: `https://filmritz.vercel.app${route.fullPath}`,
+        href: `https://filmritz.vercel.app/ng/${route.fullPath}`,
       },
     ],
     script: [

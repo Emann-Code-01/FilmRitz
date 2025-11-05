@@ -80,7 +80,7 @@
 import { ref, onMounted, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
-import { useHead } from "@vueuse/head";
+import { useHead } from "@unhead/vue";
 // import { supabase } from "../../lib/supabaseClient";
 
 const auth = useAuthStore();
@@ -169,10 +169,10 @@ useHead({
     },
     {
       property: "og:image",
-      content: "https://filmritz.vercel.app/filmritz-og-image.jpg",
+      content: "https://filmritz.vercel.app/ng/filmritzlogo.jpg",
     },
     { property: "og:type", content: "website" },
-    { property: "og:url", content: "https://filmritz.vercel.app/auth" },
+    { property: "og:url", content: "https://filmritz.vercel.app/ng/login" },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: twitterTitle },
     {
@@ -181,6 +181,6 @@ useHead({
         "Sign in or create your FilmRitz account to explore and stream your favorite movies and shows.",
     },
   ],
-  link: [{ rel: "canonical", href: "https://filmritz.vercel.app/auth" }],
+  link: [{ rel: "canonical", href: "https://filmritz.vercel.app/ng/login" }],
 })
 </script>

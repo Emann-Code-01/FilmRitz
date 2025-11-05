@@ -255,7 +255,7 @@ watch(tv, (newTv) => {
 
   const image = newTv.backdrop_path
     ? `https://image.tmdb.org/t/p/w1280${newTv.backdrop_path}`
-    : 'https://filmritz.vercel.app/default-og.jpg'
+    : 'https://filmritz.vercel.app/ng/filmritzlogo.jpg'
 
   useHead({
     title: `${title} | FilmRitz — Discover Movies & TV Series`,
@@ -264,20 +264,20 @@ watch(tv, (newTv) => {
       { name: 'keywords', content: `${title}, FilmRitz, TV show, series, streaming, episodes` },
 
       // Open Graph / Facebook
-      { property: 'og:title', content: `${title} | FilmRitz` },
+      { property: 'og:title', content: `${title} | FilmRitz — Discover Movies & TV Series` },
       { property: 'og:description', content: description },
       { property: 'og:image', content: image },
       { property: 'og:type', content: 'video.tv_show' },
-      { property: 'og:url', content: `https://filmritz.vercel.app${route.fullPath}` },
+      { property: 'og:url', content: `https://filmritz.vercel.app/ng/${route.fullPath}` },
 
       // Twitter
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: `${title} | FilmRitz` },
+      { name: 'twitter:title', content: `${title} | FilmRitz — Discover Movies & TV Series` },
       { name: 'twitter:description', content: description },
       { name: 'twitter:image', content: image },
     ],
     link: [
-      { rel: 'canonical', href: `https://filmritz.vercel.app${route.fullPath}` },
+      { rel: 'canonical', href: `https://filmritz.vercel.app/ng/${route.fullPath}` },
     ],
     script: [
       {

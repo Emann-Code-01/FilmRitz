@@ -30,7 +30,7 @@ useHead({
     },
     {
       name: 'robots',
-      content: 'noindex, follow', // ensures search engines don’t index this splash page
+      content: 'noindex, follow',
     },
     {
       name: 'theme-color',
@@ -44,8 +44,8 @@ useHead({
       content:
         'FilmRitz — a new way to explore and enjoy your favorite movies and shows.',
     },
-    { property: 'og:image', content: 'https://filmritz.vercel.app/default-og.jpg' },
-    { property: 'og:url', content: 'https://filmritz.vercel.app/' },
+    { property: 'og:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
+    { property: 'og:url', content: 'https://filmritz.vercel.app/ng' },
     { property: 'og:type', content: 'website' },
 
     // Twitter
@@ -56,9 +56,9 @@ useHead({
       content:
         'FilmRitz — your gateway to modern streaming. Sit tight while we load your experience!',
     },
-    { name: 'twitter:image', content: 'https://filmritz.vercel.app/default-og.jpg' },
+    { name: 'twitter:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
   ],
-  link: [{ rel: 'canonical', href: 'https://filmritz.vercel.app/' }],
+  link: [{ rel: 'canonical', href: 'https://filmritz.vercel.app/ng' }],
 })
 </script>
 

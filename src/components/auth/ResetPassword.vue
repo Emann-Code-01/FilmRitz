@@ -119,8 +119,8 @@ useHead({
         'Reset your FilmRitz password easily and regain access to your personalized movie streaming experience.',
     },
     { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: 'https://filmritz.vercel.app/reset-password' },
-    { property: 'og:image', content: 'https://filmritz.vercel.app/default-og.jpg' },
+    { property: 'og:url', content: 'https://filmritz.vercel.app/ng/reset-password' },
+    { property: 'og:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
 
     // Twitter Card
     { name: 'twitter:card', content: 'summary_large_image' },
@@ -130,10 +130,10 @@ useHead({
       content:
         'Securely reset your FilmRitz password and get back to streaming your favorite movies and series.',
     },
-    { name: 'twitter:image', content: 'https://filmritz.vercel.app/default-og.jpg' },
+    { name: 'twitter:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
   ],
   link: [
-    { rel: 'canonical', href: 'https://filmritz.vercel.app/reset-password' },
+    { rel: 'canonical', href: 'https://filmritz.vercel.app/ng/reset-password' },
   ],
 })
 </script>

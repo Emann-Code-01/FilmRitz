@@ -54,10 +54,14 @@ useHead({
     { name: 'keywords', content: 'filmritz, movies, tv shows, vue project' },
     { property: 'og:title', content: 'FilmRitz — Discover Movies & Series' },
     { property: 'og:description', content: 'Your gateway to trending films and series.' },
-    { property: 'og:image', content: '/filmritz-preview.png' },
+    { property: 'og:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
+    { property: 'og:url', content: 'https://filmritz.vercel.app/ng' },
+    { name: 'twitter:title', content: 'FilmRitz — Discover Movies & Series' },
+    { name: 'twitter:description', content: 'Your gateway to trending films and series.' },
+    { name: 'twitter:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'robots', content: 'index, follow' },
-    { name: 'twitter:image', content: '/filmritz-preview.png' },
+    { name: 'twitter:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
   ]
 })
 
