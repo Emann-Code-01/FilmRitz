@@ -23,9 +23,7 @@
       </div>
     </div>
 
-    <!-- Actual content -->
     <div v-else>
-      <!-- Hero Block -->
       <div v-if="latestSeason" class="relative h-[70vh] mb-10 rounded-2xl overflow-hidden" :style="{
         backgroundImage:
           latestSeason.poster_path || tv.backdrop_path

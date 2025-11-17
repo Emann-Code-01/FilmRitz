@@ -14,6 +14,7 @@ import { useAuthStore } from "../stores/auth";
 import GenreView from "../views/GenreView.vue";
 import TvDetails from "../components/media/TvDetails.vue";
 import Watchlist from "../components/media/Watchlist.vue";
+import MediaPage from "../components/media/MediaPage.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -35,6 +36,18 @@ const routes: RouteRecordRaw[] = [
         name: "Auth",
         component: Auth,
         meta: { guestOnly: true },
+      },
+      {
+        path: "movies",
+        name: "Movies",
+        component: MediaPage,
+        props: { type: 'movie' },
+      },
+      {
+        path: "tv-shows",
+        name: "TVShows",
+        component: MediaPage,
+        props: { type: 'tv' },
       },
       {
         path: "movie/:name", //

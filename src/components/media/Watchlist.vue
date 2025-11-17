@@ -30,13 +30,14 @@
                 <!-- Clickable Card -->
                 <div @click="goToMedia(item)" class="w-full h-full">
                     <!-- Poster Image -->
-                    <img loading="lazy"
-                        :src="item.poster_path ? `https://image.tmdb.org/t/p/w1280${item.poster_path}` : 'https://placehold.co/300x450/0f0f0f/FF0000?text=NO+IMAGE'"
-                        alt="{{item.title}}"
+                    <img loading="lazy" :src="getPoster(item.poster_path)" alt="{{item.title}}"
                         class="w-full object-cover group-hover:scale-105 transition-all duration-300 rounded-2xl" />
-
+                    <div
+                        class="absolute inset-0 bg-linear-to-t from-black/90 via-transparent opacity-100 group-hover:opacity-100 transition-all">
+                    </div>
                     <!-- Info Bottom Left -->
-                    <div class="absolute bottom-3 left-3 w-[90%]">
+                    <div
+                        class="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
                         <h3 class="text-white font-[Gilroy-SemiBold] text-base line-clamp-1">
                             {{ item.title || item.name }}
                         </h3>
@@ -93,6 +94,11 @@ function goToMedia(item: WatchItem) {
         .replace(/(^-|-$)+/g, "")
     );
     router.push(`/ng/${type}/${slug}-${item.id}`);
+}
+
+function getPoster(path: string | null) {
+    if (!path) return "/no-poster.jpg";
+    return `https://image.tmdb.org/t/p/w1280${path}`;
 }
 </script>
 

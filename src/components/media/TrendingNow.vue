@@ -30,6 +30,9 @@
                 })
                 " sizes="(max-width: 640px) 300px, (max-width: 1024px) 500px, 780px" :alt="item.title"
               class="rounded-md hover:rounded-md w-full h-80 object-cover transition-all duration-500 animate-fade-up mx-5" />
+            <div
+              class="absolute inset-0 bg-linear-to-t from-black/90 via-transparent opacity-100 group-hover:opacity-100 transition-all">
+            </div>
             <span>
               <div v-if="!auth.isLoggedIn" class="absolute left-2 bottom-3 flex items-center">
                 <span class="text-8xl font-extrabold leading-none image-style">

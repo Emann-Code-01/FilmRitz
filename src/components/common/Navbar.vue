@@ -19,8 +19,8 @@
               ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
               : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
           ]">Home</router-link>
-          <router-link to="/ng/tvshows" :class="[
-            isActiveLink('/ng/tvshows')
+          <router-link to="/ng/tv-shows" :class="[
+            isActiveLink('/ng/tv-shows')
               ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
               : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
           ]">My TV Shows</router-link>
@@ -29,11 +29,6 @@
               ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
               : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
           ]">My Movies</router-link>
-          <router-link to="/ng/new&popular" :class="[
-            isActiveLink('/ng/new&popular')
-              ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
-              : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
-          ]">New & Popular</router-link>
           <router-link to="/ng/watchlist" :class="[
             isActiveLink('/ng/watchlist')
               ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'

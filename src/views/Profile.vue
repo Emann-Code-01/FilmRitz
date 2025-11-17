@@ -32,12 +32,12 @@
             </div>
             <div class="px-1 py-1">
               <MenuItem v-slot="{ active }">
-              <button @click="goTo('/ng/tvshows')" :class="[
+              <button @click="goTo('/ng/tv-shows')" :class="[
                 'group flex w-full items-center rounded-md px-2 py-2 text-sm font-[Gilroy-SemiBold] transition-all duration-200',
                 active
                   ? 'bg-red-700 text-white'
                   : 'text-gray-900 hover:text-red-500',
-                isActiveLink('/ng/tvshows')
+                isActiveLink('/ng/tv-shows')
                   ? 'text-red-500 underline bg-accent ease-in'
                   : '',
               ]">
@@ -55,19 +55,6 @@
                   : '',
               ]">
                 My Movies
-              </button>
-              </MenuItem>
-              <MenuItem v-slot="{ active }">
-              <button @click="goTo('/ng/new&popular')" :class="[
-                'group flex w-full items-center rounded-md px-2 py-2 text-sm font-[Gilroy-SemiBold] transition-all duration-200',
-                active
-                  ? 'bg-red-700 text-white'
-                  : 'text-gray-900 hover:text-red-500',
-                isActiveLink('/ng/new&popular')
-                  ? 'text-red-500 underline bg-accent ease-in'
-                  : '',
-              ]">
-                New & Popular
               </button>
               </MenuItem>
               <MenuItem v-slot="{ active }">
