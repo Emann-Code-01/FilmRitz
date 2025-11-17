@@ -1,10 +1,7 @@
 <template>
   <div>
-    <div v-if="!auth.loaded" class="flex items-center justify-center min-h-screen text-white">
-      <p class="animate-pulse text-lg tracking-wide">
-        Yo, welcome back to FilmRitz — we’ve been expecting you! Let’s dive into
-        what’s trending. 🎬
-      </p>
+    <div v-if="!auth.loaded">
+      <SplashScreen />
     </div>
 
     <HeroSection />
@@ -46,22 +43,23 @@ import TrendingNow from "../components/media/TrendingNow.vue";
 import TopRated from "../components/media/TopRated.vue";
 import upComing from "../components/media/ComingSoon.vue";
 import { useHead } from '@unhead/vue';
+import SplashScreen from "./SplashScreen.vue";
 
 useHead({
   title: 'FilmRitz — Discover Movies & TV Series',
   meta: [
     { name: 'description', content: 'Explore trending movies, shows, and actors in a sleek, tactical interface.' },
-    { name: 'keywords', content: 'filmritz, movies, tv shows, vue project' },
+    { name: 'keywords', content: 'filmritz, movies, tv shows, vue project, Ifeoluwa Olajubaje, EmannCode, EmannCodeDev,' },
     { property: 'og:title', content: 'FilmRitz — Discover Movies & Series' },
     { property: 'og:description', content: 'Your gateway to trending films and series.' },
-    { property: 'og:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
+    { property: 'og:image', content: 'https://filmritz.vercel.app/filmritzlogo2.png' },
     { property: 'og:url', content: 'https://filmritz.vercel.app/ng' },
     { name: 'twitter:title', content: 'FilmRitz — Discover Movies & Series' },
     { name: 'twitter:description', content: 'Your gateway to trending films and series.' },
-    { name: 'twitter:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
+    { name: 'twitter:image', content: 'https://filmritz.vercel.app/filmritzlogo2.png' },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'robots', content: 'index, follow' },
-    { name: 'twitter:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
+    { name: 'twitter:image', content: 'https://filmritz.vercel.app/filmritzlogo2.png' },
   ]
 })
 

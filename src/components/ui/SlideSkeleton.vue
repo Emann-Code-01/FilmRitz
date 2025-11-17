@@ -14,7 +14,7 @@
     >
       <div class="h-8 bg-white/20 w-2/3 rounded"></div>
       <div class="flex gap-3">
-        <div class="h-5 w-12 bg-green-700/60 rounded"></div>
+        <div class="h-5 w-12 bg-[#b20710]/70/60 rounded"></div>
         <div class="h-5 w-16 bg-white/10 rounded"></div>
       </div>
 

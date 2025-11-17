@@ -1,9 +1,9 @@
 <template>
   <div
-    class="min-h-screen flex items-center justify-center md:bg-[linear-gradient(to_top_left,_rgba(229,9,20,0.65)_0%,_rgba(255,75,0,0.55)_25%,_rgba(25,25,50,0.75)_75%,_rgba(0,0,10,0.85)_100%)] px-4 transition-all duration-700 animate-fade-up">
+    class="min-h-screen flex items-center justify-center md:bg-[linear-gradient(to_top_left,rgba(229,9,20,0.65)_0%,rgba(255,75,0,0.55)_25%,rgba(25,25,50,0.75)_75%,rgba(0,0,10,0.85)_100%)] px-4">
     <div
       class="bg-[#0b0b0f]/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl w-full max-w-md border border-white/10 relative mt-18">
-      <h1 class="text-3xl font-[Gilroy-Bold] text-white mb-6 text-center">
+      <h1 class="text-3xl font-[Gilroy-Bold] text-white mb-6 text-center transition-all duration-700 animate-fade-up">
         {{
           isSignUp ? "Create a FilmRitz Account" : "Welcome Back to FilmRitz"
         }}
@@ -130,7 +130,7 @@ const handleAuth = async () => {
     success.value = true;
   }
 
-  const redirectPath = (route.query.redirect as string) || "/ng";
+  const redirectPath = (route.query.redirect as string) || "/ng/splash";
   router.push(redirectPath);
 };
 
@@ -151,6 +151,7 @@ const twitterTitle = computed(() =>
 useHead({
   title: pageTitle,
   meta: [
+    // 🔹 Basic SEO
     {
       name: "description",
       content:
@@ -159,9 +160,11 @@ useHead({
     {
       name: "keywords",
       content:
-        "FilmRitz, movie login, FilmRitz account, film streaming, create account, sign in",
+        "FilmRitz, movie login, FilmRitz account, film streaming, create account, sign in, Ifeoluwa Olajubaje, EmannCode, EmannCodeDev,",
     },
-    { property: "og:title", content: ogTitle },
+
+    // 🔹 Open Graph (Facebook, LinkedIn, etc.)
+    { property: "og:title", content: ogTitle || pageTitle },
     {
       property: "og:description",
       content:
@@ -169,18 +172,27 @@ useHead({
     },
     {
       property: "og:image",
-      content: "https://filmritz.vercel.app/ng/filmritzlogo.jpg",
+      content: "https://filmritz.vercel.app/filmritzlogo2.png",
     },
     { property: "og:type", content: "website" },
     { property: "og:url", content: "https://filmritz.vercel.app/ng/login" },
+
+    // 🔹 Twitter Card
     { name: "twitter:card", content: "summary_large_image" },
-    { name: "twitter:title", content: twitterTitle },
+    { name: "twitter:title", content: twitterTitle || pageTitle },
     {
       name: "twitter:description",
       content:
         "Sign in or create your FilmRitz account to explore and stream your favorite movies and shows.",
     },
+    {
+      name: "twitter:image",
+      content: "https://filmritz.vercel.app/filmritzlogo2.png",
+    },
   ],
+
+  // 🔹 Canonical Link
   link: [{ rel: "canonical", href: "https://filmritz.vercel.app/ng/login" }],
-})
+});
+
 </script>

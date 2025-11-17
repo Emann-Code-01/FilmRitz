@@ -24,7 +24,7 @@ useHead({
     {
       name: 'keywords',
       content:
-        'FilmRitz, coming soon, under construction, unavailable page, streaming platform, movies, series',
+        'FilmRitz, coming soon,  Ifeoluwa Olajubaje, EmannCode, EmannCodeDev, under construction, unavailable page, streaming platform, movies, series',
     },
 
     // Open Graph
@@ -36,7 +36,7 @@ useHead({
     },
     { property: 'og:type', content: 'website' },
     { property: 'og:url', content: 'https://filmritz.vercel.app/ng' },
-    { property: 'og:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
+    { property: 'og:image', content: 'https://filmritz.vercel.app/filmritzlogo2.png' },
 
     // Twitter
     { name: 'twitter:card', content: 'summary_large_image' },
@@ -46,7 +46,7 @@ useHead({
       content:
         'The page you’re looking for is currently unavailable. FilmRitz is working hard to bring new experiences your way!',
     },
-    { name: 'twitter:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
+    { name: 'twitter:image', content: 'https://filmritz.vercel.app/filmritzlogo2.png' },
   ],
   link: [{ rel: 'canonical', href: 'https://filmritz.vercel.app/ng' }],
 })

@@ -14,11 +14,12 @@ export interface Media {
   genres?: { id: number; name: string }[];
   genre_ids?: number[];
   original_language?: string;
-  type?: "movie" | "tv";
+  type?: "movie" | "tv series";
   trailerUrl?: string;
   addedToWatchlist?: boolean;
   rating?: number;
   media_type: "movie" | "tv";
+  status?: "ongoing" | "finished";
 }
 
 export interface Season {
@@ -40,8 +41,11 @@ export interface Episode {
   still_path?: string
   air_date?: string
   vote_average?: number
+  vote_count?: number
+  runtime?: number
+  crew?: string[]
+  guest_stars?: string[]
 }
-
 export interface TVShow extends Media {
   number_of_seasons: number
   number_of_episodes: number

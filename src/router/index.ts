@@ -13,6 +13,7 @@ import ResetPassword from "../components/auth/ResetPassword.vue";
 import { useAuthStore } from "../stores/auth";
 import GenreView from "../views/GenreView.vue";
 import TvDetails from "../components/media/TvDetails.vue";
+import Watchlist from "../components/media/Watchlist.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -23,7 +24,6 @@ const routes: RouteRecordRaw[] = [
         path: "splash",
         name: "Splash",
         component: SplashScreen,
-        meta: { requiresAuth: true }
       },
       {
         path: "",
@@ -68,11 +68,17 @@ const routes: RouteRecordRaw[] = [
         path: "genre/:name",
         name: "GenreView",
         component: GenreView,
+        props: true,
       },
       {
         path: "search",
         name: "Search",
         component: Search,
+      },
+      {
+        path: 'watchlist',
+        name: 'Watchlist',
+        component: Watchlist,
       },
       {
         path: "profile",
@@ -112,6 +118,15 @@ router.beforeEach(async (to, from, next) => {
   await auth.syncUser();
   const isLoggedIn = auth.isLoggedIn;
   const visitedLogin = localStorage.getItem("visitedLogin");
+  const visitedSplash = localStorage.getItem("visitedSplash");
+
+  if (!visitedSplash && to.name !== "Splash") {
+    return next({ name: "Splash" });
+  }
+
+  if (to.name === "Splash") {
+    localStorage.setItem("visitedSplash", "true");
+  }
 
   if (to.meta.requiresAuth && !isLoggedIn) {
     return next({ name: "Auth", query: { redirect: to.fullPath } });

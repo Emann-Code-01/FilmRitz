@@ -2,39 +2,61 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/filmritzlogo.svg" />
+
+    <!-- ✅ Favicon (ensure both dark/light browsers display properly) -->
+    <link rel="icon" type="image/svg+xml" href="/filmritzlogo3.png" />
+    <link rel="alternate icon" href="/filmritzlogo3.png" />
+
+    <!-- ✅ Viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Filmritz</title>
+
+    <!-- ✅ Title -->
+    <title>FilmRitz — your personalized movie and TV discovery platform</title>
+
+    <!-- ✅ Description -->
     <meta
       name="description"
       content="FilmRitz lets you discover, explore, and stream movie info like never before."
     />
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="FilmRitz – Watch & Explore Films" />
+    <!-- ✅ Keywords (optional but still good for minor SEO boosts) -->
+    <meta
+      name="keywords"
+      content="FilmRitz, Ifeoluwa Olajubaje, EmannCode, EmannCodeDev, movies, film streaming, TV shows, watch online, explore films, movie platform"
+    />
+
+    <!-- ✅ Canonical (helps avoid duplicate content confusion) -->
+    <link rel="canonical" href="https://filmritz.vercel.app/ng" />
+
+    <!-- ✅ Open Graph / Facebook -->
+    <meta property="og:title" content="FilmRitz — your personalized movie and TV discovery platform" />
     <meta
       property="og:description"
       content="Discover trending movies, explore genres, and dive into FilmRitz."
     />
     <meta
       property="og:image"
-      content="https://filmritz.vercel.app/ng/filmritzlogo.jpg"
+      content="https://filmritz.vercel.app/filmritzlogo2.png"
     />
-    <meta property="og:url" content="https://filmritz.vercel.app" />
+    <meta property="og:url" content="https://filmritz.vercel.app/ng" />
     <meta property="og:type" content="website" />
 
-    <!-- Twitter Card -->
+    <!-- ✅ Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="FilmRitz – Watch & Explore Films" />
+    <meta name="twitter:title" content="FilmRitz — your personalized movie and TV discovery platform" />
     <meta
       name="twitter:description"
       content="Discover trending movies, explore genres, and dive into FilmRitz."
     />
     <meta
       name="twitter:image"
-      content="https://filmritz.vercel.app/ng/filmritzlogo.jpg"
+      content="https://filmritz.vercel.app/filmritzlogo2.png"
     />
+
+    <!-- ✅ Theme color for mobile browsers -->
+    <meta name="theme-color" content="#000000" />
   </head>
+
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>

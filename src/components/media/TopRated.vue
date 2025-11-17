@@ -14,7 +14,8 @@
         :navigation="{ nextEl: '.custom-next', prevEl: '.custom-prev' }" :breakpoints="{
           320: { slidesPerView: 2, spaceBetween: 4, slidesPerGroup: 2 },
           640: { slidesPerView: 3.5, spaceBetween: 10 },
-          1024: { slidesPerView: 5.5, spaceBetween: 12 },
+          1024: { slidesPerView: 4, spaceBetween: 12 },
+          1280: { slidesPerView: 5.5, spaceBetween: 12 },
         }" class="netflix-swiper transition-all duration-900 animate-fade-up mySwiper w-full"
         @reachBeginning="atBeginning = true" @reachEnd="atEnd = true" @fromEdge="resetEdges">
         <SwiperSlide v-for="(item, index) in top10" :key="item.id">
@@ -39,7 +40,7 @@
                         0,
                         1
                       )" :key="genreName"
-                        class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40">
+                        class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-[#b20710]/70">
                         {{ genreName }}
                       </span>
                     </span>
@@ -53,13 +54,11 @@
                 <p class="text-gray-300 text-base font-[Gilroy-Medium] drop-shadow-2xl">
                   {{ item.release_date ?? item.first_air_date ?? "" }}
                   <span class="flex gap-2">
-                    <span v-for="genreName in getGenreNames(item.genre_ids).slice(
-                      0,
-                      1
-                    )" :key="genreName"
-                      class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-white/40">
+                    <router-link v-for="genreName in getGenreNames(item.genre_ids).slice(0, 1)" :key="genreName"
+                      :to="`/ng/genre/${genreName.toLowerCase()}`"
+                      class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-[#b20710]/70 transition-all duration-200">
                       {{ genreName }}
-                    </span>
+                    </router-link>
                   </span>
                 </p>
               </div>

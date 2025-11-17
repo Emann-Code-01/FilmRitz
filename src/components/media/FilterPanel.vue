@@ -7,7 +7,7 @@
       <label class="text-white font-semibold mb-1 block">Genre</label>
       <select
         v-model="localFilters.genre"
-        class="p-2 rounded bg-gray-800 text-white cursor-pointer capitalize"
+        class="p-2 rounded bg-gray-800 text-white cursor-pointer capitalize outline-none"
       >
         <option value="">All</option>
         <option v-for="genre in genres" :key="genre.id" :value="genre.id">
@@ -23,7 +23,7 @@
         type="number"
         v-model.number="localFilters.year"
         placeholder="e.g. 2023"
-        class="p-2 rounded bg-gray-800 text-white w-24"
+        class="p-2 rounded bg-gray-800 text-white w-24 outline-none"
       />
     </div>
 
@@ -37,7 +37,7 @@
         max="10"
         step="0.1"
         placeholder="0 - 10"
-        class="p-2 rounded bg-gray-800 text-white w-24"
+        class="p-2 rounded bg-gray-800 text-white w-24 outline-none"
       />
     </div>
 
@@ -45,7 +45,7 @@
       <label class="text-white font-semibold mb-1 block">Type</label>
       <select
         v-model="localFilters.type"
-        class="p-2 rounded bg-gray-800 text-white cursor-pointer"
+        class="p-2 rounded bg-gray-800 text-white cursor-pointer outline-none"
       >
         <option value="">All</option>
         <option value="movie">Movie</option>
@@ -57,7 +57,7 @@
       <label class="text-white font-semibold mb-1 block">Sort By</label>
       <select
         v-model="localFilters.sort"
-        class="p-2 rounded bg-gray-800 text-white cursor-pointer"
+        class="p-2 rounded bg-gray-800 text-white cursor-pointer outline-none"
       >
         <option value="">Default</option>
         <option value="newest">Newest</option>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen flex items-center justify-center md:bg-[linear-gradient(to_top_left,_rgba(229,9,20,0.65)_0%,_rgba(255,75,0,0.55)_25%,_rgba(25,25,50,0.75)_75%,_rgba(0,0,10,0.85)_100%)] px-4 transition-all duration-700 animate-fade-up">
+    class="min-h-screen flex items-center justify-center md:bg-[linear-gradient(to_top_left,rgba(229,9,20,0.65)_0%,rgba(255,75,0,0.55)_25%,rgba(25,25,50,0.75)_75%,rgba(0,0,10,0.85)_100%)] px-4 transition-all duration-700 animate-fade-up">
     <div
       class="bg-[#0b0b0f]/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl w-full max-w-md border border-white/10 relative mt-18">
       <h1 class="text-3xl font-[Gilroy-Bold] text-white mb-6 text-center">
@@ -99,7 +99,7 @@ useHead({
     {
       name: 'keywords',
       content:
-        'FilmRitz, reset password, account recovery, forgot password, movie streaming, login help',
+        'FilmRitz, reset password, account recovery, forgot password, movie streaming, Ifeoluwa Olajubaje, EmannCode, EmannCodeDev, login help',
     },
 
     // Open Graph (for Facebook / LinkedIn)
@@ -111,7 +111,7 @@ useHead({
     },
     { property: 'og:type', content: 'website' },
     { property: 'og:url', content: 'https://filmritz.vercel.app/ng/forgot-password' },
-    { property: 'og:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
+    { property: 'og:image', content: 'https://filmritz.vercel.app/filmritzlogo2.png' },
 
     // Twitter Card
     { name: 'twitter:card', content: 'summary_large_image' },
@@ -121,7 +121,7 @@ useHead({
       content:
         'Recover your FilmRitz account easily — request a password reset link sent to your email address.',
     },
-    { name: 'twitter:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
+    { name: 'twitter:image', content: 'https://filmritz.vercel.app/filmritzlogo2.png' },
   ],
   link: [
     { rel: 'canonical', href: 'https://filmritz.vercel.app/ng/forgot-password' },

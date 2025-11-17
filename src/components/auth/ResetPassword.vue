@@ -108,7 +108,7 @@ useHead({
     {
       name: 'keywords',
       content:
-        'FilmRitz, reset password, change password, account recovery, movie app, secure login',
+        'FilmRitz, reset password, change password, account recovery, movie app, secure login, Ifeoluwa Olajubaje, EmannCode, EmannCodeDev',
     },
 
     // Open Graph (Facebook / LinkedIn)
@@ -120,7 +120,7 @@ useHead({
     },
     { property: 'og:type', content: 'website' },
     { property: 'og:url', content: 'https://filmritz.vercel.app/ng/reset-password' },
-    { property: 'og:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
+    { property: 'og:image', content: 'https://filmritz.vercel.app/filmritzlogo2.png' },
 
     // Twitter Card
     { name: 'twitter:card', content: 'summary_large_image' },
@@ -130,7 +130,7 @@ useHead({
       content:
         'Securely reset your FilmRitz password and get back to streaming your favorite movies and series.',
     },
-    { name: 'twitter:image', content: 'https://filmritz.vercel.app/ng/filmritzlogo.jpg' },
+    { name: 'twitter:image', content: 'https://filmritz.vercel.app/filmritzlogo2.png' },
   ],
   link: [
     { rel: 'canonical', href: 'https://filmritz.vercel.app/ng/reset-password' },
