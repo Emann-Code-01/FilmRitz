@@ -135,7 +135,7 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay, EffectCards } from "swiper/modules";
 
 const route = useRoute();
-const isMoviePage = computed(() => route.path.includes("movies"));
+const isMoviePage = computed(() => route.name === "Movies");
 
 const modalStore = useModalStore();
 const { trendingAll, getTrendingAll, loading, error } = useMedia();
@@ -261,7 +261,7 @@ function getGenreNames(genreIds?: number[]) {
 }
 </script>
 
-<style>
+<style scoped>
 /* Prevent Swiper from centering itself */
 .swiper {
     width: 100% !important;

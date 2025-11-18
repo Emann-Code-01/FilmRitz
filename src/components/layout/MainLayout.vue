@@ -1,14 +1,17 @@
 <template>
   <div class="min-h-screen text-white flex flex-col">
-    <span v-if="isLoggingOut">
+    <div v-if="isLoggingOut">
       Logging Out ... <i class="pi pi-sign-in"></i>
-    </span>
-    <span v-else>
+    </div>
+
+    <div v-else>
       <Navbar />
-      <main>
-        <router-view />
+
+      <main class="w-full">
+        <router-view class="w-full block" />
       </main>
-    </span>
+    </div>
+
     <Footer />
   </div>
 </template>

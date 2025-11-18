@@ -25,6 +25,7 @@ const routes: RouteRecordRaw[] = [
         path: "splash",
         name: "Splash",
         component: SplashScreen,
+        meta: { requiresAuth: true },
       },
       {
         path: "",
@@ -36,18 +37,6 @@ const routes: RouteRecordRaw[] = [
         name: "Auth",
         component: Auth,
         meta: { guestOnly: true },
-      },
-      {
-        path: "movies",
-        name: "Movies",
-        component: MediaPage,
-        props: { type: 'movie' },
-      },
-      {
-        path: "tv-shows",
-        name: "TVShows",
-        component: MediaPage,
-        props: { type: 'tv' },
       },
       {
         path: "movie/:name", //
@@ -92,11 +81,26 @@ const routes: RouteRecordRaw[] = [
         path: 'watchlist',
         name: 'Watchlist',
         component: Watchlist,
+        meta: { requiresAuth: true },
       },
       {
         path: "profile",
         name: "Profile",
         component: Profile,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "movies",
+        name: "Movies",
+        component: MediaPage,
+        props: { type: 'movie' },
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "tv-shows",
+        name: "TVShows",
+        component: MediaPage,
+        props: { type: 'tv' },
         meta: { requiresAuth: true },
       },
       {

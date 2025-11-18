@@ -2,18 +2,12 @@
 <template>
   <div v-if="loading">
     <div class="fixed inset-0 flex items-center justify-center p-4">
-      <div
-        class="absolute inset-0 bg-[linear-gradient(to_bottom,#000000CC_10%,#000000_50%)]"
-      ></div>
-      <div
-        class="relative w-full max-w-4xl h-[40em] overflow-hidden rounded-xl text-white shadow-xl animate-pulse"
-      >
+      <div class="absolute inset-0 bg-[linear-gradient(to_bottom,#000000CC_10%,#000000_50%)]"></div>
+      <div class="relative w-full max-w-4xl h-[40em] overflow-hidden rounded-xl text-white shadow-xl animate-pulse">
         <div
-          class="absolute inset-0 bg-white/10 bg-fixed bg-center bg-cover mx-auto bg-no-repeat transition-all duration-300 animate-pulse"
-        ></div>
-        <div
-          class="absolute inset-0 bg-linear-to-t from-black/80 via-black/50 to-transparent"
-        ></div>
+          class="absolute inset-0 bg-white/10 bg-fixed bg-center bg-cover mx-auto bg-no-repeat transition-all duration-300 animate-pulse">
+        </div>
+        <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/50 to-transparent"></div>
       </div>
 
       <div class="absolute bottom-0 left-0 z-10 p-6 space-y-3 w-full max-w-4xl">
@@ -37,10 +31,8 @@
       <div class="fixed inset-0 overflow-y-auto">
         <DialogOverlay class="fixed inset-0 bg-black/80" />
         <div class="flex items-center justify-center min-h-screen p-4">
-          <DialogPanel
-            v-if="media"
-            class="relative w-full max-w-4xl rounded-xl overflow-hidden text-white shadow-xl bg-black"
-          >
+          <DialogPanel v-if="media"
+            class="relative w-full max-w-4xl rounded-xl overflow-hidden text-white shadow-xl bg-black">
             <!-- Skeleton -->
             <div v-if="loading" class="animate-pulse">
               <div class="h-[70vh] bg-gray-700 rounded-t-xl"></div>
@@ -55,76 +47,44 @@
             <!-- Actual content -->
             <div v-else class="overflow-y-auto h-[90vh]">
               <!-- Backdrop Image -->
-              <div
-                class="relative h-[70vh] bg-cover bg-center"
-                :style="{
-                  backgroundImage: media.backdrop_path
-                    ? `url(${baseUrl + media.backdrop_path})`
-                    : 'url(https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE)',
-                }"
-              >
-                <div
-                  class="absolute inset-0 bg-linear-to-t from-black/80 via-black/50 to-transparent"
-                ></div>
-                <button
-                  @click="modalStore.closeModal"
-                  class="hover:bg-[#b20710]/70 absolute top-6 right-6 rounded-full p-1 transition-all duration-300 z-20 cursor-pointer"
-                >
-                  <svg
-                    viewBox="0 0 36 36"
-                    width="36"
-                    height="36"
-                    class="transform -rotate-45"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M17 17V3H19V17H33V19H19V33H17V19H3V17H17Z"
-                    />
+              <div class="relative h-[70vh] bg-cover bg-center" :style="{
+                backgroundImage: media.backdrop_path
+                  ? `url(${baseUrl + media.backdrop_path})`
+                  : 'url(https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE)',
+              }">
+                <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/50 to-transparent"></div>
+                <button @click="modalStore.closeModal"
+                  class="hover:bg-[#b20710]/70 absolute top-6 right-6 rounded-full p-1 transition-all duration-300 z-20 cursor-pointer">
+                  <svg viewBox="0 0 36 36" width="36" height="36" class="transform -rotate-45" fill="currentColor">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M17 17V3H19V17H33V19H19V33H17V19H3V17H17Z" />
                   </svg>
                 </button>
               </div>
 
               <!-- Overlay Info -->
-              <div
-                class="relative -mt-20 p-6 bg-linear-to-t from-black/95 via-black/70 to-transparent rounded-t-2xl"
-              >
-                <DialogTitle
-                  as="h2"
-                  class="md:text-6xl text-3xl font-[Gilroy-Bold]"
-                >
+              <div class="relative -mt-20 p-6 bg-linear-to-t from-black/95 via-black/70 to-transparent rounded-t-2xl">
+                <DialogTitle as="h2" class="md:text-6xl text-3xl font-[Gilroy-Bold]">
                   {{ media?.title }}
                 </DialogTitle>
 
                 <div class="flex items-center gap-4 mt-2">
-                  <span
-                    class="px-2 py-1 bg-[#b20710]/70 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]"
-                  >
+                  <span class="px-2 py-1 bg-[#b20710]/70 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]">
                     {{ media?.vote_average?.toFixed(1) }}
                   </span>
-                  <span
-                    class="px-2 py-1 text-white bg-white/10 rounded-md text-sm font-[Gilroy-SemiBold]"
-                  >
+                  <span class="px-2 py-1 text-white bg-white/10 rounded-md text-sm font-[Gilroy-SemiBold]">
                     {{ media.media_type.toUpperCase() }}
                   </span>
                   <span class="text-sm font-[Gilroy-Medium]">
                     {{ new Date(media?.release_date).getFullYear() }}
                   </span>
-                  <span
-                    v-for="genreName in getGenreNames(
-                      getGenreIdsFromMedia(media)
-                    )"
-                    :key="genreName"
-                    @click="goToGenre(genreName)"
-                    class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-[#b20710]/70 hover:text-white transition-all duration-200 cursor-pointer"
-                  >
+                  <span v-for="genreName in getGenreNames(
+                    getGenreIdsFromMedia(media)
+                  )" :key="genreName" @click="goToGenre(genreName)"
+                    class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-[#b20710]/70 hover:text-white transition-all duration-200 cursor-pointer">
                     {{ genreName }}
                   </span>
                 </div>
-                <DialogDescription
-                  class="mt-4 max-w-2xl text-xl font-[Gilroy-SemiBold]"
-                >
+                <DialogDescription class="mt-4 max-w-2xl text-xl font-[Gilroy-SemiBold]">
                   {{
                     expanded
                       ? media?.overview
@@ -133,14 +93,10 @@
                 </DialogDescription>
 
                 <div class="pt-3">
-                  <button
-                    @click="handleProtectedRoute"
-                    class="gap-3 bg-[#b20710] text-white flex items-center w-fit text-xl focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500 cursor-pointer"
-                  >
+                  <button @click="handleProtectedRoute"
+                    class="gap-3 bg-[#b20710] text-white flex items-center w-fit text-xl focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500 cursor-pointer">
                     {{ auth.isLoggedIn ? "Check Out" : "Sign In" }}
-                    <i
-                      class="pi pi-chevron-right text-xl group-hover:animate-pulse"
-                    ></i>
+                    <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
                   </button>
                 </div>
               </div>
@@ -148,10 +104,8 @@
           </DialogPanel>
 
           <!-- Skeleton if media is null -->
-          <DialogPanel
-            v-else
-            class="flex flex-col justify-start h-[40em] w-full max-w-4xl rounded-xl bg-black/40 text-white p-8 space-y-6 animate-pulse"
-          >
+          <DialogPanel v-else
+            class="flex flex-col justify-start h-[40em] w-full max-w-4xl rounded-xl bg-black/40 text-white p-8 space-y-6 animate-pulse">
             <div class="h-64 w-full bg-white/10 rounded-xl"></div>
             <div class="h-6 w-1/3 bg-white/10 rounded-md"></div>
             <div class="h-4 w-2/3 bg-white/10 rounded-md"></div>
@@ -171,6 +125,7 @@ import {
   DialogTitle,
   DialogDescription,
   TransitionRoot,
+  DialogOverlay,
 } from "@headlessui/vue";
 import { ref, watch, computed, onMounted } from "vue";
 import { useModalStore } from "../../stores/modalStore";

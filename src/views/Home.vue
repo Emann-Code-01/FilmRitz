@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!auth.loaded">
+    <div v-if="!auth.loaded" class="flex items-center justify-center min-h-screen text-white">
       <SplashScreen />
     </div>
 
