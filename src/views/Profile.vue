@@ -76,12 +76,12 @@
             <MenuItem v-slot="{ active }">
             <button ref="initialFocus" v-if="isLoggedIn" @click="logout" :disabled="isLoggingOut" :class="[
               active
-                ? 'text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md font-[Gilroy-SemiBold] transition-all duration-500 cursor-pointer disabled:opacity-50'
-                : 'text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md font-[Gilroy-SemiBold] transition-all duration-500 cursor-pointer disabled:opacity-50',
+                ? 'text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md font-[Gilroy-SemiBold] transition-all duration-500 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
+                : 'text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md font-[Gilroy-SemiBold] transition-all duration-500 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed',
               'group flex w-full items-center rounded-md px-2 py-2 text-sm',
             ]">
               <span v-if="!isLoggingOut" class="flex items-center gap-3">Log Out <i class="pi pi-sign-in"></i></span>
-              <span v-else>Logging out...</span>
+              <span v-else class="">Logging out...</span>
             </button>
             </MenuItem>
           </div>

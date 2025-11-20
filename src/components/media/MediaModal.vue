@@ -67,7 +67,7 @@
                   {{ media?.title }}
                 </DialogTitle>
 
-                <div class="flex items-center gap-4 mt-2">
+                <div class="flex items-center gap-4 mt-2 flex-wrap">
                   <span class="px-2 py-1 bg-[#b20710]/70 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]">
                     {{ media?.vote_average?.toFixed(1) }}
                   </span>
