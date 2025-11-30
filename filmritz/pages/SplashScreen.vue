@@ -12,7 +12,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch, onBeforeUnmount } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { useHead } from '@unhead/vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -36,25 +35,6 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   if (timer.value) clearTimeout(timer.value);
-});
-
-useHead({
-  title: 'Welcome to FilmRitz | Streaming Reimagined',
-  meta: [
-    { name: 'description', content: 'Welcome to FilmRitz — your gateway to streaming entertainment reimagined. Loading your personalized experience...' },
-    { name: 'robots', content: 'noindex, follow' },
-    { name: 'theme-color', content: '#000000' },
-    { property: 'og:title', content: 'Welcome to FilmRitz' },
-    { property: 'og:description', content: 'FilmRitz — a new way to explore and enjoy your favorite movies and shows.' },
-    { property: 'og:image', content: 'https://filmritz.vercel.app/filmritzlogo2.png' },
-    { property: 'og:url', content: 'https://filmritz.vercel.app/ng' },
-    { property: 'og:type', content: 'website' },
-    { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: 'Welcome to FilmRitz' },
-    { name: 'twitter:description', content: 'FilmRitz — your gateway to modern streaming. Sit tight while we load your experience!' },
-    { name: 'twitter:image', content: 'https://filmritz.vercel.app/filmritzlogo2.png' },
-  ],
-  link: [{ rel: 'canonical', href: 'https://filmritz.vercel.app/ng' }],
 });
 </script>
 

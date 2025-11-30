@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen flex items-center justify-center md:bg-[linear-gradient(to_top_left,_rgba(229,9,20,0.65)_0%,_rgba(255,75,0,0.55)_25%,_rgba(25,25,50,0.75)_75%,_rgba(0,0,10,0.85)_100%)] px-4 transition-all duration-700 animate-fade-up">
+    class="min-h-screen flex items-center justify-center md:bg-[linear-gradient(to_top_left,rgba(229,9,20,0.65)_0%,rgba(255,75,0,0.55)_25%,rgba(25,25,50,0.75)_75%,rgba(0,0,10,0.85)_100%)] px-4 transition-all duration-700 animate-fade-up">
     <div
       class="bg-[#0b0b0f]/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl w-full max-w-md border border-white/10 relative">
       <h1 class="text-3xl font-[Gilroy-Bold] text-white mb-6 text-center">

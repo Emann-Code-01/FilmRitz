@@ -35,12 +35,11 @@
           </div>
         </div>
 
-        <!-- Watch + Watchlist Buttons -->
+        <!-- Discover + Watchlist Buttons -->
         <div class="flex gap-3 mt-4 animate-fade-up">
-          <!-- this is the click "@click="goToWatch" for the button below" -->
-          <button 
+          <button @click="goToWatch"
             class="px-4 py-2 bg-red-600 rounded-xl hover:bg-red-700 font-[Gilroy-SemiBold] flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>▶
-            Watch</button>
+            Discover</button>
 
           <!-- Heart Toggle Button -->
           <button @click="toggleWatchlist"
@@ -81,7 +80,7 @@
       <div class="flex gap-3 animate-fade-up">
         <button @click="goToWatch"
           class="px-4 py-2 bg-red-600 rounded-xl hover:bg-red-700 font-[Gilroy-SemiBold] flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>▶
-          Watch</button>
+          Discover</button>
 
         <button @click="toggleWatchlist"
           class="px-4 py-2 flex items-center gap-2 rounded-xl font-[Gilroy-Medium] bg-gray-800 hover:bg-gray-700 transition-all duration-300 transform hover:scale-105">
@@ -139,7 +138,7 @@
         <router-link v-for="sim in similar" :key="sim.id" :to="simRoute(sim)" class="group">
           <img
             :src="sim.poster_path ? `https://image.tmdb.org/t/p/w300${sim.poster_path}` : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'"
-            class="rounded-xl group-hover:opacity-80 group-hover:scale-105 transition-all duration-500"
+            ` class="rounded-xl group-hover:opacity-80 group-hover:scale-105 transition-all duration-500"
             loading="lazy" />
         </router-link>
       </div>
@@ -175,16 +174,17 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
-import { useWatchlistStore } from "../../stores/watchlist";
-import { genreMap } from "../../types/media";
+import { useWatchlistStore } from "../../src/stores/watchlist";
+import { genreMap } from "../../src/types/media";
+import { useHead } from "#imports";
 
 const route = useRoute();
 const router = useRouter();
+
 const baseUrl = "https://image.tmdb.org/t/p/w1280";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -205,7 +205,6 @@ const isTv = computed(() => route.params.type === "tv" || media.value?.media_typ
 
 const tvStatus = computed(() => {
   if (!isTv.value || !media.value) return "Unknown";
-
   const status = media.value.status;
   const nextEpisodeExists = !!media.value.next_episode_to_air;
 
@@ -219,34 +218,68 @@ const tvStatus = computed(() => {
 
 function slugToId(param: string | string[] | undefined): number | null {
   if (!param) return null;
+
   const raw = Array.isArray(param) ? param[0] : param;
+  if (!raw) return null; // ✅ ensures raw is a string
+
   const match = raw.match(/-(\d+)$/);
-  return match ? Number(match[1]) : /^\d+$/.test(raw) ? Number(raw) : null;
+  if (match) return Number(match[1]);
+
+  return /^\d+$/.test(raw) ? Number(raw) : null;
 }
 
 function slugify(str: string | undefined) {
   if (!str) return "untitled";
-  return encodeURIComponent(str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, ""));
+  return encodeURIComponent(
+    str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "")
+  );
 }
 
 async function fetchDetails() {
   loading.value = true;
+
   try {
     const idNum = slugToId(route.params.name);
     if (!idNum) return;
+
     const mediaType = route.path.includes("/tv/") ? "tv" : "movie";
+
     const [detailsRes, creditsRes, similarRes] = await Promise.all([
-      axios.get(`https://api.themoviedb.org/3/${mediaType}/${idNum}`, { params: { api_key: API_KEY } }),
-      axios.get(`https://api.themoviedb.org/3/${mediaType}/${idNum}/credits`, { params: { api_key: API_KEY } }),
-      axios.get(`https://api.themoviedb.org/3/${mediaType}/${idNum}/similar`, { params: { api_key: API_KEY } }),
+      axios.get(`https://api.themoviedb.org/3/${mediaType}/${idNum}`, {
+        params: { api_key: API_KEY },
+      }),
+      axios.get(`https://api.themoviedb.org/3/${mediaType}/${idNum}/credits`, {
+        params: { api_key: API_KEY },
+      }),
+      axios.get(`https://api.themoviedb.org/3/${mediaType}/${idNum}/similar`, {
+        params: { api_key: API_KEY },
+      }),
     ]);
 
-    media.value = { ...detailsRes.data, media_type: mediaType, title: detailsRes.data.title ?? detailsRes.data.name };
+    const d = detailsRes.data;
+
+    media.value = {
+      ...d,
+      media_type: mediaType,
+      title: d.title ?? d.name,
+    };
+
     cast.value = creditsRes.data.cast?.slice(0, 15) ?? [];
-    similar.value = (similarRes.data.results || []).slice(0, 10).map((r: any) => ({ ...r, media_type: mediaType, title: r.title ?? r.name }));
-    if (mediaType === "tv" && detailsRes.data.seasons?.length) latestSeason.value = detailsRes.data.seasons.at(-1);
+    similar.value = (similarRes.data.results || [])
+      .slice(0, 10)
+      .map((r: any) => ({
+        ...r,
+        media_type: mediaType,
+        title: r.title ?? r.name,
+      }));
+
+    if (mediaType === "tv" && d.seasons?.length) {
+      latestSeason.value = d.seasons.at(-1);
+    }
 
     inWatchlist.value = store.isInWatchlist(media.value.id);
+
+    applySeo();
   } catch (err) {
     console.error(err);
   } finally {
@@ -261,8 +294,8 @@ function getGenreIdsFromMedia(media: any): number[] {
   return [];
 }
 
-function getGenreNames(ids?: number[]) {
-  return ids?.map((id) => genreMap[id]).filter(Boolean) ?? ["Unknown"];
+function getGenreNames(ids?: number[]): string[] {
+  return ids?.map((id) => genreMap[id]).filter((name): name is string => !!name) || ["Unknown"];
 }
 
 function simRoute(sim: any) {
@@ -270,7 +303,9 @@ function simRoute(sim: any) {
   return sim.media_type === "tv" ? `/ng/tv/${slug}-${sim.id}` : `/ng/movie/${slug}-${sim.id}`;
 }
 
-function goToWatch() { router.push("#"); }
+function goToWatch() {
+  router.push("#");
+}
 
 function toggleWatchlist() {
   if (!media.value) return;
@@ -294,9 +329,57 @@ function toggleWatchlist() {
   setTimeout(() => (showToast.value = false), 2000);
 }
 
+// --- SEO using same structure as Home.vue / GenreView.vue ---
+function applySeo() {
+  if (!media.value) return;
+
+  const title = `${media.value.title} (${new Date(media.value.release_date || media.value.first_air_date).getFullYear()}) – FilmRitz`;
+  const desc = media.value.overview || `Discover ${media.value.title} on FilmRitz. Explore full details, cast, trailers, similar titles, and more.`;
+  const image = media.value.backdrop_path || media.value.poster_path
+    ? `https://image.tmdb.org/t/p/w1280${media.value.backdrop_path || media.value.poster_path}`
+    : "https://placehold.co/1200x630/0f0f0f/FF0000?text=FILMRITZ";
+  const url = `https://filmritz.com${route.fullPath}`;
+
+  useHead({
+    title,
+    meta: [
+      { name: "description", content: desc },
+      { property: "og:title", content: title },
+      { property: "og:description", content: desc },
+      { property: "og:image", content: image },
+      { property: "og:url", content: url },
+      { property: "og:type", content: isTv.value ? "video.tv_show" : "video.movie" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: title },
+      { name: "twitter:description", content: desc },
+      { name: "twitter:image", content: image },
+    ],
+    link: [{ rel: "canonical", href: url }],
+    script: [
+      {
+        type: "application/ld+json",
+        innerHTML: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": isTv.value ? "TVSeries" : "Movie",
+          name: media.value.title,
+          description: media.value.overview,
+          image,
+          genre: getGenreNames(getGenreIdsFromMedia(media.value)),
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: media.value.vote_average,
+            ratingCount: media.value.vote_count,
+          },
+        }),
+      } as any,
+    ],
+  });
+}
 onMounted(fetchDetails);
-watch(() => route.params.name, fetchDetails);
+watch(route, fetchDetails);
 </script>
+
+
 
 <style scoped>
 /* Pop animation for heart toggle */

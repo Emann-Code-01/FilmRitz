@@ -1,7 +1,8 @@
 // src/composables/useMedia.ts
 import { ref } from "vue";
-import { Media } from "../types/media";
+import { defineStore } from 'pinia';
 import { movieService } from "../services/mediaService";
+import type { Media, Genre } from '@/types/media';
 import {
   fetchTrendingMovies,
   fetchTopRatedMovies,
@@ -11,6 +12,58 @@ import {
   fetchOnTheAir,
   fetchTrendingMedia,
 } from "../api/tmdb";
+
+export const useMediaStore = defineStore('media', () => {
+  const trendingMovies = ref<Media[]>([]);
+  const genres = ref<Genre[]>([]);
+  const isLoading = ref<boolean>(false);
+  const error = ref<string | null>(null);
+
+  const getGenreNames = (genreIds: number[]): string[] => {
+    return genreIds
+      .map(id => genres.value.find(g => g.id === id)?.name)
+      .filter((name): name is string => name !== undefined);
+  };
+
+  const getGenreColor = (genreName: string): string => {
+    const colorMap: Record<string, string> = {
+      'Horror': '#DC2626',
+      'Action': '#F59E0B',
+      'Adventure': '#FBBF24',
+      'Sci-Fi': '#3B82F6',
+      'Romance': '#EC4899',
+      'Comedy': '#10B981',
+      'Drama': '#8B5CF6'
+    };
+
+    return colorMap[genreName] || '#6B7280';
+  };
+
+  const fetchTrending = async (): Promise<void> => {
+    isLoading.value = true;
+    error.value = null;
+
+    try {
+      const response = await fetch('/api/trending');
+      const data = await response.json();
+      trendingMovies.value = data.results;
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : 'Unknown error';
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
+  return {
+    trendingMovies,
+    genres,
+    isLoading,
+    error,
+    getGenreNames,
+    getGenreColor,
+    fetchTrending
+  };
+});
 
 export function useMedia() {
   const trending = ref<Media[]>([]);

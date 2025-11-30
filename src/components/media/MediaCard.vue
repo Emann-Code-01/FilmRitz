@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { useModalStore } from "../../stores/modalStore";
-import { genreMap } from "../../types/genres";
+import { genreMap } from "../../types/media";
 import type { Media } from '../../types/media'
 
 const props = defineProps<{

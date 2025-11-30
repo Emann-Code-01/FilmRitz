@@ -2,7 +2,7 @@
 
 // Unified TMDB helpers for Movie + TV + combined use (v3 axios instance: apiV3)
 import apiV3 from "./tmdbV3";
-import { genreMap } from "../types/genres";
+import { genreMap } from "../types/media";
 import { Media, TVShow, Season, Episode } from "../types/media"; // ✅ use your defined interfaces
 
 /**

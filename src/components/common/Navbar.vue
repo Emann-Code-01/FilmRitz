@@ -17,22 +17,22 @@
           <router-link to="/ng" :class="[
             isActiveLink('/ng')
               ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
-              : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
+              : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
           ]">Home</router-link>
           <router-link to="/ng/tv-shows" :class="[
             isActiveLink('/ng/tv-shows')
               ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
-              : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
+              : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
           ]">My TV Shows</router-link>
           <router-link to="/ng/movies" :class="[
             isActiveLink('/ng/movies')
               ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
-              : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
+              : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
           ]">My Movies</router-link>
           <router-link to="/ng/watchlist" :class="[
             isActiveLink('/ng/watchlist')
               ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
-              : 'hover:text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
+              : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
           ]">My Watchlist</router-link>
         </div>
       </div>
@@ -89,7 +89,7 @@ import { ref, onUnmounted, onMounted, onBeforeUnmount } from "vue";
 import SearchBar from "../media/SearchBar.vue";
 import { useAuthStore } from "../../stores/auth";
 import { useRouter, useRoute } from "vue-router";
-import Profile from "../../views/Profile.vue";
+import Profile from "../../pages/Profile.vue";
 import { TransitionRoot, TransitionChild, Dialog } from "@headlessui/vue";
 import "swiper/css";
 

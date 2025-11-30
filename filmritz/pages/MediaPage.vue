@@ -8,7 +8,7 @@
                     <h1 class="text-3xl font-[Gilroy-Bold]">
                         {{ isMoviePage ? "Discover Movies" : "Discover TV Shows" }}
                     </h1>
-                    <p class="mt-2 text-gray-300 font-[Gilroy-Medium] max-w-xl">
+                    <p class="mt-2 text-[#d1d5dc] font-[Gilroy-Medium] max-w-xl">
                         Explore the trending and top-rated {{ isMoviePage ? "movies" : "TV shows" }}.
                     </p>
                 </div>
@@ -126,11 +126,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
-import { useMedia } from "../../composables/useMedia";
-import { useModalStore } from "../../stores/modalStore";
-import { genreMap } from "../../types/media";
+import { useHead } from "#imports"; // Nuxt composable for SEO
+import { useMedia } from "../../src/composables/useMedia";
+import { useModalStore } from "../../src/stores/modalStore";
+import { genreMap } from "../../src/types/media";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay, EffectCards } from "swiper/modules";
 
@@ -139,6 +140,7 @@ const isMoviePage = computed(() => route.name === "Movies");
 
 const modalStore = useModalStore();
 const { trendingAll, getTrendingAll, loading, error } = useMedia();
+
 const genres = Object.entries(genreMap).map(([id, name]) => ({
     id: Number(id),
     name,
@@ -150,8 +152,8 @@ const selectedCategory = ref("all");
 
 const appliedFilters = ref({
     genre: "",
-    year: null,
-    rating: null,
+    year: null as number | null,
+    rating: null as number | null,
     sort: "",
 });
 
@@ -163,52 +165,40 @@ const categories = [
     { label: "Upcoming", value: "upcoming" },
 ];
 
-// Filtered & Paginated Media
+// -----------------------------
+// Computed: Filtered & Paginated Media
+// -----------------------------
 const filteredMedia = computed(() => {
-    let data = trendingAll.value.filter((m) =>
+    let data = trendingAll.value.filter(m =>
         isMoviePage.value ? m.media_type === "movie" : m.media_type === "tv"
     );
 
-    // Apply category filter
+    // Category filter
     if (selectedCategory.value === "topRated") {
         data = data.sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0));
     } else if (selectedCategory.value === "upcoming") {
-        data = data.filter(
-            (m) => (m.release_date || "") >= new Date().toISOString().slice(0, 10)
-        );
+        data = data.filter(m => (m.release_date || "") >= new Date().toISOString().slice(0, 10));
     }
 
-    // Apply user filters
-    data = data.filter((m) => {
-        if (
-            appliedFilters.value.genre &&
-            !m.genre_ids?.includes(Number(appliedFilters.value.genre))
-        )
-            return false;
+    // User-applied filters
+    data = data.filter(m => {
+        if (appliedFilters.value.genre && !m.genre_ids?.includes(Number(appliedFilters.value.genre))) return false;
         if (appliedFilters.value.year) {
             const year = Number((m.release_date || m.first_air_date)?.slice(0, 4));
             if (year !== appliedFilters.value.year) return false;
         }
-        if (
-            appliedFilters.value.rating &&
-            (m.vote_average || 0) < appliedFilters.value.rating
-        )
-            return false;
+        if (appliedFilters.value.rating && (m.vote_average || 0) < appliedFilters.value.rating) return false;
         return true;
     });
 
-    // Apply sorting
+    // Sorting
     if (appliedFilters.value.sort === "newest") {
         data = data.sort((a, b) =>
-            (b.release_date || b.first_air_date || "").localeCompare(
-                a.release_date || a.first_air_date || ""
-            )
+            (b.release_date || b.first_air_date || "").localeCompare(a.release_date || a.first_air_date || "")
         );
     } else if (appliedFilters.value.sort === "oldest") {
         data = data.sort((a, b) =>
-            (a.release_date || a.first_air_date || "").localeCompare(
-                b.release_date || b.first_air_date || ""
-            )
+            (a.release_date || a.first_air_date || "").localeCompare(b.release_date || b.first_air_date || "")
         );
     } else if (appliedFilters.value.sort === "topRated") {
         data = data.sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0));
@@ -219,8 +209,9 @@ const filteredMedia = computed(() => {
     return data.slice(start, start + perPage);
 });
 
-
+// -----------------------------
 // Methods
+// -----------------------------
 function clearFilters() {
     appliedFilters.value = { genre: "", year: null, rating: null, sort: "" };
     currentPage.value = 1;
@@ -238,7 +229,20 @@ function nextPage() {
     currentPage.value++;
 }
 
+// Helpers
+function getPoster(path: string | null) {
+    if (!path) return "/no-poster.jpg";
+    return `https://image.tmdb.org/t/p/w500${path}`;
+}
+
+function getGenreNames(genreIds?: number[]) {
+    if (!genreIds || !genreIds.length) return ["Unknown"];
+    return genreIds.map((id) => genreMap[id] ?? "Unknown");
+}
+
+// -----------------------------
 // Fetch initial trending
+// -----------------------------
 onMounted(async () => {
     if (!trendingAll.value.length) {
         try {
@@ -249,16 +253,60 @@ onMounted(async () => {
     }
 });
 
-// Helpers
-function getPoster(path: string | null) {
-    if (!path) return "/no-poster.jpg";
-    return `https://image.tmdb.org/t/p/w500${path}`;
-}
+// -----------------------------
+// Nuxt SEO: Dynamic Head
+// -----------------------------
+const pageTitle = computed(() => isMoviePage.value ? "Discover Movies | FilmRitz" : "Discover TV Shows | FilmRitz");
+const pageDescription = computed(() =>
+    `Explore the trending and top-rated ${isMoviePage.value ? "movies" : "TV shows"} on FilmRitz.`
+);
 
-function getGenreNames(genreIds?: number[]) {
-    if (!genreIds || !genreIds.length) return ["Unknown"];
-    return genreIds.map((id) => genreMap[id]).filter(Boolean);
-}
+// Basic SEO
+useHead(() => ({
+    title: pageTitle.value,
+    meta: [
+        { name: "description", content: pageDescription.value },
+        { name: "robots", content: "index, follow" },
+        { property: "og:title", content: pageTitle.value },
+        { property: "og:description", content: pageDescription.value },
+        { property: "og:type", content: "website" },
+        { property: "og:image", content: "/og-default.jpg" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: pageTitle.value },
+        { name: "twitter:description", content: pageDescription.value },
+        { name: "twitter:image", content: "/og-default.jpg" },
+    ],
+    link: [
+        { rel: "canonical", href: route.fullPath },
+    ],
+}));
+
+// Optional: JSON-LD structured data for SEO (type-safe)
+useHead(() => ({
+    script: [
+        {
+            type: "application/ld+json",
+            innerHTML: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": isMoviePage.value ? "Movie" : "TVSeries",
+                name: isMoviePage.value ? "FilmRitz Movies Collection" : "FilmRitz TV Shows Collection",
+                description: pageDescription.value,
+                url: route.fullPath,
+            }),
+        } as any, // ✅ TS-safe
+    ],
+}));
+
+// Watch filters and category for dynamic SEO updates
+watch([appliedFilters, selectedCategory], () => {
+    useHead({
+        title: `${pageTitle.value} - ${selectedCategory.value}`,
+        meta: [
+            { name: "description", content: `${pageDescription.value} - Filtered by ${selectedCategory.value}` },
+        ],
+    });
+});
+
 </script>
 
 <style scoped>

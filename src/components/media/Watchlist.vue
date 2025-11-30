@@ -1,4 +1,4 @@
-<!-- src/views/Watchlist.vue -->
+<!-- src/pages/Watchlist.vue -->
 <template>
     <section class="min-h-screen text-white py-10 px-6 md:px-10 mt-18 transition-all duration-900 animate-fade-up">
         <h1 class="text-3xl font-[Gilroy-Bold]">My Watchlist</h1>

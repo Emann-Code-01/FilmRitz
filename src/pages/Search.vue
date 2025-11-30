@@ -29,7 +29,7 @@
 
     <!-- Results grid -->
     <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-      <div v-for="item in visibleResults" :key="item.id + '-' + (item.media_type || 'unknown')"
+      <div role="status" v-for="item in visibleResults" :key="item.id + '-' + (item.media_type || 'unknown')"
         class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 transition-all border border-white/10 hover:border-red-500/40"
         @click="openMediaModal(item)">
         <img loading="lazy" :src="item
@@ -40,19 +40,19 @@
           class="absolute inset-0 bg-linear-to-t from-black/90 via-transparent opacity-100 group-hover:opacity-100 transition-all">
         </div>
         <div class="absolute bottom-3 left-3">
-          <h3 class="text-white font-[Gilroy-SemiBold] text-base line-clamp-1">
+          <title as="h3" class="text-white font-[Gilroy-SemiBold] text-base line-clamp-1">
             {{ item.title || item.name }}
-          </h3>
+          </title>
           <p class="text-gray-400 font-[Gilroy-Medium] text-sm">
             {{ new Date(item?.release_date).getFullYear() }} · ⭐
             {{ item.vote_average?.toFixed(1) }}
           </p>
-          <div class="flex flex-wrap gap-2">
+          <p class="flex flex-wrap gap-2">
             <span v-for="genreName in getGenreNames(getGenreIdsFromMedia(item))" :key="genreName"
               class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-[#b20710]/70 transition-all duration-200">
               {{ genreName }}
             </span>
-          </div>
+          </p>
         </div>
       </div>
     </div>
@@ -71,7 +71,7 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useMediatore } from "../stores/mediaStore";
 import { useModalStore } from "../stores/modalStore";
-import { genreMap } from "../types/genres";
+import { genreMap } from "../types/media";
 import type { Media } from "../types/media";
 import FilterPanel from "../components/media/FilterPanel.vue";
 import { useHead } from '@unhead/vue'

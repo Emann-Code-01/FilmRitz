@@ -9,13 +9,15 @@
       {{ error }}
     </div>
 
-    <div v-else class="container relative transition-all duration-900 animate-fade-up">
+    <div v-else class="relative transition-all duration-900 animate-fade-up">
       <Swiper :modules="[Navigation]" :slidesPerGroup="3" :loop="false"
         :navigation="{ nextEl: '.comingsoon-next', prevEl: '.comingsoon-prev' }" :breakpoints="{
           320: { slidesPerView: 2, spaceBetween: 4, slidesPerGroup: 2 },
           640: { slidesPerView: 3.5, spaceBetween: 10 },
           1024: { slidesPerView: 4, spaceBetween: 12 },
-          1280: { slidesPerView: 5.5, spaceBetween: 12 },
+          1280: { slidesPerView: 4.5, spaceBetween: 12 },
+          1440: { slidesPerView: 5.5, spaceBetween: 12 },
+          2000: { slidesPerView: 6.5, spaceBetween: 12 },
         }" class="netflix-swiper transition-all duration-900 animate-fade-up mySwiper w-full"
         @reachBeginning="atBeginning = true" @reachEnd="atEnd = true" @fromEdge="resetEdges">
         <SwiperSlide v-for="(item, index) in top10" :key="item.id">
@@ -26,7 +28,7 @@
               : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'
               " @click="openModal(item)" sizes="(max-width: 640px) 300px, (max-width: 1024px) 500px, 780px"
               :alt="item.title"
-              class="rounded-md hover:rounded-md w-full transition-all h-80 object-cover duration-500 animate-fade-up mx-5" /> 
+              class="rounded-md hover:rounded-md w-full transition-all h-80 object-cover duration-500 animate-fade-up mx-5" />
             <span>
               <div v-if="!auth.isLoggedIn" class="absolute left-2 bottom-3 flex items-center">
                 <div class="flex flex-col">
@@ -102,7 +104,7 @@ import { Navigation } from "swiper/modules";
 import { useModalStore } from "../../stores/modalStore";
 import { useMedia } from "../../composables/useMedia";
 import { useAuthStore } from "../../stores/auth";
-import { genreMap } from "../../types/genres";
+import { genreMap } from "../../types/media";
 
 const props = defineProps<{ mediaType?: "movie" | "tv" | "all" }>();
 const modalStore = useModalStore();

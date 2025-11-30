@@ -7,7 +7,7 @@
       <input v-model="query" type="text" placeholder="Search for movies, tv shows, or genres..."
         class="flex-1 bg-transparent outline-none text-white placeholder-gray-400 font-[Gilroy-Medium] text-lg"
         @keydown.enter="goToSearchPage" />
-      <button v-if="query" @click="clearSearch" class="text-gray-400 hover:text-white transition-all duration-200">
+      <button arial-label="Cancel" v-if="query" @click="clearSearch" class="text-gray-400 hover:text-white flex items-center transition-all duration-200">
         <i class="pi pi-times text-xl"></i>
       </button>
     </div>
@@ -21,7 +21,7 @@
 
     <div v-if="searchResults.length > 0 && query"
       class="absolute top-[110%] w-full bg-black/90 backdrop-blur-2xl rounded-2xl border border-white/10 shadow-2xl max-h-[60vh] overflow-y-auto transition-all duration-300">
-      <div v-for="item in limitedResults" :key="item.id + '-' + item.media_type"
+      <div role="status" v-for="item in limitedResults" :key="item.id + '-' + item.media_type"
         class="flex items-center gap-4 p-3 hover:bg-white/10 cursor-pointer transition-all duration-200"
         @click="selectMovie(item)">
         <img loading="lazy" :src="item.poster_path
@@ -29,14 +29,14 @@
           : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'
           " alt="poster" class="w-14 h-20 object-cover rounded-lg shadow-md" />
         <div class="flex flex-col justify-center">
-          <h3 class="text-white font-[Gilroy-SemiBold] text-base line-clamp-1">
+          <title as="h3" class="text-white font-[Gilroy-SemiBold] text-base line-clamp-1">
             {{ item.title }}
-          </h3>
+          </title>
           <p class="text-gray-400 text-sm">
             {{ new Date(item.release_date).getFullYear() }} · ⭐
             {{ item.vote_average?.toFixed(1) }} · {{ item.media_type }}
           </p>
-          <span class="flex flex-wrap gap-2">
+          <span as="p" class="flex flex-wrap gap-2">
             <router-link v-for="genreName in getGenreNames(getGenreIdsFromMedia(item))" :key="genreName"
               :to="`/ng/genre/${genreName.toLowerCase()}`"
               class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-[#b20710]/70 transition-all duration-200"
@@ -66,7 +66,7 @@
 import { ref, watch, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useMedia } from "../../composables/useMedia";
-import { genreMap } from "../../types/genres";
+import { genreMap } from "../../types/media";
 import { useModalStore } from "../../stores/modalStore";
 
 const { searchMulti, searchResults, loading, error } = useMedia();
@@ -103,13 +103,13 @@ watch(query, (newVal) => {
 function selectMovie(item: any) {
   emit("close");
   // open modal with type info
-  if (typeof modalStore.open === "function")
-    modalStore.open("movie", { movieId: item.id, mediaType: item.media_type });
-  else if (typeof (modalStore as any).openMovieModal === "function")
-    (modalStore as any).openMovieModal(item.id);
-  // if (router.currentRoute.value.name !== "Search") {
-  //   router.push({ name: "Search", query: { q: item.title } });
-  // }
+  const type = item.media_type === "tv" ? "tv" : "movie";
+    const slug = encodeURIComponent((item.title || item.name || "untitled")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)+/g, "")
+    );
+    router.push(`/ng/${type}/${slug}-${item.id}`);
   query.value = "";
   searchResults.value = [];
 }

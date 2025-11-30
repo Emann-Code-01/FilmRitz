@@ -95,7 +95,7 @@
                 <div class="pt-3">
                   <button @click="handleProtectedRoute"
                     class="gap-3 bg-[#b20710] text-white flex items-center w-fit text-xl focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500 cursor-pointer">
-                    {{ auth.isLoggedIn ? "Check Out" : "Sign In" }}
+                    {{ auth.isLoggedIn ? "View Info" : "Sign In" }}
                     <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
                   </button>
                 </div>
@@ -130,7 +130,7 @@ import {
 import { ref, watch, computed, onMounted } from "vue";
 import { useModalStore } from "../../stores/modalStore";
 import { getMediaDetails } from "../../api/tmdb";
-import { genreMap } from "../../types/genres";
+import { genreMap } from "../../types/media";
 import { useAuthStore } from "../../stores/auth";
 import { useRouter, useRoute } from "vue-router";
 

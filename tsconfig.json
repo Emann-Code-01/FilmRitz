@@ -11,7 +11,19 @@
     "lib": ["esnext", "dom"],
     "types": ["vite/client", "node"],
     "typeRoots": ["./node_modules/@types", "./src/types"],
-    "noEmit": true
+    "noEmit": true,
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/composables/*": ["./src/composables/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/stores/*": ["./src/stores/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"]
 }

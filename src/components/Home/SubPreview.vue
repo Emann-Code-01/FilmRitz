@@ -1,6 +1,6 @@
-<template>
+<template class="bg-black relative">
   <div
-    class="relative md:hidden overflow-hidden -mt-20 z-20 flex items-center justify-center rounded-sm mx-auto bg-[radial-gradient(circle_at_center,_rgba(255,153,0,0.6)_0%,_rgba(229,9,20,0.6)_14%,_rgba(14,27,79,0.6)_77%,_rgba(0,4,19,0.6)_100%)] min-h-[10rem] shadow-2xl shadow-black/50 transition-all duration-900 animate-fade-up"
+    class="relative md:hidden overflow-hidden -mt-20 z-20 flex items-center justify-center rounded-sm mx-auto bg-[radial-gradient(circle_at_center,rgba(255,153,0,0.6)_0%,rgba(229,9,20,0.6)_14%,rgba(14,27,79,0.6)_77%,rgba(0,4,19,0.6)_100%)] min-h-40 shadow-2xl shadow-black/50 transition-all duration-900 animate-fade-up"
   >
     <img
       :src="popcorn"

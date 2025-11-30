@@ -5,7 +5,7 @@
         Trending Now
       </h1>
       <div class="flex">
-        <TrendingNow />
+        <TrendingGrid />
       </div>
     </div>
     <div class="space-y-5 text-white transition-all duration-900 animate-fade-up">
@@ -490,7 +490,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import TrendingNow from "../media/TrendingNow.vue";
+import TrendingGrid from "../media/TrendingGrid.vue";
 import { useRouter } from "vue-router";
 
 const faqs = [
