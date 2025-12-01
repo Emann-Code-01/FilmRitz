@@ -25,12 +25,12 @@
 
         <!-- Watchlist Grid -->
         <div v-else class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 mt-7">
-            <div v-for="item in watchlist" :key="item.id + '-' + (item.media_type || 'unknown')"
+            <div v-for="item in watchlist" :key="item.id"
                 class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 transition-all border border-white/10 hover:border-red-500/40">
                 <!-- Clickable Card -->
                 <div @click="goToMedia(item)" class="w-full h-full">
                     <!-- Poster Image -->
-                    <img loading="lazy" :src="getPoster(item.poster_path)" alt="{{item.title}}"
+                    <img loading="lazy" :src="getPoster(item.poster_path)" :alt="item.title"
                         class="w-full object-cover group-hover:scale-105 transition-all duration-300 rounded-2xl" />
                     <div
                         class="absolute inset-0 bg-linear-to-t from-black/90 via-transparent opacity-100 group-hover:opacity-100 transition-all">
@@ -70,13 +70,12 @@ import type { WatchItem } from "@/types/media";
 import { useRouter } from "vue-router";
 
 const store = useWatchlistStore();
-await store.loadFromCloud();
+store.loadFromLocalStorage();
 
 const watchlist = computed<WatchItem[]>(() => store.items);
 const router = useRouter();
 const loading = ref(true);
 
-// Simulate loading delay
 onMounted(() => {
     setTimeout(() => {
         loading.value = false;

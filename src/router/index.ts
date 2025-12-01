@@ -13,7 +13,7 @@ import ResetPassword from "@/components/auth/ResetPassword.vue";
 import { useAuthStore } from "@/stores/auth";
 import GenreView from "@/pages/GenreView.vue";
 import TvDetails from "@/pages/TvDetails.vue";
-import Wishlist from "@/pages/Wishlist.vue";
+import Watchlist from "@/pages/Watchlist.vue";
 import MediaPage from "@/pages/MediaPage.vue";
 
 const routes: RouteRecordRaw[] = [
@@ -77,9 +77,9 @@ const routes: RouteRecordRaw[] = [
         component: Search,
       },
       {
-        path: "wishlist",
-        name: "Wishlist",
-        component: Wishlist,
+        path: "watchlist",
+        name: "Watchlist",
+        component: Watchlist,
         meta: { requiresAuth: true },
       },
       {

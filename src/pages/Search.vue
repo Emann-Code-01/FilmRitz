@@ -49,7 +49,7 @@
           </p>
           <p class="flex flex-wrap gap-2">
             <span v-for="genreName in getGenreNames(getGenreIdsFromMedia(item))" :key="genreName"
-              class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-[#b20710]/70 transition-all duration-200">
+              class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-full hover:bg-[#b20710]/70 transition-all duration-200">
               {{ genreName }}
             </span>
           </p>

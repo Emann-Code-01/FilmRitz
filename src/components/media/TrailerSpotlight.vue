@@ -63,7 +63,7 @@
                                         {{ formatYear(item.release_date || item.first_air_date) }}
                                     </span>
                                     <span
-                                        class="px-2 py-1 bg-[#b20710] rounded-md text-white text-xs font-[Gilroy-SemiBold]">
+                                        class="px-2 py-1 bg-[#b20710] rounded-full text-white text-xs font-[Gilroy-SemiBold]">
                                         {{ item.media_type === 'movie' ? 'MOVIE' : 'TV' }}
                                     </span>
                                 </div>
@@ -83,7 +83,7 @@
                                         <span>Watch Trailer</span>
                                     </button> -->
                                     <button @click.stop="openModal(item)"
-                                        class="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg font-[Gilroy-SemiBold] text-sm hover:bg-white/30 transition-all cursor-pointer">
+                                        class="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-full font-[Gilroy-SemiBold] text-sm hover:bg-white/30 transition-all cursor-pointer">
                                         More Info
                                     </button>
                                 </div>

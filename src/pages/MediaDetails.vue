@@ -17,15 +17,15 @@
         <h1 class="text-4xl font-[Gilroy-Bold]">{{ media.title }}</h1>
         <p class="text-lg text-gray-300 font-[Gilroy-Medium]">{{ media.overview }}</p>
         <div class="flex items-center gap-4">
-          <span class="px-2 py-1 bg-[#b20710]/70 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]">{{
+          <span class="px-2 py-1 bg-[#b20710]/70 text-green-100 rounded-full text-sm font-[Gilroy-SemiBold]">{{
             media?.vote_average?.toFixed(1) }}</span>
-          <span class="px-2 py-1 text-white bg-white/10 rounded-md text-sm font-[Gilroy-SemiBold]">{{
+          <span class="px-2 py-1 text-white bg-white/10 rounded-full text-sm font-[Gilroy-SemiBold]">{{
             media.media_type.toUpperCase() }}</span>
           <span class="text-sm font-[Gilroy-Medium]">{{ new Date(media?.release_date).getFullYear() }}</span>
           <div class="flex flex-wrap gap-2">
             <router-link v-for="genreName in getGenreNames(getGenreIdsFromMedia(media))" :key="genreName"
               :to="`/ng/genre/${genreName.toLowerCase()}`"
-              class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-[#b20710]/70 transition-all duration-200 cursor-pointer">
+              class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-full hover:bg-[#b20710]/70 transition-all duration-200 cursor-pointer">
               {{ genreName }}
             </router-link>
             <span v-if="isTv && media.number_of_seasons" class="ml-2 text-lg text-gray-300 font-[Gilroy-SemiBold]">
@@ -39,12 +39,12 @@
         <div class="flex gap-3 mt-4 animate-fade-up">
           <!-- this is the click "@click="goToWatch" for the button below" -->
           <button 
-            class="px-4 py-2 bg-red-600 rounded-xl hover:bg-red-700 font-[Gilroy-SemiBold] flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>▶
+            class="px-4 py-2 bg-red-600 rounded-full hover:bg-red-700 font-[Gilroy-SemiBold] flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>▶
             Watch</button>
 
           <!-- Heart Toggle Button -->
           <button @click="toggleWatchlist"
-            class="px-4 py-2 flex items-center gap-2 rounded-xl font-[Gilroy-Medium] bg-gray-800 hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 cursor-pointer">
+            class="px-4 py-2 flex items-center gap-2 rounded-full font-[Gilroy-Medium] bg-gray-800 hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 cursor-pointer">
             <span :class="{ 'text-red-500 animate-pulse': inWatchlist }">♥</span>
             <span>{{ inWatchlist ? "Added to My List" : "Add to My List" }}</span>
           </button>
@@ -65,7 +65,7 @@
       <h1 class="text-4xl font-[Gilroy-Bold]">{{ media.title }}</h1>
       <p class="text-lg text-gray-300 font-[Gilroy-Medium]">{{ media.overview }}</p>
       <div class="flex items-center gap-4">
-        <span class="px-2 py-1 bg-[#b20710]/70 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]">{{
+        <span class="px-2 py-1 bg-[#b20710]/70 text-green-100 rounded-full text-sm font-[Gilroy-SemiBold]">{{
           media?.vote_average?.toFixed(1) }}</span>
         <span class="text-sm font-[Gilroy-Medium]">{{ new Date(media?.release_date).getFullYear() }}</span>
       </div>
@@ -73,18 +73,18 @@
       <div class="flex flex-wrap gap-2">
         <router-link v-for="genreName in getGenreNames(getGenreIdsFromMedia(media))" :key="genreName"
           :to="`/ng/genre/${genreName.toLowerCase()}`"
-          class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-[#b20710]/70 transition-all duration-200 cursor-pointer">
+          class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-full hover:bg-[#b20710]/70 transition-all duration-200 cursor-pointer">
           {{ genreName }}
         </router-link>
       </div>
 
       <div class="flex gap-3 animate-fade-up">
         <button @click="goToWatch"
-          class="px-4 py-2 bg-red-600 rounded-xl hover:bg-red-700 font-[Gilroy-SemiBold] flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>▶
+          class="px-4 py-2 bg-red-600 rounded-full hover:bg-red-700 font-[Gilroy-SemiBold] flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>▶
           Watch</button>
 
         <button @click="toggleWatchlist"
-          class="px-4 py-2 flex items-center gap-2 rounded-xl font-[Gilroy-Medium] bg-gray-800 hover:bg-gray-700 transition-all duration-300 transform hover:scale-105">
+          class="px-4 py-2 flex items-center gap-2 rounded-full font-[Gilroy-Medium] bg-gray-800 hover:bg-gray-700 transition-all duration-300 transform hover:scale-105">
           <span :class="{ 'text-red-500 animate-pulse': inWatchlist }">♥</span>
           <span>{{ inWatchlist ? "Added to My List" : "Add to My List" }}</span>
         </button>
@@ -116,7 +116,7 @@
     </div>
     <div v-if="media?.media_type === 'tv' && media?.seasons?.length" class="mt-4 text-center">
       <RouterLink :to="`/ng/tv-shows/${slugify(media.title)}-${media.id}`"
-        class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-[Gilroy-SemiBold] transition">
+        class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded-fulltre font-[Gilroy-SemiBold] transition">
         View More Seasons →
       </RouterLink>
     </div>

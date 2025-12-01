@@ -12,7 +12,7 @@
     <div v-if="loading" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
       <div v-for="n in 12" :key="n"
         class="relative w-full h-72 rounded-xl overflow-hidden bg-[#1a1a1a] border border-white/10 animate-pulse">
-        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer">
+        <div class="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent animate-shimmer">
         </div>
         <div class="h-3/4 bg-gray-800 rounded-t-xl"></div>
         <div class="p-3 space-y-2">

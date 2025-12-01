@@ -68,10 +68,10 @@
                 </DialogTitle>
 
                 <div class="flex items-center gap-4 mt-2 flex-wrap">
-                  <span class="px-2 py-1 bg-[#b20710]/70 text-green-100 rounded-md text-sm font-[Gilroy-SemiBold]">
+                  <span class="px-3 py-1.5 bg-[#b20710]/70 text-green-100 rounded-full text-sm font-[Gilroy-SemiBold]">
                     {{ media?.vote_average?.toFixed(1) }}
                   </span>
-                  <span class="px-2 py-1 text-white bg-white/10 rounded-md text-sm font-[Gilroy-SemiBold]">
+                  <span class="px-3 py-1.5 text-white bg-white/10 rounded-full text-sm font-[Gilroy-SemiBold]">
                     {{ media.media_type.toUpperCase() }}
                   </span>
                   <span class="text-sm font-[Gilroy-Medium]">
@@ -80,7 +80,7 @@
                   <span v-for="genreName in getGenreNames(
                     getGenreIdsFromMedia(media)
                   )" :key="genreName" @click="goToGenre(genreName)"
-                    class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-[#b20710]/70 hover:text-white transition-all duration-200 cursor-pointer">
+                    class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-3 py-0.5 rounded-full hover:bg-[#b20710]/70 hover:text-white transition-all duration-200 cursor-pointer">
                     {{ genreName }}
                   </span>
                 </div>

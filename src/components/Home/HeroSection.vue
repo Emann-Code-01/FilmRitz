@@ -185,7 +185,7 @@
           >
             <!-- Rating -->
             <div
-              class="flex items-center gap-2 px-3 py-1.5 bg-[#b20710] rounded-lg"
+              class="flex items-center gap-2 px-3 py-1.5 bg-[#b20710] rounded-full"
             >
               <span class="text-yellow-400">⭐</span>
               <span class="font-[Gilroy-Bold]">{{
@@ -195,7 +195,7 @@
 
             <!-- Media Type -->
             <span
-              class="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-lg font-[Gilroy-SemiBold] text-sm"
+              class="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-full font-[Gilroy-SemiBold] text-sm"
             >
               {{ item.media_type === "movie" ? "🎬 MOVIE" : "📺 TV SHOW" }}
             </span>
@@ -218,7 +218,7 @@
                   name: 'GenreView',
                   params: { name: genreName.toLowerCase() },
                 }"
-                class="px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-lg text-sm font-[Gilroy-SemiBold] text-[#ffffffec] hover:bg-[#b20710] transition-all duration-200"
+                class="px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-sm font-[Gilroy-SemiBold] text-[#ffffffec] hover:bg-[#b20710] transition-all duration-200"
               >
                 {{ genreName }}
               </router-link>
@@ -233,7 +233,7 @@
             <span
               v-for="genreName in getGenreNames(item.genre_ids).slice(0, 2)"
               :key="genreName"
-              class="px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-lg text-[#ffffffec] text-sm font-[Gilroy-SemiBold]"
+              class="px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-[#ffffffec] text-sm font-[Gilroy-SemiBold]"
             >
               {{ genreName }}
             </span>
@@ -253,7 +253,7 @@
             style="animation-delay: 0.25s"
           >
             <button
-              class="px-6 md:px-8 py-3 md:py-4 bg-white text-black rounded-lg font-[Gilroy-Bold] disabled:opacity-50 disabled:cursor-not-allowed text-base md:text-lg hover:bg-white/90 transition-all flex items-center gap-3 group"
+              class="px-6 md:px-8 py-3 md:py-4 bg-white text-black rounded-full font-[Gilroy-Bold] disabled:opacity-50 disabled:cursor-not-allowed text-base md:text-lg hover:bg-white/90 transition-all flex items-center gap-3 group"
               disabled
             >
               <span class="text-4xl text-white ml-1">▶</span>
@@ -262,7 +262,7 @@
 
             <button
               @click="modalStore.open(item.media_type, { id: item.id })"
-              class="px-6 md:px-8 py-3 cursor-pointer md:py-4 bg-white/20 backdrop-blur-sm text-white rounded-lg font-[Gilroy-SemiBold] text-base md:text-lg hover:bg-white/30 transition-all flex items-center gap-2"
+              class="px-6 md:px-8 py-3 cursor-pointer md:py-4 bg-white/20 backdrop-blur-sm text-white rounded-full font-[Gilroy-SemiBold] text-base md:text-lg hover:bg-white/30 transition-all flex items-center gap-2"
             >
               <i class="pi pi-info-circle"></i>
               <span>More Info</span>

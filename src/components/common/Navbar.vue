@@ -29,11 +29,11 @@
               ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
               : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
           ]">My Movies</router-link>
-          <router-link to="/ng/wishlist" :class="[
-            isActiveLink('/ng/wishlist')
+          <router-link to="/ng/watchlist" :class="[
+            isActiveLink('/ng/watchlist')
               ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
               : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
-          ]">My Wishlist</router-link>
+          ]">My Watchlist</router-link>
         </div>
       </div>
     </div>

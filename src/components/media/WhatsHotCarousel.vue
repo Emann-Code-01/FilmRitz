@@ -1,5 +1,5 @@
 <template>
-  <section class="relative overflow-hidden">
+  <section class="relative">
     <!-- Loading State -->
     <div v-if="loading" class="flex justify-center gap-4 px-4">
       <div

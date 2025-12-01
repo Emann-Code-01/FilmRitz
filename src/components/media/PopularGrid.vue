@@ -197,7 +197,7 @@
                     )[0].toLowerCase()}`
                   : '/ng/login'
               "
-              class="inline-block text-xs font-[Gilroy-SemiBold] text-white bg-white/20 backdrop-blur-sm px-2 py-1 rounded-md hover:bg-[#b20710] transition-all duration-200"
+              class="inline-block text-sm font-[Gilroy-SemiBold] text-white bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full hover:bg-[#b20710] transition-all duration-200"
             >
               {{ getGenreNames(item.genre_ids)[0] }}
             </router-link>
