@@ -115,7 +115,7 @@
       </div>
     </div>
     <div v-if="media?.media_type === 'tv' && media?.seasons?.length" class="mt-4 text-center">
-      <RouterLink :to="`/tv/${slugify(media.title)}-${media.id}`"
+      <RouterLink :to="`/ng/tv-shows/${slugify(media.title)}-${media.id}`"
         class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-[Gilroy-SemiBold] transition">
         View More Seasons →
       </RouterLink>

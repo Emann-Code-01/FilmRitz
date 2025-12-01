@@ -3,10 +3,10 @@
     auth.isLoggedIn
       ? 'fixed top-0 left-0 w-full py-5 px-6 z-50 flex items-center justify-between transition-all duration-500 ease-out'
       : 'fixed top-0 left-0 w-full py-5 xl:px-32 px-5 z-50 flex items-center justify-between transition-all duration-500 ease-out',
-    scrolled ? 'bg-black/90 backdrop-blur-xl shadow-lg' : 'bg-transparent',
+    scrolled ? 'bg-black/90 backdrop-blur-xl shadow-lg' : 'bg-black/25 backdrop-blur-md',
   ]">
     <div class="flex justify-center items-center gap-3">
-      <router-link to="/ng" class="cusor-pointer">
+      <router-link to="/ng" class="cursor-pointer">
         <img loading="lazy" :src="currentLogo" alt="Filmritz Logo" :class="auth.isLoggedIn
           ? 'transition-all duration-900 animate-fade-up w-18'
           : 'transition-all duration-900 animate-fade-up w-19'
@@ -29,11 +29,11 @@
               ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
               : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
           ]">My Movies</router-link>
-          <router-link to="/ng/watchlist" :class="[
-            isActiveLink('/ng/watchlist')
+          <router-link to="/ng/wishlist" :class="[
+            isActiveLink('/ng/wishlist')
               ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
               : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
-          ]">My Watchlist</router-link>
+          ]">My Wishlist</router-link>
         </div>
       </div>
     </div>

@@ -287,7 +287,7 @@
           v-for="(item, index) in trendingAll.slice(0, 7)"
           :key="index"
           @click="goToSlide(index)"
-          class="transition-all duration-300 rounded-full"
+          class="transition-all duration-300 rounded-full cursor-pointer"
           :class="
             currentSlideIndex === index
               ? 'w-8 h-2 bg-white'

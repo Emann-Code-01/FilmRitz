@@ -58,16 +58,16 @@
               </button>
               </MenuItem>
               <MenuItem v-slot="{ active }">
-              <button @click="goTo('/ng/watchlist')" :class="[
+              <button @click="goTo('/ng/wishlist')" :class="[
                 'group flex w-full items-center rounded-md px-2 py-2 text-sm font-[Gilroy-SemiBold] transition-all duration-200',
                 active
                   ? 'bg-red-700 text-white'
                   : 'text-gray-900 hover:text-red-500',
-                isActiveLink('/ng/watchlist')
+                isActiveLink('/ng/wishlist')
                   ? 'text-red-500 underline bg-accent ease-in'
                   : '',
               ]">
-                My Watchlist
+                My Wishlist
               </button>
               </MenuItem>
             </div>
