@@ -5,6 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import MovieModal from './src/components/media/MediaModal.vue';
+import MovieModal from '../src/components/media/MediaModal.vue';
 </script>
 

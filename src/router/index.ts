@@ -4,7 +4,7 @@ import MainLayout from "@/components/layout/MainLayout.vue";
 import SplashScreen from "@/pages/SplashScreen.vue";
 import Home from "@/pages/Home.vue";
 import Auth from "@/components/auth/Auth.vue";
-import MovieDetails from "@/pages/MediaDetails.vue";
+import MediaDetails from "@/pages/MediaDetails.vue";
 import Watch from "@/pages/Watch.vue";
 import Search from "@/pages/Search.vue";
 import Profile from "@/pages/Profile.vue";
@@ -40,12 +40,19 @@ const routes: RouteRecordRaw[] = [
       {
         path: "movie/:name",
         name: "MovieDetails",
-        component: MovieDetails,
+        component: MediaDetails,
         props: true,
         meta: { requiresAuth: true },
       },
       {
         path: "tv/:name",
+        name: "TVShowDetails",
+        component: MediaDetails,
+        props: true,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/tv/:name",
         name: "TVDetails",
         component: TvDetails,
         props: true,

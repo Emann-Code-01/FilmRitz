@@ -65,11 +65,12 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted } from "vue";
-import { useWatchlistStore, WatchItem } from "@/stores/watchlist";
+import { useWatchlistStore } from "@/stores/watchlist";
+import type { WatchItem } from "@/types/media";
 import { useRouter } from "vue-router";
 
 const store = useWatchlistStore();
-store.loadFromLocalStorage();
+await store.loadFromCloud();
 
 const watchlist = computed<WatchItem[]>(() => store.items);
 const router = useRouter();

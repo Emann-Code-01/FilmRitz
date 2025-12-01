@@ -54,7 +54,7 @@
               <TrendingGrid @update-ambient="updateAmbientColor" />
             </section>
             <section class="relative overflow-hidden">
-              <div class="px-4 md:px-8 lg:px-12 mb-6">
+              <div class="px-4 md:px-8 lg:px-12">
                 <h2
                   class="text-3xl font-[Gilroy-Bold] text-white flex items-center gap-3"
                 >

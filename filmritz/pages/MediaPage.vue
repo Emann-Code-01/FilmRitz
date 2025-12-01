@@ -169,19 +169,19 @@ const categories = [
 // Computed: Filtered & Paginated Media
 // -----------------------------
 const filteredMedia = computed(() => {
-    let data = trendingAll.value.filter(m =>
+    let data = trendingAll.value.filter((m: any) =>
         isMoviePage.value ? m.media_type === "movie" : m.media_type === "tv"
     );
 
     // Category filter
     if (selectedCategory.value === "topRated") {
-        data = data.sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0));
+        data = data.sort((a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0));
     } else if (selectedCategory.value === "upcoming") {
-        data = data.filter(m => (m.release_date || "") >= new Date().toISOString().slice(0, 10));
+        data = data.filter((m: any) => (m.release_date || "") >= new Date().toISOString().slice(0, 10));
     }
 
     // User-applied filters
-    data = data.filter(m => {
+    data = data.filter((m: any) => {
         if (appliedFilters.value.genre && !m.genre_ids?.includes(Number(appliedFilters.value.genre))) return false;
         if (appliedFilters.value.year) {
             const year = Number((m.release_date || m.first_air_date)?.slice(0, 4));
@@ -193,15 +193,15 @@ const filteredMedia = computed(() => {
 
     // Sorting
     if (appliedFilters.value.sort === "newest") {
-        data = data.sort((a, b) =>
+        data = data.sort((a: any, b: any) =>
             (b.release_date || b.first_air_date || "").localeCompare(a.release_date || a.first_air_date || "")
         );
     } else if (appliedFilters.value.sort === "oldest") {
-        data = data.sort((a, b) =>
+        data = data.sort((a: any, b: any) =>
             (a.release_date || a.first_air_date || "").localeCompare(b.release_date || b.first_air_date || "")
         );
     } else if (appliedFilters.value.sort === "topRated") {
-        data = data.sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0));
+        data = data.sort((a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0));
     }
 
     // Pagination

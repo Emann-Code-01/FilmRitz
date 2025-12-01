@@ -55,7 +55,7 @@ useHead({
   link: [
     {
       rel: "canonical",
-      href: "https://filmritz.vercel.app"
+      href: "https://filmritz.vercel.app/ng/"
     }
   ],
   meta: [
@@ -65,7 +65,7 @@ useHead({
         "FilmRitz — Discover trending movies and TV series in a fast, modern, immersive interface."
     },
 
-    { name: "keywords", content: "filmritz, movies, tv shows, discover, trending, entertainment" },
+    { name: "keywords", content: "filmritz, movies, tv shows, discover, trending, entertainment, emanncode, ifeoluwa olajubaje emmanuel" },
 
     // Open Graph
     { property: "og:site_name", content: "FilmRitz" },
@@ -79,7 +79,7 @@ useHead({
       property: "og:image",
       content: "https://filmritz.vercel.app/filmritzlogo2.png"
     },
-    { property: "og:url", content: "https://filmritz.vercel.app" },
+    { property: "og:url", content: "https://filmritz.vercel.app/ng/" },
 
     // Twitter
     { name: "twitter:card", content: "summary_large_image" },
