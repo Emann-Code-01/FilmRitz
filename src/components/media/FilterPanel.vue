@@ -85,8 +85,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { genreNameToId } from "../../types/media";
-import { useMediatore } from "../../stores/mediaStore";
+import { genreNameToId } from "@/types/media";
+import { useMediatore } from "@/stores/mediaStore";
 
 const store = useMediatore();
 

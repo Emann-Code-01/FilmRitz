@@ -1,6 +1,6 @@
 // composables/useColorExtraction.ts
 import ColorThief from 'colorthief';
-import { ColorPalette } from '../types/media';
+import { ColorPalette } from '@/types/media';
 
 export const useColorExtraction = () => {
   const colorThief = new ColorThief();

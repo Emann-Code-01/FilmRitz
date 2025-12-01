@@ -55,7 +55,7 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useModalStore } from '../../stores/modalStore';
+import { useModalStore } from '@/stores/modalStore';
 
 const emit = defineEmits<{
     'update-ambient': [color: string]

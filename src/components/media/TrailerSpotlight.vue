@@ -100,11 +100,11 @@
 
             <!-- Navigation Buttons -->
             <button
-                class="spotlight-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-[#b20710] transition-all shadow-xl">
+                class="spotlight-prev absolute cursor-pointer left-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-[#b20710] transition-all shadow-xl">
                 <i class="pi pi-chevron-left text-xl"></i>
             </button>
             <button
-                class="spotlight-next absolute right-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-[#b20710] transition-all shadow-xl">
+                class="spotlight-next absolute cursor-pointer right-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-[#b20710] transition-all shadow-xl">
                 <i class="pi pi-chevron-right text-xl"></i>
             </button>
 
@@ -116,7 +116,7 @@
 import { ref, onMounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, FreeMode } from 'swiper/modules';
-import { useModalStore } from '../../stores/modalStore';
+import { useModalStore } from '@/stores/modalStore';
 import { fetchTrendingMedia } from '../../api/tmdb';
 
 const emit = defineEmits<{

@@ -185,7 +185,7 @@ import {
   ListboxOption,
   ListboxButton,
 } from "@headlessui/vue";
-import { useModalStore } from "../../stores/modalStore";
+import { useModalStore } from "@/stores/modalStore";
 
 const emit = defineEmits<{
   "update-ambient": [color: string];

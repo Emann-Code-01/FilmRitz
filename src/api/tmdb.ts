@@ -2,8 +2,8 @@
 
 // Unified TMDB helpers for Movie + TV + combined use (v3 axios instance: apiV3)
 import apiV3 from "./tmdbV3";
-import { genreMap } from "../types/media";
-import { Media, TVShow, Season, Episode } from "../types/media"; // ✅ use your defined interfaces
+import { genreMap } from "@/types/media";
+import { Media, TVShow, Season, Episode } from "@/types/media"; // ✅ use your defined interfaces
 
 /**
  * Normalize an item to a consistent media shape:
@@ -205,6 +205,24 @@ export const fetchTrendingMedia = async (
   );
 };
 
+export const fetchTopRatedMedia = async (page = 1): Promise<Media[]> => {
+  const results = await Promise.allSettled([
+    fetchTopRatedMovies(page),
+    fetchTopRatedTV(page),
+  ]);
+
+  const fulfilled = results.filter(
+    (r): r is PromiseFulfilledResult<any[]> => r.status === "fulfilled"
+  );
+
+  const values = fulfilled.map((r) => r.value).flat();
+
+  // Sort by vote average descending
+  return values.sort(
+    (a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0)
+  );
+};
+
 export const getMediaDetails = async (
   id: number,
   mediaType: "movie" | "tv"
@@ -319,6 +337,77 @@ export const searchMoviesAndShows = async (
       matchesRating
     );
   });
+};
+
+// --------------------------- ✔ NEW: POPULAR MEDIA ---------------------------
+
+export const fetchPopularMedia = async (page = 1): Promise<Media[]> => {
+  const results = await Promise.allSettled([
+    fetchPopularMovies(page),
+    fetchPopularTV(page),
+  ]);
+
+  const fulfilled = results.filter(
+    (r): r is PromiseFulfilledResult<any[]> => r.status === "fulfilled"
+  );
+
+  const values = fulfilled.map((r) => r.value).flat();
+
+  return values.sort(
+    (a: any, b: any) => (b.popularity || 0) - (a.popularity || 0)
+  );
+};
+
+// --------------------------- ✔ NEW: UPCOMING MEDIA (movie + tv-on-air) ---------------------------
+
+export const fetchUpcomingMedia = async (page = 1): Promise<Media[]> => {
+  const results = await Promise.allSettled([
+    fetchUpcomingMovies(page),
+    fetchOnTheAir(page), // tv version of “upcoming”
+  ]);
+
+  const fulfilled = results.filter(
+    (r): r is PromiseFulfilledResult<any[]> => r.status === "fulfilled"
+  );
+
+  const values = fulfilled.map((r) => r.value).flat();
+
+  return values.sort(
+    (a: any, b: any) =>
+      new Date(b.release_date).getTime() -
+      new Date(a.release_date).getTime()
+  );
+};
+
+// --------------------------- ✔ NEW: DISCOVER ---------------------------
+
+export const discoverMedia = async ({
+  mediaType = "movie",
+  page = 1,
+  sortBy = "popularity.desc",
+  genre,
+  year,
+  minRating,
+}: {
+  mediaType?: "movie" | "tv";
+  page?: number;
+  sortBy?: string;
+  genre?: string | number;
+  year?: number;
+  minRating?: number;
+}): Promise<Media[]> => {
+  const res = await apiV3.get(`/discover/${mediaType}`, {
+    params: {
+      page,
+      sort_by: sortBy,
+      with_genres: genre,
+      primary_release_year: mediaType === "movie" ? year : undefined,
+      first_air_date_year: mediaType === "tv" ? year : undefined,
+      "vote_average.gte": minRating,
+    },
+  });
+
+  return (res.data.results || []).map((r: any) => normalize(r, mediaType));
 };
 
 export function getPoster(path: string | null, size: string = "w-1280") {

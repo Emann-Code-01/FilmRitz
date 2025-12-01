@@ -180,8 +180,8 @@
 import { ref, onMounted, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
-import { useWatchlistStore } from "../../stores/watchlist";
-import { genreMap } from "../../types/media";
+import { useWatchlistStore } from "@/stores/watchlist";
+import { genreMap } from "@/types/media";
 
 const route = useRoute();
 const router = useRouter();

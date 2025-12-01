@@ -69,11 +69,11 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
-import { useMediatore } from "../stores/mediaStore";
-import { useModalStore } from "../stores/modalStore";
-import { genreMap } from "../types/media";
-import type { Media } from "../types/media";
-import FilterPanel from "../components/media/FilterPanel.vue";
+import { useMediatore } from "@/stores/mediaStore";
+import { useModalStore } from "@/stores/modalStore";
+import { genreMap } from "@/types/media";
+import type { Media } from "@/types/media";
+import FilterPanel from "@/components/media/FilterPanel.vue";
 import { useHead } from '@unhead/vue'
 
 const route = useRoute();

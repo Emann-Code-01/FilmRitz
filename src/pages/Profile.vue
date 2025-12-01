@@ -94,7 +94,7 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import { ref, computed } from "vue";
-import { useAuthStore } from "../stores/auth";
+import { useAuthStore } from "@/stores/auth";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();

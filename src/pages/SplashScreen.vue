@@ -30,7 +30,7 @@ onMounted(() => {
   timer.value = window.setTimeout(() => {
     const redirectTo = route.query.redirect || '/ng';
     router.push(redirectTo as string);
-  }, 2800);
+  }, 3200);
 });
 
 onBeforeUnmount(() => {

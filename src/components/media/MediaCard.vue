@@ -32,9 +32,9 @@
 </template>
 
 <script setup lang="ts">
-import { useModalStore } from "../../stores/modalStore";
-import { genreMap } from "../../types/media";
-import type { Media } from '../../types/media'
+import { useModalStore } from "@/stores/modalStore";
+import { genreMap } from "@/types/media";
+import type { Media } from '@/types/media'
 
 const props = defineProps<{
   media: Media

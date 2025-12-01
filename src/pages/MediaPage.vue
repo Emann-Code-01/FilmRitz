@@ -128,9 +128,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { useMedia } from "../../composables/useMedia";
-import { useModalStore } from "../../stores/modalStore";
-import { genreMap } from "../../types/media";
+import { useMedia } from "@/composables/useMedia";
+import { useModalStore } from "@/stores/modalStore";
+import { genreMap } from "@/types/media";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay, EffectCards } from "swiper/modules";
 

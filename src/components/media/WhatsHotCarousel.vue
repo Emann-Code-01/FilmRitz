@@ -74,11 +74,11 @@
 
       <!-- Navigation Buttons -->
       <button
-        class="hot-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/70 backdrop-blur-sm flex items-center justify-center text-white hover:bg-[#b20710] transition-all">
+        class="hot-prev absolute cursor-pointer left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/70 backdrop-blur-sm flex items-center justify-center text-white hover:bg-[#b20710] transition-all">
         <i class="pi pi-chevron-left"></i>
       </button>
       <button
-        class="hot-next absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/70 backdrop-blur-sm flex items-center justify-center text-white hover:bg-[#b20710] transition-all">
+        class="hot-next absolute cursor-pointer right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/70 backdrop-blur-sm flex items-center justify-center text-white hover:bg-[#b20710] transition-all">
         <i class="pi pi-chevron-right"></i>
       </button>
 
@@ -90,7 +90,7 @@
 import { ref, onMounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, EffectCoverflow } from 'swiper/modules';
-import { useModalStore } from '../../stores/modalStore';
+import { useModalStore } from '@/stores/modalStore';
 import { fetchTrendingMedia } from '../../api/tmdb';
 
 const emit = defineEmits<{

@@ -180,8 +180,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { getTVDetails, getTVSeasonDetails, getTVEpisodeDetails, getTVEpisodeCredits } from "../../api/tmdb";
-import type { TVShow, Episode, Season } from "../../types/media";
+import { getTVDetails, getTVSeasonDetails, getTVEpisodeDetails, getTVEpisodeCredits } from "../api/tmdb";
+import type { TVShow, Episode, Season } from "@/types/media";
 import { useHead } from "@unhead/vue";
 import { TransitionRoot, Dialog, DialogPanel, DialogTitle, DialogDescription, DialogOverlay } from "@headlessui/vue";
 

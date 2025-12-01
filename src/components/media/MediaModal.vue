@@ -128,10 +128,10 @@ import {
   DialogOverlay,
 } from "@headlessui/vue";
 import { ref, watch, computed, onMounted } from "vue";
-import { useModalStore } from "../../stores/modalStore";
+import { useModalStore } from "@/stores/modalStore";
 import { getMediaDetails } from "../../api/tmdb";
-import { genreMap } from "../../types/media";
-import { useAuthStore } from "../../stores/auth";
+import { genreMap } from "@/types/media";
+import { useAuthStore } from "@/stores/auth";
 import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();

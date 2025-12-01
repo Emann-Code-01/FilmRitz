@@ -338,12 +338,13 @@ function applySeo() {
   const image = media.value.backdrop_path || media.value.poster_path
     ? `https://image.tmdb.org/t/p/w1280${media.value.backdrop_path || media.value.poster_path}`
     : "https://placehold.co/1200x630/0f0f0f/FF0000?text=FILMRITZ";
-  const url = `https://filmritz.com${route.fullPath}`;
+  const url = `https://filmritz.vercel.app${route.fullPath}`;
 
   useHead({
     title,
     meta: [
       { name: "description", content: desc },
+      { name: "robots", content: "index, follow" },
       { property: "og:title", content: title },
       { property: "og:description", content: desc },
       { property: "og:image", content: image },
@@ -364,6 +365,8 @@ function applySeo() {
           name: media.value.title,
           description: media.value.overview,
           image,
+          url,
+          datePublished: media.value.release_date || media.value.first_air_date,
           genre: getGenreNames(getGenreIdsFromMedia(media.value)),
           aggregateRating: {
             "@type": "AggregateRating",

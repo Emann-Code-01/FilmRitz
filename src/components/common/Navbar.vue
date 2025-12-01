@@ -87,9 +87,9 @@ import Logo from "/filmritzlogo2.png";
 import Logo2 from "/filmritzlogo3.png";
 import { ref, onUnmounted, onMounted, onBeforeUnmount } from "vue";
 import SearchBar from "../media/SearchBar.vue";
-import { useAuthStore } from "../../stores/auth";
+import { useAuthStore } from "@/stores/auth";
 import { useRouter, useRoute } from "vue-router";
-import Profile from "../../pages/Profile.vue";
+import Profile from "@/pages/Profile.vue";
 import { TransitionRoot, TransitionChild, Dialog } from "@headlessui/vue";
 import "swiper/css";
 

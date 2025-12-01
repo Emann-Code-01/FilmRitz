@@ -1,6 +1,6 @@
 // composables/useAmbientLighting.ts
 import { ref, Ref } from 'vue';
-import { ColorPalette } from '../types/media';
+import { ColorPalette } from '@/types/media';
 
 export const useAmbientLighting = (_videoRef: Ref<HTMLVideoElement | null>) => {
   const ambientColor = ref<string>('rgba(0,0,0,0)');

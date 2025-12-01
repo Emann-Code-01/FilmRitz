@@ -18,14 +18,14 @@
     >
       <p class="font-[Gilroy-SemiBold]">{{ error }}</p>
       <button
-        @click="loadTrendingMedia"
+        @click="loadPopularMedia"
         class="mt-4 px-6 py-2 bg-[#b20710] hover:bg-[#e32125] text-white rounded-lg transition-all"
       >
         Try Again
       </button>
     </div>
 
-    <div v-else class="trending-grid">
+    <div v-else class="popular-grid">
       <div class="grid grid-cols-12 gap-4 auto-rows-auto">
         <div
           v-if="mediaList[0]"
@@ -203,7 +203,7 @@
             </router-link>
           </div>
         </div>
-        <router-link
+        <!-- <router-link
           v-if="!auth.isLoggedIn"
           to="/ng/login"
           class="col-span-6 md:col-span-3 h-64 md:h-72 bg-linear-to-br from-[#b20710] to-[#8a0509] rounded-xl flex flex-col items-center justify-center gap-4 hover:scale-105 transition-all duration-300 cursor-pointer group"
@@ -216,10 +216,10 @@
           <div class="text-center px-4">
             <p class="text-white font-[Gilroy-Bold] text-xl mb-2">See More</p>
             <p class="text-white/80 font-[Gilroy-Regular] text-sm">
-              Sign in to explore all trending content
+              Sign in to explore all popular content
             </p>
           </div>
-        </router-link>
+        </router-link> -->
       </div>
     </div>
   </section>
@@ -227,9 +227,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useModalStore } from "../../stores/modalStore";
-import { fetchTrendingMedia } from "../../api/tmdb";
-import { useAuthStore } from "../../stores/auth";
+import { useModalStore } from "@/stores/modalStore";
+import { fetchPopularMedia } from "../../api/tmdb";
+import { useAuthStore } from "@/stores/auth";
 import { genreMap } from "@/types/media";
 const emit = defineEmits<{
   "update-ambient": [color: string];
@@ -240,16 +240,16 @@ const mediaList = ref<any[]>([]);
 const error = ref<string | null>(null);
 const loading = ref(false);
 const hoveredIndex = ref<number | null>(null);
-const loadTrendingMedia = async () => {
+const loadPopularMedia = async () => {
   loading.value = true;
   error.value = null;
   try {
-    const res = await fetchTrendingMedia("week");
-    mediaList.value = res.slice(0, 10);
+    const popular = await fetchPopularMedia();
+    mediaList.value = popular.slice(0, 10);
   } catch (err: any) {
-    console.error("❌ Failed to fetch trending media:", err);
+    console.error("❌ Failed to fetch popular media:", err);
     error.value =
-      "Couldn't load trending movies and shows. Please refresh in a bit.";
+      "Couldn't load popular movies and shows. Please refresh in a bit.";
   } finally {
     loading.value = false;
   }
@@ -312,13 +312,13 @@ const openModal = (item: any) => {
 };
 
 onMounted(() => {
-  loadTrendingMedia();
+  loadPopularMedia();
 });
 </script>
 
 <style scoped>
 /* Ensure smooth animations */
-.trending-grid {
+.popular-grid {
   @apply transition-all duration-500;
 }
 
@@ -338,7 +338,7 @@ onMounted(() => {
 }
 
 /* Film grain texture overlay (optional premium effect) */
-.trending-grid::before {
+.popular-grid::before {
   content: "";
   position: absolute;
   inset: 0;

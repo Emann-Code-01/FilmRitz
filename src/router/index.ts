@@ -1,20 +1,20 @@
 // src/router/index.ts
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import MainLayout from "../components/layout/MainLayout.vue";
-import SplashScreen from "../pages/SplashScreen.vue";
-import Home from "../pages/Home.vue";
-import Auth from "../components/auth/Auth.vue";
-import MovieDetails from "../components/media/MediaDetails.vue";
-import Watch from "../pages/Watch.vue";
-import Search from "../pages/Search.vue";
-import Profile from "../pages/Profile.vue";
-import ForgotPassword from "../components/auth/ForgotPassword.vue";
-import ResetPassword from "../components/auth/ResetPassword.vue";
-import { useAuthStore } from "../stores/auth";
-import GenreView from "../pages/GenreView.vue";
-import TvDetails from "../components/media/TvDetails.vue";
-import Watchlist from "../components/media/Watchlist.vue";
-import MediaPage from "../components/media/MediaPage.vue";
+import MainLayout from "@/components/layout/MainLayout.vue";
+import SplashScreen from "@/pages/SplashScreen.vue";
+import Home from "@/pages/Home.vue";
+import Auth from "@/components/auth/Auth.vue";
+import MovieDetails from "@/pages/MediaDetails.vue";
+import Watch from "@/pages/Watch.vue";
+import Search from "@/pages/Search.vue";
+import Profile from "@/pages/Profile.vue";
+import ForgotPassword from "@/components/auth/ForgotPassword.vue";
+import ResetPassword from "@/components/auth/ResetPassword.vue";
+import { useAuthStore } from "@/stores/auth";
+import GenreView from "@/pages/GenreView.vue";
+import TvDetails from "@/pages/TvDetails.vue";
+import Watchlist from "@/pages/Watchlist.vue";
+import MediaPage from "@/pages/MediaPage.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -108,7 +108,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: "/:pathMatch(.*)*",
         name: "NotFound",
-        component: () => import("../components/error/NotAvailable.vue"),
+        component: () => import("@/components/error/NotAvailable.vue"),
       },
     ],
   },

@@ -65,7 +65,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted } from "vue";
-import { useWatchlistStore, WatchItem } from "../../stores/watchlist";
+import { useWatchlistStore, WatchItem } from "@/stores/watchlist";
 import { useRouter } from "vue-router";
 
 const store = useWatchlistStore();

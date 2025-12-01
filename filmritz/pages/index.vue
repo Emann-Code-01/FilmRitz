@@ -25,7 +25,7 @@
           </section>
 
           <section>
-            <h2 class="text-2xl font-[Gilroy-Bold] mb-3">🎬 Coming Soon</h2>
+            <h2 class="text-2xl font-[Gilroy-Bold] mb-3">🎬 UpComing</h2>
             <Upcoming />
           </section>
         </main>
@@ -42,8 +42,8 @@ import HeroSection from "../../src/components/Home/HeroSection.vue";
 import SubPreview from "../../src/components/Home/SubPreview.vue";
 import BlockSection from "../../src/components/Home/BlockSection.vue";
 import TrendingGrid from "../../src/components/media/TrendingGrid.vue";
-import TopRated from "../../src/components/media/TopRated.vue";
-import Upcoming from "../../src/components/media/ComingSoon.vue";
+import TopRated from "../../src/components/media/TopRatedGrid.vue";
+import Upcoming from "../../src/components/media/UpComingGrid.vue";
 import SplashScreen from "../../src/pages/splashScreen.vue";
 
 const auth = useAuthStore();
@@ -51,11 +51,11 @@ const isLoggedIn = computed(() => auth.isLoggedIn);
 
 // --- SEO ---
 useHead({
-  title: "Home | FilmRitz",
+  title: "FilmRitz — Discover Trending Movies & TV Series",
   link: [
     {
       rel: "canonical",
-      href: "https://filmritz.vercel.app/ng/"
+      href: "https://filmritz.vercel.app"
     }
   ],
   meta: [
@@ -65,12 +65,12 @@ useHead({
         "FilmRitz — Discover trending movies and TV series in a fast, modern, immersive interface."
     },
 
-    { name: "keywords", content: "filmritz, movies, tv shows, Discovering, emanncode, ifeoluwa olajubaje emmanuel" },
+    { name: "keywords", content: "filmritz, movies, tv shows, discover, trending, entertainment" },
 
     // Open Graph
     { property: "og:site_name", content: "FilmRitz" },
     { property: "og:type", content: "website" },
-    { property: "og:title", content: "FilmRitz — Discover Movies & Series" },
+    { property: "og:title", content: "FilmRitz — Discover Trending Movies & TV Series" },
     {
       property: "og:description",
       content: "Explore trending films, series, and upcoming releases."
@@ -79,11 +79,11 @@ useHead({
       property: "og:image",
       content: "https://filmritz.vercel.app/filmritzlogo2.png"
     },
-    { property: "og:url", content: "https://filmritz.vercel.app/ng/" },
+    { property: "og:url", content: "https://filmritz.vercel.app" },
 
     // Twitter
     { name: "twitter:card", content: "summary_large_image" },
-    { name: "twitter:title", content: "FilmRitz — Discover Movies & Series" },
+    { name: "twitter:title", content: "FilmRitz — Discover Trending Movies & TV Series" },
     {
       name: "twitter:description",
       content: "Explore trending films, series, and upcoming releases."

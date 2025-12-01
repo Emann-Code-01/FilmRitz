@@ -24,7 +24,7 @@ useHead({
     {
       name: 'keywords',
       content:
-        'FilmRitz, coming soon,  Ifeoluwa Olajubaje, EmannCode, EmannCodeDev, under construction, unavailable page, streaming platform, movies, series',
+        'FilmRitz, UpComing,  Ifeoluwa Olajubaje, EmannCode, EmannCodeDev, under construction, unavailable page, streaming platform, movies, series',
     },
 
     // Open Graph

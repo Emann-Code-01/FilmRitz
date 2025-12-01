@@ -215,10 +215,10 @@
 <script setup lang="ts">
 import HeroImg from "../../assets/Hero Image.png";
 import { ref, computed, onMounted, onUnmounted } from "vue";
-import { useModalStore } from "../../stores/modalStore";
-import { useAuthStore } from "../../stores/auth";
-import { useMedia } from "../../composables/useMedia";
-import { genreMap } from "../../types/media";
+import { useModalStore } from "@/stores/modalStore";
+import { useAuthStore } from "@/stores/auth";
+import { useMedia } from "@/composables/useMedia";
+import { genreMap } from "@/types/media";
 import { useRouter } from "vue-router";
 
 // ══════════════════════════════════════════════════════════════════════════

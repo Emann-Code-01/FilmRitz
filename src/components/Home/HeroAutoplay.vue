@@ -60,11 +60,11 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
-import { useColorExtraction } from '../../composables/useColorExtraction';
-import { useAmbientLighting } from '../../composables/useAmbientLighting';
-import { useTrailerAutoplay } from '../../composables/useTrailerAutoplay';
-import { usePerformanceOptimization } from '../../composables/usePerformanceOptimization';
-import type { HeroSlide } from '../../types/media';
+import { useColorExtraction } from '@/composables/useColorExtraction';
+import { useAmbientLighting } from '@/composables/useAmbientLighting';
+import { useTrailerAutoplay } from '@/composables/useTrailerAutoplay';
+import { usePerformanceOptimization } from '@/composables/usePerformanceOptimization';
+import type { HeroSlide } from '@/types/media';
 
 interface Props {
     slides: HeroSlide[];

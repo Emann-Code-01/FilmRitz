@@ -46,10 +46,10 @@
 import { ref, onMounted, computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import { getMoviesByGenre, getShowsByGenre } from "../lib/discover";
-import { genreNameToId } from "../types/media";
-import { Media } from "../types/media";
-import MediaCard from "../components/media/MediaCard.vue";
-import FilterPanel from "../components/media/FilterPanel.vue";
+import { genreNameToId } from "@/types/media";
+import { Media } from "@/types/media";
+import MediaCard from "@/components/media/MediaCard.vue";
+import FilterPanel from "@/components/media/FilterPanel.vue";
 
 const route = useRoute();
 const genreName = ref<string>("");
