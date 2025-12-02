@@ -113,7 +113,9 @@
                 "
                 class="text-sm font-[Gilroy-SemiBold] text-white bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full hover:bg-[#b20710] transition-all duration-200"
               >
-                {{ genreName }}
+                <div @click.stop>
+                  {{ genreName }}
+                </div>
               </router-link>
             </div>
           </div>
@@ -200,7 +202,9 @@
               "
               class="inline-block text-sm font-[Gilroy-SemiBold] text-white bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full hover:bg-[#b20710] transition-all duration-200"
             >
-              {{ getGenreNames(item.genre_ids)[0] }}
+              <div @click.stop>
+                {{ getGenreNames(item.genre_ids)[0] }}
+              </div>
             </router-link>
           </div>
         </div>
