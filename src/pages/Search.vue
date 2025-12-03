@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-20">
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- SEARCH HEADER -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -9,7 +9,7 @@
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
 
-      <div class="relative z-10 max-w-7xl mx-auto">
+      <div class="relative z-10 max-w-[1230px] mx-auto">
         <div class="flex items-center gap-4 mb-6">
           <div
             class="w-16 h-16 rounded-2xl bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-3xl"
@@ -39,9 +39,9 @@
     <!-- FILTER PANEL -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <div
-      class="sticky top-16 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
+      class="sticky top-22 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
-      <div class="px-6 md:px-10 max-w-7xl mx-auto">
+      <div class="px-6 max-w-[1230px] mx-auto">
         <FilterPanel @apply="onFilterApply" @clear="onFilterClear" />
       </div>
     </div>
@@ -49,7 +49,7 @@
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- RESULTS GRID -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="px-6 md:px-10 max-w-7xl mx-auto mt-8">
+    <div class="px-6 md:px-10 mx-auto mt-8">
       <!-- Loading Skeleton -->
       <div
         v-if="loading"
@@ -100,12 +100,10 @@
             />
           </div>
 
-          <!-- linear Overlay -->
           <div
             class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
           ></div>
 
-          <!-- Info Overlay -->
           <div
             class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"
           >
@@ -126,21 +124,20 @@
               </span>
             </div>
 
-            <!-- Genre Tags -->
             <div class="flex flex-wrap gap-1">
               <span
                 v-for="genreName in getGenreNames(
                   getGenreIdsFromMedia(item)
-                ).slice(0, 2)"
+                ).slice(0, 5)"
                 :key="genreName"
-                class="px-2 py-0.5 bg-white/10 rounded-md text-xs font-[Gilroy-SemiBold]"
+                class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-[#b20710]/70 transition-all duration-200 cursor-pointer"
               >
                 {{ genreName }}
               </span>
             </div>
           </div>
 
-          <!-- Play Icon -->
+          <!-- Play Icon
           <div
             class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
           >
@@ -149,7 +146,7 @@
             >
               <span class="text-3xl text-white ml-1">▶</span>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -278,7 +275,7 @@ function openMediaModal(item: Media) {
 
 function getPoster(item: any) {
   return item.poster_path
-    ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
+    ? `https://image.tmdb.org/t/p/w1280${item.poster_path}`
     : "https://placehold.co/500x750/0f0f0f/FF0000?text=NO+IMAGE";
 }
 
