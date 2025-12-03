@@ -1,181 +1,287 @@
-<!-- src/pages/MediaDetails.vue -->
 <template>
-  <section v-if="!loading && media" class="space-y-8">
-    <!-- Backdrop -->
-    <div class="relative h-[85vh] overflow-hidden" :style="{
-      backgroundImage: media.backdrop_path
-        ? `url(${baseUrl + media.backdrop_path})`
-        : 'url(https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat)',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat'
-    }">
-      <div class="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent"></div>
+  <div class="min-h-screen bg-[#0a0a0a] text-white">
+    <!-- Loading Skeleton -->
+    <div v-if="loading" class="space-y-8 py-10 px-6 mt-18">
+      <div
+        class="relative overflow-hidden rounded-2xl h-[60vh] bg-gray-800/50 animate-pulse"
+      ></div>
+      <div class="space-y-4 max-w-7xl mx-auto">
+        <div class="h-10 w-3/4 rounded bg-gray-800/50 animate-pulse"></div>
+        <div class="h-6 w-full rounded bg-gray-800/50 animate-pulse"></div>
+        <div class="h-6 w-2/3 rounded bg-gray-800/50 animate-pulse"></div>
+      </div>
+    </div>
 
-      <!-- Desktop Info -->
-      <div class="absolute bottom-0 hidden md:flex flex-col md:left-8 max-w-5xl space-y-3 animate-fade-up">
-        <h1 class="text-4xl font-[Gilroy-Bold]">{{ media.title }}</h1>
-        <p class="text-lg text-gray-300 font-[Gilroy-Medium]">{{ media.overview }}</p>
-        <div class="flex items-center gap-4">
-          <span class="px-2 py-1 bg-[#b20710]/70 text-green-100 rounded-full text-sm font-[Gilroy-SemiBold]">{{
-            media?.vote_average?.toFixed(1) }}</span>
-          <span class="px-2 py-1 text-white bg-white/10 rounded-full text-sm font-[Gilroy-SemiBold]">{{
-            media.media_type.toUpperCase() }}</span>
-          <span class="text-sm font-[Gilroy-Medium]">{{ new Date(media?.release_date).getFullYear() }}</span>
-          <div class="flex flex-wrap gap-2">
-            <router-link v-for="genreName in getGenreNames(getGenreIdsFromMedia(media))" :key="genreName"
-              :to="`/ng/genre/${genreName.toLowerCase()}`"
-              class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-full hover:bg-[#b20710]/70 transition-all duration-200 cursor-pointer">
-              {{ genreName }}
-            </router-link>
-            <span v-if="isTv && media.number_of_seasons" class="ml-2 text-lg text-gray-300 font-[Gilroy-SemiBold]">
-              {{ media.number_of_seasons }} Season{{ media.number_of_seasons > 1 ? "s" : "" }}
+    <!-- Error State -->
+    <div
+      v-else-if="error"
+      class="flex items-center justify-center min-h-screen"
+    >
+      <div class="text-center">
+        <p class="text-red-500 text-xl font-[Gilroy-SemiBold] mb-4">
+          {{ error }}
+        </p>
+        <button
+          @click="fetchDetails"
+          class="px-6 py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all"
+        >
+          Try Again
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <section v-else-if="media" class="space-y-8">
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- HERO BACKDROP -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <div
+        class="relative h-screen overflow-hidden"
+        :style="{
+          backgroundImage: media.backdrop_path
+            ? `url(${baseUrl + media.backdrop_path})`
+            : 'url(https://placehold.co/1920x1080/0f0f0f/FF0000?text=NO+IMAGE)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }"
+      >
+        <!-- linear Overlays -->
+        <div
+          class="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent"
+        ></div>
+        <div
+          class="absolute inset-0 bg-linear-to-r from-black/80 via-transparent to-transparent"
+        ></div>
+
+        <!-- Content Container -->
+        <div
+          class="absolute bottom-0 left-0 right-0 p-6 mx-auto"
+        >
+          <!-- Title -->
+          <h1
+            class="text-4xl md:text-6xl lg:text-7xl font-[Gilroy-Bold] mb-4 max-w-4xl drop-shadow-2xl animate-fade-up"
+          >
+            {{ media.title }}
+          </h1>
+
+          <!-- Metadata Row -->
+          <div
+            class="flex flex-wrap items-center gap-3 md:gap-4 mb-4 animate-fade-up"
+            style="animation-delay: 0.1s"
+          >
+            <!-- Rating -->
+            <div
+              class="flex items-center gap-2 px-4 py-2 bg-[#b20710] rounded-xl"
+            >
+              <span class="text-yellow-400 text-xl">⭐</span>
+              <span class="font-[Gilroy-Bold] text-lg">{{
+                media.vote_average?.toFixed(1)
+              }}</span>
+            </div>
+
+            <!-- Media Type -->
+            <span
+              class="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-xl font-[Gilroy-SemiBold]"
+            >
+              {{ media.media_type === "tv" ? "📺 TV SHOW" : "🎬 MOVIE" }}
+            </span>
+
+            <!-- Year -->
+            <span
+              class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-xl font-[Gilroy-Medium]"
+            >
+              {{
+                new Date(
+                  media.release_date || media.first_air_date || ""
+                ).getFullYear()
+              }}
+            </span>
+
+            <!-- TV Status -->
+            <span
+              v-if="isTv && media.number_of_seasons"
+              class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-xl font-[Gilroy-SemiBold]"
+            >
+              {{ media.number_of_seasons }} Season{{
+                media.number_of_seasons > 1 ? "s" : ""
+              }}
               • {{ tvStatus }}
             </span>
           </div>
-        </div>
 
-        <!-- Watch + Watchlist Buttons -->
-        <div class="flex gap-3 mt-4 animate-fade-up">
-          <!-- this is the click "@click="goToWatch" for the button below" -->
-          <button 
-            class="px-4 py-2 bg-red-600 rounded-full hover:bg-red-700 font-[Gilroy-SemiBold] flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>▶
-            Watch</button>
-
-          <!-- Heart Toggle Button -->
-          <button @click="toggleWatchlist"
-            class="px-4 py-2 flex items-center gap-2 rounded-full font-[Gilroy-Medium] bg-gray-800 hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 cursor-pointer">
-            <span :class="{ 'text-red-500 animate-pulse': inWatchlist }">♥</span>
-            <span>{{ inWatchlist ? "Added to My List" : "Add to My List" }}</span>
-          </button>
-        </div>
-
-        <!-- Toast -->
-        <transition name="fade">
-          <div v-if="showToast"
-            class="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-lg text-sm">
-            {{ toastMessage }}
+          <!-- Genre Tags -->
+          <div
+            class="flex flex-wrap gap-2 mb-6 animate-fade-up"
+            style="animation-delay: 0.15s"
+          >
+            <router-link
+              v-for="genreName in getGenreNames(
+                getGenreIdsFromMedia(media)
+              ).slice(0, 5)"
+              :key="genreName"
+              :to="`/ng/genre/${genreName.toLowerCase()}`"
+              class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-xl font-[Gilroy-SemiBold] hover:bg-[#b20710] transition-all duration-200"
+            >
+              {{ genreName }}
+            </router-link>
           </div>
-        </transition>
-      </div>
-    </div>
 
-    <!-- Mobile Info -->
-    <div class="md:hidden flex flex-col px-8 -mt-56 relative space-y-3">
-      <h1 class="text-4xl font-[Gilroy-Bold]">{{ media.title }}</h1>
-      <p class="text-lg text-gray-300 font-[Gilroy-Medium]">{{ media.overview }}</p>
-      <div class="flex items-center gap-4">
-        <span class="px-2 py-1 bg-[#b20710]/70 text-green-100 rounded-full text-sm font-[Gilroy-SemiBold]">{{
-          media?.vote_average?.toFixed(1) }}</span>
-        <span class="text-sm font-[Gilroy-Medium]">{{ new Date(media?.release_date).getFullYear() }}</span>
-      </div>
+          <!-- Overview -->
+          <p
+            class="text-lg md:text-xl text-gray-200 font-[Gilroy-Medium] line-clamp-4 max-w-3xl mb-6 animate-fade-up"
+            style="animation-delay: 0.2s"
+          >
+            {{ media.overview }}
+          </p>
 
-      <div class="flex flex-wrap gap-2">
-        <router-link v-for="genreName in getGenreNames(getGenreIdsFromMedia(media))" :key="genreName"
-          :to="`/ng/genre/${genreName.toLowerCase()}`"
-          class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-full hover:bg-[#b20710]/70 transition-all duration-200 cursor-pointer">
-          {{ genreName }}
-        </router-link>
-      </div>
+          <!-- Action Buttons -->
+          <div
+            class="flex flex-wrap gap-4 animate-fade-up"
+            style="animation-delay: 0.25s"
+          >
+            <button
+              @click="goToWatch"
+              disabled
+              class="px-8 py-4 bg-white text-black rounded-xl font-[Gilroy-Bold] text-lg hover:bg-white/90 transition-all flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <span class="text-2xl">▶</span>
+              <span>Watch Now</span>
+            </button>
 
-      <div class="flex gap-3 animate-fade-up">
-        <button @click="goToWatch"
-          class="px-4 py-2 bg-red-600 rounded-full hover:bg-red-700 font-[Gilroy-SemiBold] flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>▶
-          Watch</button>
-
-        <button @click="toggleWatchlist"
-          class="px-4 py-2 flex items-center gap-2 rounded-full font-[Gilroy-Medium] bg-gray-800 hover:bg-gray-700 transition-all duration-300 transform hover:scale-105">
-          <span :class="{ 'text-red-500 animate-pulse': inWatchlist }">♥</span>
-          <span>{{ inWatchlist ? "Added to My List" : "Add to My List" }}</span>
-        </button>
-
-        <!-- Toast -->
-        <transition name="fade">
-          <div v-if="showToast"
-            class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-lg text-sm">
-            {{ toastMessage }}
-          </div>
-        </transition>
-      </div>
-    </div>
-
-    <!-- Latest Season, Cast, Similar Titles remain unchanged -->
-    <div v-if="isTv && latestSeason" class="px-8 space-y-4 mt-10">
-      <h2 class="text-2xl font-[Gilroy-Bold]">Latest Season</h2>
-      <div class="bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-all duration-300">
-        <div class="flex md:flex-row gap-4">
-          <img v-if="latestSeason.poster_path" :src="`https://image.tmdb.org/t/p/w1280${latestSeason.poster_path}`"
-            alt="Season Poster" class="w-40 h-56 rounded-xl object-cover" loading="lazy" />
-          <div class="self-end">
-            <h3 class="text-xl font-[Gilroy-SemiBold] mb-1">{{ latestSeason.name }}</h3>
-            <p class="text-gray-400 font-[Gilroy-Medium] mb-2">{{ latestSeason.episode_count }} Episodes</p>
-            <p class="text-gray-300 font-[Gilroy-Medium] line-clamp-3">{{ latestSeason.overview }}</p>
+            <button
+              @click="toggleWatchlist"
+              class="px-8 py-4 bg-white/20 backdrop-blur-sm text-white rounded-xl font-[Gilroy-SemiBold] text-lg hover:bg-white/30 transition-all flex items-center gap-3 cursor-pointer"
+            >
+              <span
+                :class="{ 'text-red-500 animate-pulse': inWatchlist }"
+                class="text-2xl"
+              >
+                {{ inWatchlist ? "♥" : "♡" }}
+              </span>
+              <span>{{ inWatchlist ? "In My List" : "Add to List" }}</span>
+            </button>
           </div>
         </div>
       </div>
-    </div>
-    <div v-if="media?.media_type === 'tv' && media?.seasons?.length" class="mt-4 text-center">
-      <RouterLink :to="`/ng/tv-shows/${slugify(media.title)}-${media.id}`"
-        class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded-fulltre font-[Gilroy-SemiBold] transition">
-        View More Seasons →
-      </RouterLink>
-    </div>
+      <div
+        v-if="isTv && latestSeason"
+        class="px-6 mx-auto space-y-4"
+      >
+        <h2 class="text-3xl font-[Gilroy-Bold]">Latest Season</h2>
+        <div
+          class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-[#b20710]/50 transition-all"
+        >
+          <div class="flex flex-col md:flex-row gap-6">
+            <img
+              v-if="latestSeason.poster_path"
+              :src="`https://image.tmdb.org/t/p/w342${latestSeason.poster_path}`"
+              alt="Season Poster"
+              class="w-full md:w-48 rounded-xl object-cover"
+              loading="lazy"
+            />
+            <div class="flex-1">
+              <h3 class="text-2xl font-[Gilroy-Bold] mb-2">
+                {{ latestSeason.name }}
+              </h3>
+              <p class="text-gray-400 font-[Gilroy-SemiBold] mb-4">
+                {{ latestSeason.episode_count }} Episode{{
+                  latestSeason.episode_count > 1 ? "s" : ""
+                }}
+              </p>
+              <p class="text-gray-300 font-[Gilroy-Regular] line-clamp-3">
+                {{ latestSeason.overview || "No description available." }}
+              </p>
+            </div>
+          </div>
+        </div>
 
-    <div v-if="cast.length" class="space-y-3 px-8 py-3">
-      <h2 class="text-xl font-[Gilroy-Bold]">Cast</h2>
-      <div class="flex gap-4 overflow-x-auto pb-3">
-        <div v-for="actor in cast" :key="actor.id" class="shrink-0 w-28 text-center py-3">
-          <img v-if="actor.profile_path" :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
-            class="rounded-xl mb-1 hover:scale-105 transition-all duration-300" loading="lazy" />
-          <p class="text-sm font-[Gilroy-SemiBold] line-clamp-1">{{ actor.name }}</p>
-          <p class="text-xs text-gray-400 font-[Gilroy-Medium] line-clamp-1">{{ actor.character }}</p>
+        <!-- View More Seasons Button -->
+        <div
+          v-if="media.seasons && media.seasons.length > 1"
+          class="text-center"
+        >
+          <router-link
+            :to="`/ng/tv-shows/${slugify(media.title)}-${media.id}`"
+            class="inline-block px-8 py-4 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all"
+          >
+            View All Seasons →
+          </router-link>
         </div>
       </div>
-    </div>
-
-    <div v-if="similar.length" class="space-y-3 px-8">
-      <h2 class="text-xl font-[Gilroy-Bold]">Similar Titles</h2>
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <router-link v-for="sim in similar" :key="sim.id" :to="simRoute(sim)" class="group">
-          <img
-            :src="sim.poster_path ? `https://image.tmdb.org/t/p/w300${sim.poster_path}` : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'"
-            class="rounded-xl group-hover:opacity-80 group-hover:scale-105 transition-all duration-500"
-            loading="lazy" />
-        </router-link>
+      <div v-if="cast.length" class="px-6 mx-auto space-y-4">
+        <h2 class="text-3xl font-[Gilroy-Bold]">Cast</h2>
+        <div class="flex gap-4 overflow-x-auto pb-4">
+          <div
+            v-for="actor in cast"
+            :key="actor.id"
+            class="shrink-0 w-32 text-center group cursor-pointer"
+          >
+            <div class="relative overflow-hidden rounded-2xl mb-3">
+              <img
+                v-if="actor.profile_path"
+                :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
+                :alt="actor.name"
+                class="w-full h-44 object-cover group-hover:scale-110 transition-transform duration-300"
+                loading="lazy"
+              />
+              <div
+                v-else
+                class="w-full h-44 bg-gray-800 flex items-center justify-center text-4xl"
+              >
+                👤
+              </div>
+            </div>
+            <p class="text-sm font-[Gilroy-Bold] line-clamp-1">
+              {{ actor.name }}
+            </p>
+            <p class="text-xs text-gray-400 font-[Gilroy-Medium] line-clamp-1">
+              {{ actor.character }}
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <div v-else
-    class="space-y-8 min-h-screen text-white py-10 px-6 md:px-10 mt-18 transition-all duration-900 animate-fade-up">
-    <div class="relative overflow-hidden rounded-xl h-[60vh] shimmer"></div>
-
-    <div class="space-y-4">
-      <div class="h-8 w-1/2 rounded shimmer"></div>
-      <div class="h-4 w-full rounded shimmer"></div>
-      <div class="h-4 w-3/4 rounded shimmer"></div>
-      <div class="flex space-x-2">
-        <div class="w-16 h-6 rounded shimmer"></div>
-        <div class="w-16 h-6 rounded shimmer"></div>
+      <div
+        v-if="similar.length"
+        class="px-6 mx-auto space-y-4 pb-12"
+      >
+        <h2 class="text-3xl font-[Gilroy-Bold]">Similar Titles</h2>
+        <div
+          class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
+        >
+          <router-link
+            v-for="sim in similar"
+            :key="sim.id"
+            :to="simRoute(sim)"
+            class="group relative rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all hover:scale-105"
+          >
+            <div class="aspect-2/3">
+              <img
+                :src="
+                  sim.poster_path
+                    ? `https://image.tmdb.org/t/p/w342${sim.poster_path}`
+                    : 'https://placehold.co/342x513/0f0f0f/FF0000?text=NO+IMAGE'
+                "
+                :alt="sim.title || sim.name"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                loading="lazy"
+              />
+            </div>
+          </router-link>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="space-y-3">
-      <div class="h-6 w-32 rounded shimmer"></div>
-      <div class="flex space-x-3 overflow-x-auto">
-        <div v-for="n in 5" :key="n" class="w-28 h-40 rounded-lg shimmer"></div>
+    <!-- Toast Notification -->
+    <transition name="fade">
+      <div
+        v-if="showToast"
+        class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-black/90 backdrop-blur-xl text-white px-6 py-4 rounded-xl shadow-2xl border border-white/20 z-50"
+      >
+        {{ toastMessage }}
       </div>
-    </div>
-
-    <div class="space-y-3">
-      <div class="h-6 w-40 rounded shimmer"></div>
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <div v-for="n in 5" :key="n" class="w-full h-64 rounded-lg shimmer"></div>
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
-
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -193,6 +299,7 @@ const cast = ref<any[]>([]);
 const similar = ref<any[]>([]);
 const latestSeason = ref<any | null>(null);
 const loading = ref(false);
+const error = ref<string | null>(null);
 
 const store = useWatchlistStore();
 store.loadFromLocalStorage();
@@ -201,7 +308,9 @@ const inWatchlist = ref(false);
 const showToast = ref(false);
 const toastMessage = ref("");
 
-const isTv = computed(() => route.params.type === "tv" || media.value?.media_type === "tv");
+const isTv = computed(
+  () => route.params.type === "tv" || media.value?.media_type === "tv"
+);
 
 const tvStatus = computed(() => {
   if (!isTv.value || !media.value) return "Unknown";
@@ -226,29 +335,62 @@ function slugToId(param: string | string[] | undefined): number | null {
 
 function slugify(str: string | undefined) {
   if (!str) return "untitled";
-  return encodeURIComponent(str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, ""));
+  return encodeURIComponent(
+    str
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "")
+  );
 }
 
 async function fetchDetails() {
   loading.value = true;
+  error.value = null;
+
   try {
     const idNum = slugToId(route.params.name);
-    if (!idNum) return;
+    if (!idNum) {
+      error.value = "Invalid media ID";
+      return;
+    }
+
     const mediaType = route.path.includes("/tv/") ? "tv" : "movie";
+
     const [detailsRes, creditsRes, similarRes] = await Promise.all([
-      axios.get(`https://api.themoviedb.org/3/${mediaType}/${idNum}`, { params: { api_key: API_KEY } }),
-      axios.get(`https://api.themoviedb.org/3/${mediaType}/${idNum}/credits`, { params: { api_key: API_KEY } }),
-      axios.get(`https://api.themoviedb.org/3/${mediaType}/${idNum}/similar`, { params: { api_key: API_KEY } }),
+      axios.get(`https://api.themoviedb.org/3/${mediaType}/${idNum}`, {
+        params: { api_key: API_KEY },
+      }),
+      axios.get(`https://api.themoviedb.org/3/${mediaType}/${idNum}/credits`, {
+        params: { api_key: API_KEY },
+      }),
+      axios.get(`https://api.themoviedb.org/3/${mediaType}/${idNum}/similar`, {
+        params: { api_key: API_KEY },
+      }),
     ]);
 
-    media.value = { ...detailsRes.data, media_type: mediaType, title: detailsRes.data.title ?? detailsRes.data.name };
+    media.value = {
+      ...detailsRes.data,
+      media_type: mediaType,
+      title: detailsRes.data.title ?? detailsRes.data.name,
+    };
+
     cast.value = creditsRes.data.cast?.slice(0, 15) ?? [];
-    similar.value = (similarRes.data.results || []).slice(0, 10).map((r: any) => ({ ...r, media_type: mediaType, title: r.title ?? r.name }));
-    if (mediaType === "tv" && detailsRes.data.seasons?.length) latestSeason.value = detailsRes.data.seasons.at(-1);
+    similar.value = (similarRes.data.results || [])
+      .slice(0, 10)
+      .map((r: any) => ({
+        ...r,
+        media_type: mediaType,
+        title: r.title ?? r.name,
+      }));
+
+    if (mediaType === "tv" && detailsRes.data.seasons?.length) {
+      latestSeason.value = detailsRes.data.seasons.at(-1);
+    }
 
     inWatchlist.value = store.isInWatchlist(media.value.id);
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
+    error.value = "Failed to load media details. Please try again.";
   } finally {
     loading.value = false;
   }
@@ -257,23 +399,29 @@ async function fetchDetails() {
 function getGenreIdsFromMedia(media: any): number[] {
   if (!media) return [];
   if (Array.isArray(media.genre_ids)) return media.genre_ids;
-  if (Array.isArray(media.genres)) return media.genres.map((g: { id: number }) => g.id);
+  if (Array.isArray(media.genres))
+    return media.genres.map((g: { id: number }) => g.id);
   return [];
 }
 
 function getGenreNames(ids?: number[]) {
-  return ids?.map((id) => genreMap[id]).filter(Boolean) ?? ["Unknown"];
+  return ids?.map((id) => genreMap[id]).filter(Boolean) ?? [];
 }
 
 function simRoute(sim: any) {
   const slug = slugify(sim.title || sim.name);
-  return sim.media_type === "tv" ? `/ng/tv/${slug}-${sim.id}` : `/ng/movie/${slug}-${sim.id}`;
+  return sim.media_type === "tv"
+    ? `/ng/tv/${slug}-${sim.id}`
+    : `/ng/movie/${slug}-${sim.id}`;
 }
 
-function goToWatch() { router.push("#"); }
+function goToWatch() {
+  router.push("#");
+}
 
 function toggleWatchlist() {
   if (!media.value) return;
+
   if (inWatchlist.value) {
     store.removeFromWatchlist(media.value.id);
     toastMessage.value = "❌ Removed from Watchlist";
@@ -289,32 +437,28 @@ function toggleWatchlist() {
     });
     toastMessage.value = "✅ Added to Watchlist";
   }
+
   inWatchlist.value = !inWatchlist.value;
   showToast.value = true;
-  setTimeout(() => (showToast.value = false), 2000);
+  setTimeout(() => (showToast.value = false), 3000);
 }
 
 onMounted(fetchDetails);
 watch(() => route.params.name, fetchDetails);
 </script>
-
 <style scoped>
-/* Pop animation for heart toggle */
-.pop-enter-active,
-.pop-leave-active {
-  transition: transform 0.3s ease, opacity 0.3s ease;
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
-.pop-enter-from,
-.pop-leave-to {
-  transform: scale(0.7);
-  opacity: 0;
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* Fade animation for toast */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.4s ease;
+  transition: opacity 0.3s ease;
 }
 
 .fade-enter-from,
@@ -322,31 +466,18 @@ watch(() => route.params.name, fetchDetails);
   opacity: 0;
 }
 
-/* Shimmer skeleton */
-.shimmer {
-  position: relative;
-  overflow: hidden;
-  background-color: #2a2a2a;
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.shimmer::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -150%;
-  width: 150%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-  animation: shimmer 1.5s infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(100%);
-  }
+.animate-fade-up {
+  animation: fade-up 0.6s ease-out forwards;
 }
 </style>
