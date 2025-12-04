@@ -1,8 +1,5 @@
 <template>
   <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- HERO HEADER -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <!-- Ambient Glow -->
       <div
@@ -187,22 +184,5 @@ function goToMedia(item: WatchItem) {
 function getPoster(path: string | null) {
   if (!path) return "https://placehold.co/500x750/0f0f0f/FF0000?text=NO+IMAGE";
   return `https://image.tmdb.org/t/p/w500${path}`;
-}
-
-function getGenreIdsFromMedia(media: any): number[] {
-  if (!media) return [];
-  if (Array.isArray(media.genre_ids)) return media.genre_ids;
-  if (Array.isArray(media.genres))
-    return media.genres.map((g: { id: number }) => g.id);
-  return [];
-}
-
-function getGenreNames(genreIds?: number[]) {
-  if (!genreIds || !genreIds.length) return ["Unknown"];
-  return genreIds.map((id) => genreMap[id]).filter(Boolean);
-}
-
-function goToGenre(genreName: string) {
-  router.push(`/ng/genre/${genreName.toLowerCase()}`);
 }
 </script>

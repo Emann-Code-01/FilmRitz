@@ -80,7 +80,7 @@
           <!-- Genre Filter -->
           <select
             v-model="appliedFilters.genre"
-            class="px-4 py-2.5 rounded-xl bg-white/5 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+            class="px-4 py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           >
             <option value="">All Genres</option>
             <option v-for="g in genres" :key="g.id" :value="g.id">
@@ -93,7 +93,7 @@
             type="number"
             v-model.number="appliedFilters.year"
             placeholder="Year"
-            class="px-4 py-2.5 w-28 rounded-xl bg-white/5 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+            class="px-4 py-2.5 w-28 rounded-xl bg-gray-950 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           />
 
           <!-- Rating Filter -->
@@ -104,13 +104,13 @@
             max="10"
             step="0.1"
             placeholder="Min Rating"
-            class="px-4 py-2.5 w-32 rounded-xl bg-white/5 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+            class="px-4 py-2.5 w-32 rounded-xl bg-gray-950 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           />
 
           <!-- Sort Filter -->
           <select
             v-model="appliedFilters.sort"
-            class="px-4 py-2.5 rounded-xl bg-white/5 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+            class="px-4 py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           >
             <option value="">Sort By</option>
             <option value="newest">Newest</option>
@@ -251,7 +251,7 @@
       <button
         @click="prevPage"
         :disabled="currentPage === 1"
-        class="px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-[Gilroy-SemiBold]"
+        class="px-6 py-3 rounded-xl bg-gray-950 border border-white/10 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-[Gilroy-SemiBold] cursor-pointer"
       >
         ← Previous
       </button>
@@ -263,7 +263,7 @@
       <button
         @click="nextPage"
         :disabled="filteredMedia.length < perPage"
-        class="px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-[Gilroy-SemiBold]"
+        class="px-6 py-3 rounded-xl bg-gray-950 border border-white/10 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-[Gilroy-SemiBold] cursor-pointer"
       >
         Next →
       </button>

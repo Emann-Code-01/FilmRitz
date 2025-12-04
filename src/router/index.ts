@@ -3,18 +3,22 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import MainLayout from "@/components/layout/MainLayout.vue";
 import SplashScreen from "@/pages/SplashScreen.vue";
 import Home from "@/pages/Home.vue";
-import Auth from "@/components/auth/Auth.vue";
+import Auth from "@/pages/auth/Auth.vue";
 import MediaDetails from "@/pages/MediaDetails.vue";
 import Watch from "@/pages/Watch.vue";
 import Search from "@/pages/Search.vue";
 import Profile from "@/pages/Profile.vue";
-import ForgotPassword from "@/components/auth/ForgotPassword.vue";
-import ResetPassword from "@/components/auth/ResetPassword.vue";
+import ForgotPassword from "@/pages/auth/ForgotPassword.vue";
+import ResetPassword from "@/pages/auth/ResetPassword.vue";
 import { useAuthStore } from "@/stores/auth";
 import GenreView from "@/pages/GenreView.vue";
 import TvDetails from "@/pages/TvDetails.vue";
 import Watchlist from "@/pages/Watchlist.vue";
 import MediaPage from "@/pages/MediaPage.vue";
+import Collections from "@/pages/discovery/CollectionsPage.vue";
+import CollectionsDetails from "@/pages/discovery/CollectionsDetailsPage.vue";
+import MoodPage from "@/pages/discovery/MoodPage.vue";
+import TrailersPage from "@/pages/trailers/TrailersPage.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -102,13 +106,24 @@ const routes: RouteRecordRaw[] = [
         props: { type: "tv" },
         meta: { requiresAuth: true },
       },
+      { path: "collections", 
+        name: "Collections", 
+        component: Collections },
       {
-        path: "forgot-password",
+        path: "collection/:id",
+        name: "CollectionDetail",
+        component: CollectionsDetails,
+      },
+      { path: "mood/:name", 
+        name: "MoodPage", 
+        component: MoodPage },
+      {
+        path: "/forgot-password",
         name: "ForgotPassword",
         component: ForgotPassword,
       },
       {
-        path: "reset-password",
+        path: "/reset-password",
         name: "ResetPassword",
         component: ResetPassword,
       },

@@ -39,9 +39,9 @@
     <!-- FILTER PANEL -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <div
-      class="sticky top-22 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
+      class="sticky top-26 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
-      <div class="px-6 max-w-[1230px] mx-auto">
+      <div class="">
         <FilterPanel @apply="onFilterApply" @clear="onFilterClear" />
       </div>
     </div>
@@ -93,7 +93,7 @@
       <button
         @click="toggleView"
         :disabled="loading"
-        class="px-8 py-4 rounded-xl font-[Gilroy-Bold] text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"
+        class="px-8 py-4 rounded-xl font-[Gilroy-Bold] text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 cursor-pointer"
         :style="{ backgroundColor: genreColor }"
       >
         {{
