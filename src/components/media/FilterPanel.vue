@@ -6,7 +6,7 @@
         <label class="text-white font-semibold mb-1 block">Genre</label>
         <select
           v-model="localFilters.genre"
-          class="px-4 py-2.5 rounded-xl bg-gray-800 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+          class="px-4 py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
         >
           <option value="">All</option>
           <option v-for="genre in genres" :key="genre.id" :value="genre.id">
@@ -22,7 +22,7 @@
           type="number"
           v-model.number="localFilters.year"
           placeholder="e.g. 2023"
-          class="px-4 py-2.5 w-30 rounded-xl bg-gray-800 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+          class="px-4 py-2.5 w-30 rounded-xl bg-gray-950 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
         />
       </div>
 
@@ -36,7 +36,7 @@
           max="10"
           step="0.1"
           placeholder="0 - 10"
-          class="px-4 py-2.5 rounded-xl w-30 bg-gray-800 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+          class="px-4 py-2.5 rounded-xl w-30 bg-gray-950 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
         />
       </div>
 
@@ -44,7 +44,7 @@
         <label class="text-white font-semibold mb-1 block">Type</label>
         <select
           v-model="localFilters.type"
-          class="px-4 py-2.5 rounded-xl bg-gray-800 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+          class="px-4 py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
         >
           <option value="">All</option>
           <option value="movie">Movie</option>
@@ -56,7 +56,7 @@
         <label class="text-white font-semibold mb-1 block">Sort By</label>
         <select
           v-model="localFilters.sort"
-          class="px-4 py-2.5 rounded-xl bg-gray-800 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+          class="px-4 py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
         >
           <option value="">Default</option>
           <option value="newest">Newest</option>
