@@ -1,73 +1,159 @@
 <template>
   <div
-    class="min-h-screen flex items-center justify-center md:bg-[linear-gradient(to_top_left,rgba(229,9,20,0.65)_0%,rgba(255,75,0,0.55)_25%,rgba(25,25,50,0.75)_75%,rgba(0,0,10,0.85)_100%)] px-4">
+    class="min-h-screen flex items-center justify-center bg-[#0a0a0a] px-4 relative overflow-hidden"
+  >
+    <!-- Animated Background Gradient -->
     <div
-      class="bg-[#0b0b0f]/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl w-full max-w-md border border-white/10 relative mt-18">
-      <h1 class="text-3xl font-[Gilroy-Bold] text-white mb-6 text-center transition-all duration-700 animate-fade-up">
-        {{
-          isSignUp ? "Create a FilmRitz Account" : "Welcome Back to FilmRitz"
-        }}
+      class="absolute inset-0 bg-linear-to-br from-[#b20710]/20 via-transparent to-[#e32125]/10 animate-gradient"
+    ></div>
+
+    <!-- Floating Particles Effect -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="particle particle-1"></div>
+      <div class="particle particle-2"></div>
+      <div class="particle particle-3"></div>
+    </div>
+
+    <div
+      class="relative z-10 bg-black/60 backdrop-blur-2xl p-8 md:p-10 rounded-3xl shadow-2xl w-full max-w-md border border-white/10 mt-18"
+    >
+      <!-- Logo/Icon -->
+      <div
+        class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-[#b20710] flex items-center justify-center"
+      >
+        <span class="text-3xl">🎬</span>
+      </div>
+
+      <h1 class="text-3xl font-[Gilroy-Bold] text-white mb-2 text-center">
+        {{ isSignUp ? "Create Account" : "Welcome Back" }}
       </h1>
+      <p class="text-gray-400 text-center mb-8 font-[Gilroy-Regular]">
+        {{
+          isSignUp
+            ? "Join FilmRitz to start discovering"
+            : "Sign in to continue watching"
+        }}
+      </p>
 
       <form @submit.prevent="handleAuth" class="space-y-5">
         <!-- Email -->
         <div>
-          <label for="email" class="block text-gray-300 text-sm mb-2">Email</label>
-          <input id="email" name="email" v-model="email" type="email" autocomplete="email"
-            placeholder="Enter your email" required
-            class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 caret-white focus:ring-red-600 focus:outline-none" />
+          <label
+            for="email"
+            class="block text-gray-300 text-sm mb-2 font-[Gilroy-Medium]"
+            >Email Address</label
+          >
+          <input
+            id="email"
+            name="email"
+            v-model="email"
+            type="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            required
+            class="w-full p-4 rounded-xl bg-white/5 text-white border border-white/10 focus:ring-2 caret-white focus:ring-[#b20710] focus:border-transparent focus:outline-none transition-all font-[Gilroy-Regular]"
+          />
         </div>
 
-        <div
-          class="flex items-center w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus-within:ring-2 caret-white focus:ring-red-600 focus:outline-none">
-          <input id="password" name="password" v-model="password" :type="showPassword ? 'text' : 'password'"
-            :autocomplete="isSignUp ? 'new-password' : 'current-password'" placeholder="Enter your password" required
-            minlength="6" class="flex-1 bg-transparent outline-none text-white placeholder-gray-400" />
-
-          <!-- 👁 Toggle password visibility -->
-          <button v-if="password" type="button" @click="togglePassword"
-            class="text-gray-400 hover:text-white transition-all duration-200 focus:outline-none">
-            <i :class="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
-          </button>
+        <!-- Password -->
+        <div>
+          <label
+            for="password"
+            class="block text-gray-300 text-sm mb-2 font-[Gilroy-Medium]"
+            >Password</label
+          >
+          <div class="relative">
+            <input
+              id="password"
+              name="password"
+              v-model="password"
+              :type="showPassword ? 'text' : 'password'"
+              :autocomplete="isSignUp ? 'new-password' : 'current-password'"
+              placeholder="Enter your password"
+              required
+              minlength="6"
+              class="w-full p-4 pr-12 rounded-xl bg-white/5 text-white border border-white/10 focus:ring-2 caret-white focus:ring-[#b20710] focus:border-transparent focus:outline-none transition-all font-[Gilroy-Regular]"
+            />
+            <button
+              v-if="password"
+              type="button"
+              @click="togglePassword"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-all"
+            >
+              <i :class="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+            </button>
+          </div>
         </div>
 
-        <button ref="initialFocus" type="submit" :disabled="auth.loading"
-          class="w-full py-3 rounded-lg bg-red-600 hover:bg-red-700 transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer font-[Gilroy-SemiBold] text-white">
+        <!-- Submit Button -->
+        <button
+          ref="initialFocus"
+          type="submit"
+          :disabled="auth.loading"
+          class="w-full py-4 rounded-xl bg-[#b20710] hover:bg-[#e32125] transition-all disabled:opacity-50 disabled:cursor-not-allowed font-[Gilroy-Bold] text-white text-lg transform hover:scale-[1.02] active:scale-[0.98]"
+        >
           {{
             auth.loading
               ? isSignUp
                 ? "Creating Account..."
                 : "Signing In..."
               : isSignUp
-                ? "Sign Up"
-                : "Sign In"
+              ? "Sign Up"
+              : "Sign In"
           }}
         </button>
 
-        <p v-if="auth.error" class="text-red-400 text-sm text-center mt-3">
+        <!-- Error Message -->
+        <p
+          v-if="auth.error"
+          class="text-red-400 text-sm text-center bg-red-400/10 p-3 rounded-xl border border-red-400/20"
+        >
           {{ auth.error }}
         </p>
 
-        <p v-if="success" class="text-green-400 text-sm text-center mt-3">
+        <!-- Success Message -->
+        <p
+          v-if="success"
+          class="text-green-400 text-sm text-center bg-green-400/10 p-3 rounded-xl border border-green-400/20"
+        >
           {{
             isSignUp
-              ? "🎉 Account created successfully! Check your inbox to confirm your email."
+              ? "🎉 Account created! Check your email to confirm."
               : "✅ Signed in successfully! Redirecting..."
           }}
         </p>
       </form>
-      <div class="text-center mt-6">
-        <p class="text-gray-400 text-sm">
-          {{ isSignUp ? "Already have an account?" : "Don’t have an account?" }}
-          <button ref="initialFocus" @click="toggleMode"
-            class="text-red-500 hover:underline font-medium cursor-pointer">
+
+      <!-- Divider -->
+      <div class="relative my-6">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-white/10"></div>
+        </div>
+        <div class="relative flex justify-center text-sm">
+          <span class="px-4 bg-black/60 text-gray-400 font-[Gilroy-Regular]"
+            >OR</span
+          >
+        </div>
+      </div>
+
+      <!-- Footer Links -->
+      <div class="space-y-3 text-center">
+        <p class="text-gray-400 text-sm font-[Gilroy-Regular]">
+          {{ isSignUp ? "Already have an account?" : "Don't have an account?" }}
+          <button
+            @click="toggleMode"
+            class="text-[#b20710] hover:text-[#e32125] font-[Gilroy-SemiBold] ml-1 transition-colors cursor-pointer"
+          >
             {{ isSignUp ? "Sign In" : "Sign Up" }}
           </button>
         </p>
-        <h1>OR</h1>
-        <p class="text-sm text-gray-400">
+
+        <p class="text-sm text-gray-400 font-[Gilroy-Regular]">
           Forgot your password?
-          <button @click="goToForgotPassword" class="text-indigo-400 hover:underline cursor-pointer">
+          <button
+            @click="goToForgotPassword"
+            class="text-[#b20710] hover:text-[#e32125] font-[Gilroy-SemiBold] ml-1 transition-colors"
+          >
             Reset it
           </button>
         </p>
@@ -81,7 +167,6 @@ import { ref, onMounted, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { useHead } from "@unhead/vue";
-// import { supabase } from "../../lib/supabaseClient";
 
 const auth = useAuthStore();
 const router = useRouter();
@@ -135,64 +220,77 @@ const handleAuth = async () => {
 };
 
 const pageTitle = computed(() =>
-  isSignUp.value
-    ? "Create Account | FilmRitz — Discover Movies & TV Series"
-    : "Sign In | FilmRitz — Discover Movies & TV Series"
-)
-
-const ogTitle = computed(() =>
-  isSignUp.value ? "Create Your FilmRitz Account" : "Welcome Back to FilmRitz"
-)
-
-const twitterTitle = computed(() =>
-  isSignUp.value ? "Join FilmRitz Today" : "Sign In to FilmRitz"
-)
+  isSignUp.value ? "Create Account | FilmRitz" : "Sign In | FilmRitz"
+);
 
 useHead({
   title: pageTitle,
   meta: [
-    // 🔹 Basic SEO
     {
       name: "description",
       content:
-        "Sign in or create your FilmRitz account to explore, save, and stream your favorite movies and series with ease.",
-    },
-    {
-      name: "keywords",
-      content:
-        "FilmRitz, movie login, FilmRitz account, film streaming, create account, sign in, Ifeoluwa Olajubaje, EmannCode, EmannCodeDev,",
-    },
-
-    // 🔹 Open Graph (Facebook, LinkedIn, etc.)
-    { property: "og:title", content: ogTitle || pageTitle },
-    {
-      property: "og:description",
-      content:
-        "Join FilmRitz — your personalized movie and TV discovery platform. Log in or sign up to start watching.",
-    },
-    {
-      property: "og:image",
-      content: "https://filmritz.vercel.app/filmritzlogo2.png",
-    },
-    { property: "og:type", content: "website" },
-    { property: "og:url", content: "https://filmritz.vercel.app/ng/login" },
-
-    // 🔹 Twitter Card
-    { name: "twitter:card", content: "summary_large_image" },
-    { name: "twitter:title", content: twitterTitle || pageTitle },
-    {
-      name: "twitter:description",
-      content:
-        "Sign in or create your FilmRitz account to explore and stream your favorite movies and shows.",
-    },
-    {
-      name: "twitter:image",
-      content: "https://filmritz.vercel.app/filmritzlogo2.png",
+        "Sign in or create your FilmRitz account to explore movies and shows.",
     },
   ],
-
-  // 🔹 Canonical Link
-  link: [{ rel: "canonical", href: "https://filmritz.vercel.app/ng/login" }],
 });
-
 </script>
+
+<style scoped>
+@keyframes gradient {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-gradient {
+  animation: gradient 8s ease-in-out infinite;
+}
+
+.particle {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.3;
+  animation: float 20s ease-in-out infinite;
+}
+
+.particle-1 {
+  background: #b20710;
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.particle-2 {
+  background: #e32125;
+  bottom: 20%;
+  right: 15%;
+  animation-delay: 5s;
+}
+
+.particle-3 {
+  background: #ff4500;
+  top: 50%;
+  left: 50%;
+  animation-delay: 10s;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+</style>

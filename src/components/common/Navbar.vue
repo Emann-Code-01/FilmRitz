@@ -1,79 +1,144 @@
 <template>
-  <nav :class="[
-    auth.isLoggedIn
-      ? 'fixed top-0 left-0 w-full py-5 px-6 z-50 flex items-center justify-between transition-all duration-500 ease-out'
-      : 'fixed top-0 left-0 w-full py-5 xl:px-32 px-5 z-50 flex items-center justify-between transition-all duration-500 ease-out',
-    scrolled ? 'bg-black/90 backdrop-blur-xl shadow-lg' : 'bg-black/25 backdrop-blur-md',
-  ]">
+  <nav
+    :class="[
+      auth.isLoggedIn &&
+      router.currentRoute.value.path !== '/forgot-password' &&
+      router.currentRoute.value.path !== '/reset-password'
+        ? 'fixed top-0 left-0 w-full py-5 px-6 z-50 flex items-center justify-between transition-all duration-500 ease-out'
+        : 'fixed top-0 left-0 w-full py-5 xl:px-32 px-5 z-50 flex items-center justify-between transition-all duration-500 ease-out',
+      scrolled
+        ? 'bg-black/90 backdrop-blur-xl shadow-lg'
+        : 'bg-black/25 backdrop-blur-md',
+    ]"
+  >
     <div class="flex justify-center items-center gap-3">
       <router-link to="/ng" class="cursor-pointer">
-        <img loading="lazy" :src="currentLogo" alt="Filmritz Logo" :class="auth.isLoggedIn
-          ? 'transition-all duration-900 animate-fade-up w-18'
-          : 'transition-all duration-900 animate-fade-up w-19'
-          " />
+        <img
+          loading="lazy"
+          :src="currentLogo"
+          alt="Filmritz Logo"
+          :class="
+            auth.isLoggedIn &&
+            router.currentRoute.value.path !== '/forgot-password' &&
+            router.currentRoute.value.path !== '/reset-password'
+              ? 'transition-all duration-900 animate-fade-up w-18'
+              : 'transition-all duration-900 animate-fade-up w-19'
+          "
+        />
       </router-link>
-      <div v-if="auth.isLoggedIn">
-        <div class="hidden xl:flex xl:space-x-6 transition duration-500 animate-fade-up">
-          <router-link to="/ng" :class="[
-            isActiveLink('/ng')
-              ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
-              : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
-          ]">Home</router-link>
-          <router-link to="/ng/tv-shows" :class="[
-            isActiveLink('/ng/tv-shows')
-              ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
-              : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
-          ]">My TV Shows</router-link>
-          <router-link to="/ng/movies" :class="[
-            isActiveLink('/ng/movies')
-              ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
-              : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
-          ]">My Movies</router-link>
-          <router-link to="/ng/watchlist" :class="[
-            isActiveLink('/ng/watchlist')
-              ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
-              : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
-          ]">My Watchlist</router-link>
+      <div
+        v-if="
+          auth.isLoggedIn &&
+          router.currentRoute.value.path !== '/forgot-password' &&
+          router.currentRoute.value.path !== '/reset-password'
+        "
+      >
+        <div
+          class="hidden xl:flex xl:space-x-6 transition duration-500 animate-fade-up"
+        >
+          <router-link
+            to="/ng"
+            :class="[
+              isActiveLink('/ng')
+                ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
+                : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
+            ]"
+            >Home</router-link
+          >
+          <router-link
+            to="/ng/tv-shows"
+            :class="[
+              isActiveLink('/ng/tv-shows')
+                ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
+                : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
+            ]"
+            >My TV Shows</router-link
+          >
+          <router-link
+            to="/ng/movies"
+            :class="[
+              isActiveLink('/ng/movies')
+                ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
+                : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
+            ]"
+            >My Movies</router-link
+          >
+          <router-link
+            to="/ng/watchlist"
+            :class="[
+              isActiveLink('/ng/watchlist')
+                ? 'hover:text-red-500 text-red-500 font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
+                : 'hover:text-red-500 text-[#d1d5dc] font-[Gilroy-SemiBold] text-lg transition-all duration-200 hover:underline false',
+            ]"
+            >My Watchlist</router-link
+          >
         </div>
       </div>
     </div>
-    <div v-if="
-      router.currentRoute.value.path.startsWith('/ng') &&
-      router.currentRoute.value.path !== '/ng/login'
-    " class="hidden md:flex xl:flex pr-2 transition duration-500 animate-fade-up cursor-pointer">
+    <div
+      v-if="
+        router.currentRoute.value.path.startsWith('/ng') &&
+        router.currentRoute.value.path !== '/ng/login'
+      "
+      class="hidden md:flex xl:flex pr-2 transition duration-500 animate-fade-up cursor-pointer"
+    >
       <SearchBar />
     </div>
-    <div v-if="
-      router.currentRoute.value.path.startsWith('/ng') &&
-      router.currentRoute.value.path !== '/ng/login'
-    " class="flex items-center gap-5 transition-all animate-fade-up duration-900">
-      <button class="flex md:hidden cursor-pointer" type="button" @click="openModal">
+    <div
+      v-if="
+        router.currentRoute.value.path.startsWith('/ng') &&
+        router.currentRoute.value.path !== '/ng/login'
+      "
+      class="flex items-center gap-5 transition-all animate-fade-up duration-900"
+    >
+      <button
+        class="flex md:hidden cursor-pointer"
+        type="button"
+        @click="openModal"
+      >
         <i class="pi pi-search text-gray-300 text-xl"></i>
       </button>
       <TransitionRoot appear :show="isOpen" as="template">
         <Dialog as="div" @close="closeModal" class="relative z-9999">
-        <!-- Remove the full-page overlay if you only want it over the navbar -->
-          <TransitionChild as="template" enter="duration-300 ease-out" enter-from="opacity-0 -translate-y-5"
-            enter-to="opacity-100 translate-y-0" leave="duration-200 ease-in" leave-from="opacity-100 translate-y-0"
-            leave-to="opacity-0 -translate-y-5">
-            <div class="fixed top-0 left-0 w-full z-9999 h-18 pt-2.5 items-center justify-center backdrop-blur-md">
+          <!-- Remove the full-page overlay if you only want it over the navbar -->
+          <TransitionChild
+            as="template"
+            enter="duration-300 ease-out"
+            enter-from="opacity-0 -translate-y-5"
+            enter-to="opacity-100 translate-y-0"
+            leave="duration-200 ease-in"
+            leave-from="opacity-100 translate-y-0"
+            leave-to="opacity-0 -translate-y-5"
+          >
+            <div
+              class="fixed top-0 left-0 w-full z-9999 h-18 pt-2.5 items-center justify-center backdrop-blur-md"
+            >
               <SearchBar @close="closeModal" />
             </div>
           </TransitionChild>
         </Dialog>
       </TransitionRoot>
-      <div class="flex space-x-4" v-if="router.currentRoute.value.path !== '/ng/login' || auth.isLoggedIn">
-        <div v-if="
-          !auth.isLoggedIn && router.currentRoute.value.path !== '/ng/login'
-        ">
-          <router-link to="/ng/login"
-            class="px-6 py-3 rounded bg-[#b20710] hover:bg-[#e32125] text-white font-[Gilroy-SemiBold] transition-all animate-fade-up duration-900">
+      <div
+        class="flex space-x-4"
+        v-if="router.currentRoute.value.path !== '/ng/login' || auth.isLoggedIn"
+      >
+        <div
+          v-if="
+            !auth.isLoggedIn && router.currentRoute.value.path !== '/ng/login'
+          "
+        >
+          <router-link
+            to="/ng/login"
+            class="px-6 py-3 rounded-full bg-[#b20710] hover:bg-[#e32125] text-white font-[Gilroy-SemiBold] transition-all animate-fade-up duration-900"
+          >
             Sign In
           </router-link>
         </div>
 
-        <div v-else
-          class="flex justify-between items-center text-white transition-all duration-900 animate-fade-up relative">
+        <div
+          v-else
+          class="flex justify-between items-center text-white transition-all duration-900 animate-fade-up relative"
+        >
           <Profile />
           <!--make sure you change the user icon to allow users input their own profile picture-->
         </div>

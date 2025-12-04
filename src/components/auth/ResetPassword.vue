@@ -1,58 +1,115 @@
 <template>
   <div
-    class="min-h-screen flex items-center justify-center md:bg-[linear-gradient(to_top_left,rgba(229,9,20,0.65)_0%,rgba(255,75,0,0.55)_25%,rgba(25,25,50,0.75)_75%,rgba(0,0,10,0.85)_100%)] px-4 transition-all duration-700 animate-fade-up">
+    class="min-h-screen flex items-center justify-center bg-[#0a0a0a] px-4 relative overflow-hidden"
+  >
+    <!-- Animated Background -->
     <div
-      class="bg-[#0b0b0f]/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl w-full max-w-md border border-white/10 relative">
-      <h1 class="text-3xl font-[Gilroy-Bold] text-white mb-6 text-center">
-        Reset Your Password
+      class="absolute inset-0 bg-linear-to-br from-[#b20710]/20 via-transparent to-[#e32125]/10"
+    ></div>
+
+    <div
+      class="relative z-10 bg-black/60 backdrop-blur-2xl p-8 md:p-10 rounded-3xl shadow-2xl w-full max-w-md border border-white/10"
+    >
+      <!-- Icon -->
+      <div
+        class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-[#b20710] flex items-center justify-center"
+      >
+        <span class="text-3xl">🔐</span>
+      </div>
+
+      <h1 class="text-3xl font-[Gilroy-Bold] text-white mb-2 text-center">
+        Reset Password
       </h1>
+      <p class="text-gray-400 text-center mb-8 font-[Gilroy-Regular]">
+        Enter your new password below
+      </p>
 
       <form @submit.prevent="handleResetPassword" class="space-y-5">
         <!-- New Password -->
         <div>
-          <label for="newPassword" class="block text-gray-300 text-sm mb-2">
+          <label
+            for="newPassword"
+            class="block text-gray-300 text-sm mb-2 font-[Gilroy-Medium]"
+          >
             New Password
           </label>
-          <div
-            class="flex items-center w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus-within:ring-2 caret-white focus-within:ring-red-600 focus:outline-none">
-            <input id="newPassword" name="newPassword" v-model="newPassword" :type="showPassword ? 'text' : 'password'"
-              placeholder="Enter new password" required minlength="6"
-              class="flex-1 bg-transparent outline-none text-white placeholder-gray-400" />
-            <button type="button" @click="showPassword = !showPassword" class="ml-2 text-gray-400 hover:text-white">
-              <i v-if="newPassword" :class="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+          <div class="relative">
+            <input
+              id="newPassword"
+              name="newPassword"
+              v-model="newPassword"
+              :type="showPassword ? 'text' : 'password'"
+              placeholder="Enter new password"
+              required
+              minlength="6"
+              class="w-full p-4 pr-12 rounded-xl bg-white/5 text-white border border-white/10 focus:ring-2 caret-white focus:ring-[#b20710] focus:border-transparent focus:outline-none transition-all font-[Gilroy-Regular]"
+            />
+            <button
+              v-if="newPassword"
+              type="button"
+              @click="showPassword = !showPassword"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-all"
+            >
+              <i :class="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
             </button>
           </div>
         </div>
 
         <!-- Confirm Password -->
         <div>
-          <label for="confirmPassword" class="block text-gray-300 text-sm mb-2">
+          <label
+            for="confirmPassword"
+            class="block text-gray-300 text-sm mb-2 font-[Gilroy-Medium]"
+          >
             Confirm Password
           </label>
-          <div
-            class="flex items-center w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus-within:ring-2 caret-white focus-within:ring-red-600 focus:outline-none">
-            <input id="confirmPassword" name="confirmPassword" v-model="confirmPassword"
-              :type="showConfirmPassword ? 'text' : 'password'" placeholder="Confirm new password" required
-              minlength="6" class="flex-1 bg-transparent outline-none text-white placeholder-gray-400" />
-            <button type="button" @click="showConfirmPassword = !showConfirmPassword"
-              class="ml-2 text-gray-400 hover:text-white">
-              <i v-if="confirmPassword" :class="showConfirmPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+          <div class="relative">
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              v-model="confirmPassword"
+              :type="showConfirmPassword ? 'text' : 'password'"
+              placeholder="Confirm new password"
+              required
+              minlength="6"
+              class="w-full p-4 pr-12 rounded-xl bg-white/5 text-white border border-white/10 focus:ring-2 caret-white focus:ring-[#b20710] focus:border-transparent focus:outline-none transition-all font-[Gilroy-Regular]"
+            />
+            <button
+              v-if="confirmPassword"
+              type="button"
+              @click="showConfirmPassword = !showConfirmPassword"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-all"
+            >
+              <i
+                :class="showConfirmPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"
+              ></i>
             </button>
           </div>
         </div>
 
-        <button type="submit"
-          class="w-full py-3 rounded-lg bg-red-600 hover:bg-red-700 transition disabled:opacity-50 disabled:cursor-not-allowed font-[Gilroy-SemiBold] text-white"
-          :disabled="loading">
-          {{ loading ? "Resetting Password..." : "Reset Password" }}
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          :disabled="loading"
+          class="w-full py-4 rounded-xl bg-[#b20710] hover:bg-[#e32125] transition-all disabled:opacity-50 disabled:cursor-not-allowed font-[Gilroy-Bold] text-white text-lg transform hover:scale-[1.02]"
+        >
+          {{ loading ? "Resetting..." : "Reset Password" }}
         </button>
 
-        <p v-if="error" class="text-red-400 text-sm text-center mt-3">
+        <!-- Error Message -->
+        <p
+          v-if="error"
+          class="text-red-400 text-sm text-center bg-red-400/10 p-3 rounded-xl border border-red-400/20"
+        >
           {{ error }}
         </p>
 
-        <p v-if="success" class="text-green-400 text-sm text-center mt-3">
-          ✅ Password successfully reset! Redirecting...
+        <!-- Success Message -->
+        <p
+          v-if="success"
+          class="text-green-400 text-sm text-center bg-green-400/10 p-3 rounded-xl border border-green-400/20"
+        >
+          ✅ Password reset successful! Redirecting...
         </p>
       </form>
     </div>
@@ -61,9 +118,9 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { supabase } from "../../lib/supabaseClient";
+import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "vue-router";
-import { useHead } from '@unhead/vue'
+import { useHead } from "@unhead/vue";
 
 const router = useRouter();
 const newPassword = ref("");
@@ -98,60 +155,12 @@ const handleResetPassword = async () => {
 };
 
 useHead({
-  title: 'Reset Password | FilmRitz — Discover Movies & TV Series',
+  title: "Reset Password | FilmRitz",
   meta: [
     {
-      name: 'description',
-      content:
-        'Reset your FilmRitz password securely. Create a new password to regain access to your account and continue watching your favorite movies and shows.',
+      name: "description",
+      content: "Create a new password for your FilmRitz account",
     },
-    {
-      name: 'keywords',
-      content:
-        'FilmRitz, reset password, change password, account recovery, movie app, secure login, Ifeoluwa Olajubaje, EmannCode, EmannCodeDev',
-    },
-
-    // Open Graph (Facebook / LinkedIn)
-    { property: 'og:title', content: 'Reset Password | FilmRitz' },
-    {
-      property: 'og:description',
-      content:
-        'Reset your FilmRitz password easily and regain access to your personalized movie streaming experience.',
-    },
-    { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: 'https://filmritz.vercel.app/ng/reset-password' },
-    { property: 'og:image', content: 'https://filmritz.vercel.app/filmritzlogo2.png' },
-
-    // Twitter Card
-    { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: 'Reset Password | FilmRitz' },
-    {
-      name: 'twitter:description',
-      content:
-        'Securely reset your FilmRitz password and get back to streaming your favorite movies and series.',
-    },
-    { name: 'twitter:image', content: 'https://filmritz.vercel.app/filmritzlogo2.png' },
   ],
-  link: [
-    { rel: 'canonical', href: 'https://filmritz.vercel.app/ng/reset-password' },
-  ],
-})
+});
 </script>
-
-<style scoped>
-.animate-fade-up {
-  animation: fadeUp 0.8s ease both;
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-</style>
