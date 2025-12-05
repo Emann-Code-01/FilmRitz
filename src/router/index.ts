@@ -4,21 +4,25 @@ import MainLayout from "@/components/layout/MainLayout.vue";
 import SplashScreen from "@/pages/SplashScreen.vue";
 import Home from "@/pages/Home.vue";
 import Auth from "@/pages/auth/Auth.vue";
-import MediaDetails from "@/pages/MediaDetails.vue";
+import MediaDetails from "@/pages/details/MediaDetails.vue";
 import Watch from "@/pages/Watch.vue";
-import Search from "@/pages/Search.vue";
-import Profile from "@/pages/Profile.vue";
+import Search from "@/pages/search/Search.vue";
 import ForgotPassword from "@/pages/auth/ForgotPassword.vue";
 import ResetPassword from "@/pages/auth/ResetPassword.vue";
 import { useAuthStore } from "@/stores/auth";
-import GenreView from "@/pages/GenreView.vue";
+import GenreView from "@/pages/genre/GenreView.vue";
 import TvDetails from "@/pages/TvDetails.vue";
-import Watchlist from "@/pages/Watchlist.vue";
-import MediaPage from "@/pages/MediaPage.vue";
+import Watchlist from "@/pages/user/Watchlist.vue";
+import MediaPage from "@/pages/browse/MediaPage.vue";
 import Collections from "@/pages/discovery/CollectionsPage.vue";
 import CollectionsDetails from "@/pages/discovery/CollectionsDetailsPage.vue";
 import MoodPage from "@/pages/discovery/MoodPage.vue";
 import TrailersPage from "@/pages/trailers/TrailersPage.vue";
+import Settings from "@/pages/user/ProfileSettings.vue";
+import ActorDetails from "@/pages/details/ActorDetails.vue";
+import NewReleases from "@/pages/discovery/NewReleases.vue";
+import TrendinPage from "@/pages/browse/TrendinPage.vue";
+import TrendingTrailers from "@/pages/trailers/TrendingTrailers.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -63,6 +67,23 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: true },
       },
       {
+        path: "trending",
+        name: "TrendinPage",
+        component: TrendinPage,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'new-releases',
+        name: 'NewReleases',
+        component: NewReleases,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'trending-trailers',
+        name: 'TrendingTrailers',
+        component: TrendingTrailers,
+      },
+      {
         path: "watch/:name",
         name: "Watch",
         component: Watch,
@@ -74,6 +95,7 @@ const routes: RouteRecordRaw[] = [
         name: "GenreView",
         component: GenreView,
         props: true,
+        meta: { requiresAuth: true },
       },
       {
         path: "search",
@@ -84,12 +106,6 @@ const routes: RouteRecordRaw[] = [
         path: "watchlist",
         name: "Watchlist",
         component: Watchlist,
-        meta: { requiresAuth: true },
-      },
-      {
-        path: "profile",
-        name: "Profile",
-        component: Profile,
         meta: { requiresAuth: true },
       },
       {
@@ -106,17 +122,43 @@ const routes: RouteRecordRaw[] = [
         props: { type: "tv" },
         meta: { requiresAuth: true },
       },
-      { path: "collections", 
-        name: "Collections", 
-        component: Collections },
+      {
+        path: "actor/:name",
+        name: "ActorDetails",
+        component: ActorDetails,
+        props: true,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "collections",
+        name: "Collections",
+        component: Collections,
+        meta: { requiresAuth: true },
+      },
       {
         path: "collection/:id",
         name: "CollectionDetail",
         component: CollectionsDetails,
+        meta: { requiresAuth: true },
       },
-      { path: "mood/:name", 
-        name: "MoodPage", 
-        component: MoodPage },
+      {
+        path: "mood/:name",
+        name: "MoodPage",
+        component: MoodPage,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "trailers",
+        name: "TrailersPage",
+        component: TrailersPage,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "settings",
+        name: "Settings",
+        component: Settings,
+        meta: { requiresAuth: true },
+      },
       {
         path: "/forgot-password",
         name: "ForgotPassword",

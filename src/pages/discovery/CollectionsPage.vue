@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
+  <div class="min-h-screen text-white py-10 mt-10 transition-all duration-900 animate-fade-up">
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- HERO HEADER -->
     <!-- ═══════════════════════════════════════════════════════════════ -->

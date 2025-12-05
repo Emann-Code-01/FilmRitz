@@ -30,6 +30,8 @@ export interface Season {
   air_date?: string
   poster_path?: string
   episode_count: number
+  vote_average?: number
+  vote_count?: number
 }
 
 export interface Episode {

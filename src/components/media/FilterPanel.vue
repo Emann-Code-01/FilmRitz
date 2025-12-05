@@ -63,7 +63,7 @@
           <option value="oldest">Oldest</option>
         </select>
       </div>
-      <div class="flex gap-2 md:mt-7">
+      <div class="flex gap-2 mt-6.5">
         <button
           @click="applyFilter"
           class="px-4 py-2 rounded-xl bg-red-600/20 border cursor-pointer border-red-600/50 text-red-400 font-[Gilroy-SemiBold] hover:bg-red-600 hover:text-white transition-all"

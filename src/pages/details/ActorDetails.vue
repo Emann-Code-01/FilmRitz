@@ -11,11 +11,19 @@
       </div>
     </div>
 
+    <!-- Not Found -->
+    <div v-else-if="notFound" class="px-6 md:px-10 max-w-7xl mx-auto pt-24">
+      <div class="text-center py-20">
+        <p class="text-2xl text-gray-400">Actor not found</p>
+        <router-link to="/ng" class="text-[#b20710] hover:underline mt-4 block">
+          Back to Home
+        </router-link>
+      </div>
+    </div>
+
     <!-- Main Content -->
     <div v-else-if="person" class="px-6 md:px-10 max-w-7xl mx-auto pt-24">
-      <!-- ═══════════════════════════════════════════════════════════════ -->
       <!-- PERSON INFO -->
-      <!-- ═══════════════════════════════════════════════════════════════ -->
       <div class="grid md:grid-cols-3 gap-8 mb-12">
         <!-- Profile Image -->
         <div>
@@ -24,13 +32,13 @@
           >
             <img
               v-if="person.profile_path"
-              :src="`https://image.tmdb.org/t/p/w500${person.profile_path}`"
+              :src="getPoster(person.profile_path, 'w500')"
               :alt="person.name"
               class="w-full object-cover"
             />
             <div
               v-else
-              class="w-full aspect-[2/3] bg-gray-800 flex items-center justify-center text-8xl"
+              class="w-full aspect-2/3 bg-gray-800 flex items-center justify-center text-8xl"
             >
               👤
             </div>
@@ -92,9 +100,7 @@
         </div>
       </div>
 
-      <!-- ═══════════════════════════════════════════════════════════════ -->
       <!-- KNOWN FOR -->
-      <!-- ═══════════════════════════════════════════════════════════════ -->
       <div v-if="knownFor.length" class="mb-12">
         <h2 class="text-3xl font-[Gilroy-Bold] mb-6">Known For</h2>
         <div
@@ -106,9 +112,9 @@
             @click="openModal(item)"
             class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all hover:scale-105"
           >
-            <div class="aspect-[2/3]">
+            <div class="aspect-2/3">
               <img
-                :src="`https://image.tmdb.org/t/p/w342${item.poster_path}`"
+                :src="getPoster(item.poster_path, 'w342')"
                 :alt="item.title || item.name"
                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
@@ -117,9 +123,7 @@
         </div>
       </div>
 
-      <!-- ═══════════════════════════════════════════════════════════════ -->
       <!-- FILMOGRAPHY -->
-      <!-- ═══════════════════════════════════════════════════════════════ -->
       <div v-if="filmography.length">
         <h2 class="text-3xl font-[Gilroy-Bold] mb-6">Filmography</h2>
         <div class="space-y-3">
@@ -153,64 +157,93 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useModalStore } from "@/stores/modalStore";
-import axios from "axios";
+import {
+  getPoster,
+  getActorDetails,
+  getActorCredits,
+  searchMulti,
+} from "@/api/tmdb";
+
+interface Person {
+  id: number;
+  name: string;
+  profile_path: string | null;
+  known_for_department: string;
+  birthday: string | null;
+  place_of_birth: string | null;
+  biography: string;
+}
+
+interface Credit {
+  id: number;
+  title?: string;
+  name?: string;
+  poster_path: string | null;
+  character?: string;
+  job?: string;
+  media_type?: string;
+  release_date?: string;
+  first_air_date?: string;
+  vote_average?: number;
+  popularity?: number;
+}
 
 const route = useRoute();
 const modalStore = useModalStore();
 
-const person = ref<any>(null);
-const knownFor = ref<any[]>([]);
-const filmography = ref<any[]>([]);
+const person = ref<Person | null>(null);
+const knownFor = ref<Credit[]>([]);
+const filmography = ref<Credit[]>([]);
 const loading = ref(true);
+const notFound = ref(false);
 
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-
-const openModal = (item: any) => {
-  const mediaType = item.media_type || (item.title ? "movie" : "tv");
+const openModal = (item: Credit) => {
+  const mediaType = (item.media_type || (item.title ? "movie" : "tv")) as "movie" | "tv";
   modalStore.open(mediaType, { movieId: item.id, mediaType });
 };
 
 onMounted(async () => {
-  const personId = Number(route.params.id);
+  const actorName = route.params.name as string;
 
   try {
-    const [detailsRes, creditsRes] = await Promise.all([
-      axios.get(`https://api.themoviedb.org/3/person/${personId}`, {
-        params: { api_key: API_KEY },
-      }),
-      axios.get(
-        `https://api.themoviedb.org/3/person/${personId}/combined_credits`,
-        { params: { api_key: API_KEY } }
-      ),
-    ]);
+    // 1. Search actor by name
+    const searchResults = await searchMulti(actorName);
+    const actor = searchResults.find((r: any) => r.media_type === "person");
 
-    person.value = detailsRes.data;
+    if (!actor) {
+      notFound.value = true;
+      loading.value = false;
+      return;
+    }
 
-    // Known For (top rated)
-    knownFor.value = creditsRes.data.cast
-      .sort((a: any, b: any) => (b.popularity || 0) - (a.popularity || 0))
+    const actorId = actor.id;
+
+    // 2. Fetch actor details and credits
+    person.value = await getActorDetails(actorId);
+    const credits = await getActorCredits(actorId);
+
+    // Known For (top rated/popular)
+    knownFor.value = credits
+      .sort((a: Credit, b: Credit) => (b.popularity || 0) - (a.popularity || 0))
       .slice(0, 12);
 
     // Full Filmography
-    filmography.value = [...creditsRes.data.cast, ...creditsRes.data.crew].sort(
-      (a: any, b: any) => {
-        const dateA = new Date(
-          a.release_date || a.first_air_date || 0
-        ).getTime();
-        const dateB = new Date(
-          b.release_date || b.first_air_date || 0
-        ).getTime();
-        return dateB - dateA;
-      }
-    );
+    filmography.value = [...credits].sort((a: Credit, b: Credit) => {
+      const dateA = new Date(a.release_date || a.first_air_date || 0).getTime();
+      const dateB = new Date(b.release_date || b.first_air_date || 0).getTime();
+      return dateB - dateA;
+    });
   } catch (error) {
-    console.error("Failed to load person details:", error);
+    console.error("Failed to load actor details:", error);
+    notFound.value = true;
   } finally {
     loading.value = false;
   }
 });
 </script>
+<style scoped></style>

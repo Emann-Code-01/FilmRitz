@@ -139,7 +139,7 @@
           v-else
           class="flex justify-between items-center text-white transition-all duration-900 animate-fade-up relative"
         >
-          <Profile />
+          <MobileNav />
           <!--make sure you change the user icon to allow users input their own profile picture-->
         </div>
       </div>
@@ -154,7 +154,7 @@ import { ref, onUnmounted, onMounted, onBeforeUnmount } from "vue";
 import SearchBar from "../media/SearchBar.vue";
 import { useAuthStore } from "@/stores/auth";
 import { useRouter, useRoute } from "vue-router";
-import Profile from "@/pages/Profile.vue";
+import MobileNav from "@/pages/MobileNav.vue";
 import { TransitionRoot, TransitionChild, Dialog } from "@headlessui/vue";
 import "swiper/css";
 

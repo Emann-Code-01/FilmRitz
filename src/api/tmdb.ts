@@ -277,6 +277,31 @@ export const getMediaEpisodeVideos = async (
   return getTVEpisodeVideos(id, seasonNumber, episodeNumber);
 };
 
+// --------------------------- ACTORS / PEOPLE ---------------------------
+
+/**
+ * Get full actor/person details by ID
+ */
+export const getActorDetails = async (personId: number) => {
+  const res = await apiV3.get(`/person/${personId}`);
+  return res.data;
+};
+
+/**
+ * Get all credits (cast + crew) for an actor/person
+ */
+export const getActorCredits = async (personId: number) => {
+  const res = await apiV3.get(`/person/${personId}/combined_credits`);
+  // Combine cast + crew for full filmography
+  const credits = [...res.data.cast, ...res.data.crew];
+  return credits.sort((a: any, b: any) => {
+    const dateA = new Date(a.release_date || a.first_air_date || 0).getTime();
+    const dateB = new Date(b.release_date || b.first_air_date || 0).getTime();
+    return dateB - dateA;
+  });
+};
+
+
 // --------------------------- SEARCH (MULTI) ---------------------------
 
 export const searchMulti = async (query: string, page = 1): Promise<Media[]> => {

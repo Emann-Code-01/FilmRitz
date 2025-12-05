@@ -135,7 +135,7 @@ import { useAuthStore } from "@/stores/auth";
 import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
-// const route = useRoute();
+// const route = useRoute();  
 const auth = useAuthStore();
 const modalStore = useModalStore();
 const loading = ref(false);
