@@ -62,7 +62,7 @@
               </div>
 
               <!-- Overlay Info -->
-              <div class="relative -mt-20 p-6 bg-linear-to-t from-black/95 via-black/70 to-transparent rounded-t-2xl">
+              <div class="relative -mt-6 p-6 bg-linear-to-t from-black/95 via-black/70 to-transparent rounded-t-2xl">
                 <DialogTitle as="h2" class="md:text-6xl text-3xl font-[Gilroy-Bold]">
                   {{ media?.title }}
                 </DialogTitle>
