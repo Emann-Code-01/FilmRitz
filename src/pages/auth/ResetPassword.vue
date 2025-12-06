@@ -1,166 +1,123 @@
 <template>
-  <div
-    class="min-h-screen flex items-center justify-center bg-[#0a0a0a] px-4 relative overflow-hidden"
-  >
-    <!-- Animated Background -->
-    <div
-      class="absolute inset-0 bg-linear-to-br from-[#b20710]/20 via-transparent to-[#e32125]/10"
-    ></div>
-
-    <div
-      class="relative z-10 bg-black/60 backdrop-blur-2xl p-8 md:p-10 rounded-3xl shadow-2xl w-full max-w-md border border-white/10"
-    >
-      <!-- Icon -->
-      <div
-        class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-[#b20710] flex items-center justify-center"
-      >
-        <span class="text-3xl">🔐</span>
+  <div class="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center px-4">
+    <div class="w-full max-w-md">
+      <!-- Logo / Title -->
+      <div class="text-center mb-8">
+        <h1 class="text-4xl font-[Gilroy-Bold] mb-2">FilmRitz</h1>
+        <p class="text-gray-400 font-[Gilroy-Medium]">Reset Your Password</p>
       </div>
 
-      <h1 class="text-3xl font-[Gilroy-Bold] text-white mb-2 text-center">
-        Reset Password
-      </h1>
-      <p class="text-gray-400 text-center mb-8 font-[Gilroy-Regular]">
-        Enter your new password below
-      </p>
-
-      <form @submit.prevent="handleResetPassword" class="space-y-5">
+      <!-- Form -->
+      <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
         <!-- New Password -->
-        <div>
-          <label
-            for="newPassword"
-            class="block text-gray-300 text-sm mb-2 font-[Gilroy-Medium]"
-          >
+        <div class="mb-6">
+          <label class="block text-gray-400 text-sm mb-2 font-[Gilroy-Medium]">
             New Password
           </label>
-          <div class="relative">
-            <input
-              id="newPassword"
-              name="newPassword"
-              v-model="newPassword"
-              :type="showPassword ? 'text' : 'password'"
-              placeholder="Enter new password"
-              required
-              minlength="6"
-              class="w-full p-4 pr-12 rounded-xl bg-white/5 text-white border border-white/10 focus:ring-2 caret-white focus:ring-[#b20710] focus:border-transparent focus:outline-none transition-all font-[Gilroy-Regular]"
-            />
-            <button
-              v-if="newPassword"
-              type="button"
-              @click="showPassword = !showPassword"
-              class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-all"
-            >
-              <i :class="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
-            </button>
-          </div>
+          <input
+            v-model="form.password"
+            type="password"
+            placeholder="Enter new password"
+            class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-[Gilroy-Regular] focus:ring-2 focus:ring-[#b20710] focus:border-transparent focus:outline-none transition-all"
+          />
         </div>
 
         <!-- Confirm Password -->
-        <div>
-          <label
-            for="confirmPassword"
-            class="block text-gray-300 text-sm mb-2 font-[Gilroy-Medium]"
-          >
+        <div class="mb-6">
+          <label class="block text-gray-400 text-sm mb-2 font-[Gilroy-Medium]">
             Confirm Password
           </label>
-          <div class="relative">
-            <input
-              id="confirmPassword"
-              name="confirmPassword"
-              v-model="confirmPassword"
-              :type="showConfirmPassword ? 'text' : 'password'"
-              placeholder="Confirm new password"
-              required
-              minlength="6"
-              class="w-full p-4 pr-12 rounded-xl bg-white/5 text-white border border-white/10 focus:ring-2 caret-white focus:ring-[#b20710] focus:border-transparent focus:outline-none transition-all font-[Gilroy-Regular]"
-            />
-            <button
-              v-if="confirmPassword"
-              type="button"
-              @click="showConfirmPassword = !showConfirmPassword"
-              class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-all"
-            >
-              <i
-                :class="showConfirmPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"
-              ></i>
-            </button>
-          </div>
+          <input
+            v-model="form.confirmPassword"
+            type="password"
+            placeholder="Confirm new password"
+            class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-[Gilroy-Regular] focus:ring-2 focus:ring-[#b20710] focus:border-transparent focus:outline-none transition-all"
+          />
+        </div>
+
+        <!-- Error Message -->
+        <div
+          v-if="error"
+          class="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-xl text-red-400 text-sm"
+        >
+          {{ error }}
         </div>
 
         <!-- Submit Button -->
         <button
-          type="submit"
+          @click="resetPassword"
           :disabled="loading"
-          class="w-full py-4 rounded-xl bg-[#b20710] hover:bg-[#e32125] transition-all disabled:opacity-50 disabled:cursor-not-allowed font-[Gilroy-Bold] text-white text-lg transform hover:scale-[1.02]"
+          class="w-full py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {{ loading ? "Resetting..." : "Reset Password" }}
         </button>
 
-        <!-- Error Message -->
-        <p
-          v-if="error"
-          class="text-red-400 text-sm text-center bg-red-400/10 p-3 rounded-xl border border-red-400/20"
-        >
-          {{ error }}
+        <!-- Back to Login -->
+        <p class="text-center mt-6 text-gray-400 font-[Gilroy-Regular]">
+          Remembered your password?
+          <router-link
+            to="/ng/login"
+            class="text-[#b20710] hover:underline font-[Gilroy-SemiBold]"
+          >
+            Sign In
+          </router-link>
         </p>
-
-        <!-- Success Message -->
-        <p
-          v-if="success"
-          class="text-green-400 text-sm text-center bg-green-400/10 p-3 rounded-xl border border-green-400/20"
-        >
-          ✅ Password reset successful! Redirecting...
-        </p>
-      </form>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { supabase } from "@/lib/supabaseClient";
-import { useRouter } from "vue-router";
-import { useHead } from "@unhead/vue";
+import { useRoute, useRouter } from "vue-router";
 
+const route = useRoute();
 const router = useRouter();
-const newPassword = ref("");
-const confirmPassword = ref("");
-const showPassword = ref(false);
-const showConfirmPassword = ref(false);
+
+const form = ref({
+  password: "",
+  confirmPassword: "",
+});
+
 const loading = ref(false);
-const success = ref(false);
 const error = ref("");
 
-const handleResetPassword = async () => {
-  if (newPassword.value !== confirmPassword.value) {
-    error.value = "Passwords do not match.";
+const resetPassword = async () => {
+  error.value = "";
+
+  if (!form.value.password || !form.value.confirmPassword) {
+    error.value = "Please fill in all fields";
+    return;
+  }
+
+  if (form.value.password !== form.value.confirmPassword) {
+    error.value = "Passwords do not match";
+    return;
+  }
+
+  if (form.value.password.length < 6) {
+    error.value = "Password must be at least 6 characters";
     return;
   }
 
   loading.value = true;
-  error.value = "";
 
-  const { error: resetError } = await supabase.auth.updateUser({
-    password: newPassword.value,
-  });
+  try {
+    // TODO: Implement API call to reset password with token
+    const token = route.params.token;
+    console.log("Resetting password with token:", token);
 
-  loading.value = false;
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
-  if (resetError) {
-    error.value = resetError.message;
-  } else {
-    success.value = true;
-    setTimeout(() => router.push("/ng/login"), 2000);
+    router.push({
+      name: "Auth",
+      query: { success: "Password reset successful" },
+    });
+  } catch (err) {
+    error.value = "Failed to reset password. Please try again.";
+  } finally {
+    loading.value = false;
   }
 };
-
-useHead({
-  title: "Reset Password | FilmRitz",
-  meta: [
-    {
-      name: "description",
-      content: "Create a new password for your FilmRitz account",
-    },
-  ],
-});
 </script>

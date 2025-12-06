@@ -2,7 +2,7 @@
 
 // Unified TMDB helpers for Movie + TV + combined use (v3 axios instance: apiV3)
 import apiV3 from "./tmdbV3";
-import { genreMap } from "@/types/media";
+import { genreMap, Person } from "@/types/media";
 import { Media, TVShow, Season, Episode } from "@/types/media"; // ✅ use your defined interfaces
 
 /**
@@ -304,17 +304,21 @@ export const getActorCredits = async (personId: number) => {
 
 // --------------------------- SEARCH (MULTI) ---------------------------
 
-export const searchMulti = async (query: string, page = 1): Promise<Media[]> => {
+export const searchMulti = async (query: string, page = 1): Promise<any[]> => {
   const res = await apiV3.get("/search/multi", {
     params: { query, page, include_adult: false },
   });
 
-  const raw = res.data.results || [];
-  return raw
-    .filter(
-      (r: any) => r.media_type === "movie" || r.media_type === "tv"
-    )
-    .map((r: any) => normalize(r));
+  // ✅ Return ALL results (including people) without filtering
+  return res.data.results || [];
+};
+
+// ✅ NEW: Dedicated person search
+export const searchPeople = async (query: string): Promise<Person[]> => {
+  const res = await apiV3.get("/search/person", {
+    params: { query, include_adult: false },
+  });
+  return res.data.results || [];
 };
 
 // --------------------------- FILTERED SEARCH HELPER ---------------------------

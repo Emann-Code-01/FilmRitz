@@ -5,30 +5,28 @@ import SplashScreen from "@/pages/SplashScreen.vue";
 import Home from "@/pages/Home.vue";
 import Auth from "@/pages/auth/Auth.vue";
 import MediaDetails from "@/pages/details/MediaDetails.vue";
-import Watch from "@/pages/Watch.vue";
 import Search from "@/pages/search/Search.vue";
 import ForgotPassword from "@/pages/auth/ForgotPassword.vue";
 import ResetPassword from "@/pages/auth/ResetPassword.vue";
 import { useAuthStore } from "@/stores/auth";
 import GenreView from "@/pages/genre/GenreView.vue";
-import TvDetails from "@/pages/TvDetails.vue";
 import Watchlist from "@/pages/user/Watchlist.vue";
 import MediaPage from "@/pages/browse/MediaPage.vue";
-import Collections from "@/pages/discovery/CollectionsPage.vue";
-import CollectionsDetails from "@/pages/discovery/CollectionsDetailsPage.vue";
-import MoodPage from "@/pages/discovery/MoodPage.vue";
-import TrailersPage from "@/pages/trailers/TrailersPage.vue";
 import Settings from "@/pages/user/ProfileSettings.vue";
 import ActorDetails from "@/pages/details/ActorDetails.vue";
-import NewReleases from "@/pages/discovery/NewReleases.vue";
-import TrendinPage from "@/pages/browse/TrendinPage.vue";
+import Watch from "@/pages/Watch.vue";
+import CollectionsPage from "@/pages/discovery/CollectionsPage.vue";
 import TrendingTrailers from "@/pages/trailers/TrendingTrailers.vue";
+import NewReleases from "@/pages/discovery/NewReleases.vue";
 
 const routes: RouteRecordRaw[] = [
   {
     path: "/ng",
     component: MainLayout,
     children: [
+      // ═══════════════════════════════════════════════════════════════
+      // CORE PAGES
+      // ═══════════════════════════════════════════════════════════════
       {
         path: "splash",
         name: "Splash",
@@ -39,12 +37,32 @@ const routes: RouteRecordRaw[] = [
         name: "Home",
         component: Home,
       },
+
+      // ═══════════════════════════════════════════════════════════════
+      // AUTHENTICATION
+      // ═══════════════════════════════════════════════════════════════
       {
         path: "login",
         name: "Auth",
         component: Auth,
         meta: { guestOnly: true },
       },
+      {
+        path: "forgot-password",
+        name: "ForgotPassword",
+        component: ForgotPassword,
+        meta: { guestOnly: true },
+      },
+      {
+        path: "reset-password/:token",
+        name: "ResetPassword",
+        component: ResetPassword,
+        meta: { guestOnly: true },
+      },
+
+      // ═══════════════════════════════════════════════════════════════
+      // MEDIA DETAILS
+      // ═══════════════════════════════════════════════════════════════
       {
         path: "movie/:name",
         name: "MovieDetails",
@@ -60,54 +78,16 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: true },
       },
       {
-        path: "tv-shows/:name",
-        name: "TVDetails",
-        component: TvDetails,
+        path: "actor/:name",
+        name: "ActorDetails",
+        component: ActorDetails,
         props: true,
         meta: { requiresAuth: true },
       },
-      {
-        path: "trending",
-        name: "TrendinPage",
-        component: TrendinPage,
-        meta: { requiresAuth: true },
-      },
-      {
-        path: 'new-releases',
-        name: 'NewReleases',
-        component: NewReleases,
-        meta: { requiresAuth: true },
-      },
-      {
-        path: 'trending-trailers',
-        name: 'TrendingTrailers',
-        component: TrendingTrailers,
-      },
-      {
-        path: "watch/:name",
-        name: "Watch",
-        component: Watch,
-        props: true,
-        meta: { requiresAuth: true },
-      },
-      {
-        path: "genre/:name",
-        name: "GenreView",
-        component: GenreView,
-        props: true,
-        meta: { requiresAuth: true },
-      },
-      {
-        path: "search",
-        name: "Search",
-        component: Search,
-      },
-      {
-        path: "watchlist",
-        name: "Watchlist",
-        component: Watchlist,
-        meta: { requiresAuth: true },
-      },
+
+      // ═══════════════════════════════════════════════════════════════
+      // BROWSING & DISCOVERY
+      // ═══════════════════════════════════════════════════════════════
       {
         path: "movies",
         name: "Movies",
@@ -123,34 +103,44 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: true },
       },
       {
-        path: "actor/:name",
-        name: "ActorDetails",
-        component: ActorDetails,
+        path: "genre/:name",
+        name: "GenreView",
+        component: GenreView,
         props: true,
         meta: { requiresAuth: true },
       },
       {
         path: "collections",
         name: "Collections",
-        component: Collections,
+        component: CollectionsPage,
         meta: { requiresAuth: true },
       },
       {
-        path: "collection/:id",
-        name: "CollectionDetail",
-        component: CollectionsDetails,
+        path: "new-releases",
+        name: "NewReleases",
+        component: NewReleases,
         meta: { requiresAuth: true },
       },
       {
-        path: "mood/:name",
-        name: "MoodPage",
-        component: MoodPage,
+        path: "trending-trailers",
+        name: "TrendingTrailers",
+        component: TrendingTrailers,
+        meta: { requiresAuth: true },
+      },
+
+      // ═══════════════════════════════════════════════════════════════
+      // USER FEATURES
+      // ═══════════════════════════════════════════════════════════════
+      {
+        path: "search",
+        name: "Search",
+        component: Search,
         meta: { requiresAuth: true },
       },
       {
-        path: "trailers",
-        name: "TrailersPage",
-        component: TrailersPage,
+        path: "watchlist",
+        name: "Watchlist",
+        component: Watchlist,
         meta: { requiresAuth: true },
       },
       {
@@ -159,22 +149,32 @@ const routes: RouteRecordRaw[] = [
         component: Settings,
         meta: { requiresAuth: true },
       },
+
+      // ═══════════════════════════════════════════════════════════════
+      // STREAMING / WATCH PAGE
+      // ═══════════════════════════════════════════════════════════════
       {
-        path: "/forgot-password",
-        name: "ForgotPassword",
-        component: ForgotPassword,
+        path: "watch/:id",
+        name: "Watch",
+        component: Watch,
+        props: true,
+        meta: { requiresAuth: true },
       },
-      {
-        path: "/reset-password",
-        name: "ResetPassword",
-        component: ResetPassword,
-      },
+
+      // ═══════════════════════════════════════════════════════════════
+      // 404
+      // ═══════════════════════════════════════════════════════════════
       {
         path: "/:pathMatch(.*)*",
         name: "NotFound",
         component: () => import("@/components/error/NotAvailable.vue"),
       },
     ],
+  },
+
+  {
+    path: "/",
+    redirect: "/ng",
   },
 ];
 
@@ -186,9 +186,9 @@ const router = createRouter({
   },
 });
 
-// ==========================
-// 🔥 FIXED NAV GUARD LOGIC
-// ==========================
+// ═══════════════════════════════════════════════════════════════
+// NAVIGATION GUARD
+// ═══════════════════════════════════════════════════════════════
 router.beforeEach(async (to, from, next) => {
   const auth = useAuthStore();
   await auth.syncUser();

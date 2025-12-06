@@ -22,6 +22,20 @@ export interface Media {
   status?: "ongoing" | "finished";
 }
 
+export interface Credit {
+  id: number;
+  title?: string;
+  name?: string;
+  poster_path: string | null;
+  character?: string;
+  job?: string;
+  media_type?: string;
+  release_date?: string;
+  first_air_date?: string;
+  vote_average?: number;
+  popularity?: number;
+}
+
 export interface Season {
   id: number
   season_number: number
@@ -98,31 +112,23 @@ export const genreNameToId: Record<string, number> = Object.fromEntries(
 );
 export interface WatchItem {
   id: number;
-  title: string; // For movies and normalized title for tv
-  name?: string; // Original tv name (optional)
-  overview: string;
-  poster_path: string;
-  backdrop_path?: string;
-  release_date: string; // release_date or first_air_date normalized into this
-  first_air_date?: string;
-  vote_average: number;
-  vote_count?: number;
-  popularity?: number;
-  genres?: { id: number; name: string }[];
-  genre_ids?: number[];
-  original_language?: string;
-  type?: "movie" | "tv";
-  trailerUrl?: string;
-  addedToWatchlist?: boolean;
-  rating?: number;
+  title?: string;
+  name?: string;
+  poster_path: string | null;
   media_type: "movie" | "tv";
+  overview: string;
+  release_date: string;
+  vote_average: number;
 }
 
-export interface ColorPalette {
-  dominant: string;
-  accent: string;
-  vibrant: string;
-  muted: string;
+export interface Person {
+  id: number;
+  name: string;
+  profile_path: string | null;
+  known_for_department: string;
+  birthday: string | null;
+  place_of_birth: string | null;
+  biography: string;
 }
 
 export interface HeroSlide extends Media {

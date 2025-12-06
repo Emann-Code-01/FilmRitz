@@ -23,6 +23,7 @@ try {
 			if (window.location.pathname !== '/') window.location.replace(url.toString());
 		}
 	}
+// oxlint-disable-next-line no-unused-vars
 } catch (_e) {
 	// ignore localStorage/url errors
 }

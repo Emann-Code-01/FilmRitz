@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
     <!-- Loading Skeleton -->
     <div v-if="loading" class="px-6 md:px-10 max-w-7xl mx-auto pt-24">
       <div class="grid md:grid-cols-3 gap-8">
@@ -166,32 +166,9 @@ import {
   getPoster,
   getActorDetails,
   getActorCredits,
-  searchMulti,
+  searchMulti, // ✅ Use dedicated person search
 } from "@/api/tmdb";
-
-interface Person {
-  id: number;
-  name: string;
-  profile_path: string | null;
-  known_for_department: string;
-  birthday: string | null;
-  place_of_birth: string | null;
-  biography: string;
-}
-
-interface Credit {
-  id: number;
-  title?: string;
-  name?: string;
-  poster_path: string | null;
-  character?: string;
-  job?: string;
-  media_type?: string;
-  release_date?: string;
-  first_air_date?: string;
-  vote_average?: number;
-  popularity?: number;
-}
+import type { Person, Credit } from "@/types/media";
 
 const route = useRoute();
 const modalStore = useModalStore();

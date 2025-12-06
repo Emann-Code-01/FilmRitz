@@ -1,6 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
-    
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- HERO HEADER -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -8,38 +7,8 @@
       <div class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"></div>
 
       <div class="relative z-10 max-w-7xl mx-auto">
-        <div class="flex items-center gap-4 mb-6">
-          <div class="w-20 h-20 rounded-2xl bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl">
-            🎬
-          </div>
-          <div>
-            <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">New Releases</h1>
-            <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-2">
-              Latest movies and shows available now
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- FILTER TABS -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="sticky top-16 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4">
-      <div class="px-6 md:px-10 max-w-7xl mx-auto">
-        <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-          <button
-            v-for="period in periods"
-            :key="period.value"
-            @click="selectedPeriod = period.value"
-            class="shrink-0 px-6 py-3 rounded-full font-[Gilroy-SemiBold] transition-all duration-300"
-            :class="selectedPeriod === period.value
-              ? 'bg-[#b20710] text-white shadow-lg shadow-[#b20710]/50'
-              : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'"
-          >
-            {{ period.label }}
-          </button>
-        </div>
+        <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">New Releases</h1>
+        <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-2">Latest movies and shows</p>
       </div>
     </div>
 
@@ -96,7 +65,6 @@
       </div>
 
     </div>
-
   </div>
 </template>
 
