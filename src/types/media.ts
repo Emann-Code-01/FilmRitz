@@ -115,10 +115,28 @@ export interface WatchItem {
   title?: string;
   name?: string;
   poster_path: string | null;
-  media_type: "movie" | "tv";
   overview: string;
   release_date: string;
   vote_average: number;
+  backdrop_path?: string;
+  first_air_date?: string;
+  vote_count?: number;
+  popularity?: number;
+  genres?: { id: number; name: string }[];
+  genre_ids?: number[];
+  original_language?: string;
+  type?: "movie" | "tv";
+  trailerUrl?: string;
+  addedToWatchlist?: boolean;
+  rating?: number;
+  media_type: "movie" | "tv";
+}
+
+export interface ColorPalette {
+  dominant: string;
+  accent: string;
+  vibrant: string;
+  muted: string;
 }
 
 export interface Person {

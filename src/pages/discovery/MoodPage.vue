@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- HERO HEADER WITH MOOD THEME -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -58,7 +58,7 @@
             v-for="m in moods"
             :key="m.id"
             @click="selectMood(m)"
-            class="shrink-0 px-6 py-3 rounded-full font-[Gilroy-SemiBold] transition-all duration-300 flex items-center gap-2"
+            class="shrink-0 px-6 py-3 rounded-full font-[Gilroy-SemiBold] transition-all duration-300 flex items-center gap-2 cursor-pointer"
             :style="
               mood?.id === m.id
                 ? { backgroundColor: m.color, color: 'white' }
@@ -136,7 +136,7 @@
             </div>
           </div>
 
-          <!-- Play Icon -->
+          <!-- Play Icon
           <div
             class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
           >
@@ -146,7 +146,7 @@
             >
               <span class="text-3xl text-white ml-1">▶</span>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -154,7 +154,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useModalStore } from "@/stores/modalStore";
 
@@ -261,6 +261,14 @@ const loadMoodItems = async () => {
     loading.value = false;
   }
 };
+
+// Watch for route changes and reload content
+watch(
+  () => route.params.name,
+  () => {
+    loadMoodItems();
+  }
+);
 
 onMounted(loadMoodItems);
 </script>

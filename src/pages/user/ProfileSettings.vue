@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- HERO HEADER -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -38,7 +38,7 @@
           v-for="tab in tabs"
           :key="tab.value"
           @click="activeTab = tab.value"
-          class="px-6 py-3 font-[Gilroy-SemiBold] transition-all relative"
+          class="px-6 py-3 font-[Gilroy-SemiBold] transition-all relative cursor-pointer"
           :class="
             activeTab === tab.value
               ? 'text-white'
@@ -48,7 +48,7 @@
           {{ tab.label }}
           <div
             v-if="activeTab === tab.value"
-            class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#b20710]"
+            class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#b20710] cursor-pointer"
           ></div>
         </button>
       </div>
@@ -70,7 +70,8 @@
             </div>
             <div>
               <button
-                class="px-6 py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all"
+                class="px-6 py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-alldisabled:opacity-50 disabled:cursor-not-allowed"
+                disabled
               >
                 Change Picture
               </button>
@@ -240,7 +241,7 @@
               >
               <select
                 v-model="preferredLanguage"
-                class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-[Gilroy-Regular] focus:ring-2 focus:ring-[#b20710] focus:border-transparent focus:outline-none transition-all"
+                class="w-full px-4 py-3 rounded-xl bg-gray-700 border border-white/10 text-white font-[Gilroy-Regular] focus:ring-2 focus:ring-[#b20710] focus:border-transparent focus:outline-none transition-all"
               >
                 <option value="en">English</option>
                 <option value="es">Spanish</option>

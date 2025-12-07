@@ -15,7 +15,7 @@
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- RELEASES GRID -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="px-6 md:px-10 max-w-7xl mx-auto mt-8">
+    <div class="px-6 md:px-10 mx-auto mt-8">
       
       <!-- Loading -->
       <div v-if="loading" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
@@ -51,11 +51,11 @@
             </div>
           </div>
 
-          <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <!-- <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <div class="w-16 h-16 rounded-full bg-[#b20710] flex items-center justify-center shadow-2xl">
               <span class="text-3xl text-white ml-1">▶</span>
             </div>
-          </div>
+          </div> -->
 
           <!-- New Badge -->
           <div class="absolute top-3 left-3 px-3 py-1 bg-[#b20710] rounded-lg font-[Gilroy-Bold] text-xs">

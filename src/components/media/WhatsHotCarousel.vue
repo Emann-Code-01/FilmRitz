@@ -74,7 +74,7 @@
 
               <!-- Info (on hover) -->
               <div
-                class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+                class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 animate-fade-up"
               >
                 <h3 class="text-xl font-[Gilroy-Bold] text-white mb-2">
                   {{ item.title || item.name }}

@@ -142,7 +142,7 @@
             <button
               @click="goToWatch"
               disabled
-              class="px-8 py-4 bg-white text-black rounded-xl font-[Gilroy-Bold] text-lg hover:bg-white/90 transition-all flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+              class="px-8 py-4 bg-white text-black rounded-full font-[Gilroy-Bold] text-lg hover:bg-white/90 transition-all flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span class="text-2xl">▶</span>
               <span>Watch Now</span>

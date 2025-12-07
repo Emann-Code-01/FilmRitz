@@ -45,7 +45,7 @@
                   Trending This Week
                 </h2>
                 <router-link
-                  to="/ng/tv-shows"
+                  to="/ng/trending"
                   class="text-[#b20710] hover:text-[#e32125] font-[Gilroy-SemiBold] transition-colors"
                 >
                   View All →
