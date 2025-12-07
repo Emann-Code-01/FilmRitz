@@ -27,7 +27,12 @@
         />
       </router-link>
       <div
-        v-if="show3"
+        v-if="
+          show3 &&
+          auth.isLoggedIn &&
+          router.currentRoute.value.path !== '/forgot-password' &&
+          router.currentRoute.value.path !== '/reset-password'
+        "
         @click="closeOnClickingOutside"
         class="left-0 top-0 absolute inset-0 w-screen ease-in transition-all duration-500 h-screen bg-black/40 bg-opacity-30 -z-10"
       ></div>
@@ -214,7 +219,7 @@
           @click="handleMenuButtonClick3"
           class="w-10 h-10 rounded-full bg-linear-to-br from-[#b20710] to-[#e32125] flex items-center justify-center cursor-pointer"
         >
-          <span class="text-white font-[Gilroy-Bold]">{{ userInitial }}</span>
+          <span class="text-white text-xl font-[Gilroy-Bold]">{{ userInitial }}</span>
         </button>
         <div
           v-if="show3"

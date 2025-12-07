@@ -13,9 +13,9 @@
       ></div>
 
       <div class="relative z-10 max-w-[1230px] mx-auto justify-between">
-        <div class="flex items-center gap-4 mb-4">
+        <div class="md:flex items-center gap-4 mb-4 hidden">
           <div
-            class="w-20 h-20 rounded-2xl flex items-center justify-center text-4xl"
+            class="w-20 h-20 rounded-full flex items-center justify-center text-4xl"
             :style="{
               backgroundColor: `${genreColor}20`,
               border: `2px solid ${genreColor}`,
@@ -31,6 +31,25 @@
               {{ genreDescription }}
             </p>
           </div>
+        </div>
+        <div class="grid items-center gap-4 mb-4 md:hidden">
+          <div class="flex space-x-3 items-center">
+            <div
+              class="w-20 h-20 rounded-full flex items-center justify-center text-4xl"
+              :style="{
+                backgroundColor: `${genreColor}20`,
+                border: `2px solid ${genreColor}`,
+              }"
+            >
+              {{ genreIcon }}
+            </div>
+            <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] capitalize">
+              {{ genreName }}
+            </h1>
+          </div>          
+            <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-2">
+              {{ genreDescription }}
+            </p>
         </div>
       </div>
     </div>
