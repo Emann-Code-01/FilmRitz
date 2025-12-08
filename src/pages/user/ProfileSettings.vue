@@ -10,7 +10,7 @@
       ></div>
 
       <div class="relative z-10 max-w-7xl mx-auto">
-        <div class="flex items-center gap-4">
+        <div class="md:flex items-center gap-4 hidden">
           <div
             class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
           >
@@ -24,6 +24,21 @@
               Manage your account preferences
             </p>
           </div>
+        </div>
+        <div class="grid items-center gap-4 md:hidden">
+          <div class="flex items-center space-x-3">
+            <div
+              class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
+            >
+              👤
+            </div>
+            <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">
+              Profile & Settings
+            </h1>
+          </div>
+          <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-2">
+            Manage your account preferences
+          </p>
         </div>
       </div>
     </div>

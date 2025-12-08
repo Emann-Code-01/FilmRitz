@@ -217,9 +217,9 @@
       <div v-if="auth.isLoggedIn" class="relative group">
         <button
           @click="handleMenuButtonClick3"
-          class="w-10 h-10 rounded-full bg-linear-to-br from-[#b20710] to-[#e32125] flex items-center justify-center cursor-pointer"
+          class="w-10 h-10 rounded-full bg-linear-to-br from-[#b20710] to-[#e32125] flex items-center justify-center cursor-pointer text-center"
         >
-          <span class="text-white text-xl font-[Gilroy-Bold]">{{ userInitial }}</span>
+          <span class="text-white text-xl font-[Gilroy-Bold] flex items-center justify-center">{{ userInitial }}</span>
         </button>
         <div
           v-if="show3"
