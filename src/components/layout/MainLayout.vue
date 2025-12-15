@@ -2,7 +2,7 @@
   <Navbar />
 
   <main class="w-full text-[#d1d5dc]">
-    <router-view class="w-full block" />
+  <router-view class="w-full block" />
   </main>
 
   <Footer />

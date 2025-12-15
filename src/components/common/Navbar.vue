@@ -217,190 +217,195 @@
       <div v-if="auth.isLoggedIn" class="relative group">
         <button
           @click="handleMenuButtonClick3"
-          class="w-10 h-10 rounded-full bg-linear-to-br from-[#b20710] to-[#e32125] flex items-center justify-center cursor-pointer text-center"
+          class="w-10 h-10 rounded-full bg-red-600 inline-flex text-center select-none items-center justify-center text-white font-[Gilroy-Bold] leading-12 text-2xl cursor-pointer hover:bg-red-700 transition-colors"
         >
-          <span class="text-white text-xl font-[Gilroy-Bold] flex items-center justify-center">{{ userInitial }}</span>
+          {{ userInitial }}
         </button>
-        <div
-          v-if="show3"
-          class="absolute top-full right-0 mt-2 w-48 bg-black/95 backdrop-blur-xl rounded-xl border border-white/10 transition-all overflow-y-auto"
-        >
-          <router-link
-            to="/ng"
-            class="md:hidden"
-            @click="closeMenuOnMobile"
-            :class="[
-              isActiveLink('/ng')
-                ? 'hover:text-red-500 block px-4 py-3 text-red-500 font-[Gilroy-SemiBold] transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
-                : 'hover:text-red-500 block px-4 py-3 text-[#d1d5dc] font-[Gilroy-SemiBold] transition-all duration-200 hover:underline false',
-            ]"
+        <transition name="slide-fade">
+          <div
+            v-if="show3"
+            class="absolute top-full right-0 mt-2 w-48 bg-black/95 backdrop-blur-xl rounded-xl border border-white/10 transition-all overflow-y-auto"
           >
-            Home
-          </router-link>
-          <button
-            @click="handleMenuButtonClick"
-            class="text-[#d1d5dc] font-[Gilroy-SemiBold] hover:text-[#b20710] transition-colors flex items-center gap-2 cursor-pointer px-4 py-3 md:hidden"
-          >
-            Browse
-            <i class="pi pi-chevron-down text-lg"></i>
-          </button>
-          <transition name="slide-fade">
-            <div
-              v-if="show"
-              class="bg-black/95 backdrop-blur-xl border border-white/10 transition-all"
+            <router-link
+              to="/ng"
+              class="md:hidden"
+              @click="closeMenuOnMobile"
+              :class="[
+                isActiveLink('/ng')
+                  ? 'hover:text-red-500 block px-4 py-3 text-red-500 font-[Gilroy-SemiBold] transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
+                  : 'hover:text-red-500 block px-4 py-3 text-[#d1d5dc] font-[Gilroy-SemiBold] transition-all duration-200 hover:underline false',
+              ]"
             >
-              <router-link
-                to="/ng/movies"
-                @click="closeMenuOnMobile"
-                class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
-              >
-                🎬 Movies
-              </router-link>
-              <router-link
-                to="/ng/tv-shows"
-                @click="closeMenuOnMobile"
-                class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
-              >
-                📺 TV Shows
-              </router-link>
-              <router-link
-                to="/ng/trending"
-                @click="closeMenuOnMobile"
-                class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
-              >
-                🔥 Trending
-              </router-link>
-              <router-link
-                to="/ng/popular"
-                @click="closeMenuOnMobile"
-                class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
-              >
-                👑 Popular
-              </router-link>
-              <router-link
-                to="/ng/top-rated"
-                @click="closeMenuOnMobile"
-                class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
-              >
-                ⭐ Top Rated
-              </router-link>
-              <router-link
-                to="/ng/new-releases"
-                @click="closeMenuOnMobile"
-                class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
-              >
-                🆕 New Releases
-              </router-link>
-              <router-link
-                to="/ng/coming-soon"
-                @click="closeMenuOnMobile"
-                class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
-              >
-                🎬 Coming Soon
-              </router-link>
-            </div>
-          </transition>
-          <button
-            @click="handleMenuButtonClick2"
-            class="text-[#d1d5dc] font-[Gilroy-SemiBold] hover:text-[#b20710] transition-colors flex items-center gap-2 cursor-pointer px-4 py-3 md:hidden"
-          >
-            Discover
-            <i class="pi pi-chevron-down text-lg"></i>
-          </button>
-          <transition name="slide-fade">
-            <div
-              v-if="show2"
-              class="bg-black/95 backdrop-blur-xl border border-white/10 transition-all"
+              Home
+            </router-link>
+            <button
+              @click="handleMenuButtonClick"
+              class="text-[#d1d5dc] font-[Gilroy-SemiBold] hover:text-[#b20710] transition-colors flex items-center gap-2 cursor-pointer px-4 py-3 md:hidden"
             >
-              <router-link
-                to="/ng/collections"
-                @click="closeMenuOnMobile"
-                class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+              Browse
+              <i class="pi pi-chevron-down text-lg"></i>
+            </button>
+            <transition name="slide-fade">
+              <div
+                v-if="show"
+                class="bg-black/95 backdrop-blur-xl border border-white/10 transition-all"
               >
-                📚 Collections
-              </router-link>
-              <router-link
-                to="/ng/mood/happy"
-                @click="closeMenuOnMobile"
-                class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                <router-link
+                  to="/ng/movies"
+                  @click="closeMenuOnMobile"
+                  class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                >
+                  🎬 Movies
+                </router-link>
+                <router-link
+                  to="/ng/tv-shows"
+                  @click="closeMenuOnMobile"
+                  class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                >
+                  📺 TV Shows
+                </router-link>
+                <router-link
+                  to="/ng/trending"
+                  @click="closeMenuOnMobile"
+                  class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                >
+                  🔥 Trending
+                </router-link>
+                <router-link
+                  to="/ng/popular"
+                  @click="closeMenuOnMobile"
+                  class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                >
+                  👑 Popular
+                </router-link>
+                <router-link
+                  to="/ng/top-rated"
+                  @click="closeMenuOnMobile"
+                  class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                >
+                  ⭐ Top Rated
+                </router-link>
+                <router-link
+                  to="/ng/new-releases"
+                  @click="closeMenuOnMobile"
+                  class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                >
+                  🆕 New Releases
+                </router-link>
+                <router-link
+                  to="/ng/coming-soon"
+                  @click="closeMenuOnMobile"
+                  class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                >
+                  🎬 Coming Soon
+                </router-link>
+              </div>
+            </transition>
+            <button
+              @click="handleMenuButtonClick2"
+              class="text-[#d1d5dc] font-[Gilroy-SemiBold] hover:text-[#b20710] transition-colors flex items-center gap-2 cursor-pointer px-4 py-3 md:hidden"
+            >
+              Discover
+              <i class="pi pi-chevron-down text-lg"></i>
+            </button>
+            <transition name="slide-fade">
+              <div
+                v-if="show2"
+                class="bg-black/95 backdrop-blur-xl border border-white/10 transition-all"
               >
-                🎨 By Mood
-              </router-link>
-              <router-link
-                to="/ng/trailers"
+                <router-link
+                  to="/ng/collections"
+                  @click="closeMenuOnMobile"
+                  class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                >
+                  📚 Collections
+                </router-link>
+                <router-link
+                  to="/ng/mood/happy"
+                  @click="closeMenuOnMobile"
+                  class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                >
+                  🎨 By Mood
+                </router-link>
+                <router-link
+                  to="/ng/trailers"
+                  @click="closeMenuOnMobile"
+                  class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                >
+                  🎥 All Trailers
+                </router-link>
+                <router-link
+                  to="/ng/trending-trailers"
+                  @click="closeMenuOnMobile"
+                  class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                >
+                  🔥 Trending Trailers
+                </router-link>
+              </div>
+            </transition>
+            <router-link
+              to="/ng/genre/action"
+              @click="closeMenuOnMobile"
+              class="md:hidden"
+              :class="[
+                isActiveLink('/ng/genre/action')
+                  ? 'hover:text-red-500 block px-4 py-3 text-red-500 font-[Gilroy-SemiBold] transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
+                  : 'hover:text-red-500 block px-4 py-3 text-[#d1d5dc] font-[Gilroy-SemiBold] transition-all duration-200 hover:underline false',
+              ]"
+            >
+              Genres
+            </router-link>
+            <router-link
+              to="/ng/my-list"
+              class="md:hidden"
+              @click="closeMenuOnMobile"
+              :class="[
+                isActiveLink('/ng/my-list')
+                  ? 'hover:text-red-500 block px-4 py-3 text-red-500 font-[Gilroy-SemiBold] transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
+                  : 'hover:text-red-500 block px-4 py-3 text-[#d1d5dc] font-[Gilroy-SemiBold] transition-all duration-200 hover:underline false',
+              ]"
+            >
+              My List
+            </router-link>
+            <router-link
+              to="/ng/history"
+              @click="closeMenuOnMobile"
+              :class="[
+                isActiveLink('/ng/history')
+                  ? 'hover:text-red-500 block px-4 py-3 text-red-500 font-[Gilroy-SemiBold] transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
+                  : 'hover:text-red-500 block px-4 py-3 text-[#d1d5dc] font-[Gilroy-SemiBold] transition-all duration-200 hover:underline false',
+              ]"
+            >
+              History
+            </router-link>
+            <router-link
+              to="/ng/profile"
+              @click="closeMenuOnMobile"
+              :class="[
+                isActiveLink('/ng/profile')
+                  ? 'hover:text-red-500 block px-4 py-3 text-red-500 font-[Gilroy-SemiBold] transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
+                  : 'hover:text-red-500 block px-4 py-3 text-[#d1d5dc] font-[Gilroy-SemiBold] transition-all duration-200 hover:underline false',
+              ]"
+            >
+              Profile
+            </router-link>
+            <div class="border-t border-white/10"></div>
+            <button
+              v-if="isLoggedIn"
+              @click="logout"
+              :disabled="isLoggingOut"
+              class="w-full text-left px-4 py-3 hover:bg-white/10 text-red-400 font-[Gilroy-Medium] hover:rounded-b-xl rounded-b-xl transition-colors cursor-pointer"
+            >
+              <span
+                v-if="!isLoggingOut"
                 @click="closeMenuOnMobile"
-                class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
-              >
-                🎥 All Trailers
-              </router-link>
-              <router-link
-                to="/ng/trending-trailers"
-                @click="closeMenuOnMobile"
-                class="block px-4 py-3 hover:bg-white/10 text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
-              >
-                🔥 Trending Trailers
-              </router-link>
-            </div>
-          </transition>
-          <router-link
-            to="/ng/genre/action"
-            @click="closeMenuOnMobile"
-            class="md:hidden"
-            :class="[
-              isActiveLink('/ng/genre/action')
-                ? 'hover:text-red-500 block px-4 py-3 text-red-500 font-[Gilroy-SemiBold] transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
-                : 'hover:text-red-500 block px-4 py-3 text-[#d1d5dc] font-[Gilroy-SemiBold] transition-all duration-200 hover:underline false',
-            ]"
-          >
-            Genres
-          </router-link>
-          <router-link
-            to="/ng/my-list"
-            class="md:hidden"
-            @click="closeMenuOnMobile"
-            :class="[
-              isActiveLink('/ng/my-list')
-                ? 'hover:text-red-500 block px-4 py-3 text-red-500 font-[Gilroy-SemiBold] transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
-                : 'hover:text-red-500 block px-4 py-3 text-[#d1d5dc] font-[Gilroy-SemiBold] transition-all duration-200 hover:underline false',
-            ]"
-          >
-            My List
-          </router-link>
-          <router-link
-            to="/ng/history"
-            @click="closeMenuOnMobile"
-            :class="[
-              isActiveLink('/ng/history')
-                ? 'hover:text-red-500 block px-4 py-3 text-red-500 font-[Gilroy-SemiBold] transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
-                : 'hover:text-red-500 block px-4 py-3 text-[#d1d5dc] font-[Gilroy-SemiBold] transition-all duration-200 hover:underline false',
-            ]"
-          >
-            History
-          </router-link>
-          <router-link
-            to="/ng/profile"
-            @click="closeMenuOnMobile"
-            :class="[
-              isActiveLink('/ng/profile')
-                ? 'hover:text-red-500 block px-4 py-3 text-red-500 font-[Gilroy-SemiBold] transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
-                : 'hover:text-red-500 block px-4 py-3 text-[#d1d5dc] font-[Gilroy-SemiBold] transition-all duration-200 hover:underline false',
-            ]"
-          >
-            Profile
-          </router-link>
-          <div class="border-t border-white/10"></div>
-          <button
-            v-if="isLoggedIn"
-            @click="logout"
-            :disabled="isLoggingOut"
-            class="w-full text-left px-4 py-3 hover:bg-white/10 text-red-400 font-[Gilroy-Medium] hover:rounded-b-xl rounded-b-xl transition-colors cursor-pointer"
-          >
-            <span v-if="!isLoggingOut" class="flex items-center gap-3"
-              >🚪 Sign Out<i class="pi pi-sign-in"></i
-            ></span>
-            <span v-else class="">Signing Out...</span>
-          </button>
-        </div>
+                class="flex items-center gap-3"
+                >🚪 Sign Out<i class="pi pi-sign-in"></i
+              ></span>
+              <span v-else class="">Signing Out...</span>
+            </button>
+          </div>
+        </transition>
       </div>
       <div
         class="flex space-x-4"
@@ -424,14 +429,14 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from "@/stores/auth";
+import { Dialog, TransitionChild, TransitionRoot } from "@headlessui/vue";
+import "swiper/css";
+import { computed, onBeforeUnmount, onMounted, onUnmounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import SearchBar from "../media/SearchBar.vue";
 import Logo from "/filmritzlogo2.png";
 import Logo2 from "/filmritzlogo3.png";
-import { ref, onUnmounted, onMounted, onBeforeUnmount, computed } from "vue";
-import SearchBar from "../media/SearchBar.vue";
-import { useAuthStore } from "@/stores/auth";
-import { useRouter, useRoute } from "vue-router";
-import { TransitionRoot, TransitionChild, Dialog } from "@headlessui/vue";
-import "swiper/css";
 
 const auth = useAuthStore();
 const route = useRoute();

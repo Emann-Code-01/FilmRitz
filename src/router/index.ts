@@ -14,6 +14,7 @@ import MediaPage from "@/pages/browse/MediaPage.vue";
 import Profile from "@/pages/user/ProfileSettings.vue";
 import ActorDetails from "@/pages/details/ActorDetails.vue";
 import Watch from "@/pages/Watch.vue";
+import TvDetails from "@/pages/TvDetails.vue";
 import CollectionsPage from "@/pages/discovery/CollectionsPage.vue";
 import TrendingTrailers from "@/pages/trailers/TrendingTrailers.vue";
 import Trailers from "@/pages/trailers/TrailersPage.vue"
@@ -114,6 +115,13 @@ const routes: RouteRecordRaw[] = [
         name: "TVShows",
         component: MediaPage,
         props: { type: "tv" },
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "tv-shows/:name",
+        name: "TvDetails",
+        component: TvDetails,
+        props: true,
         meta: { requiresAuth: true },
       },
       {
