@@ -158,7 +158,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: "trailers",
         name: "Trailers",
-        components: Trailers,
+        component: Trailers,
         meta: { requireAuth: true },
       },
       {

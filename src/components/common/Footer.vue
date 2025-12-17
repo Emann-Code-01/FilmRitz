@@ -131,7 +131,7 @@
         <p class="text-gray-400 font-[Gilroy-Regular] text-sm">
           © 2024 FilmRitz. Built by
           <a
-            href="https://twitter.com/emmancode"
+            href="https://emanncode.vercel.app"
             target="_blank"
             class="text-[#b20710] hover:text-[#e32125]"
             >@EmannCode</a
@@ -141,12 +141,30 @@
           <a href="#" class="text-gray-400 hover:text-white transition-colors">
             <i class="pi pi-twitter text-xl"></i>
           </a>
-          <a href="#" class="text-gray-400 hover:text-white transition-colors">
+          <a
+            href="https://github.com/Emann-Code-01"
+            class="text-gray-400 hover:text-white transition-colors"
+          >
             <i class="pi pi-github text-xl"></i>
           </a>
-          <a href="#" class="text-gray-400 hover:text-white transition-colors">
+          <a
+            href="https://www.linkedin.com/in/emann-b66a0b343"
+            class="text-gray-400 hover:text-white transition-colors"
+          >
             <i class="pi pi-linkedin text-xl"></i>
           </a>
+          <a
+            href="https://wa.link/cbphkn"
+            target="_blank"
+            class="text-gray-400 hover:text-white transition-colors"
+            ><i class="pi pi-whatsapp text-xl"></i
+          ></a>
+          <a
+            href="mailto:olajubajeifeoluwa93@gmail.com"
+            target="_blank"
+            class="text-gray-400 hover:text-white transition-colors"
+            ><i class="pi pi-envelope text-xl"></i
+          ></a>
         </div>
       </div>
     </div>

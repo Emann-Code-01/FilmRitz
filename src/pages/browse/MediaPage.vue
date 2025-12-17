@@ -2,9 +2,6 @@
   <div
     class="min-h-screen text-white py-10 mt-10 transition-all duration-900 animate-fade-up"
   >
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- HERO HEADER WITH DYNAMIC CARDS -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
     <div class="relative py-12 px-6 mx-auto overflow-hidden">
       <!-- Ambient Glow Background -->
       <div

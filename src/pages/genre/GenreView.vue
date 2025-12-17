@@ -46,10 +46,10 @@
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] capitalize">
               {{ genreName }}
             </h1>
-          </div>          
-            <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-2">
-              {{ genreDescription }}
-            </p>
+          </div>
+          <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-2">
+            {{ genreDescription }}
+          </p>
         </div>
       </div>
     </div>
@@ -208,7 +208,7 @@ const genreMetadata: Record<
     icon: "👻",
     description: "Spine-chilling scares and supernatural terror",
   },
-  music: {
+  musical: {
     color: "#EC4899",
     icon: "🎵",
     description: "Stories told through rhythm and melody",

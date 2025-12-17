@@ -125,7 +125,7 @@
     <!-- Error State -->
     <div
       v-else-if="error"
-      class="text-red-500 text-center py-20 bg-red-500/10 rounded-xl"
+      class="text-red-500 text-center py-20 bg-red-500/10 rounded-xl mt-10"
     >
       <p class="font-[Gilroy-SemiBold] text-xl mb-4">{{ error }}</p>
       <button

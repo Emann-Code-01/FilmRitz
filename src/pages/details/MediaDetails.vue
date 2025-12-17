@@ -128,7 +128,7 @@
 
           <!-- Overview -->
           <p
-            class="text-lg md:text-xl text-gray-200 font-[Gilroy-Medium] line-clamp-4 max-w-3xl mb-6 animate-fade-up"
+            class="text-lg md:text-xl text-gray-200 font-[Gilroy-Medium] line-clamp max-w-5xl mb-6 animate-fade-up"
             style="animation-delay: 0.2s"
           >
             {{ media.overview }}

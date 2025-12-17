@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- HERO HEADER -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -10,9 +10,9 @@
       ></div>
 
       <div class="relative z-10 max-w-7xl mx-auto">
-        <div class="flex items-center gap-4">
+        <div class="md:flex items-center gap-4 hidden">
           <div
-            class="w-20 h-20 rounded-2xl bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
+            class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
           >
             🎬
           </div>
@@ -23,37 +23,42 @@
             </p>
           </div>
         </div>
+        <div class="grid items-center gap-4 md:hidden">
+          <div class="flex items-center space-x-3">
+            <div
+              class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
+            >
+              🎬
+            </div>
+            <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">Trailers</h1>
+          </div>
+          <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-2">
+            Watch the latest movie and show trailers
+          </p>
+        </div>
       </div>
     </div>
-
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- FILTER TABS -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
     <div
       class="sticky top-16 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
       <div class="px-6 md:px-10 max-w-7xl mx-auto">
-        <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+        <div class="flex gap-3 mb-4 overflow-x-auto pb-2 scrollbar-hide">
           <button
-            v-for="category in categories"
-            :key="category.value"
-            @click="selectedCategory = category.value"
-            class="shrink-0 px-6 py-3 rounded-full font-[Gilroy-SemiBold] transition-all duration-300"
+            v-for="cat in categories"
+            :key="cat.value"
+            @click="selectedCategory = cat.value"
+            class="px-6 py-2.5 rounded-full font-[Gilroy-SemiBold] whitespace-nowrap transition-all duration-300 cursor-pointer"
             :class="
-              selectedCategory === category.value
+              selectedCategory === cat.value
                 ? 'bg-[#b20710] text-white shadow-lg shadow-[#b20710]/50'
                 : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
             "
           >
-            {{ category.label }}
+            {{ cat.label }}
           </button>
         </div>
       </div>
     </div>
-
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- TRAILERS GRID -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
     <div class="px-6 md:px-10 max-w-7xl mx-auto mt-8">
       <!-- Loading Skeleton -->
       <div

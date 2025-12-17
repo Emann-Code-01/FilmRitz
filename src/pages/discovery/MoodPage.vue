@@ -157,70 +157,65 @@
 import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useModalStore } from "@/stores/modalStore";
+import { genreMap } from "@/types/media";
 
 const route = useRoute();
 const router = useRouter();
 const modalStore = useModalStore();
-
 interface Mood {
   id: number;
   name: string;
   icon: string;
   color: string;
   description: string;
-  genreIds: number[];
+  genreId: number;
 }
 
-const moods = ref<Mood[]>([
-  {
-    id: 1,
-    name: "Happy",
-    icon: "😊",
-    color: "#FBBF24",
-    description: "Feel-good movies to brighten your day",
-    genreIds: [35, 10751],
-  },
-  {
-    id: 2,
-    name: "Scary",
-    icon: "😱",
-    color: "#DC2626",
-    description: "Spine-chilling horror and thrillers",
-    genreIds: [27, 53],
-  },
-  {
-    id: 3,
-    name: "Excited",
-    icon: "🤩",
-    color: "#F59E0B",
-    description: "Action-packed adventures",
-    genreIds: [28, 12],
-  },
-  {
-    id: 4,
-    name: "Romantic",
-    icon: "💕",
-    color: "#EC4899",
-    description: "Love stories that warm the heart",
-    genreIds: [10749],
-  },
-  {
-    id: 5,
-    name: "Thoughtful",
-    icon: "🤔",
-    color: "#8B5CF6",
-    description: "Mind-bending dramas and mysteries",
-    genreIds: [18, 9648],
-  },
-  {
-    id: 6,
-    name: "Adventurous",
-    icon: "🗺️",
-    color: "#10B981",
-    description: "Epic journeys and explorations",
-    genreIds: [12, 14],
-  },
-]);
+const genreIcons: Record<string, string> = {
+  action: "🔥",
+  adventure: "🗺️",
+  animation: "🎨",
+  comedy: "😂",
+  crime: "🕵️",
+  documentary: "🎥",
+  drama: "🎭",
+  family: "👨‍👩‍👧",
+  fantasy: "✨",
+  history: "🏺",
+  horror: "😱",
+  Musical: "🎵",
+  mystery: "🧩",
+  romance: "💕",
+  "science fiction": "🚀",
+  thriller: "⚡",
+  war: "⚔️",
+  western: "🤠",
+};
+
+const genreColors: Record<string, string> = {
+  action: "#EF4444",
+  comedy: "#FBBF24",
+  drama: "#8B5CF6",
+  horror: "#DC2626",
+  romance: "#EC4899",
+  thriller: "#F97316",
+  fantasy: "#10B981",
+  mystery: "#6366F1",
+};
+
+const moods = ref<Mood[]>(
+  Object.entries(genreMap).map(([id, name]) => {
+    const key = name.toLowerCase();
+    return {
+      id: Number(id),
+      genreId: Number(id),
+      name,
+      icon: genreIcons[key] || "🎬",
+      color: genreColors[key] || "#22C55E",
+      description: `Top ${name.toLowerCase()} movies and TV shows`,
+    };
+  })
+);
 
 const mood = ref<Mood | null>(null);
 const moodItems = ref<any[]>([]);
@@ -233,48 +228,47 @@ const openModal = (item: any) => {
   });
 };
 
-const selectMood = async (selectedMood: Mood) => {
-  router.push(`/ng/mood/${selectedMood.name.toLowerCase()}`);
+const selectMood = (m: Mood) => {
+  router.push(`/ng/mood/${m.name.toLowerCase()}`);
+};
+
+const fetchDiscover = async (type: "movie" | "tv", genreId: number) => {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/discover/${type}?api_key=${
+      import.meta.env.VITE_TMDB_API_KEY
+    }&with_genres=${genreId}&sort_by=popularity.desc`
+  );
+  const data = await res.json();
+  return data.results.map((item: any) => ({
+    ...item,
+    media_type: type,
+  }));
 };
 
 const loadMoodItems = async () => {
   loading.value = true;
 
-  const moodName = route.params.name as string;
+  const moodName = (route.params.name as string)?.toLowerCase();
   mood.value =
-    moods.value.find((m) => m.name.toLowerCase() === moodName.toLowerCase()) ||
+    moods.value.find((m) => m.name.toLowerCase() === moodName) ||
     moods.value[0];
 
   try {
-    // Fetch items based on mood genres
-    const genreQuery = mood.value.genreIds.join(",");
-    const response = await fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${
-        import.meta.env.VITE_TMDB_API_KEY
-      }&with_genres=${genreQuery}&sort_by=popularity.desc`
-    );
-    const data = await response.json();
-    moodItems.value = data.results.slice(0, 20);
-  } catch (error) {
-    console.error("Failed to load mood items:", error);
+    const [movies, tv] = await Promise.all([
+      fetchDiscover("movie", mood.value.genreId),
+      fetchDiscover("tv", mood.value.genreId),
+    ]);
+
+    moodItems.value = [...movies, ...tv]
+      .sort((a, b) => b.popularity - a.popularity)
+      .slice(0, 20);
+  } catch (err) {
+    console.error("Mood load failed:", err);
   } finally {
     loading.value = false;
   }
 };
 
-// Watch for route changes and reload content
-watch(
-  () => route.params.name,
-  () => {
-    loadMoodItems();
-  }
-);
-
+watch(() => route.params.name, loadMoodItems);
 onMounted(loadMoodItems);
 </script>
-
-<style scoped>
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-</style>
