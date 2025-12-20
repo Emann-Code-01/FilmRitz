@@ -9,7 +9,11 @@
           class="px-4 py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
         >
           <option value="">All</option>
-          <option v-for="genre in genres" :key="genre.id" :value="genre.id">
+          <option
+            v-for="genre in genres"
+            :key="genre.id"
+            :value="String(genre.id)"
+          >
             {{ genre.name }}
           </option>
         </select>
@@ -63,6 +67,7 @@
           <option value="oldest">Oldest</option>
         </select>
       </div>
+
       <div class="flex gap-2 mt-6.5">
         <button
           @click="applyFilter"
@@ -82,13 +87,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, onMounted, watch } from "vue";
 import { genreNameToId } from "@/types/media";
-import { useMediatore } from "@/stores/mediaStore";
-
-const store = useMediatore();
 
 const emit = defineEmits(["apply", "clear"]);
+const props = defineProps<{ defaultGenreId?: string | number }>();
 
 const localFilters = ref({
   genre: "",
@@ -98,23 +101,31 @@ const localFilters = ref({
   sort: "",
 });
 
-// ✅ Use genreNameToId (name ➜ id)
+// ✅ Convert IDs to string for v-model
 const genres = computed(() =>
-  Object.entries(genreNameToId).map(([name, id]) => ({
-    id,
-    name,
-  }))
+  Object.entries(genreNameToId).map(([name, id]) => ({ id, name }))
+);
+
+// Pre-select genre if defaultGenreId is passed
+onMounted(() => {
+  if (props.defaultGenreId != null)
+    localFilters.value.genre = String(props.defaultGenreId);
+});
+watch(
+  () => props.defaultGenreId,
+  (val) => {
+    if (val != null) localFilters.value.genre = String(val);
+  }
 );
 
 function applyFilter() {
-  const appliedFilters = {
+  emit("apply", {
     genre: localFilters.value.genre,
     year: localFilters.value.year,
     rating: localFilters.value.rating,
     type: localFilters.value.type,
-    sort: localFilters.value.sort, // ✅ include sort
-  };
-  emit("apply", appliedFilters);
+    sort: localFilters.value.sort,
+  });
 }
 
 function clearFilter() {
@@ -123,7 +134,7 @@ function clearFilter() {
     year: null,
     rating: null,
     type: "",
-    sort: "", // ✅ reset sort too
+    sort: "",
   };
   emit("clear");
 }

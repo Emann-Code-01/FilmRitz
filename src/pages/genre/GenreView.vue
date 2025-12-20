@@ -4,7 +4,6 @@
     <!-- HERO HEADER WITH GENRE THEMING -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
-      <!-- Dynamic Genre Color Gradient -->
       <div
         class="absolute inset-0 blur-3xl opacity-30 transition-all duration-1000"
         :style="{
@@ -60,8 +59,12 @@
     <div
       class="sticky top-26 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
-      <div class="">
-        <FilterPanel @apply="onFilterApply" @clear="onFilterClear" />
+      <div>
+        <FilterPanel
+          :defaultGenreId="currentGenreId ?? undefined"
+          @apply="onFilterApply"
+          @clear="onFilterClear"
+        />
       </div>
     </div>
 
@@ -141,6 +144,7 @@ const loading = ref(false);
 const isExpanded = ref(false);
 const itemsPerPage = 20;
 const visibleCount = ref(itemsPerPage);
+const currentGenreId = ref<number | null>(null);
 
 const filters = ref({
   genre: "",
@@ -252,20 +256,17 @@ const genreMetadata: Record<
   },
 };
 
-const genreColor = computed(() => {
-  const meta = genreMetadata[genreName.value.toLowerCase()];
-  return meta?.color || "#b20710";
-});
-
-const genreIcon = computed(() => {
-  const meta = genreMetadata[genreName.value.toLowerCase()];
-  return meta?.icon || "🎬";
-});
-
-const genreDescription = computed(() => {
-  const meta = genreMetadata[genreName.value.toLowerCase()];
-  return meta?.description || "Explore movies and shows in this genre";
-});
+const genreColor = computed(
+  () => genreMetadata[genreName.value.toLowerCase()]?.color || "#b20710"
+);
+const genreIcon = computed(
+  () => genreMetadata[genreName.value.toLowerCase()]?.icon || "🎬"
+);
+const genreDescription = computed(
+  () =>
+    genreMetadata[genreName.value.toLowerCase()]?.description ||
+    "Explore movies and shows in this genre"
+);
 
 async function fetchMedia() {
   loading.value = true;
@@ -273,9 +274,9 @@ async function fetchMedia() {
   genreName.value = Array.isArray(genreParam)
     ? genreParam[0]
     : (genreParam as string);
-  const genreId = genreNameToId[genreName.value.toLowerCase()] ?? null;
+  currentGenreId.value = genreNameToId[genreName.value.toLowerCase()] ?? null;
 
-  if (!genreId) {
+  if (!currentGenreId.value) {
     media.value = [];
     loading.value = false;
     return;
@@ -283,8 +284,8 @@ async function fetchMedia() {
 
   try {
     const [movies, shows] = await Promise.all([
-      getMoviesByGenre(genreId),
-      getShowsByGenre(genreId),
+      getMoviesByGenre(currentGenreId.value),
+      getShowsByGenre(currentGenreId.value),
     ]);
     media.value = [...movies, ...shows];
   } catch (err) {
@@ -293,6 +294,8 @@ async function fetchMedia() {
     loading.value = false;
     visibleCount.value = itemsPerPage;
     isExpanded.value = false;
+    // ✅ Set the filter genre automatically
+    filters.value.genre = String(currentGenreId.value);
   }
 }
 
