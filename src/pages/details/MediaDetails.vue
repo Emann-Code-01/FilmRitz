@@ -1,4 +1,12 @@
 <template>
+  <!-- Trailer Modal -->
+  <TrailerModal
+    :is-open="showTrailerModal"
+    :trailer="selectedTrailer"
+    @close="closeTrailerModal"
+    @view-details="openFullDetails"
+  />
+
   <div class="min-h-screen bg-[#0a0a0a] text-white">
     <!-- Loading Skeleton -->
     <div v-if="loading" class="space-y-8 py-10 px-6 mt-18">
@@ -54,9 +62,7 @@
         ></div>
 
         <!-- Content Container -->
-        <div
-          class="absolute bottom-0 left-0 right-0 p-6 mx-auto"
-        >
+        <div class="absolute bottom-0 left-0 right-0 p-6 mx-auto">
           <!-- Title -->
           <h1
             class="text-4xl md:text-6xl lg:text-7xl font-[Gilroy-Bold] mb-4 max-w-4xl drop-shadow-2xl animate-fade-up"
@@ -140,12 +146,13 @@
             style="animation-delay: 0.25s"
           >
             <button
-              @click="goToWatch"
-              disabled
-              class="px-8 py-4 bg-white text-black rounded-full font-[Gilroy-Bold] text-lg hover:bg-white/90 transition-all flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+              @click="playTrailer"
+              class="px-8 py-4 bg-white text-black rounded-full font-[Gilroy-Bold] text-lg hover:bg-white/90 transition-all flex items-center gap-3 cursor-pointer"
+              :class="loadingTrailer ? 'opacity-75 cursor-wait' : ''"
             >
-              <span class="text-2xl">▶</span>
-              <span>Watch Now</span>
+              <span v-if="!loadingTrailer" class="text-2xl">▶</span>
+              <span v-else class="animate-spin">⏳</span>
+              <span>{{ loadingTrailer ? "Loading..." : "Watch Trailer" }}</span>
             </button>
 
             <button
@@ -163,10 +170,9 @@
           </div>
         </div>
       </div>
-      <div
-        v-if="isTv && latestSeason"
-        class="px-6 mx-auto space-y-4"
-      >
+
+      <!-- Latest Season Section -->
+      <div v-if="isTv && latestSeason" class="px-6 mx-auto space-y-4">
         <h2 class="text-3xl font-[Gilroy-Bold]">Latest Season</h2>
         <div
           class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-[#b20710]/50 transition-all"
@@ -208,6 +214,8 @@
           </router-link>
         </div>
       </div>
+
+      <!-- Cast Section -->
       <div v-if="cast.length" class="px-6 mx-auto space-y-4">
         <h2 class="text-3xl font-[Gilroy-Bold]">Cast</h2>
         <div class="flex gap-4 overflow-x-auto pb-4">
@@ -240,10 +248,9 @@
           </div>
         </div>
       </div>
-      <div
-        v-if="similar.length"
-        class="px-6 mx-auto space-y-4 pb-12"
-      >
+
+      <!-- Similar Titles Section -->
+      <div v-if="similar.length" class="px-6 mx-auto space-y-4 pb-12">
         <h2 class="text-3xl font-[Gilroy-Bold]">Similar Titles</h2>
         <div
           class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
@@ -281,13 +288,31 @@
       </div>
     </transition>
   </div>
+  <AdSlot />
 </template>
+
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import { useWatchlistStore } from "@/stores/watchlist";
 import { genreMap } from "@/types/media";
+import { getMediaVideos } from "@/api/tmdb";
+import TrailerModal from "@/components/media/TrailerModal.vue";
+import AdSlot from "@/components/ads/AdSlot.vue";
+
+interface TrailerData {
+  id: string;
+  title: string;
+  type: string;
+  backdrop_path: string;
+  duration: number;
+  mediaId: number;
+  mediaType: "movie" | "tv";
+  key: string;
+  site: string;
+  publishedAt?: string;
+}
 
 const route = useRoute();
 const router = useRouter();
@@ -300,6 +325,11 @@ const similar = ref<any[]>([]);
 const latestSeason = ref<any | null>(null);
 const loading = ref(false);
 const error = ref<string | null>(null);
+
+// Trailer state
+const showTrailerModal = ref(false);
+const selectedTrailer = ref<TrailerData | null>(null);
+const loadingTrailer = ref(false);
 
 const store = useWatchlistStore();
 store.loadFromLocalStorage();
@@ -396,6 +426,65 @@ async function fetchDetails() {
   }
 }
 
+async function playTrailer() {
+  if (!media.value) return;
+
+  console.log("Playing trailer for:", media.value);
+  loadingTrailer.value = true;
+
+  try {
+    const videos = await getMediaVideos(media.value.id, media.value.media_type);
+    console.log("Fetched videos:", videos);
+
+    const trailer = videos.find(
+      (v: any) => v.type === "Trailer" && v.site === "YouTube"
+    );
+
+    if (trailer) {
+      selectedTrailer.value = {
+        id: `${media.value.media_type}-${media.value.id}-${trailer.key}`,
+        title: media.value.title || "",
+        type:
+          media.value.media_type === "movie" ? "Movie Trailer" : "TV Trailer",
+        backdrop_path:
+          media.value.backdrop_path || media.value.poster_path || "",
+        duration: 150,
+        mediaId: media.value.id,
+        mediaType: media.value.media_type,
+        key: trailer.key,
+        site: trailer.site,
+        publishedAt: trailer.published_at,
+      };
+
+      showTrailerModal.value = true;
+    } else {
+      console.warn("No trailer found");
+      toastMessage.value = "⚠️ No trailer available";
+      showToast.value = true;
+      setTimeout(() => (showToast.value = false), 3000);
+    }
+  } catch (error) {
+    console.error("Error fetching trailer:", error);
+    toastMessage.value = "❌ Failed to load trailer";
+    showToast.value = true;
+    setTimeout(() => (showToast.value = false), 3000);
+  } finally {
+    loadingTrailer.value = false;
+  }
+}
+
+function closeTrailerModal() {
+  showTrailerModal.value = false;
+  setTimeout(() => {
+    selectedTrailer.value = null;
+  }, 300);
+}
+
+function openFullDetails(mediaType: "movie" | "tv", mediaId: number) {
+  // Already on the details page, just close the modal
+  closeTrailerModal();
+}
+
 function getGenreIdsFromMedia(media: any): number[] {
   if (!media) return [];
   if (Array.isArray(media.genre_ids)) return media.genre_ids;
@@ -413,10 +502,6 @@ function simRoute(sim: any) {
   return sim.media_type === "tv"
     ? `/ng/tv/${slug}-${sim.id}`
     : `/ng/movie/${slug}-${sim.id}`;
-}
-
-function goToWatch() {
-  router.push("#");
 }
 
 function toggleWatchlist() {
@@ -446,6 +531,7 @@ function toggleWatchlist() {
 onMounted(fetchDetails);
 watch(() => route.params.name, fetchDetails);
 </script>
+
 <style scoped>
 .scrollbar-hide::-webkit-scrollbar {
   display: none;

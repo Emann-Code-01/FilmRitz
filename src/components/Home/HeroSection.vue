@@ -1,4 +1,12 @@
 <template>
+  <!-- Trailer Modal -->
+  <TrailerModal
+    :is-open="showTrailerModal"
+    :trailer="selectedTrailer"
+    @close="closeTrailerModal"
+    @view-details="openFullDetails"
+  />
+
   <div
     v-if="!isLoggedIn"
     class="relative w-full overflow-hidden h-screen bg-fixed bg-center bg-cover bg-no-repeat transition-all mb-9"
@@ -253,11 +261,15 @@
             style="animation-delay: 0.25s"
           >
             <button
-              class="px-6 md:px-8 py-3 md:py-4 bg-white text-black rounded-full font-[Gilroy-Bold] disabled:opacity-50 disabled:cursor-not-allowed text-base md:text-lg hover:bg-white/90 transition-all flex items-center gap-3 group"
-              disabled
+              @click="playTrailer(item)"
+              class="px-6 md:px-8 py-3 md:py-4 bg-white text-black rounded-full font-[Gilroy-Bold] text-base md:text-lg hover:bg-white/90 transition-all flex items-center gap-3 group cursor-pointer"
+              :class="loadingTrailers[item.id] ? 'opacity-75 cursor-wait' : ''"
             >
-              <span class="text-4xl text-white ml-1">▶</span>
-              <span>Watch Trailer</span>
+              <span v-if="!loadingTrailers[item.id]" class="text-2xl">▶</span>
+              <span v-else class="animate-spin">⏳</span>
+              <span>{{
+                loadingTrailers[item.id] ? "Loading..." : "Watch Trailer"
+              }}</span>
             </button>
 
             <button
@@ -311,12 +323,27 @@
 
 <script setup lang="ts">
 import HeroImg from "../../assets/Hero Image.png";
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted, reactive } from "vue";
 import { useModalStore } from "@/stores/modalStore";
 import { useAuthStore } from "@/stores/auth";
 import { useMedia } from "@/composables/useMedia";
 import { genreMap } from "@/types/media";
 import { useRouter } from "vue-router";
+import { getMediaVideos } from "@/api/tmdb";
+import TrailerModal from "@/components/media/TrailerModal.vue";
+
+interface TrailerData {
+  id: string;
+  title: string;
+  type: string;
+  backdrop_path: string;
+  duration: number;
+  mediaId: number;
+  mediaType: "movie" | "tv";
+  key: string;
+  site: string;
+  publishedAt?: string;
+}
 
 const emit = defineEmits<{
   "update-ambient": [color: string];
@@ -348,6 +375,11 @@ let slideInterval: ReturnType<typeof setInterval> | null = null;
 let progressInterval: ReturnType<typeof setInterval> | null = null;
 
 const baseUrl = "https://image.tmdb.org/t/p/w1280";
+
+// Trailer Modal State
+const showTrailerModal = ref(false);
+const selectedTrailer = ref<TrailerData | null>(null);
+const loadingTrailers = reactive<Record<number, boolean>>({});
 
 const isValidEmail = (val: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
 
@@ -436,6 +468,70 @@ function handleSlideHover(item: any, index: number) {
   const hue = (index * 50) % 360;
   emit("update-ambient", `hsl(${hue}, 70%, 50%)`);
   emit("update-position", { x: 50, y: 30 });
+}
+
+async function playTrailer(item: any) {
+  console.log("Playing trailer for:", item);
+
+  // Set loading state
+  loadingTrailers[item.id] = true;
+
+  try {
+    // Fetch videos for this media item
+    const videos = await getMediaVideos(item.id, item.media_type);
+    console.log("Fetched videos:", videos);
+
+    // Find the first YouTube trailer
+    const trailer = videos.find(
+      (v: any) => v.type === "Trailer" && v.site === "YouTube"
+    );
+
+    if (trailer) {
+      // Create trailer data object
+      selectedTrailer.value = {
+        id: `${item.media_type}-${item.id}-${trailer.key}`,
+        title: item.title || item.name || "",
+        type: item.media_type === "movie" ? "Movie Trailer" : "TV Trailer",
+        backdrop_path: item.backdrop_path || item.poster_path || "",
+        duration: 150,
+        mediaId: item.id,
+        mediaType: item.media_type,
+        key: trailer.key,
+        site: trailer.site,
+        publishedAt: trailer.published_at,
+      };
+
+      // Open the modal
+      showTrailerModal.value = true;
+
+      // Pause auto-rotation while watching trailer
+      stopAutoRotation();
+    } else {
+      console.warn("No trailer found for this item");
+      alert("No trailer available for this title");
+    }
+  } catch (error) {
+    console.error("Error fetching trailer:", error);
+    alert("Failed to load trailer. Please try again.");
+  } finally {
+    loadingTrailers[item.id] = false;
+  }
+}
+
+function closeTrailerModal() {
+  showTrailerModal.value = false;
+  setTimeout(() => {
+    selectedTrailer.value = null;
+    // Resume auto-rotation
+    startAutoRotation();
+  }, 300);
+}
+
+function openFullDetails(mediaType: "movie" | "tv", mediaId: number) {
+  modalStore.open(mediaType, {
+    movieId: mediaId,
+    mediaType: mediaType,
+  });
 }
 
 async function retryLoad() {

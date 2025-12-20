@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <div
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
@@ -8,7 +8,7 @@
       <div class="relative z-10 max-w-7xl mx-auto">
         <div class="flex items-center gap-4">
           <div
-            class="w-20 h-20 rounded-2xl bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
+            class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
           >
             📄
           </div>

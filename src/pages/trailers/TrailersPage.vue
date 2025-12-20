@@ -1,5 +1,13 @@
 <template>
   <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
+    <!-- Trailer Player Modal -->
+    <TrailerModal
+      :is-open="showTrailerModal"
+      :trailer="selectedTrailer"
+      @close="closeTrailerModal"
+      @view-details="openFullDetails"
+    />
+
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- HERO HEADER -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -38,8 +46,10 @@
         </div>
       </div>
     </div>
+
+    <!-- Category Filters -->
     <div
-      class="sticky top-16 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
+      class="sticky top-26 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
       <div class="px-6 md:px-10 max-w-7xl mx-auto">
         <div class="flex gap-3 mb-4 overflow-x-auto pb-2 scrollbar-hide">
@@ -59,6 +69,8 @@
         </div>
       </div>
     </div>
+
+    <!-- Trailers Grid -->
     <div class="px-6 md:px-10 max-w-7xl mx-auto mt-8">
       <!-- Loading Skeleton -->
       <div
@@ -70,6 +82,15 @@
           :key="n"
           class="aspect-video bg-gray-800/50 rounded-2xl animate-pulse"
         ></div>
+      </div>
+
+      <!-- No Trailers Found -->
+      <div v-else-if="filteredTrailers.length === 0" class="text-center py-20">
+        <div class="text-6xl mb-4">🎬</div>
+        <h3 class="text-2xl font-[Gilroy-Bold] text-gray-400 mb-2">
+          No trailers found
+        </h3>
+        <p class="text-gray-500">Try selecting a different category</p>
       </div>
 
       <!-- Trailers Grid -->
@@ -89,19 +110,19 @@
             />
           </div>
 
-          <!-- linear Overlay -->
+          <!-- Gradient Overlay -->
           <div
             class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent"
           ></div>
 
-          <!-- Play Button -->
+          <!-- Play Button
           <div class="absolute inset-0 flex items-center justify-center">
             <div
               class="w-20 h-20 rounded-full bg-[#b20710] flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-transform"
             >
               <span class="text-4xl text-white ml-1">▶</span>
             </div>
-          </div>
+          </div> -->
 
           <!-- Info -->
           <div class="absolute bottom-0 left-0 right-0 p-6">
@@ -123,23 +144,17 @@
       </div>
     </div>
   </div>
+  <AdSlot />
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import { useModalStore } from "@/stores/modalStore";
+import { fetchAllTrailers, type TrailerData } from "@/api/tmdb";
+import TrailerModal from "@/components/media/TrailerModal.vue";
+import AdSlot from "@/components/ads/AdSlot.vue";
 
 const modalStore = useModalStore();
-
-interface Trailer {
-  id: number;
-  title: string;
-  type: string;
-  backdrop_path: string;
-  duration: number;
-  mediaId: number;
-  mediaType: "movie" | "tv";
-}
 
 const categories = [
   { label: "All Trailers", value: "all" },
@@ -150,17 +165,27 @@ const categories = [
 ];
 
 const selectedCategory = ref("all");
-const trailers = ref<Trailer[]>([]);
+const trailers = ref<TrailerData[]>([]);
 const loading = ref(true);
+const showTrailerModal = ref(false);
+const selectedTrailer = ref<TrailerData | null>(null);
 
 const filteredTrailers = computed(() => {
   if (selectedCategory.value === "all") return trailers.value;
-  return trailers.value.filter(
-    (t) =>
-      t.mediaType === selectedCategory.value ||
-      selectedCategory.value === "trending" ||
-      selectedCategory.value === "new"
-  );
+  return trailers.value.filter((t) => {
+    if (selectedCategory.value === "movie") return t.mediaType === "movie";
+    if (selectedCategory.value === "tv") return t.mediaType === "tv";
+    if (selectedCategory.value === "trending") return true;
+    if (selectedCategory.value === "new") {
+      // Show trailers published within last 30 days
+      if (!t.publishedAt) return false;
+      const publishDate = new Date(t.publishedAt);
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      return publishDate >= thirtyDaysAgo;
+    }
+    return true;
+  });
 });
 
 const formatDuration = (seconds: number): string => {
@@ -169,18 +194,41 @@ const formatDuration = (seconds: number): string => {
   return `${mins}:${secs.toString().padStart(2, "0")}`;
 };
 
-const playTrailer = (trailer: Trailer) => {
-  modalStore.open(trailer.mediaType, {
-    movieId: trailer.mediaId,
-    mediaType: trailer.mediaType,
+const playTrailer = (trailer: TrailerData) => {
+  console.log("Playing trailer:", trailer); // Debug log
+  selectedTrailer.value = trailer;
+  showTrailerModal.value = true;
+};
+
+const closeTrailerModal = () => {
+  console.log("Closing trailer modal"); // Debug log
+  showTrailerModal.value = false;
+  // Small delay before clearing to allow modal animation
+  setTimeout(() => {
+    selectedTrailer.value = null;
+  }, 300);
+};
+
+const openFullDetails = (mediaType: "movie" | "tv", mediaId: number) => {
+  console.log("Opening full details:", mediaType, mediaId); // Debug log
+  modalStore.open(mediaType, {
+    movieId: mediaId,
+    mediaType: mediaType,
   });
 };
 
 onMounted(async () => {
-  // Simulate loading - replace with actual API
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  trailers.value = []; // Fetch from API
-  loading.value = false;
+  try {
+    loading.value = true;
+    console.log("Fetching trailers..."); // Debug log
+    const fetchedTrailers = await fetchAllTrailers();
+    console.log("Fetched trailers:", fetchedTrailers); // Debug log
+    trailers.value = fetchedTrailers;
+  } catch (error) {
+    console.error("Error loading trailers:", error);
+  } finally {
+    loading.value = false;
+  }
 });
 </script>
 

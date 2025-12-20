@@ -151,6 +151,7 @@
       </div>
     </div>
   </div>
+  <AdSlot />
 </template>
 
 <script setup lang="ts">
@@ -158,6 +159,7 @@ import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useModalStore } from "@/stores/modalStore";
 import { genreMap } from "@/types/media";
+import AdSlot from "@/components/ads/AdSlot.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -183,7 +185,7 @@ const genreIcons: Record<string, string> = {
   fantasy: "✨",
   history: "🏺",
   horror: "😱",
-  Musical: "🎵",
+  Music: "🎵",
   mystery: "🧩",
   romance: "💕",
   "science fiction": "🚀",

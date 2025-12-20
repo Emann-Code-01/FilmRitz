@@ -33,8 +33,11 @@
       </div>
     </div>
   </div>
+  <AdSlot />
 </template>
 
 <script setup lang="ts">
+import AdSlot from "@/components/ads/AdSlot.vue";
+
 // TODO: Fetch collections
 </script>

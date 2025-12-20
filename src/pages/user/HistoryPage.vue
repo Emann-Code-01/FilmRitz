@@ -132,10 +132,13 @@
       </div>
     </div>
   </div>
+  <AdSlot />
 </template>
+
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import AdSlot from "@/components/ads/AdSlot.vue";
 
 const router = useRouter();
 const history = ref<any[]>([]);

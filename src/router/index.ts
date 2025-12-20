@@ -29,6 +29,8 @@ import About from "@/pages/static/AboutPage.vue";
 import Privacy from "@/pages/static/PrivacyPage.vue";
 import Terms from "@/pages/static/TermsPage.vue";
 import Mood from "@/pages/discovery/MoodPage.vue"
+import Advertising from "@/pages/AdsInfo.vue"
+import TrailerCinema from "@/pages/trailers/TrailerCinema.vue";
 
 // ═══════════════════════════════════════════════════════════════
 // ROUTES
@@ -168,6 +170,12 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: true },
       },
       {
+        path: 'trailercinema',
+        name: 'TrailerCinema',
+        component: TrailerCinema,
+        meta: { requiresAuth: true }
+      },
+      {
         path: "popular",
         name: "Popular",
         component: Popular,
@@ -238,6 +246,12 @@ const routes: RouteRecordRaw[] = [
         path: "privacy-policy",
         name: "Privacy",
         component: Privacy,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "advertising",
+        name: "Advertising",
+        component: Advertising,
         meta: { requiresAuth: true },
       },
       {

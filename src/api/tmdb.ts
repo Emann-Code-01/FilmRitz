@@ -1,17 +1,7 @@
-// tmdb.ts
-
-// Unified TMDB helpers for Movie + TV + combined use (v3 axios instance: apiV3)
 import apiV3 from "./tmdbV3";
 import { genreMap, Person } from "@/types/media";
 import { Media, TVShow, Season, Episode } from "@/types/media"; // ✅ use your defined interfaces
 
-/**
- * Normalize an item to a consistent media shape:
- * - media_type: 'movie' | 'tv'
- * - title: string
- * - release_date: string
- * - genres: { id: number; name: string }[]
- */
 export function normalize(item: any, mediaType?: "movie" | "tv"): Media {
   const mt = mediaType ?? item.media_type ?? (item.title ? "movie" : "tv");
 
@@ -36,8 +26,6 @@ export function normalize(item: any, mediaType?: "movie" | "tv"): Media {
         : item.first_air_date ?? item.release_date ?? "",
     genres,
   };
-
-  // ✅ Preserve full TV status for display
   if (mt === "tv") {
     base.status = item.status || "Unknown"; // TMDB status: "Ended", "Returning Series", "Canceled", etc.
   }
@@ -443,3 +431,105 @@ export function getPoster(path: string | null, size: string = "w-1280") {
   if (!path) return "/no-poster.jpg";
   return `https://image.tmdb.org/t/p/${size}${path}`;
 }
+
+// --------------------------- TRAILERS ---------------------------
+
+export interface TrailerData {
+  id: string;
+  title: string;
+  type: string;
+  backdrop_path: string;
+  duration: number;
+  mediaId: number;
+  mediaType: "movie" | "tv";
+  key: string;
+  site: string;
+  publishedAt?: string;
+}
+
+export const fetchAllTrailers = async (): Promise<TrailerData[]> => {
+  const allTrailers: TrailerData[] = [];
+
+  // Fetch popular movies and their trailers
+  const [popularMovies, popularTV, trendingMovies, trendingTV] = await Promise.all([
+    fetchPopularMovies(1),
+    fetchPopularTV(1),
+    fetchTrendingMovies("week"),
+    fetchTrendingTV("week"),
+  ]);
+
+  // Combine and deduplicate
+  const movies = [...popularMovies, ...trendingMovies].filter(
+    (item, index, self) => index === self.findIndex((t) => t.id === item.id)
+  ).slice(0, 10);
+
+  const tvShows = [...popularTV, ...trendingTV].filter(
+    (item, index, self) => index === self.findIndex((t) => t.id === item.id)
+  ).slice(0, 10);
+
+  // Fetch videos for each media item
+  const movieTrailerPromises = movies.map(async (movie) => {
+    try {
+      const videos = await getMovieVideos(movie.id);
+      const trailer = videos.find(
+        (v: any) => v.type === "Trailer" && v.site === "YouTube"
+      );
+      if (trailer) {
+        return {
+          id: `movie-${movie.id}-${trailer.key}`,
+          title: movie.title || "",
+          type: "Movie Trailer",
+          backdrop_path: movie.backdrop_path || movie.poster_path || "",
+          duration: 150, // Default duration
+          mediaId: movie.id,
+          mediaType: "movie" as const,
+          key: trailer.key,
+          site: trailer.site,
+          publishedAt: trailer.published_at,
+        };
+      }
+    } catch (error) {
+      console.error(`Error fetching trailer for movie ${movie.id}:`, error);
+    }
+    return null;
+  });
+
+  const tvTrailerPromises = tvShows.map(async (show) => {
+    try {
+      const videos = await getTVVideos(show.id);
+      const trailer = videos.find(
+        (v: any) => v.type === "Trailer" && v.site === "YouTube"
+      );
+      if (trailer) {
+        return {
+          id: `tv-${show.id}-${trailer.key}`,
+          title: show.title || "",
+          type: "TV Trailer",
+          backdrop_path: show.backdrop_path || show.poster_path || "",
+          duration: 150, // Default duration
+          mediaId: show.id,
+          mediaType: "tv" as const,
+          key: trailer.key,
+          site: trailer.site,
+          publishedAt: trailer.published_at,
+        };
+      }
+    } catch (error) {
+      console.error(`Error fetching trailer for TV show ${show.id}:`, error);
+    }
+    return null;
+  });
+
+  const results = await Promise.allSettled([
+    ...movieTrailerPromises,
+    ...tvTrailerPromises,
+  ]);
+
+  results.forEach((result) => {
+    if (result.status === "fulfilled" && result.value) {
+      allTrailers.push(result.value);
+    }
+  });
+
+  return allTrailers;
+};

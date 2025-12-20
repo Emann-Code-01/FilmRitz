@@ -67,7 +67,7 @@
             >
               <router-link
                 to="/ng/movies"
-                class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] hover:rounded-t-xl text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] hover:rounded-t-[11px] rounded-t-[11px] text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
               >
                 🎬 Movies
               </router-link>
@@ -103,7 +103,7 @@
               </router-link>
               <router-link
                 to="/ng/coming-soon"
-                class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] hover:rounded-b-xl text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] hover:rounded-b-[11px] rounded-b-[11px] text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
               >
                 🎬 Coming Soon
               </router-link>
@@ -121,7 +121,7 @@
             >
               <router-link
                 to="/ng/collections"
-                class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] hover:rounded-t-xl text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] hover:rounded-t-[11px] rounded-t-[11px] text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
               >
                 📚 Collections
               </router-link>
@@ -139,9 +139,15 @@
               </router-link>
               <router-link
                 to="/ng/trending-trailers"
-                class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] hover:rounded-b-xl text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
               >
                 🔥 Trending Trailers
+              </router-link>
+              <router-link
+                to="/ng/trailercinema"
+                class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] rounded-b-[11px] hover:rounded-b-[11px] text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+              >
+                🎬 Trailer Cinema
               </router-link>
             </div>
           </div>
@@ -340,6 +346,13 @@
                   class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
                 >
                   🔥 Trending Trailers
+                </router-link>
+                <router-link
+                  to="/ng/trailercinema"
+                  @click="closeMenuOnMobile"
+                  class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                >
+                  🎬 Trailer Cinema
                 </router-link>
               </div>
             </transition>

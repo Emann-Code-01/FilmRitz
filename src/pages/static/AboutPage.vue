@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <div
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
@@ -8,7 +8,7 @@
       <div class="relative z-10 max-w-7xl mx-auto">
         <div class="flex items-center gap-4">
           <div
-            class="w-20 h-20 rounded-2xl bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
+            class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
           >
             ℹ️
           </div>
@@ -122,10 +122,8 @@
           experience and bring you the best movie discovery platform on the web.
         </p>
         <div class="flex items-center gap-4">
-          <div
-            class="w-16 h-16 rounded-full bg-linear-to-br from-[#b20710] to-[#e32125] flex items-center justify-center text-2xl"
-          >
-            👨‍💻
+          <div class="w-16 h-16 flex items-center justify-center text-2xl">
+            <img src="../../assets/EmannCode01 Logo.png" />
           </div>
           <div>
             <p class="font-[Gilroy-Bold] text-lg">Ifeoluwa Olajubaje</p>
@@ -184,24 +182,24 @@
         </p>
         <div class="flex flex-wrap gap-4">
           <a
-            href="mailto:contact@filmritz.com"
-            class="px-6 py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all"
+            href="mailto:olajubajeifeoluwa93@gmail.com"
+            class="px-6 py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center justify-center gap-2"
           >
-            📧 Email Us
+            <i class="pi pi-envelope text-xl"></i> Email Us
           </a>
           <a
-            href="https://twitter.com/emmancode"
+            href="https://x.com/emanncodedev"
             target="_blank"
-            class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all"
+            class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center justify-center gap-2"
           >
-            🐦 Twitter
+            <i class="pi pi-twitter text-lg"></i> Twitter
           </a>
           <a
-            href="https://github.com/emmancode"
+            href="https://github.com/Emann-Code-01"
             target="_blank"
-            class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all"
+            class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center justify-center gap-2"
           >
-            💻 GitHub
+            <i class="pi pi-github text-xl"></i> GitHub
           </a>
         </div>
       </section>

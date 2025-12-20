@@ -121,6 +121,7 @@
       </button>
     </div>
   </div>
+  <AdSlot />
 </template>
 
 <script setup lang="ts">
@@ -131,6 +132,7 @@ import { genreNameToId } from "@/types/media";
 import type { Media } from "@/types/media";
 import MediaCard from "@/components/media/MediaCard.vue";
 import FilterPanel from "@/components/media/FilterPanel.vue";
+import AdSlot from "@/components/ads/AdSlot.vue";
 
 const route = useRoute();
 const genreName = ref<string>("");
@@ -208,7 +210,7 @@ const genreMetadata: Record<
     icon: "👻",
     description: "Spine-chilling scares and supernatural terror",
   },
-  musical: {
+  music: {
     color: "#EC4899",
     icon: "🎵",
     description: "Stories told through rhythm and melody",

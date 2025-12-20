@@ -30,6 +30,7 @@
             @update-position="updateAmbientPosition"
           />
         </section>
+        <AdSlot v-if="isLoggedIn" />
         <template v-if="!isLoggedIn">
           <SubPreview />
           <BlockSection />
@@ -53,6 +54,10 @@
               </div>
               <TrendingGrid @update-ambient="updateAmbientColor" />
             </section>
+            <AdsenseAd
+              v-if="isLoggedIn && consentGranted"
+              adSlot="5823677820"
+            />
             <section class="relative overflow-hidden">
               <div class="px-4 md:px-8 lg:px-12">
                 <h2
@@ -124,7 +129,6 @@
                 @update-ambient="updateAmbientColor"
               />
             </section> -->
-
             <!-- ─────────────────────────────────────────────────────────── -->
             <!-- 7. TOP RATED — Enhanced Original Section -->
             <!-- ─────────────────────────────────────────────────────────── -->
@@ -202,13 +206,13 @@ import BlockSection from "@/components/Home/BlockSection.vue";
 import TopRated from "@/components/media/TopRatedGrid.vue";
 import PopularGrid from "@/components/media/PopularGrid.vue";
 import UpComing from "@/components/media/UpComingGrid.vue";
-
-// New Premium Sections (You'll create these)
+import AdSlot from "@/components/ads/AdSlot.vue";
+import AdsenseAd from "@/components/ads/AdsenseAd.vue";
 import TrendingGrid from "@/components/media/TrendingGrid.vue";
 import WhatsHotCarousel from "@/components/media/WhatsHotCarousel.vue";
 import GenreDeepDive from "@/components/media/GenreDeepDive.vue";
 import TrailerSpotlight from "@/components/media/TrailerSpotlight.vue";
-import NewReleasesTimeline from "@/components/media/NewReleasesTimeline.vue";
+// import NewReleasesTimeline from "@/components/media/NewReleasesTimeline.vue";
 import CuratedCollections from "@/components/media/CuratedCollections.vue";
 import MoodWheel from "@/components/media/MoodWheel.vue";
 
@@ -249,6 +253,7 @@ useHead({
 // ══════════════════════════════════════════════════════════════════════════
 const auth = useAuthStore();
 const isLoggedIn = computed(() => auth.isLoggedIn);
+const consentGranted = ref(false);
 
 // Timeline filter
 const selectedPeriod = ref<string>("This Week");
@@ -299,6 +304,13 @@ onMounted(() => {
     prefersReducedMotion,
     advancedEffects: canHandleAdvancedEffects.value,
   });
+});
+
+onMounted(() => {
+  const consent = localStorage.getItem("adConsent");
+  if (consent === "granted") {
+    consentGranted.value = true;
+  }
 });
 </script>
 

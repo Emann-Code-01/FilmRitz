@@ -66,12 +66,14 @@
 
     </div>
   </div>
+  <AdSlot />
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 import { useModalStore } from '@/stores/modalStore';
 import { fetchUpcomingMovies, fetchOnTheAir } from '@/api/tmdb';
+import AdSlot from '@/components/ads/AdSlot.vue';
 
 const modalStore = useModalStore();
 

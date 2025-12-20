@@ -97,7 +97,7 @@ export const genreMap: Record<number, string> = {
   14: "Fantasy",
   36: "History",
   27: "Horror",
-  10402: "Musical",
+  10402: "Music",
   9648: "Mystery",
   10749: "Romance",
   878: "Science Fiction",

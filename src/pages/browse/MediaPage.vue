@@ -240,6 +240,7 @@
         </div>
       </div>
     </div>
+    <AdSlot />
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- PAGINATION -->
@@ -277,6 +278,7 @@ import { useModalStore } from "@/stores/modalStore";
 import { genreMap } from "@/types/media";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay, EffectCards } from "swiper/modules";
+import AdSlot from "@/components/ads/AdSlot.vue";
 
 const route = useRoute();
 const isMoviePage = computed(() => route.name === "Movies");

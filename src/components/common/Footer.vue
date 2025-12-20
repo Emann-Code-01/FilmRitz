@@ -109,14 +109,21 @@
             </li>
             <li>
               <router-link
-                to="/ng/privacy"
+                to="/ng/privacy-policy"
                 class="text-gray-400 hover:text-white font-[Gilroy-Medium] text-base transition-colors"
                 >Privacy Policy</router-link
               >
             </li>
             <li>
               <router-link
-                to="/ng/terms"
+                to="/ng/advertising"
+                class="text-gray-400 hover:text-white font-[Gilroy-Medium] text-base transition-colors"
+                >Advertising</router-link
+              >
+            </li>
+            <li>
+              <router-link
+                to="/ng/terms-of-service"
                 class="text-gray-400 hover:text-white font-[Gilroy-Medium] text-base transition-colors"
                 >Terms of Service</router-link
               >
@@ -137,6 +144,13 @@
             >@EmannCode</a
           >
         </p>
+        <section class="max-w-4xl mx-auto px-6 space-y-4 text-gray-300">
+          <h1 class="text-3xl text-white">Privacy Policy</h1>
+          <p class="leading-relaxed text-sm">
+            FilmRitz respects your privacy and is committed to protecting user
+            data...
+          </p>
+        </section>
         <div class="flex gap-4">
           <a href="#" class="text-gray-400 hover:text-white transition-colors">
             <i class="pi pi-twitter text-xl"></i>

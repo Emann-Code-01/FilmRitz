@@ -98,12 +98,14 @@
       </div>
     </div>
   </div>
+  <AdSlot />
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useModalStore } from "@/stores/modalStore";
 import { fetchUpcomingMedia } from "@/api/tmdb";
+import AdSlot from "@/components/ads/AdSlot.vue";
 
 const modalStore = useModalStore();
 const upcomingItems = ref<any[]>([]);

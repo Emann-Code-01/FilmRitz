@@ -1,20 +1,28 @@
 <!-- (Enhanced Watchlist) -->
 <template>
   <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
-    
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
-      <div class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"></div>
+      <div
+        class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
+      ></div>
 
       <div class="relative z-10 max-w-7xl mx-auto">
-        <div class="grid space-y-3 md:space-y-0 md:flex items-center md:justify-between">
+        <div
+          class="grid space-y-3 md:space-y-0 md:flex items-center md:justify-between"
+        >
           <div class="flex items-center gap-4">
-            <div class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl">
+            <div
+              class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
+            >
               ♥
             </div>
             <div>
               <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">My List</h1>
               <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-2">
-                {{ watchlist.length }} item{{ watchlist.length !== 1 ? 's' : '' }} saved
+                {{ watchlist.length }} item{{
+                  watchlist.length !== 1 ? "s" : ""
+                }}
+                saved
               </p>
             </div>
           </div>
@@ -34,9 +42,15 @@
     </div>
 
     <div class="px-6 md:px-10 mx-auto">
-      
-      <div v-if="loading" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        <div v-for="n in 12" :key="n" class="aspect-2/3 bg-gray-800/50 rounded-2xl animate-pulse"></div>
+      <div
+        v-if="loading"
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6"
+      >
+        <div
+          v-for="n in 12"
+          :key="n"
+          class="aspect-2/3 bg-gray-800/50 rounded-2xl animate-pulse"
+        ></div>
       </div>
 
       <div v-else-if="!watchlist.length" class="text-center py-20">
@@ -53,7 +67,10 @@
         </router-link>
       </div>
 
-      <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+      <div
+        v-else
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6"
+      >
         <div
           v-for="item in sortedWatchlist"
           :key="item.id"
@@ -67,10 +84,16 @@
               />
             </div>
 
-            <div class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div
+              class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+            ></div>
 
-            <div class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-              <h3 class="text-white font-[Gilroy-Bold] text-sm line-clamp-2 mb-2">
+            <div
+              class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+            >
+              <h3
+                class="text-white font-[Gilroy-Bold] text-sm line-clamp-2 mb-2"
+              >
                 {{ item.title || item.name }}
               </h3>
               <div class="flex items-center gap-2 text-xs">
@@ -98,17 +121,17 @@
           </button>
         </div>
       </div>
-
     </div>
-
   </div>
+  <AdSlot />
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { useWatchlistStore } from '@/stores/watchlist';
-import type { WatchItem } from '@/types/media';
+import { ref, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useWatchlistStore } from "@/stores/watchlist";
+import type { WatchItem } from "@/types/media";
+import AdSlot from "@/components/ads/AdSlot.vue";
 
 const router = useRouter();
 const store = useWatchlistStore();
@@ -116,20 +139,24 @@ store.loadFromLocalStorage();
 
 const watchlist = computed<WatchItem[]>(() => store.items);
 const loading = ref(true);
-const sortBy = ref('recent');
+const sortBy = ref("recent");
 
 const sortedWatchlist = computed(() => {
   const items = [...watchlist.value];
-  
+
   switch (sortBy.value) {
-    case 'title':
-      return items.sort((a, b) => (a.title || a.name || '').localeCompare(b.title || b.name || ''));
-    case 'rating':
-      return items.sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0));
-    case 'year':
+    case "title":
+      return items.sort((a, b) =>
+        (a.title || a.name || "").localeCompare(b.title || b.name || "")
+      );
+    case "rating":
+      return items.sort(
+        (a, b) => (b.vote_average || 0) - (a.vote_average || 0)
+      );
+    case "year":
       return items.sort((a, b) => {
-        const yearA = new Date(a.release_date || '').getFullYear() || 0;
-        const yearB = new Date(b.release_date || '').getFullYear() || 0;
+        const yearA = new Date(a.release_date || "").getFullYear() || 0;
+        const yearB = new Date(b.release_date || "").getFullYear() || 0;
         return yearB - yearA;
       });
     default:
@@ -153,10 +180,12 @@ function goToMedia(item: WatchItem) {
 }
 
 function getPoster(path: string | null) {
-  return path ? `https://image.tmdb.org/t/p/w500${path}` : 'https://placehold.co/500x750/0f0f0f/FF0000?text=NO+IMAGE';
+  return path
+    ? `https://image.tmdb.org/t/p/w500${path}`
+    : "https://placehold.co/500x750/0f0f0f/FF0000?text=NO+IMAGE";
 }
 
 onMounted(() => {
-  setTimeout(() => loading.value = false, 500);
+  setTimeout(() => (loading.value = false), 500);
 });
 </script>
