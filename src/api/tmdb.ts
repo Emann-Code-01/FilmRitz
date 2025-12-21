@@ -533,3 +533,157 @@ export const fetchAllTrailers = async (): Promise<TrailerData[]> => {
 
   return allTrailers;
 };
+
+// --------------------------- COLLECTIONS ---------------------------
+
+export interface CollectionDefinition {
+  id: number;
+  title: string;
+  icon: string;
+  color: string;
+  description: string;
+  genreId: number;
+}
+
+export interface Collection extends CollectionDefinition {
+  items: Media[];
+}
+
+// Predefined curated collections
+export const CURATED_COLLECTIONS: CollectionDefinition[] = [
+  {
+    id: 1,
+    title: 'Epic Sci-Fi',
+    icon: '🚀',
+    color: '#3B82F6',
+    description: 'Mind-bending journeys through space and time',
+    genreId: 878
+  },
+  {
+    id: 2,
+    title: 'Tear-Jerkers',
+    icon: '😢',
+    color: '#EC4899',
+    description: 'Emotional stories that will move you',
+    genreId: 18
+  },
+  {
+    id: 3,
+    title: 'Mind-Benders',
+    icon: '🧠',
+    color: '#8B5CF6',
+    description: 'Psychological thrillers that keep you guessing',
+    genreId: 9648
+  },
+  {
+    id: 4,
+    title: 'Laugh Riots',
+    icon: '😂',
+    color: '#F59E0B',
+    description: 'Comedy gold for your viewing pleasure',
+    genreId: 35
+  },
+  {
+    id: 5,
+    title: 'Action Packed',
+    icon: '💥',
+    color: '#EF4444',
+    description: 'Non-stop thrills and explosive action',
+    genreId: 28
+  },
+  {
+    id: 6,
+    title: 'Love Stories',
+    icon: '💕',
+    color: '#F472B6',
+    description: 'Romantic tales that warm the heart',
+    genreId: 10749
+  },
+];
+
+/**
+ * Fetch all curated collections with their movie items
+ */
+export const fetchCuratedCollections = async (
+  itemsPerCollection = 12
+): Promise<Collection[]> => {
+  const collectionPromises = CURATED_COLLECTIONS.map(async (col) => {
+    try {
+      const res = await apiV3.get('/discover/movie', {
+        params: {
+          with_genres: col.genreId,
+          sort_by: 'vote_average.desc',
+          'vote_count.gte': 1000,
+          page: 1,
+        },
+      });
+
+      const items = (res.data.results || [])
+        .slice(0, itemsPerCollection)
+        .map((r: any) => normalize(r, 'movie'));
+
+      return {
+        ...col,
+        items,
+      };
+    } catch (error) {
+      console.error(`Failed to fetch collection ${col.id}:`, error);
+      return {
+        ...col,
+        items: [],
+      };
+    }
+  });
+
+  return Promise.all(collectionPromises);
+};
+
+/**
+ * Fetch a single collection by ID with more items
+ */
+export const fetchCollectionById = async (
+  collectionId: number,
+  itemCount = 20
+): Promise<Collection | null> => {
+  const collectionDef = CURATED_COLLECTIONS.find((c) => c.id === collectionId);
+
+  if (!collectionDef) {
+    console.error(`Collection ${collectionId} not found`);
+    return null;
+  }
+
+  try {
+    const res = await apiV3.get('/discover/movie', {
+      params: {
+        with_genres: collectionDef.genreId,
+        sort_by: 'vote_average.desc',
+        'vote_count.gte': 1000,
+        page: 1,
+      },
+    });
+
+    const items = (res.data.results || [])
+      .slice(0, itemCount)
+      .map((r: any) => normalize(r, 'movie'));
+
+    return {
+      ...collectionDef,
+      items,
+    };
+  } catch (error) {
+    console.error(`Failed to fetch collection ${collectionId}:`, error);
+    return {
+      ...collectionDef,
+      items: [],
+    };
+  }
+};
+
+/**
+ * Get collection definition by ID (without fetching items)
+ */
+export const getCollectionDefinition = (
+  collectionId: number
+): CollectionDefinition | null => {
+  return CURATED_COLLECTIONS.find((c) => c.id === collectionId) || null;
+};

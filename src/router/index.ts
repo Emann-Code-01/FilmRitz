@@ -16,6 +16,7 @@ import ActorDetails from "@/pages/details/ActorDetails.vue";
 import Watch from "@/pages/Watch.vue";
 import TvDetails from "@/pages/TvDetails.vue";
 import CollectionsPage from "@/pages/discovery/CollectionsPage.vue";
+import CollectionDetails from "@/pages/discovery/CollectionsDetailsPage.vue";
 import TrendingTrailers from "@/pages/trailers/TrendingTrailers.vue";
 import Trailers from "@/pages/trailers/TrailersPage.vue"
 import NewReleases from "@/pages/discovery/NewReleases.vue";
@@ -149,6 +150,13 @@ const routes: RouteRecordRaw[] = [
         path: "collections",
         name: "Collections",
         component: CollectionsPage,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "collections/:id",
+        name: "CollectionDetails",
+        component: CollectionDetails,
+        props: true,
         meta: { requiresAuth: true },
       },
       {

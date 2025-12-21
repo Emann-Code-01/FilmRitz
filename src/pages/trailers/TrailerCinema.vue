@@ -63,7 +63,7 @@
         ></div>
 
         <div class="relative z-10 max-w-7xl mx-auto">
-          <div class="flex items-center justify-between mb-6">
+          <div class="md:flex items-center justify-between mb-6 hidden">
             <div>
               <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] mb-3">
                 🎬 Trailer Cinema
@@ -90,6 +90,38 @@
               >
                 <i class="pi pi-sync text-lg"></i>
                 <span class="hidden md:inline">Refresh</span>
+              </button>
+            </div>
+          </div>
+          <div class="flex-col flex md:hidden justify-between mb-6 space-y-3">
+            <div class="flex flex-col">
+              <h1
+                class="text-4xl text-nowrap md:text-6xl font-[Gilroy-Bold] mb-3"
+              >
+                🎬 Trailer Cinema
+              </h1>
+              <p class="text-xl text-gray-400 font-[Gilroy-Medium]">
+                Watch the latest movie and TV show trailers
+              </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-3 *:cursor-pointer">
+              <button
+                @click="shuffleSlides"
+                class="px-4 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center gap-2 border border-white/20"
+                title="Shuffle trailers"
+              >
+                <i class="pi pi-refresh text-lg"></i>
+                <span class="inline">Shuffle</span>
+              </button>
+              <button
+                @click="fetchTrailerSlides"
+                class="px-4 py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center gap-2"
+                title="Refresh trailers"
+              >
+                <i class="pi pi-sync text-lg"></i>
+                <span class="inline">Refresh</span>
               </button>
             </div>
           </div>
@@ -144,9 +176,65 @@
 
           <!-- Current Trailer Info -->
           <div
-            class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
+            class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hidden md:block"
           >
             <div class="flex items-start justify-between gap-4">
+              <div class="flex-1">
+                <h2 class="text-3xl font-[Gilroy-Bold] mb-3">
+                  {{ currentTrailer.title }}
+                </h2>
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                  <span
+                    class="px-3 py-1.5 bg-[#b20710] rounded-lg text-sm font-[Gilroy-SemiBold]"
+                  >
+                    ⭐ {{ currentTrailer.vote_average?.toFixed(1) }}
+                  </span>
+                  <span
+                    class="px-3 py-1.5 bg-white/20 rounded-lg text-sm font-[Gilroy-SemiBold]"
+                  >
+                    {{
+                      currentTrailer.media_type === "movie"
+                        ? "🎬 Movie"
+                        : "📺 TV Show"
+                    }}
+                  </span>
+                  <span class="text-gray-400 font-[Gilroy-Medium]">
+                    {{
+                      currentTrailer.release_date?.slice(0, 4) ||
+                      currentTrailer.first_air_date?.slice(0, 4)
+                    }}
+                  </span>
+                </div>
+                <p
+                  class="text-gray-300 font-[Gilroy-Regular] line-clamp-3 mb-4"
+                >
+                  {{ currentTrailer.overview }}
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    v-for="genreId in currentTrailer.genre_ids?.slice(1, 2)"
+                    :key="genreId"
+                    class="px-3 py-1 bg-white/10 rounded-lg text-sm font-[Gilroy-SemiBold]"
+                  >
+                    {{ getGenreName(genreId) }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- More Info Button -->
+              <button
+                @click="openModal(currentTrailer)"
+                class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center gap-2 border border-white/20 whitespace-nowrap cursor-pointer"
+              >
+                <i class="pi pi-info-circle"></i>
+                More Info
+              </button>
+            </div>
+          </div>
+          <div
+            class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 md:hidden block"
+          >
+            <div class="flex flex-col items-start justify-between gap-4">
               <div class="flex-1">
                 <h2 class="text-3xl font-[Gilroy-Bold] mb-3">
                   {{ currentTrailer.title }}
@@ -413,7 +501,7 @@ function selectTrailer(item: TrailerItem) {
   videoLoading.value = true;
   currentTrailer.value = item;
 
-  window.scrollTo({ top: 30, behavior: "smooth" });
+  window.scrollTo({ top: 33, behavior: "smooth" });
 
   setTimeout(() => {
     videoLoading.value = false;
@@ -428,7 +516,7 @@ function shuffleSlides() {
   }
   trailerItems.value = shuffled;
   currentTrailer.value = shuffled[0];
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 33, behavior: "smooth" });
 }
 
 function openModal(item: TrailerItem) {

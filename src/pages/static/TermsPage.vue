@@ -17,7 +17,7 @@
               Terms of Service
             </h1>
             <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-2">
-              Last updated: December 2024
+              Last updated: December 2025
             </p>
           </div>
         </div>
