@@ -21,8 +21,8 @@
             auth.isLoggedIn &&
             router.currentRoute.value.path !== '/forgot-password' &&
             router.currentRoute.value.path !== '/reset-password'
-              ? 'transition-all duration-900 animate-fade-up w-18'
-              : 'transition-all duration-900 animate-fade-up w-19'
+              ? 'transition-all duration-900 animate-fade-up w-10'
+              : 'transition-all duration-900 animate-fade-up w-11'
           "
         />
       </router-link>

@@ -58,7 +58,7 @@
 
           <!-- Trailer Info -->
           <div class="p-6 bg-linear-to-t from-[#0a0a0a] to-transparent">
-            <div class="flex items-start justify-between gap-4">
+            <div class="md:flex items-start justify-between gap-4 hidden">
               <div>
                 <h2 class="text-2xl font-[Gilroy-Bold] text-white mb-2">
                   {{ trailer?.title }}
@@ -78,6 +78,32 @@
               <button
                 @click="viewFullDetails"
                 class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] text-white transition-all hover:scale-105 border border-white/10 cursor-pointer"
+              >
+                View Full Details
+              </button>
+            </div>
+            <div
+              class="flex flex-col items-start justify-between gap-4 md:hidden"
+            >
+              <div>
+                <h2 class="text-2xl font-[Gilroy-Bold] text-white mb-2">
+                  {{ trailer?.title }}
+                </h2>
+                <div class="flex items-center gap-3">
+                  <span
+                    class="px-3 py-1 bg-[#b20710] text-white rounded-lg text-sm font-[Gilroy-SemiBold]"
+                  >
+                    {{ trailer?.type }}
+                  </span>
+                  <span class="text-gray-400 text-sm">
+                    {{ trailer?.mediaType === "movie" ? "Movie" : "TV Show" }}
+                  </span>
+                </div>
+              </div>
+
+              <button
+                @click="viewFullDetails"
+                class="px-3 py-2 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] text-white transition-all hover:scale-105 border border-white/10 cursor-pointer"
               >
                 View Full Details
               </button>

@@ -70,7 +70,7 @@
           </div> -->
 
           <div
-            class="absolute bottom-8 left-8 right-8 transition-all duration-500 transform translate-y-16 group-hover:translate-y-0"
+            class="absolute bottom-8 left-8 right-8 transition-all duration-300 transform lg:translate-y-16 lg:group-hover:translate-y-0"
           >
             <h3
               class="text-4xl font-[Gilroy-Bold] text-white mb-3 line-clamp-2 drop-shadow-2xl"
@@ -92,7 +92,7 @@
             </div>
 
             <p
-              class="text-gray-300 text-base font-[Gilroy-Regular] line-clamp-3 mb-4 max-w-2xl opacity-0 translate-y-5 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 group-hover:animate-fade-up delay-100"
+              class="text-gray-300 text-base font-[Gilroy-Regular] line-clamp-3 mb-4 max-w-2xl lg:opacity-0 lg:translate-y-5 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500 lg:group-hover:animate-fade-up delay-100"
             >
               {{ mediaList[0].overview }}
             </p>
@@ -122,7 +122,7 @@
         <div
           v-for="(item, index) in mediaList.slice(1, 7)"
           :key="item.id"
-          class="col-span-6 md:col-span-3 lg:col-span-3 relative group cursor-pointer overflow-hidden rounded-xl transition-all duration-500 hover:shadow-xl hover:shadow-[#b20710]/20 hover:scale-105"
+          class="col-span-6 md:col-span-3 lg:col-span-3 relative lg:group cursor-pointer overflow-hidden rounded-xl transition-all duration-500 hover:shadow-xl hover:shadow-[#b20710]/20 hover:scale-105"
           @mouseenter="handleHover(item, index + 1)"
           @mouseleave="handleMouseLeave"
           @click="openModal(item)"

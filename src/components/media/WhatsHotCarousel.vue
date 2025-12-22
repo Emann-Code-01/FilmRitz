@@ -60,7 +60,7 @@
 
               <!-- Gradient Overlay -->
               <div
-                class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 group-hover:scale-105 duration-500 transition-all"
+                class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent lg:opacity-0 lg:group-hover:opacity-100 lg:group-hover:scale-105 duration-500 transition-all"
               ></div>
 
               <!-- Play Button (on hover)
@@ -74,7 +74,7 @@
 
               <!-- Info (on hover) -->
               <div
-                class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 animate-fade-up"
+                class="absolute bottom-0 left-0 right-0 p-6 transform lg:translate-y-full lg:group-hover:translate-y-0 transition-transform duration-300 animate-fade-up"
               >
                 <h3 class="text-xl font-[Gilroy-Bold] text-white mb-2">
                   {{ item.title || item.name }}

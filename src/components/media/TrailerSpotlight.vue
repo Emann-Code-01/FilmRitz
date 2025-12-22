@@ -72,7 +72,7 @@
                   :alt="item.title || item.name"
                   class="w-full h-full object-cover transition-transform duration-700"
                   :class="
-                    hoveredItem?.id === item.id ? 'scale-110' : 'scale-100'
+                    hoveredItem?.id === item.id ? 'lg:scale-110' : 'lg:scale-100'
                   "
                 />
 
@@ -87,8 +87,8 @@
                 class="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black via-black/95 to-transparent p-6 transition-all duration-500"
                 :class="
                   hoveredItem?.id === item.id
-                    ? 'translate-y-0'
-                    : 'translate-y-8'
+                    ? 'lg:translate-y-0'
+                    : 'lg:translate-y-8'
                 "
               >
                 <h3
@@ -118,8 +118,8 @@
                   class="text-gray-300 text-sm font-[Gilroy-Regular] line-clamp-2 transition-all duration-500"
                   :class="
                     hoveredItem?.id === item.id
-                      ? 'opacity-100 max-h-20'
-                      : 'opacity-0 max-h-0'
+                      ? 'lg:opacity-100 lg:max-h-20'
+                      : 'lg:opacity-0 lg:max-h-0'
                   "
                 >
                   {{ item.overview }}
@@ -130,8 +130,8 @@
                   class="flex gap-2 mt-4 transition-all duration-500"
                   :class="
                     hoveredItem?.id === item.id
-                      ? 'opacity-100 translate-y-0'
-                      : 'opacity-0 translate-y-4'
+                      ? 'lg:opacity-100 lg:translate-y-0'
+                      : 'lg:opacity-0 lg:translate-y-4'
                   "
                 >
                   <button

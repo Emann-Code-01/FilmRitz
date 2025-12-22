@@ -77,7 +77,7 @@
           >
             <!-- Rating -->
             <div
-              class="flex items-center gap-2 px-4 py-2 bg-[#b20710] rounded-xl"
+              class="flex items-center gap-2 px-3 py-2 bg-[#b20710] rounded-xl"
             >
               <span class="text-yellow-400 text-xl">⭐</span>
               <span class="font-[Gilroy-Bold] text-lg">{{
