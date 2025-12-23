@@ -211,12 +211,11 @@ const handleAuth = async () => {
     await auth.signIn(email.value, password.value);
   }
 
+  const redirectPath = (route.query.redirect as string) || "/ng/splash";
   if (!auth.error) {
     success.value = true;
+    router.push(redirectPath);
   }
-
-  const redirectPath = (route.query.redirect as string) || "/ng/splash";
-  router.push(redirectPath);
 };
 
 const pageTitle = computed(() =>
