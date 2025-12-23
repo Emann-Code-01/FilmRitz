@@ -3,7 +3,7 @@
     <!-- Genre -->
     <div class="flex flex-wrap gap-3 items-center">
       <div>
-        <label class="text-white font-semibold mb-1 block">Genre</label>
+        <label class="text-white font-[Gilroy-SemiBold] mb-1 block">Genre</label>
         <select
           v-model="localFilters.genre"
           class="px-4 py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
@@ -21,7 +21,7 @@
 
       <!-- Year -->
       <div>
-        <label class="text-white font-semibold mb-1 block">Year</label>
+        <label class="text-white font-[Gilroy-SemiBold] mb-1 block">Year</label>
         <input
           type="number"
           v-model.number="localFilters.year"
@@ -32,7 +32,7 @@
 
       <!-- Rating -->
       <div>
-        <label class="text-white font-semibold mb-1 block">Min Rating</label>
+        <label class="text-white font-[Gilroy-SemiBold] mb-1 block">Min Rating</label>
         <input
           type="number"
           v-model.number="localFilters.rating"
@@ -45,7 +45,7 @@
       </div>
 
       <div>
-        <label class="text-white font-semibold mb-1 block">Type</label>
+        <label class="text-white font-[Gilroy-SemiBold] mb-1 block">Type</label>
         <select
           v-model="localFilters.type"
           class="px-4 py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
@@ -57,7 +57,7 @@
       </div>
 
       <div>
-        <label class="text-white font-semibold mb-1 block">Sort By</label>
+        <label class="text-white font-[Gilroy-SemiBold] mb-1 block">Sort By</label>
         <select
           v-model="localFilters.sort"
           class="px-4 py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"

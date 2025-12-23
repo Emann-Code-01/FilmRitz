@@ -22,7 +22,7 @@
 
         <div class="flex items-center gap-4 mb-6">
           <div
-            class="w-24 h-24 rounded-full flex items-center justify-center text-5xl"
+            class="w-20 aspect-square rounded-full flex items-center justify-center text-4xl leading-none"
             :style="{
               backgroundColor: `${mood?.color}20`,
               border: `3px solid ${mood?.color}`,
@@ -50,7 +50,7 @@
     <!-- MOOD SELECTOR BAR -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <div
-      class="sticky top-16 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
+      class="sticky top-18 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
       <div class="px-6 md:px-10 max-w-7xl mx-auto">
         <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">

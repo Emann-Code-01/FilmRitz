@@ -59,7 +59,7 @@
         <!-- Category Tabs -->
         <div class="flex gap-4 mt-6 overflow-x-auto px-6 md:px-10 cursor-pointer">
             <button v-for="cat in categories" :key="cat.value" @click="selectedCategory = cat.value" :class="[
-                'px-4 py-2 rounded-lg font-semibold whitespace-nowrap',
+                'px-4 py-2 rounded-lg font-[Gilroy-SemiBold] whitespace-nowrap',
                 selectedCategory === cat.value
                     ? 'bg-red-600 hover:bg-red-700 cursor-pointer'
                     : 'bg-gray-800 hover:bg-gray-700 cursor-pointer',

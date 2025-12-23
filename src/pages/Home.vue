@@ -146,13 +146,25 @@
             <!-- 8. CURATED COLLECTIONS — Card Stack -->
             <!-- ─────────────────────────────────────────────────────────── -->
             <section class="px-4 md:px-8 lg:px-12">
-              <h2
-                class="text-3xl font-[Gilroy-Bold] text-white mb-6 flex items-center gap-3"
-              >
-                <span class="text-4xl">📚</span>
-                Curated Collections
-              </h2>
-              <CuratedCollections @update-ambient="updateAmbientColor" />
+              <div class="flex items-center justify-between mb-6">
+                <h2
+                  class="text-3xl font-[Gilroy-Bold] text-white flex items-center gap-3"
+                >
+                  <span class="text-4xl">📚</span>
+                  Curated Collections
+                </h2>
+                <router-link
+                  to="/ng/collections"
+                  class="text-[#b20710] hover:text-[#e32125] font-[Gilroy-SemiBold] transition-colors"
+                >
+                  View All →
+                </router-link>
+              </div>
+
+              <CuratedCollections
+                :limit="3"
+                @update-ambient="updateAmbientColor"
+              />
             </section>
 
             <!-- ─────────────────────────────────────────────────────────── -->
@@ -264,6 +276,10 @@ const selectedPeriod = ref<string>("This Week");
 const ambientColor = ref<string>("#111111");
 const ambientPosition = ref<{ x: number; y: number }>({ x: 50, y: 30 });
 const canHandleAdvancedEffects = ref<boolean>(false);
+
+defineProps<{
+  updateAmbientColor: (color: string) => void;
+}>();
 
 // Update ambient color from child components
 function updateAmbientColor(color: string) {

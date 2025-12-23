@@ -1,8 +1,8 @@
 // src/composables/useMedia.ts
 import { ref } from "vue";
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 import { movieService } from "../services/mediaService";
-import type { Media, Genre } from '@/types/media';
+import type { Media, Genre } from "@/types/media";
 import {
   fetchTrendingMovies,
   fetchTopRatedMovies,
@@ -10,10 +10,10 @@ import {
   fetchTrendingTV,
   fetchTopRatedTV,
   fetchOnTheAir,
-  fetchTrendingMedia,
+  // fetchTrendingMedia,
 } from "../api/tmdb";
 
-export const useMediaStore = defineStore('media', () => {
+export const useMediaStore = defineStore("media", () => {
   const trendingMovies = ref<Media[]>([]);
   const genres = ref<Genre[]>([]);
   const isLoading = ref<boolean>(false);
@@ -21,22 +21,22 @@ export const useMediaStore = defineStore('media', () => {
 
   const getGenreNames = (genreIds: number[]): string[] => {
     return genreIds
-      .map(id => genres.value.find(g => g.id === id)?.name)
+      .map((id) => genres.value.find((g) => g.id === id)?.name)
       .filter((name): name is string => name !== undefined);
   };
 
   const getGenreColor = (genreName: string): string => {
     const colorMap: Record<string, string> = {
-      'Horror': '#DC2626',
-      'Action': '#F59E0B',
-      'Adventure': '#FBBF24',
-      'Sci-Fi': '#3B82F6',
-      'Romance': '#EC4899',
-      'Comedy': '#10B981',
-      'Drama': '#8B5CF6'
+      Horror: "#DC2626",
+      Action: "#F59E0B",
+      Adventure: "#FBBF24",
+      "Sci-Fi": "#3B82F6",
+      Romance: "#EC4899",
+      Comedy: "#10B981",
+      Drama: "#8B5CF6",
     };
 
-    return colorMap[genreName] || '#6B7280';
+    return colorMap[genreName] || "#6B7280";
   };
 
   const fetchTrending = async (): Promise<void> => {
@@ -44,11 +44,11 @@ export const useMediaStore = defineStore('media', () => {
     error.value = null;
 
     try {
-      const response = await fetch('/api/trending');
+      const response = await fetch("/api/trending");
       const data = await response.json();
       trendingMovies.value = data.results;
     } catch (e) {
-      error.value = e instanceof Error ? e.message : 'Unknown error';
+      error.value = e instanceof Error ? e.message : "Unknown error";
     } finally {
       isLoading.value = false;
     }
@@ -61,7 +61,7 @@ export const useMediaStore = defineStore('media', () => {
     error,
     getGenreNames,
     getGenreColor,
-    fetchTrending
+    fetchTrending,
   };
 });
 
@@ -86,7 +86,8 @@ export function useMedia() {
   // 🎬 MOVIES
   const getTrending = async (force = false) => {
     const now = Date.now();
-    if (!force && trending.value.length && now - lastFetched.value < CACHE_TTL) return;
+    if (!force && trending.value.length && now - lastFetched.value < CACHE_TTL)
+      return;
     loading.value = true;
     error.value = null;
     try {
@@ -127,7 +128,12 @@ export function useMedia() {
   // 📺 TV
   const getTrendingTV = async (force = false) => {
     const now = Date.now();
-    if (!force && trendingTV.value.length && now - lastFetched.value < CACHE_TTL) return;
+    if (
+      !force &&
+      trendingTV.value.length &&
+      now - lastFetched.value < CACHE_TTL
+    )
+      return;
     loading.value = true;
     error.value = null;
     try {
@@ -165,14 +171,53 @@ export function useMedia() {
     }
   };
 
-  // 🔄 Combined
+  const fetchTrendingMedia = async (
+    timeWindow: string = "week",
+    page: number = 1
+  ) => {
+    const API_KEY = import.meta.env.VITE_TMDB_API_KEY; // Use your env variable
+    const response = await fetch(
+      `https://api.themoviedb.org/3/trending/all/${timeWindow}?page=${page}&api_key=${API_KEY}`
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.results; // Return the results array, not the full response
+  };
+
   const getTrendingAll = async (force = false) => {
     const now = Date.now();
-    if (!force && trendingAll.value.length && now - lastFetched.value < CACHE_TTL) return;
+    if (
+      !force &&
+      trendingAll.value.length &&
+      now - lastFetched.value < CACHE_TTL
+    )
+      return;
+
     loading.value = true;
     error.value = null;
+
     try {
-      trendingAll.value = await fetchTrendingMedia("week");
+      // Fetch multiple pages to get 60+ items
+      const [page1, page2, page3] = await Promise.all([
+        fetchTrendingMedia("week", 1),
+        fetchTrendingMedia("week", 2),
+        fetchTrendingMedia("week", 3),
+      ]);
+
+      // Combine all results and remove duplicates based on id + media_type
+      const allResults = [...page1, ...page2, ...page3];
+      trendingAll.value = allResults.filter(
+        (item, index, self) =>
+          index ===
+          self.findIndex(
+            (t) => t.id === item.id && t.media_type === item.media_type
+          )
+      );
+
       lastFetched.value = now;
     } catch (err: any) {
       console.error("❌ Combined trending failed:", err);
@@ -182,7 +227,6 @@ export function useMedia() {
     }
   };
 
-  // 🔍 Use movieService for Searching
   const searchMulti = async (query: string, page = 1) => {
     if (!query.trim()) {
       searchResults.value = [];

@@ -9,14 +9,14 @@
     />
 
     <!-- Hero Header -->
-    <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
+    <div class="relative pt-14 md:pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <div
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
       <div class="relative z-10 max-w-7xl mx-auto">
-        <div class="flex items-center gap-4">
+        <div class="md:flex items-center gap-4 hidden">
           <div
-            class="w-16 h-16 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-3xl"
+            class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
           >
             🔥
           </div>
@@ -28,6 +28,21 @@
               Latest trending video content
             </p>
           </div>
+        </div>
+        <div class="grid items-center gap-4 md:hidden">
+          <div class="flex items-center space-x-3">
+            <div
+              class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
+            >
+              🔥
+            </div>
+            <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">
+              Trending Trailers
+            </h1>
+          </div>
+          <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-2">
+            Latest trending video content
+          </p>
         </div>
       </div>
     </div>

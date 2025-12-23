@@ -20,7 +20,7 @@
       <div class="relative z-10 max-w-7xl mx-auto">
         <div class="md:flex items-center gap-4 hidden">
           <div
-            class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
+            class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
           >
             🎬
           </div>
@@ -34,7 +34,7 @@
         <div class="grid items-center gap-4 md:hidden">
           <div class="flex items-center space-x-3">
             <div
-              class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
+              class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
             >
               🎬
             </div>
@@ -49,10 +49,10 @@
 
     <!-- Category Filters -->
     <div
-      class="sticky top-26 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
+      class="sticky top-18 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
       <div class="px-6 md:px-10 max-w-7xl mx-auto">
-        <div class="flex gap-3 mb-4 overflow-x-auto pb-2 scrollbar-hide">
+        <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
           <button
             v-for="cat in categories"
             :key="cat.value"

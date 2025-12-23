@@ -1,28 +1,32 @@
 <template>
-  <div class="min-h-screen text-white py-10 mt-10 transition-all duration-900">
+  <div class="min-h-screen text-white py-10 mt-10">
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- HERO HEADER WITH COLLECTION THEME -->
+    <!-- HERO HEADER -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <!-- Dynamic Color Gradient -->
       <div
-        class="absolute inset-0 blur-3xl opacity-40 transition-all duration-1000"
+        class="absolute inset-0 blur-3xl opacity-30 transition-all duration-1000"
         :style="{
           background: `radial-gradient(circle at 30% 50%, ${collection?.color}60, transparent 70%)`,
         }"
       ></div>
 
       <div class="relative z-10 max-w-7xl mx-auto">
+        <!-- Back Button -->
         <router-link
-          to="/collections"
-          class="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors font-medium"
+          to="/ng/collections"
+          class="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors font-[Gilroy-Medium]"
         >
-          ← Back to Collections
+          ← Back to All Collections
         </router-link>
 
-        <div class="flex items-center gap-4 mb-6">
+        <!-- Collection Header -->
+        <div
+          class="flex flex-col lg:flex-row items-start lg:items-center gap-6 mb-8"
+        >
           <div
-            class="w-24 h-24 rounded-2xl flex items-center justify-center text-5xl"
+            class="w-20 md:w-30 aspect-square rounded-2xl flex items-center justify-center text-4xl md:text-7xl shrink-0"
             :style="{
               backgroundColor: `${collection?.color}20`,
               border: `3px solid ${collection?.color}`,
@@ -30,30 +34,87 @@
           >
             {{ collection?.icon }}
           </div>
-          <div>
-            <h1 class="text-5xl md:text-6xl font-bold">
+
+          <div class="flex-1">
+            <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] mb-3">
               {{ collection?.title }}
             </h1>
-            <p class="text-xl text-gray-400 font-medium mt-2">
-              {{ collection?.items.length }} handpicked titles
+            <p class="text-xl text-gray-300 font-[Gilroy-Regular] mb-4">
+              {{ collection?.longDescription }}
             </p>
+
+            <!-- Tags -->
+            <div class="flex flex-wrap gap-2">
+              <span
+                v-for="tag in collection?.tags"
+                :key="tag"
+                class="px-3 py-1 rounded-full text-sm font-[Gilroy-SemiBold] bg-white/10 text-white"
+              >
+                {{ tag }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="flex gap-6 lg:flex-col">
+            <div class="flex items-center justify-center gap-2 text-center">
+              <div
+                class="text-3xl font-[Gilroy-Bold]"
+                :style="{ color: collection?.color }"
+              >
+                {{ collection?.totalItems || 0 }}+
+              </div>
+              <div class="text-sm text-gray-400 font-[Gilroy-Medium]">
+                Movies
+              </div>
+            </div>
+            <div class="text-center flex items-center justify-center gap-2">
+              <div class="text-sm text-gray-400 font-[Gilroy-Medium]">Page</div>
+              <div
+                class="text-3xl font-[Gilroy-Bold]"
+                :style="{ color: collection?.color }"
+              >
+                {{ currentPage }}
+              </div>
+            </div>
           </div>
         </div>
 
-        <p class="text-xl text-gray-300 max-w-3xl">
-          {{ collection?.description }}
-        </p>
+        <!-- Collection Switcher -->
+        <div
+          class="flex items-center gap-3 overflow-x-auto pb-4 scrollbar-hide"
+        >
+          <button
+            v-for="col in allCollections"
+            :key="col.id"
+            @click="switchCollection(col.name)"
+            class="shrink-0 px-4 py-2 rounded-xl font-[Gilroy-SemiBold] text-sm transition-all duration-300 cursor-pointer"
+            :class="
+              col.name === collection?.name
+                ? 'text-white'
+                : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+            "
+            :style="
+              col.name === collection?.name
+                ? { backgroundColor: col.color }
+                : {}
+            "
+          >
+            <span class="mr-2">{{ col.icon }}</span>
+            {{ col.title }}
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- COLLECTION ITEMS GRID -->
+    <!-- COLLECTION GRID -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <div class="px-6 md:px-10 max-w-7xl mx-auto">
       <!-- Loading Skeleton -->
       <div
         v-if="loading"
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12"
       >
         <div
           v-for="n in 20"
@@ -64,15 +125,15 @@
 
       <!-- Items Grid -->
       <div
-        v-else
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
+        v-else-if="collection && collection.items.length > 0"
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12"
       >
         <div
-          v-for="(item, index) in collection?.items"
+          v-for="(item, index) in collection.items"
           :key="item.id"
           @click="openModal(item)"
           class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 transition-all hover:scale-105 animate-fade-up"
-          :style="{ animationDelay: `${index * 50}ms` }"
+          :style="{ animationDelay: `${index * 30}ms` }"
         >
           <!-- Poster -->
           <div class="aspect-2/3 overflow-hidden">
@@ -92,7 +153,7 @@
           <div
             class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"
           >
-            <h3 class="text-white font-bold text-sm line-clamp-2 mb-2">
+            <h3 class="text-white font-[Gilroy-Bold] text-sm line-clamp-2 mb-2">
               {{ item.title || item.name }}
             </h3>
 
@@ -124,37 +185,114 @@
 
           <!-- Ranking Badge -->
           <div
-            class="absolute top-3 left-3 w-10 h-10 rounded-full flex items-center justify-center font-bold text-white shadow-xl"
+            class="absolute top-3 left-3 w-10 h-10 rounded-full flex items-center justify-center font-[Gilroy-Bold] text-white shadow-xl"
             :style="{ backgroundColor: collection?.color }"
           >
-            {{ index + 1 }}
+            {{ (currentPage - 1) * 20 + index + 1 }}
           </div>
         </div>
+      </div>
+
+      <!-- Pagination -->
+      <div
+        v-if="collection && totalPages > 1"
+        class="flex items-center justify-center gap-4 mb-12"
+      >
+        <button
+          @click="changePage(currentPage - 1)"
+          :disabled="currentPage === 1"
+          class="px-6 py-3 rounded-xl font-[Gilroy-Bold] text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        >
+          ← Previous
+        </button>
+
+        <div class="flex items-center gap-2">
+          <button
+            v-for="page in visiblePages"
+            :key="page"
+            @click="changePage(page)"
+            class="w-12 h-12 rounded-xl font-[Gilroy-Bold] text-white transition-all"
+            :class="page === currentPage ? '' : 'bg-white/10 hover:bg-white/20'"
+            :style="
+              page === currentPage ? { backgroundColor: collection?.color } : {}
+            "
+          >
+            {{ page }}
+          </button>
+        </div>
+
+        <button
+          @click="changePage(currentPage + 1)"
+          :disabled="currentPage === totalPages"
+          class="px-6 py-3 rounded-xl font-[Gilroy-Bold] text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        >
+          Next →
+        </button>
+      </div>
+
+      <!-- Error State -->
+      <div v-if="!loading && !collection" class="text-center py-20">
+        <p class="text-gray-400 text-xl mb-4">Collection not found</p>
+        <router-link
+          to="/ng/collections"
+          class="text-[#b20710] hover:underline"
+        >
+          ← Back to All Collections
+        </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { ref, computed, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useModalStore } from "@/stores/modalStore";
+import { fetchCollectionByName } from "@/api/tmdb";
+import { COLLECTIONS } from "@/types/media";
+import type { Collection } from "@/types/media";
 
 const route = useRoute();
+const router = useRouter();
 const modalStore = useModalStore();
-
-interface Collection {
-  id: number;
-  title: string;
-  icon: string;
-  color: string;
-  description: string;
-  genreId: number;
-  items: any[];
-}
 
 const collection = ref<Collection | null>(null);
 const loading = ref(true);
+const currentPage = ref(1);
+const allCollections = COLLECTIONS;
+
+const totalPages = computed(() => {
+  if (!collection.value?.totalItems) return 0;
+  return Math.ceil(collection.value.totalItems / 20);
+});
+
+const visiblePages = computed(() => {
+  const pages: number[] = [];
+  const total = totalPages.value;
+  const current = currentPage.value;
+
+  if (total <= 7) {
+    for (let i = 1; i <= total; i++) pages.push(i);
+  } else {
+    if (current <= 4) {
+      for (let i = 1; i <= 5; i++) pages.push(i);
+      pages.push(-1); // Ellipsis
+      pages.push(total);
+    } else if (current >= total - 3) {
+      pages.push(1);
+      pages.push(-1);
+      for (let i = total - 4; i <= total; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      pages.push(-1);
+      for (let i = current - 1; i <= current + 1; i++) pages.push(i);
+      pages.push(-1);
+      pages.push(total);
+    }
+  }
+
+  return pages;
+});
 
 const openModal = (item: any) => {
   modalStore.open(item.media_type || "movie", {
@@ -163,91 +301,48 @@ const openModal = (item: any) => {
   });
 };
 
-onMounted(async () => {
-  const collectionId = Number(route.params.id);
-  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-
-  // Collection definitions (should match CuratedCollections.vue)
-  const collectionsMap: Record<number, Omit<Collection, "items">> = {
-    1: {
-      id: 1,
-      title: "Epic Sci-Fi",
-      icon: "🚀",
-      color: "#3B82F6",
-      description:
-        "Mind-bending journeys through space and time that will leave you questioning reality itself.",
-      genreId: 878,
-    },
-    2: {
-      id: 2,
-      title: "Tear-Jerkers",
-      icon: "😢",
-      color: "#EC4899",
-      description:
-        "Emotional stories that will move you to tears and touch your heart deeply.",
-      genreId: 18,
-    },
-    3: {
-      id: 3,
-      title: "Mind-Benders",
-      icon: "🧠",
-      color: "#8B5CF6",
-      description:
-        "Psychological thrillers that keep you guessing until the very last moment.",
-      genreId: 9648,
-    },
-    4: {
-      id: 4,
-      title: "Laugh Riots",
-      icon: "😂",
-      color: "#F59E0B",
-      description:
-        "Comedy gold that will have you laughing out loud from start to finish.",
-      genreId: 35,
-    },
-    5: {
-      id: 5,
-      title: "Action Packed",
-      icon: "💥",
-      color: "#EF4444",
-      description:
-        "Non-stop thrills and explosive action sequences that will keep you on the edge of your seat.",
-      genreId: 28,
-    },
-    6: {
-      id: 6,
-      title: "Love Stories",
-      icon: "💕",
-      color: "#F472B6",
-      description:
-        "Romantic tales that warm the heart and remind us of the power of love.",
-      genreId: 10749,
-    },
-  };
-
-  const collectionData = collectionsMap[collectionId];
-
-  if (!collectionData) {
-    loading.value = false;
-    return;
-  }
+const loadCollection = async () => {
+  loading.value = true;
+  const collectionName = route.params.name as string;
 
   try {
-    // Fetch movies for this collection
-    const response = await fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${collectionData.genreId}&sort_by=vote_average.desc&vote_count.gte=1000&page=1`
+    collection.value = await fetchCollectionByName(
+      collectionName,
+      currentPage.value,
+      20
     );
-    const data = await response.json();
-
-    collection.value = {
-      ...collectionData,
-      items: data.results.slice(0, 20),
-    };
   } catch (error) {
     console.error("Failed to load collection:", error);
   } finally {
     loading.value = false;
   }
+};
+
+const changePage = (page: number) => {
+  if (page < 1 || page > totalPages.value) return;
+  currentPage.value = page;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  loadCollection();
+};
+
+const switchCollection = (collectionName: string) => {
+  currentPage.value = 1;
+  router.push({
+    name: "CollectionDetails",
+    params: { name: collectionName },
+  });
+};
+
+watch(
+  () => route.params.name,
+  () => {
+    currentPage.value = 1;
+    loadCollection();
+  }
+);
+
+onMounted(() => {
+  loadCollection();
 });
 </script>
 
@@ -266,5 +361,14 @@ onMounted(async () => {
 .animate-fade-up {
   animation: fade-up 0.5s ease-out forwards;
   opacity: 0;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>

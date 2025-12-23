@@ -12,7 +12,7 @@
         >
           <div class="flex items-center gap-4">
             <div
-              class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
+              class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
             >
               ♥
             </div>

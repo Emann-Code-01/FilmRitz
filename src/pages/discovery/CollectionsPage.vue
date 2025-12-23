@@ -13,11 +13,11 @@
       ></div>
 
       <div class="relative z-10 max-w-7xl mx-auto">
-        <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">
+        <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] mb-3">
           Curated Collections
         </h1>
-        <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-2">
-          Hand-picked lists for every mood
+        <p class="text-xl text-gray-400 font-[Gilroy-Medium]">
+          Explore our hand-picked collections for every mood and genre
         </p>
       </div>
     </div>
@@ -25,7 +25,7 @@
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- COLLECTIONS GRID -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="px-6 md:px-10 max-w-7xl mx-auto">
+    <div class="px-6 max-w-[1590px] mx-auto">
       <CuratedCollections @update-ambient="updateAmbientColor" />
     </div>
   </div>

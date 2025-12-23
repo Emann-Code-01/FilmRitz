@@ -18,7 +18,7 @@ import TvDetails from "@/pages/TvDetails.vue";
 import CollectionsPage from "@/pages/discovery/CollectionsPage.vue";
 import CollectionDetails from "@/pages/discovery/CollectionsDetailsPage.vue";
 import TrendingTrailers from "@/pages/trailers/TrendingTrailers.vue";
-import Trailers from "@/pages/trailers/TrailersPage.vue"
+import Trailers from "@/pages/trailers/TrailersPage.vue";
 import NewReleases from "@/pages/discovery/NewReleases.vue";
 import Popular from "@/pages/browse/PopularPage.vue";
 import TopRated from "@/pages/browse/TopRatedPage.vue";
@@ -29,8 +29,8 @@ import History from "@/pages/user/HistoryPage.vue";
 import About from "@/pages/static/AboutPage.vue";
 import Privacy from "@/pages/static/PrivacyPage.vue";
 import Terms from "@/pages/static/TermsPage.vue";
-import Mood from "@/pages/discovery/MoodPage.vue"
-import Advertising from "@/pages/AdsInfo.vue"
+import Mood from "@/pages/discovery/MoodPage.vue";
+import Advertising from "@/pages/AdsInfo.vue";
 import TrailerCinema from "@/pages/trailers/TrailerCinema.vue";
 
 // ═══════════════════════════════════════════════════════════════
@@ -153,7 +153,7 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: true },
       },
       {
-        path: "collections/:id",
+        path: "collections/:name",
         name: "CollectionDetails",
         component: CollectionDetails,
         props: true,
@@ -178,10 +178,10 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: true },
       },
       {
-        path: 'trailercinema',
-        name: 'TrailerCinema',
+        path: "trailercinema",
+        name: "TrailerCinema",
         component: TrailerCinema,
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true },
       },
       {
         path: "popular",

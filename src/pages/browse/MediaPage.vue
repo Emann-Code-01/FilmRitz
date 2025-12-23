@@ -52,11 +52,11 @@
     <!-- FILTER PANEL -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <div
-      class="sticky top-26 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
+      class="sticky top-18 md:top-18 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
       <div class="px-6 max-w-7xl mx-auto">
         <!-- Category Tabs -->
-        <div class="flex gap-3 mb-4 overflow-x-auto pb-2 scrollbar-hide">
+        <div class="flex gap-3 mb-2 overflow-x-auto pb-2 scrollbar-hide">
           <button
             v-for="cat in categories"
             :key="cat.value"

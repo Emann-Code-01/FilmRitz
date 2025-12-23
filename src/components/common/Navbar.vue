@@ -1,4 +1,4 @@
-<template>
+  <template>
   <nav
     :class="[
       auth.isLoggedIn &&
@@ -21,8 +21,8 @@
             auth.isLoggedIn &&
             router.currentRoute.value.path !== '/forgot-password' &&
             router.currentRoute.value.path !== '/reset-password'
-              ? 'transition-all duration-900 animate-fade-up w-10'
-              : 'transition-all duration-900 animate-fade-up w-11'
+              ? 'transition-all duration-900 animate-fade-up w-10 md:w-15'
+              : 'transition-all duration-900 animate-fade-up w-11 md:w-16'
           "
         />
       </router-link>

@@ -65,35 +65,15 @@
           </div>
 
           <div
-            class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+            class="absolute inset-0 bg-linear-to-b from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
           ></div>
-
-          <div class="p-4">
-            <h3 class="text-white font-[Gilroy-Bold] text-sm line-clamp-2 mb-2">
-              {{ item.title || item.name }}
-            </h3>
-
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-yellow-400 text-xs"
-                >⭐ {{ item.vote_average?.toFixed(1) }}</span
-              >
-            </div>
-
-            <!-- Countdown -->
-            <div class="flex items-center gap-2 text-xs">
-              <span
-                class="px-2 py-1 bg-[#b20710] rounded-md font-[Gilroy-SemiBold]"
-              >
-                {{ getCountdown(item.release_date || item.first_air_date) }}
-              </span>
-            </div>
+          <div class="absolute top-5 left-5 flex items-center gap-2 text-xs">
+            <span
+              class="px-2 py-1 bg-[#b20710] rounded-md font-[Gilroy-SemiBold]"
+            >
+              {{ getCountdown(item.release_date || item.first_air_date) }}
+            </span>
           </div>
-
-          <!-- <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-            <div class="w-16 h-16 rounded-full bg-[#b20710] flex items-center justify-center shadow-2xl">
-              <span class="text-3xl text-white ml-1">▶</span>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>

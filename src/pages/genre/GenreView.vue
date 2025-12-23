@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-20">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 md:mt-10">
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- HERO HEADER WITH GENRE THEMING -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -14,7 +14,7 @@
       <div class="relative z-10 max-w-[1230px] mx-auto justify-between">
         <div class="md:flex items-center gap-4 mb-4 hidden">
           <div
-            class="w-20 h-20 rounded-full flex items-center justify-center text-4xl"
+            class="w-20 aspect-square rounded-full flex items-center justify-center text-4xl leading-none"
             :style="{
               backgroundColor: `${genreColor}20`,
               border: `2px solid ${genreColor}`,
@@ -34,7 +34,7 @@
         <div class="grid items-center gap-4 mb-4 md:hidden">
           <div class="flex space-x-3 items-center">
             <div
-              class="w-20 h-20 rounded-full flex items-center justify-center text-4xl"
+              class="w-20 aspect-square rounded-full flex items-center justify-center text-4xl leading-none"
               :style="{
                 backgroundColor: `${genreColor}20`,
                 border: `2px solid ${genreColor}`,
@@ -57,7 +57,7 @@
     <!-- FILTER PANEL -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <div
-      class="sticky top-26 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
+      class="sticky top-18 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
       <div>
         <FilterPanel

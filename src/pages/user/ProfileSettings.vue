@@ -12,7 +12,7 @@
       <div class="relative z-10 max-w-7xl mx-auto">
         <div class="md:flex items-center gap-4 hidden">
           <div
-            class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
+            class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
           >
             👤
           </div>
@@ -28,7 +28,7 @@
         <div class="grid items-center gap-4 md:hidden">
           <div class="flex items-center space-x-3">
             <div
-              class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
+              class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
             >
               👤
             </div>
@@ -150,7 +150,7 @@
             <button
               @click="saveAccountSettings"
               :disabled="saving"
-              class="w-full py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all disabled:opacity-50"
+              class="w-full py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all disabled:opacity-50 cursor-pointer"
             >
               {{ saving ? "Saving..." : "Save Changes" }}
             </button>
@@ -206,7 +206,7 @@
             <button
               @click="changePassword"
               :disabled="changingPassword"
-              class="w-full py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all disabled:opacity-50"
+              class="w-full py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all disabled:opacity-50 cursor-pointer"
             >
               {{ changingPassword ? "Updating..." : "Update Password" }}
             </button>
@@ -279,7 +279,11 @@
               <button
                 @click="autoplayTrailers = !autoplayTrailers"
                 class="relative w-14 h-7 rounded-full transition-all"
-                :class="autoplayTrailers ? 'bg-[#b20710]' : 'bg-gray-600'"
+                :class="
+                  autoplayTrailers
+                    ? 'bg-[#b20710] cursor-pointer'
+                    : 'bg-gray-600 cursor-pointer'
+                "
               >
                 <div
                   class="absolute top-1 left-1 w-5 h-5 bg-white rounded-full transition-transform"
@@ -292,7 +296,7 @@
             <button
               @click="savePreferences"
               :disabled="saving"
-              class="w-full py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all disabled:opacity-50"
+              class="w-full py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all disabled:opacity-50 cursor-pointer"
             >
               {{ saving ? "Saving..." : "Save Preferences" }}
             </button>
@@ -382,7 +386,7 @@
             <button
               @click="savePrivacySettings"
               :disabled="saving"
-              class="w-full py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all disabled:opacity-50"
+              class="w-full py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all disabled:opacity-50 cursor-pointer"
             >
               {{ saving ? "Saving..." : "Save Privacy Settings" }}
             </button>
@@ -400,14 +404,14 @@
           <div class="space-y-4">
             <button
               @click="confirmLogout"
-              class="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl font-[Gilroy-Bold] transition-all"
+              class="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl font-[Gilroy-Bold] transition-all cursor-pointer"
             >
               Sign Out
             </button>
 
             <button
               @click="confirmDeleteAccount"
-              class="w-full py-3 bg-red-600/20 hover:bg-red-600 border border-red-500/50 rounded-xl font-[Gilroy-Bold] text-red-400 hover:text-white transition-all"
+              class="w-full py-3 bg-red-600/20 hover:bg-red-600 border border-red-500/50 rounded-xl font-[Gilroy-Bold] text-red-400 hover:text-white transition-all cursor-pointer"
             >
               Delete Account
             </button>

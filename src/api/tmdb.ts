@@ -1,7 +1,8 @@
 import apiV3 from "./tmdbV3";
 import { genreMap, Person } from "@/types/media";
-import { Media, TVShow, Season, Episode } from "@/types/media"; // ✅ use your defined interfaces
-
+import { Media, TVShow, Season, Episode } from "@/types/media";
+import { COLLECTIONS, getCollectionByName } from "@/types/media";
+import type { Collection } from "@/types/media";
 export function normalize(item: any, mediaType?: "movie" | "tv"): Media {
   const mt = mediaType ?? item.media_type ?? (item.title ? "movie" : "tv");
 
@@ -9,9 +10,9 @@ export function normalize(item: any, mediaType?: "movie" | "tv"): Media {
     item.genres && item.genres.length
       ? item.genres
       : item.genre_ids?.map((id: number) => ({
-        id,
-        name: genreMap[id] || "Unknown",
-      })) || [];
+          id,
+          name: genreMap[id] || "Unknown",
+        })) || [];
 
   const base: Media = {
     ...item,
@@ -229,10 +230,7 @@ export const getMediaDetails = async (
   return fulfilled.length ? fulfilled[0].value : null;
 };
 
-export const getMediaVideos = async (
-  id: number,
-  mediaType: "movie" | "tv"
-) => {
+export const getMediaVideos = async (id: number, mediaType: "movie" | "tv") => {
   return mediaType === "movie" ? getMovieVideos(id) : getTVVideos(id);
 };
 
@@ -289,7 +287,6 @@ export const getActorCredits = async (personId: number) => {
   });
 };
 
-
 // --------------------------- SEARCH (MULTI) ---------------------------
 
 export const searchMulti = async (query: string, page = 1): Promise<any[]> => {
@@ -327,8 +324,7 @@ export const searchMoviesAndShows = async (
   return results.filter((item: any) => {
     const year =
       parseInt(
-        item.release_date?.slice(0, 4) ||
-        item.first_air_date?.slice(0, 4)
+        item.release_date?.slice(0, 4) || item.first_air_date?.slice(0, 4)
       ) || 0;
     const rating = item.vote_average || 0;
 
@@ -348,10 +344,7 @@ export const searchMoviesAndShows = async (
       : true;
 
     return (
-      matchesMediaType &&
-      matchesYearFrom &&
-      matchesYearTo &&
-      matchesRating
+      matchesMediaType && matchesYearFrom && matchesYearTo && matchesRating
     );
   });
 };
@@ -391,8 +384,7 @@ export const fetchUpcomingMedia = async (page = 1): Promise<Media[]> => {
 
   return values.sort(
     (a: any, b: any) =>
-      new Date(b.release_date).getTime() -
-      new Date(a.release_date).getTime()
+      new Date(b.release_date).getTime() - new Date(a.release_date).getTime()
   );
 };
 
@@ -450,22 +442,26 @@ export interface TrailerData {
 export const fetchAllTrailers = async (): Promise<TrailerData[]> => {
   const allTrailers: TrailerData[] = [];
 
-  // Fetch popular movies and their trailers
-  const [popularMovies, popularTV, trendingMovies, trendingTV] = await Promise.all([
-    fetchPopularMovies(1),
-    fetchPopularTV(1),
-    fetchTrendingMovies("week"),
-    fetchTrendingTV("week"),
-  ]);
+  const [popularMovies, popularTV, trendingMovies, trendingTV] =
+    await Promise.all([
+      fetchPopularMovies(1),
+      fetchPopularTV(1),
+      fetchTrendingMovies("week"),
+      fetchTrendingTV("week"),
+    ]);
 
   // Combine and deduplicate
-  const movies = [...popularMovies, ...trendingMovies].filter(
-    (item, index, self) => index === self.findIndex((t) => t.id === item.id)
-  ).slice(0, 10);
+  const movies = [...popularMovies, ...trendingMovies]
+    .filter(
+      (item, index, self) => index === self.findIndex((t) => t.id === item.id)
+    )
+    .slice(0, 10);
 
-  const tvShows = [...popularTV, ...trendingTV].filter(
-    (item, index, self) => index === self.findIndex((t) => t.id === item.id)
-  ).slice(0, 10);
+  const tvShows = [...popularTV, ...trendingTV]
+    .filter(
+      (item, index, self) => index === self.findIndex((t) => t.id === item.id)
+    )
+    .slice(0, 10);
 
   // Fetch videos for each media item
   const movieTrailerPromises = movies.map(async (movie) => {
@@ -533,104 +529,38 @@ export const fetchAllTrailers = async (): Promise<TrailerData[]> => {
 
   return allTrailers;
 };
-
-// --------------------------- COLLECTIONS ---------------------------
-
-export interface CollectionDefinition {
-  id: number;
-  title: string;
-  icon: string;
-  color: string;
-  description: string;
-  genreId: number;
-}
-
-export interface Collection extends CollectionDefinition {
-  items: Media[];
-}
-
-// Predefined curated collections
-export const CURATED_COLLECTIONS: CollectionDefinition[] = [
-  {
-    id: 1,
-    title: 'Epic Sci-Fi',
-    icon: '🚀',
-    color: '#3B82F6',
-    description: 'Mind-bending journeys through space and time',
-    genreId: 878
-  },
-  {
-    id: 2,
-    title: 'Tear-Jerkers',
-    icon: '😢',
-    color: '#EC4899',
-    description: 'Emotional stories that will move you',
-    genreId: 18
-  },
-  {
-    id: 3,
-    title: 'Mind-Benders',
-    icon: '🧠',
-    color: '#8B5CF6',
-    description: 'Psychological thrillers that keep you guessing',
-    genreId: 9648
-  },
-  {
-    id: 4,
-    title: 'Laugh Riots',
-    icon: '😂',
-    color: '#F59E0B',
-    description: 'Comedy gold for your viewing pleasure',
-    genreId: 35
-  },
-  {
-    id: 5,
-    title: 'Action Packed',
-    icon: '💥',
-    color: '#EF4444',
-    description: 'Non-stop thrills and explosive action',
-    genreId: 28
-  },
-  {
-    id: 6,
-    title: 'Love Stories',
-    icon: '💕',
-    color: '#F472B6',
-    description: 'Romantic tales that warm the heart',
-    genreId: 10749
-  },
-];
-
 /**
- * Fetch all curated collections with their movie items
+ * Fetch all collections with a preview of items (for grid view)
  */
-export const fetchCuratedCollections = async (
-  itemsPerCollection = 12
+export const fetchAllCollections = async (
+  itemsPerCollection = 8
 ): Promise<Collection[]> => {
-  const collectionPromises = CURATED_COLLECTIONS.map(async (col) => {
+  const collectionPromises = COLLECTIONS.map(async (col) => {
     try {
-      const res = await apiV3.get('/discover/movie', {
+      const res = await apiV3.get("/discover/movie", {
         params: {
-          with_genres: col.genreId,
-          sort_by: 'vote_average.desc',
-          'vote_count.gte': 1000,
+          with_genres: col.genreIds.join(","),
+          sort_by: "vote_average.desc",
+          "vote_count.gte": 1000,
           page: 1,
         },
       });
 
       const items = (res.data.results || [])
         .slice(0, itemsPerCollection)
-        .map((r: any) => normalize(r, 'movie'));
+        .map((r: any) => normalize(r, "movie"));
 
       return {
         ...col,
         items,
+        totalItems: res.data.total_results || 0,
       };
     } catch (error) {
-      console.error(`Failed to fetch collection ${col.id}:`, error);
+      console.error(`Failed to fetch collection ${col.name}:`, error);
       return {
         ...col,
         items: [],
+        totalItems: 0,
       };
     }
   });
@@ -639,51 +569,47 @@ export const fetchCuratedCollections = async (
 };
 
 /**
- * Fetch a single collection by ID with more items
+ * Fetch a single collection by name with pagination
  */
-export const fetchCollectionById = async (
-  collectionId: number,
-  itemCount = 20
+export const fetchCollectionByName = async (
+  collectionName: string,
+  page = 1,
+  itemsPerPage = 20
 ): Promise<Collection | null> => {
-  const collectionDef = CURATED_COLLECTIONS.find((c) => c.id === collectionId);
+  const collectionDef = getCollectionByName(collectionName);
 
   if (!collectionDef) {
-    console.error(`Collection ${collectionId} not found`);
+    console.error(`Collection "${collectionName}" not found`);
     return null;
   }
 
   try {
-    const res = await apiV3.get('/discover/movie', {
+    const res = await apiV3.get("/discover/movie", {
       params: {
-        with_genres: collectionDef.genreId,
-        sort_by: 'vote_average.desc',
-        'vote_count.gte': 1000,
-        page: 1,
+        with_genres: collectionDef.genreIds.join(","),
+        sort_by: "vote_average.desc",
+        "vote_count.gte": 1000,
+        page,
       },
     });
 
     const items = (res.data.results || [])
-      .slice(0, itemCount)
-      .map((r: any) => normalize(r, 'movie'));
+      .slice(0, itemsPerPage)
+      .map((r: any) => normalize(r, "movie"));
 
     return {
       ...collectionDef,
       items,
+      totalItems: res.data.total_results || 0,
+      currentPage: page,
     };
   } catch (error) {
-    console.error(`Failed to fetch collection ${collectionId}:`, error);
+    console.error(`Failed to fetch collection "${collectionName}":`, error);
     return {
       ...collectionDef,
       items: [],
+      totalItems: 0,
+      currentPage: page,
     };
   }
-};
-
-/**
- * Get collection definition by ID (without fetching items)
- */
-export const getCollectionDefinition = (
-  collectionId: number
-): CollectionDefinition | null => {
-  return CURATED_COLLECTIONS.find((c) => c.id === collectionId) || null;
 };

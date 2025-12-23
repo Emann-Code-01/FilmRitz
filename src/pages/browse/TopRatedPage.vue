@@ -7,7 +7,7 @@
       <div class="relative z-10 max-w-7xl mx-auto">
         <div class="md:flex items-center gap-4 hidden">
           <div
-            class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
+            class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
           >
             ⭐
           </div>
@@ -21,7 +21,7 @@
         <div class="grid items-center gap-4 md:hidden">
           <div class="flex items-center space-x-3">
             <div
-              class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
+              class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
             >
               ⭐
             </div>
@@ -35,7 +35,7 @@
     </div>
 
     <div
-      class="sticky top-26 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
+      class="sticky top-18 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
       <div class="px-6 md:px-10 max-w-7xl mx-auto">
         <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
@@ -86,28 +86,15 @@
           </div>
 
           <div
-            class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+            class="absolute inset-0 bg-linear-to-b from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
           ></div>
-
           <div
-            class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+            class="absolute top-3 left-3 font-[Gilroy-Bold] text-xs flex items-center gap-1"
           >
-            <h3 class="text-white font-[Gilroy-Bold] text-sm line-clamp-2 mb-2">
-              {{ item.title || item.name }}
-            </h3>
-            <div class="flex items-center gap-2">
-              <span class="text-yellow-400 text-xs"
-                >⭐ {{ item.vote_average?.toFixed(1) }}</span
-              >
-            </div>
+            <span class="text-yellow-400 text-base font-[Gilroy-Bold]"
+              >⭐ {{ item.vote_average?.toFixed(1) }}</span
+            >
           </div>
-
-          <!-- <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-            <div class="w-16 h-16 rounded-full bg-[#b20710] flex items-center justify-center shadow-2xl">
-              <span class="text-3xl text-white ml-1">▶</span>
-            </div>
-          </div> -->
-
           <div
             class="absolute top-3 right-3 px-3 py-1 bg-yellow-500/90 rounded-lg font-[Gilroy-Bold] text-xs text-black"
           >
