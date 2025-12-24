@@ -116,7 +116,7 @@
               <img
                 :src="getPoster(item.poster_path, 'w342')"
                 :alt="item.title || item.name"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
               />
             </div>
           </div>

@@ -140,7 +140,7 @@
             <img
               :src="`https://image.tmdb.org/t/p/w500${item.poster_path}`"
               :alt="item.title || item.name"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
             />
           </div>
 

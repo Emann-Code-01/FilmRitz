@@ -60,7 +60,7 @@
           <div class="aspect-2/3 overflow-hidden">
             <img
               :src="getImageUrl(item.poster_path)"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
             />
           </div>
 

@@ -82,7 +82,7 @@
             <img
               :src="`https://image.tmdb.org/t/p/w780${trailer.backdrop_path}`"
               :alt="trailer.title"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
               @error="handleImageError"
             />
           </div>

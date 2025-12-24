@@ -52,7 +52,7 @@
     <!-- FILTER PANEL -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <div
-      class="sticky top-18 md:top-18 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
+      class="sticky top-18 md:top-18 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
       <div class="px-6 max-w-7xl mx-auto">
         <!-- Category Tabs -->
@@ -177,7 +177,7 @@
             <img
               :src="getPoster(item.poster_path, 'w500')"
               :alt="item.title || item.name"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
             />
           </div>
 
@@ -226,17 +226,6 @@
               </router-link>
             </div>
           </div>
-
-          <!-- Play Icon (on hover)
-          <div
-            class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            <div
-              class="w-16 h-16 rounded-full bg-[#b20710] flex items-center justify-center shadow-2xl"
-            >
-              <span class="text-3xl text-white ml-1">▶</span>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
