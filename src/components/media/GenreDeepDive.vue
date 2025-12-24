@@ -3,38 +3,69 @@
     class="genre-deep-dive bg-linear-to-br from-black via-gray-900 to-black rounded-2xl overflow-hidden border border-white/5"
   >
     <div class="grid grid-cols-12 gap-0 min-h-[600px]">
+      <!-- Sidebar -->
       <div
-        class="col-span-12 md:col-span-3 bg-black/40 backdrop-blur-sm p-6 space-y-2 border-r border-white/5 hidden md:block"
+        class="col-span-12 lg:block bg-black/40 backdrop-blur-sm p-6 space-y-2 p-6 border-r border-white/5 transition-all duration-300 overflow-hidden hidden"
+        :class="isCollapsed ? 'lg:col-span-1 w-25' : 'md:col-span-3 w-full'"
       >
-        <h3 class="text-white font-[Gilroy-Bold] text-xl mb-4">
-          Browse Genres
-        </h3>
-
-        <button
-          v-for="genre in genres"
-          :key="genre.id"
-          @click="selectGenre(genre)"
-          class="w-full text-left px-4 py-3 rounded-xl font-[Gilroy-SemiBold] transition-all duration-300 flex items-center justify-between group cursor-pointer"
-          :class="
-            selectedGenre?.id === genre.id
-              ? 'bg-[#b20710] text-white shadow-lg shadow-[#b20710]/50'
-              : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
-          "
+        <div
+          class="flex items-center justify-between mb-4 transition-all duration-300 ease-in-out"
         >
-          <span class="flex items-center gap-3">
-            <span class="text-2xl">{{ genre.icon }}</span>
-            <span>{{ genre.name }}</span>
-          </span>
-          <i
-            class="pi pi-chevron-right opacity-0 group-hover:opacity-100 transition-opacity"
-            :class="selectedGenre?.id === genre.id && 'opacity-100'"
-          ></i>
-        </button>
+          <h3
+            v-if="!isCollapsed"
+            class="text-white font-[Gilroy-Bold] text-lg lg:text-xl text-nowrap"
+          >
+            Browse Genres
+          </h3>
+          <button
+            @click="isCollapsed = !isCollapsed"
+            class="px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white transition-all duration-300 cursor-pointer text-base lg:text-xl lg:block items-center justify-center w-fit hidden"
+          >
+            <i :class="isCollapsed ? 'pi pi-bars' : 'pi pi-times'"></i>
+          </button>
+        </div>
+
+        <div class="space-y-3 hidden lg:block">
+          <button
+            v-for="genre in genres"
+            :key="genre.id"
+            @click="selectGenre(genre)"
+            class="w-full text-left px-4 py-3 rounded-xl font-[Gilroy-SemiBold] transition-all duration-300 flex items-center group cursor-pointer"
+            :class="[
+              selectedGenre?.id === genre.id
+                ? 'bg-[#b20710] text-white shadow-lg shadow-[#b20710]/50'
+                : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white',
+            ]"
+          >
+            <span
+              class="flex items-center gap-3 w-full"
+              :class="isCollapsed ? 'justify-center' : ''"
+            >
+              <span class="text-2xl" :title="isCollapsed ? genre.name : ''">
+                {{ genre.icon }}
+              </span>
+              <span
+                v-if="!isCollapsed"
+                class="whitespace-nowrap transition-opacity duration-200"
+              >
+                {{ genre.name }}
+              </span>
+            </span>
+
+            <i
+              v-if="!isCollapsed"
+              class="pi pi-chevron-right opacity-0 group-hover:opacity-100 transition-opacity"
+              :class="selectedGenre?.id === genre.id && 'opacity-100'"
+            ></i>
+          </button>
+        </div>
       </div>
+
+      <!-- Mobile Listbox -->
       <Listbox
         v-model="selectedGenre"
         as="div"
-        class="col-span-12 md:col-span-3 bg-black/40 backdrop-blur-sm p-6 space-y-2 border-r border-white/5 md:hidden"
+        class="col-span-12 lg:hidden bg-black/40 backdrop-blur-sm p-6 space-y-2 border-b border-white/5"
       >
         <ListboxButton
           class="text-white font-[Gilroy-Bold] text-xl mb-4 flex items-center gap-3 justify-between w-full cursor-pointer bg-white/5 hover:bg-white/10 px-4 py-3 rounded-xl transition-all duration-300"
@@ -70,7 +101,12 @@
           </ListboxOption>
         </ListboxOptions>
       </Listbox>
-      <div class="col-span-12 md:col-span-9 p-6 relative">
+
+      <!-- Main Content -->
+      <div
+        class="col-span-12 md:col-span-9 p-6 relative transition-all duration-300"
+        :class="isCollapsed ? 'md:col-span-11' : 'md:col-span-9'"
+      >
         <div
           class="mb-6 p-4 rounded-xl backdrop-blur-sm transition-all duration-500"
           :style="{
@@ -113,19 +149,14 @@
             @mouseenter="handleHover(item)"
             @click="openModal(item)"
           >
-            <!-- Poster -->
             <img
               :src="getImageUrl(item.poster_path)"
               :alt="item.title || item.name"
               class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110"
             />
-
-            <!-- linear Overlay -->
             <div
               class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent"
             ></div>
-
-            <!-- Play Overlay (on hover) -->
             <div
               class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
             >
@@ -138,8 +169,6 @@
                 ></i>
               </div>
             </div>
-
-            <!-- Info -->
             <div class="absolute bottom-0 left-0 right-0 p-4">
               <h4
                 class="text-white font-[Gilroy-Bold] text-sm line-clamp-1 mb-1"
@@ -155,8 +184,6 @@
                 }}</span>
               </div>
             </div>
-
-            <!-- Genre Color Border -->
             <div
               class="absolute inset-0 border-2 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl pointer-events-none"
               :style="{ borderColor: selectedGenre?.color }"
@@ -177,8 +204,9 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 import {
   Listbox,
   ListboxOptions,
@@ -187,10 +215,10 @@ import {
 } from "@headlessui/vue";
 import { useModalStore } from "@/stores/modalStore";
 
+const isCollapsed = ref(false);
 const emit = defineEmits<{
   "update-ambient": [color: string];
 }>();
-
 const modalStore = useModalStore();
 
 interface Genre {
@@ -264,15 +292,13 @@ const selectedGenre = ref<Genre>(genres.value[0]);
 const genreItems = ref<any[]>([]);
 const loading = ref(false);
 
-const getImageUrl = (path: string | null): string => {
-  return path
+const getImageUrl = (path: string | null): string =>
+  path
     ? `https://image.tmdb.org/t/p/w500${path}`
     : "https://placehold.co/500x750/0f0f0f/FF0000?text=NO+IMAGE";
-};
 
-const formatYear = (date: string): string => {
-  return date ? new Date(date).getFullYear().toString() : "TBA";
-};
+const formatYear = (date: string): string =>
+  date ? new Date(date).getFullYear().toString() : "TBA";
 
 const selectGenre = async (genre: Genre) => {
   selectedGenre.value = genre;
