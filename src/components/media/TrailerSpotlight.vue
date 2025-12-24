@@ -158,7 +158,7 @@
 
               <!-- Color Accent Border (on hover) -->
               <div
-                class="absolute inset-0 border-2 border-[#b20710] rounded-2xl transition-opacity duration-300 pointer-events-none"
+                class="absolute inset-0 border-2 border-[#b20710] rounded-2xl transition-opacity duration-500 pointer-events-none"
                 :class="
                   hoveredItem?.id === item.id ? 'opacity-100' : 'opacity-0'
                 "

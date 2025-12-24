@@ -83,10 +83,10 @@
                 @click.prevent.stop="modalStore.open(item.media_type, { id: item.id })"
                 class="relative group cursor-pointer rounded-lg overflow-hidden shadow-lg">
                 <img :src="getPoster(item.poster_path)" alt="poster"
-                    class="w-full object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
+                    class="w-full object-cover rounded-lg transition-transform duration-500 group-hover:scale-105"
                     @click="openModal(item)" />
                 <div
-                    class="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
+                    class="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-2 transition-opacity duration-500 opacity-0 group-hover:opacity-100">
                     <h3 class="text-lg font-[Gilroy-SemiBold] line-clamp-2">
                         {{ item.title || item.name }}
                     </h3>
@@ -128,7 +128,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
-import { useHead } from "#imports"; // Nuxt composable for SEO
+import { useHead } from "#imports";
 import { useMedia } from "../../src/composables/useMedia";
 import { useModalStore } from "../../src/stores/modalStore";
 import { genreMap } from "../../src/types/media";

@@ -25,7 +25,7 @@
       
       <!-- Hero Banner -->
       <div 
-        class="relative h-screen overflow-hidden duration-300 transition-all"
+        class="relative h-screen overflow-hidden duration-500 transition-all"
         :style="{
           backgroundImage: latestSeason?.poster_path || tv.backdrop_path
             ? `url(https://image.tmdb.org/t/p/original${latestSeason?.poster_path || tv.backdrop_path})`
@@ -128,7 +128,7 @@
                 </div>
 
                 <!-- Toggle Icon -->
-                <button class="ml-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center transition-transform duration-300 cursor-pointer"
+                <button class="ml-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center transition-transform duration-500 cursor-pointer"
                   :class="selectedSeason === season.season_number && 'rotate-180'"
                 >
                   <i class="pi pi-chevron-down"></i>

@@ -47,7 +47,7 @@
             v-for="filter in filters"
             :key="filter.value"
             @click="selectedFilter = filter.value"
-            class="shrink-0 px-6 py-3 rounded-full font-[Gilroy-SemiBold] transition-all duration-300 cursor-pointer"
+            class="shrink-0 px-6 py-3 rounded-full font-[Gilroy-SemiBold] transition-all duration-500 cursor-pointer"
             :class="
               selectedFilter === filter.value
                 ? 'bg-[#b20710] text-white'
@@ -94,7 +94,7 @@
           ></div>
 
           <div
-            class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+            class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"
           >
             <h3 class="text-white font-[Gilroy-Bold] text-sm line-clamp-2 mb-2">
               {{ item.title || item.name }}

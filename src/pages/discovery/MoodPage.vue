@@ -58,7 +58,7 @@
             v-for="m in moods"
             :key="m.id"
             @click="selectMood(m)"
-            class="shrink-0 px-6 py-3 rounded-full font-[Gilroy-SemiBold] transition-all duration-300 flex items-center gap-2 cursor-pointer"
+            class="shrink-0 px-6 py-3 rounded-full font-[Gilroy-SemiBold] transition-all duration-500 flex items-center gap-2 cursor-pointer"
             :style="
               mood?.id === m.id
                 ? { backgroundColor: m.color, color: 'white' }
@@ -116,7 +116,7 @@
 
           <!-- Info Overlay -->
           <div
-            class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+            class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"
           >
             <h3 class="text-white font-[Gilroy-Bold] text-sm line-clamp-2 mb-2">
               {{ item.title || item.name }}

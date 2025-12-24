@@ -43,7 +43,7 @@
 
           <!-- Heart Toggle Button -->
           <button @click="toggleWatchlist"
-            class="px-4 py-2 flex items-center gap-2 rounded-xl font-[Gilroy-Medium] bg-gray-800 hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 cursor-pointer">
+            class="px-4 py-2 flex items-center gap-2 rounded-xl font-[Gilroy-Medium] bg-gray-800 hover:bg-gray-700 transition-transform duration-300 transform hover:scale-105 cursor-pointer">
             <span :class="{ 'text-red-500 animate-pulse': inWatchlist }">♥</span>
             <span>{{ inWatchlist ? "Added to My List" : "Add to My List" }}</span>
           </button>
@@ -83,7 +83,7 @@
           Discover</button>
 
         <button @click="toggleWatchlist"
-          class="px-4 py-2 flex items-center gap-2 rounded-xl font-[Gilroy-Medium] bg-gray-800 hover:bg-gray-700 transition-all duration-300 transform hover:scale-105">
+          class="px-4 py-2 flex items-center gap-2 rounded-xl font-[Gilroy-Medium] bg-gray-800 hover:bg-gray-700 transition-transform duration-300 transform hover:scale-105">
           <span :class="{ 'text-red-500 animate-pulse': inWatchlist }">♥</span>
           <span>{{ inWatchlist ? "Added to My List" : "Add to My List" }}</span>
         </button>
@@ -101,7 +101,7 @@
     <!-- Latest Season, Cast, Similar Titles remain unchanged -->
     <div v-if="isTv && latestSeason" class="px-8 space-y-4 mt-10">
       <h2 class="text-2xl font-[Gilroy-Bold]">Latest Season</h2>
-      <div class="bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-all duration-300">
+      <div class="bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-all duration-500">
         <div class="flex md:flex-row gap-4">
           <img v-if="latestSeason.poster_path" :src="`https://image.tmdb.org/t/p/w1280${latestSeason.poster_path}`"
             alt="Season Poster" class="w-40 h-56 rounded-xl object-cover" loading="lazy" />
@@ -125,7 +125,7 @@
       <div class="flex gap-4 overflow-x-auto pb-3">
         <div v-for="actor in cast" :key="actor.id" class="shrink-0 w-28 text-center py-3">
           <img v-if="actor.profile_path" :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
-            class="rounded-xl mb-1 hover:scale-105 transition-all duration-300" loading="lazy" />
+            class="rounded-xl mb-1 hover:scale-105 transition-all duration-500" loading="lazy" />
           <p class="text-sm font-[Gilroy-SemiBold] line-clamp-1">{{ actor.name }}</p>
           <p class="text-xs text-gray-400 font-[Gilroy-Medium] line-clamp-1">{{ actor.character }}</p>
         </div>
@@ -180,13 +180,13 @@ import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import { useWatchlistStore } from "../../src/stores/watchlist";
 import { genreMap } from "../../src/types/media";
-import { useHead } from "#imports";
+import { useHead } from "@unhead/vue";
 
 const route = useRoute();
 const router = useRouter();
 
 const baseUrl = "https://image.tmdb.org/t/p/w1280";
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY as string;
 
 const media = ref<any | null>(null);
 const cast = ref<any[]>([]);

@@ -88,7 +88,7 @@
           v-for="item in visibleResults"
           :key="item.id + '-' + (item.media_type || 'unknown')"
           @click="openMediaModal(item)"
-          class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all duration-300 hover:scale-105"
+          class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all duration-500 hover:scale-105"
         >
           <!-- Poster -->
           <div class="aspect-2/3 overflow-hidden">
@@ -105,7 +105,7 @@
           ></div>
 
           <div
-            class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+            class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"
           >
             <h3 class="text-white font-[Gilroy-Bold] text-sm line-clamp-2 mb-2">
               {{ item.title || item.name }}

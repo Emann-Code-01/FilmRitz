@@ -46,7 +46,7 @@
             <!-- Date Marker (on timeline) -->
             <div class="relative z-10 mb-4">
               <div
-                class="w-4 h-4 rounded-full bg-[#b20710] mx-auto border-4 border-black shadow-lg group-hover:scale-150 transition-transform duration-300"
+                class="w-4 h-4 rounded-full bg-[#b20710] mx-auto border-4 border-black shadow-lg group-hover:scale-150 transition-transform duration-500"
               ></div>
               <div
                 class="absolute top-6 left-1/2 -translate-x-1/2 whitespace-nowrap"
@@ -61,7 +61,7 @@
 
             <!-- Card -->
             <div
-              class="relative overflow-hidden rounded-xl shadow-xl mt-8 transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-[#b20710]/30"
+              class="relative overflow-hidden rounded-xl shadow-xl mt-8 transform transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-[#b20710]/30"
             >
               <!-- Poster -->
               <img
@@ -72,7 +72,7 @@
 
               <!-- Mini Trailer Preview (circular, on hover) -->
               <div
-                class="absolute inset-0 flex items-center justify-center bg-black/70 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                class="absolute inset-0 flex items-center justify-center bg-black/70 opacity-0 group-hover:opacity-100 transition-all duration-500"
               >
                 <div
                   class="w-16 h-16 rounded-full bg-[#b20710] flex items-center justify-center animate-pulse"
@@ -247,7 +247,7 @@ onMounted(() => {
   transition-property: opacity;
   /* transition-opacity */
   transition-duration: 300ms;
-  /* duration-300 */
+  /* duration-500 */
 }
 
 .timeline-swiper:hover .swiper-button-prev,

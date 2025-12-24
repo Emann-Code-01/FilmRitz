@@ -80,7 +80,7 @@
             <div class="aspect-2/3 overflow-hidden">
               <img
                 :src="getPoster(item.poster_path)"
-                class="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
+                class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
               />
             </div>
 
@@ -89,7 +89,7 @@
             ></div>
 
             <div
-              class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+              class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"
             >
               <h3
                 class="text-white font-[Gilroy-Bold] text-sm line-clamp-2 mb-2"

@@ -38,10 +38,10 @@
             loading="lazy"
             :src="getImageUrl(mediaList[0].backdrop_path)"
             :alt="mediaList[0].title || mediaList[0].name"
-            class="w-full h-full min-h-[500px] object-cover transition-transform duration-700 group-hover:scale-110"
+            class="w-full h-full min-h-[500px] object-cover transition-all duration-500 group-hover:scale-110"
           />
           <div
-            class="absolute inset-0 border-l-4 transition-all duration-300"
+            class="absolute inset-0 border-l-4 transition-all duration-500"
             :style="{ borderColor: getTemperatureColor(0) }"
           />
           <div
@@ -62,15 +62,15 @@
             </div>
           </div>
           <!-- <div
-            class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-black/40">
+            class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 bg-black/40">
             <div
-              class="w-24 h-24 rounded-full bg-[#b20710] flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform duration-300 shadow-2xl">
+              class="w-24 h-24 rounded-full bg-[#b20710] flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform duration-500 shadow-2xl">
               <i class="pi pi-info-circle text-5xl text-white hover:text-[#ffffffec]"></i>
             </div>
           </div> -->
 
           <div
-            class="absolute bottom-8 left-8 right-8 transition-all duration-300 transform lg:translate-y-16 lg:group-hover:translate-y-0"
+            class="absolute bottom-8 left-8 right-8 transition-transform duration-300 transform lg:translate-y-16 lg:group-hover:translate-y-0"
           >
             <h3
               class="text-4xl font-[Gilroy-Bold] text-white mb-3 line-clamp-2 drop-shadow-2xl"
@@ -132,12 +132,12 @@
             loading="lazy"
             :src="getImageUrl(item.backdrop_path)"
             :alt="item.title || item.name"
-            class="w-full h-64 md:h-72 object-cover transition-transform duration-700 group-hover:scale-110"
+            class="w-full h-64 md:h-72 object-cover transition-all duration-500 group-hover:scale-110"
           />
 
           <!-- Temperature Border -->
           <div
-            class="absolute inset-0 border-l-4 transition-all duration-300"
+            class="absolute inset-0 border-l-4 transition-all duration-500"
             :style="{ borderColor: getTemperatureColor(index + 1) }"
           />
 
@@ -165,9 +165,9 @@
 
           <!-- Play Button Overlay
           <div
-            class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-black/40">
+            class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 bg-black/40">
             <div
-              class="w-16 h-16 rounded-full bg-[#b20710] flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform duration-300">
+              class="w-16 h-16 rounded-full bg-[#b20710] flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform duration-500">
               <i class="pi pi-info-circle text-5xl text-white hover:text-[#ffffffec]"></i>
             </div>
           </div> -->
@@ -210,7 +210,7 @@
         <router-link
           v-if="!auth.isLoggedIn"
           to="/ng/login"
-          class="col-span-6 md:col-span-3 h-64 md:h-72 bg-linear-to-br from-[#b20710] to-[#8a0509] rounded-xl flex flex-col items-center justify-center gap-4 hover:scale-105 transition-all duration-300 cursor-pointer group"
+          class="col-span-6 md:col-span-3 h-64 md:h-72 bg-linear-to-br from-[#b20710] to-[#8a0509] rounded-xl flex flex-col items-center justify-center gap-4 hover:scale-105 transition-all duration-500 cursor-pointer group"
         >
           <div
             class="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-all"

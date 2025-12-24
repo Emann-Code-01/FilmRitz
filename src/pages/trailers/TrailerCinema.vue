@@ -303,7 +303,7 @@
             v-for="item in trailerItems"
             :key="item.id"
             @click="selectTrailer(item)"
-            class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border transition-all duration-300 hover:scale-105"
+            class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border transition-all duration-500 hover:scale-105"
             :class="
               currentTrailer?.id === item.id
                 ? 'border-[#b20710] shadow-lg shadow-[#b20710]/50'

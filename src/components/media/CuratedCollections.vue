@@ -19,7 +19,7 @@
       >
         <!-- Card Container -->
         <div
-          class="relative h-96 rounded-2xl overflow-hidden bg-linear-to-br from-gray-900 to-black border border-white/10 transition-all duration-300 group-hover:border-white/30 group-hover:scale-105"
+          class="relative h-96 rounded-2xl overflow-hidden bg-linear-to-br from-gray-900 to-black border border-white/10 transition-all duration-500 group-hover:border-white/30 group-hover:scale-105"
         >
           <div
             class="absolute inset-0 opacity-20"
@@ -38,7 +38,7 @@
               <img
                 :src="getImageUrl(item.poster_path)"
                 :alt="item.title"
-                class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-300"
+                class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500"
               />
             </div>
           </div>
@@ -90,7 +90,7 @@
             <!-- Explore Button -->
             <button
               @click.stop="navigateToCollection(collection)"
-              class="w-full py-3 rounded-xl font-[Gilroy-Bold] text-white transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
+              class="w-full py-3 rounded-xl font-[Gilroy-Bold] text-white transition-all duration-500 flex items-center justify-center gap-2 cursor-pointer"
               :style="{
                 backgroundColor: collection.color,
               }"
@@ -115,7 +115,7 @@
 
           <!-- Hover Glow Effect -->
           <div
-            class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+            class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
             :style="{
               boxShadow: `0 0 60px ${collection.color}80`,
             }"

@@ -5,11 +5,11 @@
     <div class="grid grid-cols-12 gap-0 min-h-[600px]">
       <!-- Sidebar -->
       <div
-        class="col-span-12 lg:block bg-black/40 backdrop-blur-sm p-6 space-y-2 p-6 border-r border-white/5 transition-all duration-300 overflow-hidden hidden"
+        class="col-span-12 lg:block bg-black/40 backdrop-blur-sm space-y-2 p-6 border-r border-white/5 transition-all duration-500 overflow-hidden hidden"
         :class="isCollapsed ? 'lg:col-span-1 w-25' : 'md:col-span-3 w-full'"
       >
         <div
-          class="flex items-center justify-between mb-4 transition-all duration-300 ease-in-out"
+          class="flex items-center justify-between mb-4 transition-all duration-500 ease-in-out"
         >
           <h3
             v-if="!isCollapsed"
@@ -19,7 +19,7 @@
           </h3>
           <button
             @click="isCollapsed = !isCollapsed"
-            class="px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white transition-all duration-300 cursor-pointer text-base lg:text-xl lg:block items-center justify-center w-fit hidden"
+            class="px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white transition-all duration-500 cursor-pointer text-base lg:text-xl lg:block items-center justify-center w-fit hidden"
           >
             <i :class="isCollapsed ? 'pi pi-bars' : 'pi pi-times'"></i>
           </button>
@@ -30,7 +30,7 @@
             v-for="genre in genres"
             :key="genre.id"
             @click="selectGenre(genre)"
-            class="w-full text-left px-4 py-3 rounded-xl font-[Gilroy-SemiBold] transition-all duration-300 flex items-center group cursor-pointer"
+            class="w-full text-left px-4 py-3 rounded-xl font-[Gilroy-SemiBold] transition-all duration-500 flex items-center group cursor-pointer"
             :class="[
               selectedGenre?.id === genre.id
                 ? 'bg-[#b20710] text-white shadow-lg shadow-[#b20710]/50'
@@ -68,13 +68,13 @@
         class="col-span-12 lg:hidden bg-black/40 backdrop-blur-sm p-6 space-y-2 border-b border-white/5"
       >
         <ListboxButton
-          class="text-white font-[Gilroy-Bold] text-xl mb-4 flex items-center gap-3 justify-between w-full cursor-pointer bg-white/5 hover:bg-white/10 px-4 py-3 rounded-xl transition-all duration-300"
+          class="text-white font-[Gilroy-Bold] text-xl mb-4 flex items-center gap-3 justify-between w-full cursor-pointer bg-white/5 hover:bg-white/10 px-4 py-3 rounded-xl transition-all duration-500"
         >
           <span class="flex items-center gap-3">
             <span class="text-2xl">{{ selectedGenre?.icon }}</span>
             <span>{{ selectedGenre?.name }}</span>
           </span>
-          <i class="pi pi-chevron-down transition-all duration-300"></i>
+          <i class="pi pi-chevron-down transition-all duration-500"></i>
         </ListboxButton>
 
         <ListboxOptions class="space-y-2 mt-2">
@@ -87,7 +87,7 @@
             as="template"
           >
             <li
-              class="w-full text-left px-4 py-3 rounded-xl font-[Gilroy-SemiBold] transition-all duration-300 flex items-center justify-between group cursor-pointer"
+              class="w-full text-left px-4 py-3 rounded-xl font-[Gilroy-SemiBold] transition-all duration-500 flex items-center justify-between group cursor-pointer"
               :class="[
                 selected || active
                   ? 'bg-[#b20710] text-white shadow-lg shadow-[#b20710]/50'
@@ -105,7 +105,7 @@
 
       <!-- Main Content -->
       <div
-        class="col-span-12 md:col-span-9 p-6 relative transition-all duration-300"
+        class="col-span-12 md:col-span-9 p-6 relative transition-all duration-500"
         :class="isCollapsed ? 'md:col-span-11' : 'md:col-span-9'"
       >
         <div
@@ -146,14 +146,14 @@
           <div
             v-for="item in genreItems"
             :key="item.id"
-            class="relative rounded-xl overflow-hidden cursor-pointer group transition-all duration-300 hover:scale-105 hover:z-10"
+            class="relative rounded-xl overflow-hidden cursor-pointer group transition-all duration-500 hover:scale-105 hover:z-10"
             @mouseenter="handleHover(item)"
             @click="openModal(item)"
           >
             <img
               :src="getImageUrl(item.poster_path)"
               :alt="item.title || item.name"
-              class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110"
+              class="w-full h-80 object-cover transition-all duration-500 group-hover:scale-110"
             />
             <div
               class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent"

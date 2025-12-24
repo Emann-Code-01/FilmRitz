@@ -229,7 +229,7 @@
                 v-if="actor.profile_path"
                 :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
                 :alt="actor.name"
-                class="w-full h-44 object-cover group-hover:scale-110 transition-transform duration-300"
+                class="w-full h-44 object-cover group-hover:scale-110 transition-transform duration-500"
                 loading="lazy"
               />
               <div
@@ -269,7 +269,7 @@
                     : 'https://placehold.co/342x513/0f0f0f/FF0000?text=NO+IMAGE'
                 "
                 :alt="sim.title || sim.name"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 loading="lazy"
               />
             </div>

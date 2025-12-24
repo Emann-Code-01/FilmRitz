@@ -13,7 +13,7 @@
             : 'https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat'
         "
         :alt="media.title"
-        class="w-full h-full object-cover group-hover:scale-105 transition-all duration-300"
+        class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
         @click="openModal"
       />
       <div

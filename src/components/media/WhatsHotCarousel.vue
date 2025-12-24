@@ -65,7 +65,7 @@
 
               <!-- Play Button (on hover)
               <div
-                class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
                 <div
                   class="w-20 h-20 rounded-full bg-[#b20710] flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform">
                   <i class="pi pi-info-circle text-5xl text-white hover:text-[#ffffffec]"></i>
@@ -74,7 +74,7 @@
 
               <!-- Info (on hover) -->
               <div
-                class="absolute bottom-0 left-0 right-0 p-6 transform lg:translate-y-full lg:group-hover:translate-y-0 transition-transform duration-300 animate-fade-up"
+                class="absolute bottom-0 left-0 right-0 p-6 transform lg:translate-y-full lg:group-hover:translate-y-0 transition-transform duration-500 animate-fade-up"
               >
                 <h3 class="text-xl font-[Gilroy-Bold] text-white mb-2">
                   {{ item.title || item.name }}

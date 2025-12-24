@@ -9,7 +9,7 @@
         class="relative w-full max-w-4xl h-[40em] overflow-hidden rounded-xl text-white shadow-xl animate-pulse"
       >
         <div
-          class="absolute inset-0 bg-white/10 bg-fixed bg-center bg-cover mx-auto bg-no-repeat transition-all duration-300 animate-pulse"
+          class="absolute inset-0 bg-white/10 bg-fixed bg-center bg-cover mx-auto bg-no-repeat transition-all duration-500 animate-pulse"
         ></div>
         <div
           class="absolute inset-0 bg-linear-to-t from-black/80 via-black/50 to-transparent"
@@ -68,7 +68,7 @@
                 ></div>
                 <button
                   @click="modalStore.closeModal"
-                  class="hover:bg-[#b20710]/70 absolute top-6 right-6 rounded-full p-1 transition-all duration-300 z-20 cursor-pointer"
+                  class="hover:bg-[#b20710]/70 absolute top-6 right-6 rounded-full p-1 transition-all duration-500 z-20 cursor-pointer"
                 >
                   <svg
                     viewBox="0 0 36 36"

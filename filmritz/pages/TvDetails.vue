@@ -91,7 +91,7 @@
                   <div class="relative h-[70vh] bg-cover bg-center" :style="episodeBgStyle">
                     <div class="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent"></div>
                     <button @click="closeModal"
-                      class="hover:bg-[#b20710]/70 absolute top-6 right-6 rounded-full p-1 transition-all duration-300 z-20">
+                      class="hover:bg-[#b20710]/70 absolute top-6 right-6 rounded-full p-1 transition-all duration-500 z-20">
                       <svg viewBox="0 0 36 36" width="36" height="36" class="transform -rotate-45" fill="currentColor">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M17 17V3H19V17H33V19H19V33H17V19H3V17H17Z" />
                       </svg>

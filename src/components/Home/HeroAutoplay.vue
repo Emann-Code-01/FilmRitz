@@ -79,7 +79,7 @@
         v-for="(slide, index) in slides"
         :key="slide.id"
         @click="currentSlideIndex = index"
-        class="w-2 h-2 rounded-full transition-all duration-300"
+        class="w-2 h-2 rounded-full transition-all duration-500"
         :class="index === currentSlideIndex ? 'bg-white w-8' : 'bg-white/40'"
       />
     </div>

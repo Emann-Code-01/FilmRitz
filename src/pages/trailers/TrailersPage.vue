@@ -57,7 +57,7 @@
             v-for="cat in categories"
             :key="cat.value"
             @click="selectedCategory = cat.value"
-            class="px-6 py-2.5 rounded-full font-[Gilroy-SemiBold] whitespace-nowrap transition-all duration-300 cursor-pointer"
+            class="px-6 py-2.5 rounded-full font-[Gilroy-SemiBold] whitespace-nowrap transition-all duration-500 cursor-pointer"
             :class="
               selectedCategory === cat.value
                 ? 'bg-[#b20710] text-white shadow-lg shadow-[#b20710]/50'

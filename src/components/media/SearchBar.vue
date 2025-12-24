@@ -2,7 +2,7 @@
 <template>
   <div class="relative z-40 w-full mx-auto">
     <div
-      class="flex items-center gap-3 bg-white/10 backdrop-blur-xl w-xs md:w-xl mx-auto px-4 py-3 rounded-full border border-white/10 focus-within:ring-2 ring-red-500/70 transition-all duration-300">
+      class="flex items-center gap-3 bg-white/10 backdrop-blur-xl w-xs md:w-xl mx-auto px-4 py-3 rounded-full border border-white/10 focus-within:ring-2 ring-red-500/70 transition-all duration-500">
       <i class="pi pi-search text-gray-300 text-lg"></i>
       <input v-model="query" type="text" placeholder="Search for movies, tv shows, or genres..."
         class="flex-1 bg-transparent outline-none text-white placeholder-gray-400 font-[Gilroy-Medium] text-lg"
@@ -20,7 +20,7 @@
     </div>
 
     <div v-if="searchResults.length > 0 && query"
-      class="absolute top-[110%] w-full bg-black/90 backdrop-blur-2xl rounded-2xl border border-white/10 shadow-2xl max-h-[60vh] overflow-y-auto transition-all duration-300">
+      class="absolute top-[110%] w-full bg-black/90 backdrop-blur-2xl rounded-2xl border border-white/10 shadow-2xl max-h-[60vh] overflow-y-auto transition-all duration-500">
       <div role="status" v-for="item in limitedResults" :key="item.id + '-' + item.media_type"
         class="flex items-center gap-4 p-3 hover:bg-white/10 cursor-pointer transition-all duration-200"
         @click="selectMovie(item)">

@@ -88,7 +88,7 @@
             v-for="col in allCollections"
             :key="col.id"
             @click="switchCollection(col.name)"
-            class="shrink-0 px-4 py-2 rounded-xl font-[Gilroy-SemiBold] text-sm transition-all duration-300 cursor-pointer"
+            class="shrink-0 px-4 py-2 rounded-xl font-[Gilroy-SemiBold] text-sm transition-all duration-500 cursor-pointer"
             :class="
               col.name === collection?.name
                 ? 'text-white'
@@ -151,7 +151,7 @@
 
           <!-- Info Overlay -->
           <div
-            class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+            class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"
           >
             <h3 class="text-white font-[Gilroy-Bold] text-sm line-clamp-2 mb-2">
               {{ item.title || item.name }}

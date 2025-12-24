@@ -22,7 +22,7 @@
                         <!-- Mood Segments -->
                         <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
                             <g v-for="(mood, index) in moods" :key="mood.id" @click="selectMood(mood)"
-                                @mouseenter="handleHoverMood(mood)" class="cursor-pointer transition-all duration-300"
+                                @mouseenter="handleHoverMood(mood)" class="cursor-pointer transition-all duration-500"
                                 :class="selectedMood?.id === mood.id && 'scale-110'">
                                 <!-- Segment Path -->
                                 <path :d="getSegmentPath(index, moods.length)" :fill="mood.color"
@@ -41,7 +41,7 @@
 
                         <!-- Mood Labels (around wheel) -->
                         <div v-for="(mood, index) in moods" :key="`label-${mood.id}`"
-                            class="absolute font-[Gilroy-SemiBold] text-sm transition-all duration-300 cursor-pointer"
+                            class="absolute font-[Gilroy-SemiBold] text-sm transition-all duration-500 cursor-pointer"
                             :style="getLabelPosition(index, moods.length)" @click="selectMood(mood)"
                             :class="selectedMood?.id === mood.id ? 'text-white scale-110' : 'text-gray-400'">
                             {{ mood.name }}
