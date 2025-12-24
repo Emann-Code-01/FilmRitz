@@ -81,6 +81,7 @@
           <ListboxOption
             v-for="genre in genres"
             :key="genre.id"
+            @click="selectGenre(genre)"
             v-slot="{ active, selected }"
             :value="genre"
             as="template"
