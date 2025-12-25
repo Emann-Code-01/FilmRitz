@@ -159,14 +159,12 @@ const handleIframeLoad = () => {
   isLoading.value = false;
 };
 
-// Close on Escape key
 const handleKeydown = (e: KeyboardEvent) => {
   if (e.key === "Escape" && props.isOpen) {
     close();
   }
 };
 
-// Reset loader on open or trailer change
 watch(
   () => [props.isOpen, props.trailer],
   ([isOpen]) => {
