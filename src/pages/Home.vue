@@ -12,15 +12,22 @@
     <div v-else class="relative">
       <!-- 🌈 Global Ambient Lighting Layer -->
       <div
-        class="fixed inset-0 pointer-events-none transition-all duration-1000 z-0"
-        :class="{
-          'blur-3xl opacity-50': canHandleAdvancedEffects,
-          'opacity-0': !canHandleAdvancedEffects,
-        }"
+        v-if="canHandleAdvancedEffects"
+        class="fixed inset-0 pointer-events-none transition-all duration-1000 z-0 blur-3xl opacity-50"
         :style="{
           background: `radial-gradient(circle at ${ambientPosition.x}% ${ambientPosition.y}%, ${ambientColor}40 0%, ${ambientColor}20 30%, transparent 70%)`,
         }"
       />
+
+      <!-- Dev-only debug toggle for testing ambient effects -->
+      <div v-if="isDev" class="fixed bottom-4 right-4 z-50 space-y-2">
+        <button
+          @click="canHandleAdvancedEffects = !canHandleAdvancedEffects"
+          class="px-3 py-2 rounded bg-white/10 text-white backdrop-blur block w-full text-left"
+        >
+          Ambient: {{ canHandleAdvancedEffects ? "ON" : "OFF" }}
+        </button>
+      </div>
 
       <!-- Content Wrapper -->
       <div class="relative z-10">
@@ -98,40 +105,6 @@
               </div>
               <TrailerSpotlight @update-ambient="updateAmbientColor" />
             </section>
-            <!-- <section class="px-4 md:px-8 lg:px-12">
-              <div
-                class="md:flex items-center md:items-start justify-between grid gap-3 mb-6"
-              >
-                <h2
-                  class="text-3xl font-[Gilroy-Bold] text-white flex items-center gap-3"
-                >
-                  <span class="text-4xl">📅</span>
-                  New Releases
-                </h2>
-                <div class="flex gap-2">
-                  <button
-                    v-for="period in ['This Week', 'Last Week', 'This Month']"
-                    :key="period"
-                    @click="selectedPeriod = period"
-                    class="px-4 py-2 rounded-lg font-[Gilroy-SemiBold] transition-all cursor-pointer"
-                    :class="
-                      selectedPeriod === period
-                        ? 'bg-[#b20710] text-white'
-                        : 'bg-white/10 text-gray-400 hover:bg-white/20'
-                    "
-                  >
-                    {{ period }}
-                  </button>
-                </div>
-              </div>
-              <NewReleasesTimeline
-                :period="selectedPeriod"
-                @update-ambient="updateAmbientColor"
-              />
-            </section> -->
-            <!-- ─────────────────────────────────────────────────────────── -->
-            <!-- 7. TOP RATED — Enhanced Original Section -->
-            <!-- ─────────────────────────────────────────────────────────── -->
             <section class="px-4 md:px-8 lg:px-12">
               <h2
                 class="text-3xl font-[Gilroy-Bold] text-white mb-6 flex items-center gap-3"
@@ -141,10 +114,6 @@
               </h2>
               <TopRated @update-ambient="updateAmbientColor" />
             </section>
-
-            <!-- ─────────────────────────────────────────────────────────── -->
-            <!-- 8. CURATED COLLECTIONS — Card Stack -->
-            <!-- ─────────────────────────────────────────────────────────── -->
             <section class="px-4 md:px-8 lg:px-12">
               <div class="flex items-center justify-between mb-6">
                 <h2
@@ -160,16 +129,11 @@
                   View All →
                 </router-link>
               </div>
-
               <CuratedCollections
                 :limit="3"
                 @update-ambient="updateAmbientColor"
               />
             </section>
-
-            <!-- ─────────────────────────────────────────────────────────── -->
-            <!-- 9. UpComing — Enhanced with Countdown -->
-            <!-- ─────────────────────────────────────────────────────────── -->
             <section class="px-4 md:px-8 lg:px-12">
               <h2
                 class="text-3xl font-[Gilroy-Bold] text-white mb-6 flex items-center gap-3"
@@ -179,10 +143,6 @@
               </h2>
               <UpComing @update-ambient="updateAmbientColor" />
             </section>
-
-            <!-- ─────────────────────────────────────────────────────────── -->
-            <!-- 10. EXPLORE BY MOOD — Interactive Wheel (Optional) -->
-            <!-- ─────────────────────────────────────────────────────────── -->
             <section
               v-if="canHandleAdvancedEffects"
               class="px-4 md:px-8 lg:px-12"
@@ -207,10 +167,7 @@ import { ref, computed, onMounted } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useHead } from "@unhead/vue";
 
-// ══════════════════════════════════════════════════════════════════════════
-// COMPONENTS
-// ══════════════════════════════════════════════════════════════════════════
-// Existing
+// Components
 import SplashScreen from "./SplashScreen.vue";
 import HeroSection from "@/components/Home/HeroSection.vue";
 import SubPreview from "@/components/Home/SubPreview.vue";
@@ -224,13 +181,10 @@ import TrendingGrid from "@/components/media/TrendingGrid.vue";
 import WhatsHotCarousel from "@/components/media/WhatsHotCarousel.vue";
 import GenreDeepDive from "@/components/media/GenreDeepDive.vue";
 import TrailerSpotlight from "@/components/media/TrailerSpotlight.vue";
-// import NewReleasesTimeline from "@/components/media/NewReleasesTimeline.vue";
 import CuratedCollections from "@/components/media/CuratedCollections.vue";
 import MoodWheel from "@/components/media/MoodWheel.vue";
 
-// ══════════════════════════════════════════════════════════════════════════
 // SEO
-// ══════════════════════════════════════════════════════════════════════════
 useHead({
   title: "FilmRitz — Discover Movies & TV Series with Cinematic Trailers",
   meta: [
@@ -260,42 +214,47 @@ useHead({
   ],
 });
 
-// ══════════════════════════════════════════════════════════════════════════
-// STATE MANAGEMENT
-// ══════════════════════════════════════════════════════════════════════════
+// State
 const auth = useAuthStore();
 const isLoggedIn = computed(() => auth.isLoggedIn);
 const consentGranted = ref(false);
 
-// Timeline filter
-const selectedPeriod = ref<string>("This Week");
+// Ambient colors pool for variety
+const ambientColors = [
+  "#b20710", // FilmRitz Red
+  "#3B82F6", // Blue
+  "#8B5CF6", // Purple
+  "#EC4899", // Pink
+  "#F59E0B", // Amber
+  "#10B981", // Green
+  "#EF4444", // Red
+  "#06B6D4", // Cyan
+];
 
-// ══════════════════════════════════════════════════════════════════════════
-// 🌈 ENHANCED AMBIENT LIGHTING SYSTEM
-// ══════════════════════════════════════════════════════════════════════════
-const ambientColor = ref<string>("#111111");
+// Ambient Lighting
+const ambientColor = ref<string>("#b20710");
 const ambientPosition = ref<{ x: number; y: number }>({ x: 50, y: 30 });
 const canHandleAdvancedEffects = ref<boolean>(false);
+const isDev = import.meta.env.DEV;
 
-defineProps<{
-  updateAmbientColor: (color: string) => void;
-}>();
+// Get random color from pool
+const getRandomAmbientColor = () => {
+  return ambientColors[Math.floor(Math.random() * ambientColors.length)];
+};
 
 // Update ambient color from child components
 function updateAmbientColor(color: string) {
-  if (!canHandleAdvancedEffects.value) return;
+  if (!canHandleAdvancedEffects.value || !color) return;
   ambientColor.value = color;
 }
 
 // Update ambient position for dynamic glow movement
 function updateAmbientPosition(position: { x: number; y: number }) {
-  if (!canHandleAdvancedEffects.value) return;
+  if (!canHandleAdvancedEffects.value || !position) return;
   ambientPosition.value = position;
 }
 
-// ══════════════════════════════════════════════════════════════════════════
-// 🚀 PERFORMANCE OPTIMIZATION
-// ══════════════════════════════════════════════════════════════════════════
+// Performance Optimization
 onMounted(() => {
   // Detect device capabilities
   const cores = navigator.hardwareConcurrency || 2;
@@ -312,31 +271,35 @@ onMounted(() => {
   canHandleAdvancedEffects.value =
     cores > 4 && !isMobile && !isSlowConnection && !prefersReducedMotion;
 
-  // Log for debugging
+  // Set random ambient color on page load
+  if (canHandleAdvancedEffects.value) {
+    ambientColor.value = getRandomAmbientColor();
+    console.log("🎨 Initial ambient color:", ambientColor.value);
+  }
+
+  // Read ad consent
+  const consent = localStorage.getItem("adConsent");
+  if (consent === "granted") {
+    consentGranted.value = true;
+  }
+
   console.log("🎬 FilmRitz Performance Mode:", {
     cores,
     isMobile,
     isSlowConnection,
     prefersReducedMotion,
     advancedEffects: canHandleAdvancedEffects.value,
+    consentGranted: consentGranted.value,
+    initialAmbientColor: ambientColor.value,
   });
-});
-
-onMounted(() => {
-  const consent = localStorage.getItem("adConsent");
-  if (consent === "granted") {
-    consentGranted.value = true;
-  }
 });
 </script>
 
 <style scoped>
-/* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar for premium feel */
 ::-webkit-scrollbar {
   width: 8px;
 }

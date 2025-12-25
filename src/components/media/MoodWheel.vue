@@ -1,186 +1,277 @@
 <template>
-    <section class="relative py-12 overflow-hidden">
+  <section class="relative py-8 md:py-12 overflow-hidden">
+    <!-- Ambient -->
+    <div
+      v-if="selectedMood"
+      class="absolute inset-0 blur-3xl opacity-40 transition-all duration-700"
+      :style="{ backgroundColor: selectedMood.color }"
+    />
 
-        <!-- Ambient Glow Background -->
-        <div class="absolute inset-0 transition-all duration-1000 blur-3xl opacity-40"
-            :style="{ backgroundColor: selectedMood?.color }"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4">
+      <div class="grid lg:grid-cols-2 gap-10 items-start">
+        <!-- LEFT -->
+        <div class="flex flex-col items-center gap-6">
+          <!-- Mood name beside wheel -->
+          <div class="text-center">
+            <h2 class="text-2xl md:text-3xl font-bold text-white">
+              {{ selectedMood?.name || "Mood Wheel" }}
+            </h2>
+            <p v-if="selectedMood" class="text-gray-400 text-sm mt-1">
+              {{ selectedMood.description }}
+            </p>
+          </div>
 
-        <div class="relative z-10 max-w-6xl mx-auto px-4">
+          <div
+            class="relative w-72 h-72 md:w-96 md:h-96"
+            :class="{ 'animate-fast-spin': isShuffling }"
+          >
+            <div
+              class="absolute inset-0 rounded-full border-4 border-white/10"
+            />
 
-            <!-- Wheel Container -->
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
+              <g
+                v-for="(mood, i) in moods"
+                :key="mood.id"
+                @click="selectMood(mood)"
+              >
+                <path
+                  :d="getSegmentPath(i, moods.length)"
+                  :fill="mood.color"
+                  :opacity="selectedMood?.id === mood.id ? 1 : 0.7"
+                />
+              </g>
+            </svg>
 
-                <!-- LEFT: Mood Wheel -->
-                <div class="relative">
-
-                    <!-- Center Hub -->
-                    <div class="relative w-80 h-80 mx-auto">
-
-                        <!-- Spinning Outer Ring (decorative) -->
-                        <div class="absolute inset-0 rounded-full border-4 border-white/10 animate-spin-slow"></div>
-
-                        <!-- Mood Segments -->
-                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                            <g v-for="(mood, index) in moods" :key="mood.id" @click="selectMood(mood)"
-                                @mouseenter="handleHoverMood(mood)" class="cursor-pointer transition-all duration-500"
-                                :class="selectedMood?.id === mood.id && 'scale-110'">
-                                <!-- Segment Path -->
-                                <path :d="getSegmentPath(index, moods.length)" :fill="mood.color"
-                                    :opacity="selectedMood?.id === mood.id ? '1' : '0.7'"
-                                    class="hover:opacity-100 transition-opacity"
-                                    :style="{ filter: selectedMood?.id === mood.id ? `drop-shadow(0 0 10px ${mood.color})` : 'none' }" />
-                            </g>
-                        </svg>
-
-                        <!-- Center Button -->
-                        <div
-                            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full bg-black border-4 border-white/20 flex flex-col items-center justify-center shadow-2xl">
-                            <span class="text-5xl mb-2">{{ selectedMood?.icon || '🎬' }}</span>
-                            <span class="text-white font-[Gilroy-Bold] text-sm">Mood</span>
-                        </div>
-
-                        <!-- Mood Labels (around wheel) -->
-                        <div v-for="(mood, index) in moods" :key="`label-${mood.id}`"
-                            class="absolute font-[Gilroy-SemiBold] text-sm transition-all duration-500 cursor-pointer"
-                            :style="getLabelPosition(index, moods.length)" @click="selectMood(mood)"
-                            :class="selectedMood?.id === mood.id ? 'text-white scale-110' : 'text-gray-400'">
-                            {{ mood.name }}
-                        </div>
-
-                    </div>
-                </div>
+            <div
+              class="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full bg-black border-4 border-white/20 flex flex-col items-center justify-center"
+            >
+              <span class="text-5xl">{{ selectedMood?.icon || "🎬" }}</span>
+              <span class="text-white text-xs font-bold text-center">
+                {{ selectedMood?.name || "Choose" }}
+              </span>
             </div>
+          </div>
+
+          <div class="flex gap-3">
+            <button
+              @click="shuffleMoods"
+              class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white"
+            >
+              🔀 Shuffle
+            </button>
+
+            <button
+              v-if="selectedMood"
+              @click="viewMood"
+              class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white"
+            >
+              View More →
+            </button>
+          </div>
         </div>
-    </section>
+
+        <!-- RIGHT -->
+        <div>
+          <!-- Default -->
+          <div v-if="!selectedMood" class="text-center py-20">
+            <div class="text-7xl opacity-50">🎭</div>
+            <h3 class="text-3xl font-bold text-white mt-4">Choose a Mood</h3>
+            <p class="text-gray-400 mt-2">
+              Spin the wheel to get movie recommendations
+            </p>
+          </div>
+
+          <!-- Mood Info -->
+          <template v-else>
+            <div
+              class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10 mb-6"
+            >
+              <div class="flex items-start gap-4 mb-3">
+                <span class="text-5xl">{{ selectedMood.icon }}</span>
+                <div>
+                  <h3 class="text-2xl font-bold text-white">
+                    {{ selectedMood.name }}
+                  </h3>
+                  <p class="text-gray-400 text-sm mt-1">
+                    {{ selectedMood.description }}
+                  </p>
+                </div>
+              </div>
+
+              <div
+                v-if="selectedMood.tags?.length"
+                class="flex flex-wrap gap-2"
+              >
+                <span
+                  v-for="tag in selectedMood.tags"
+                  :key="tag"
+                  class="px-3 py-1 bg-white/10 rounded-full text-xs text-gray-300"
+                >
+                  {{ tag }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Skeleton Loading -->
+            <div v-if="loading" class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              <div
+                v-for="i in 6"
+                :key="i"
+                class="aspect-[2/3] rounded-xl bg-white/10 animate-pulse"
+              />
+            </div>
+
+            <!-- Movie Grid -->
+            <div
+              v-else-if="moodItems.length"
+              class="grid grid-cols-2 sm:grid-cols-3 gap-4"
+            >
+              <div
+                v-for="item in moodItems.slice(0, 6)"
+                :key="item.id"
+                @click="openModal(item)"
+                class="group cursor-pointer"
+              >
+                <div
+                  class="relative overflow-hidden rounded-xl aspect-[2/3] bg-white/5"
+                >
+                  <img
+                    :src="getImageUrl(item.poster_path)"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
+                  >
+                    <div class="w-full">
+                      <h4 class="text-white text-sm font-bold line-clamp-2">
+                        {{ item.title || item.name }}
+                      </h4>
+                      <div
+                        class="flex justify-between text-xs text-gray-300 mt-1"
+                      >
+                        <span>⭐ {{ item.vote_average?.toFixed(1) }}</span>
+                        <span>{{
+                          new Date(
+                            item.release_date || item.first_air_date
+                          ).getFullYear()
+                        }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- No Results -->
+            <div v-else class="text-center py-12">
+              <span class="text-5xl block mb-3">🎬</span>
+              <p class="text-gray-400">No movies found for this mood</p>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
+
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useModalStore } from '@/stores/modalStore';
+import { ref, onMounted, onBeforeUnmount } from "vue";
+import { useRouter } from "vue-router";
+import { useModalStore } from "@/stores/modalStore";
+import { COLLECTIONS, type CollectionDefinition } from "@/types/media";
 
-const emit = defineEmits<{
-    'update-ambient': [color: string]
-}>();
-
+const router = useRouter();
 const modalStore = useModalStore();
 
-interface Mood {
-    id: number;
-    name: string;
-    icon: string;
-    color: string;
-    description: string;
-    genreIds: number[];
-}
-
-const moods = ref<Mood[]>([
-    { id: 1, name: 'Happy', icon: '😊', color: '#FBBF24', description: 'Feel-good movies to brighten your day', genreIds: [35, 10751] },
-    { id: 2, name: 'Scary', icon: '😱', color: '#DC2626', description: 'Spine-chilling horror and thrillers', genreIds: [27, 53] },
-    { id: 3, name: 'Excited', icon: '🤩', color: '#F59E0B', description: 'Action-packed adventures', genreIds: [28, 12] },
-    { id: 4, name: 'Romantic', icon: '💕', color: '#EC4899', description: 'Love stories that warm the heart', genreIds: [10749] },
-    { id: 5, name: 'Thoughtful', icon: '🤔', color: '#8B5CF6', description: 'Mind-bending dramas and mysteries', genreIds: [18, 9648] },
-    { id: 6, name: 'Adventurous', icon: '🗺️', color: '#10B981', description: 'Epic journeys and explorations', genreIds: [12, 14] },
-    { id: 7, name: 'Curious', icon: '🔬', color: '#3B82F6', description: 'Sci-fi wonders and documentaries', genreIds: [878, 99] },
-    { id: 8, name: 'Nostalgic', icon: '📼', color: '#6B7280', description: 'Classic films from the past', genreIds: [36, 10752] },
-]);
-
-const selectedMood = ref<Mood | null>(null);
+const moods = ref<CollectionDefinition[]>([]);
+const selectedMood = ref<CollectionDefinition | null>(null);
 const moodItems = ref<any[]>([]);
 const loading = ref(false);
+const isShuffling = ref(false);
 
-const getImageUrl = (path: string | null): string => {
-    return path
-        ? `https://image.tmdb.org/t/p/w342${path}`
-        : 'https://placehold.co/342x513/0f0f0f/FF0000?text=NO+IMAGE';
+const getImageUrl = (p: string | null) =>
+  p ? `https://image.tmdb.org/t/p/w342${p}` : "https://placehold.co/342x513";
+
+const getSegmentPath = (i: number, t: number) => {
+  const a = 360 / t;
+  const s = ((i * a - 90) * Math.PI) / 180;
+  const e = (((i + 1) * a - 90) * Math.PI) / 180;
+  const r1 = 48,
+    r2 = 28;
+
+  return `
+    M ${50 + r1 * Math.cos(s)} ${50 + r1 * Math.sin(s)}
+    A ${r1} ${r1} 0 0 1 ${50 + r1 * Math.cos(e)} ${50 + r1 * Math.sin(e)}
+    L ${50 + r2 * Math.cos(e)} ${50 + r2 * Math.sin(e)}
+    A ${r2} ${r2} 0 0 0 ${50 + r2 * Math.cos(s)} ${50 + r2 * Math.sin(s)}
+    Z
+  `;
 };
 
-// Calculate SVG path for each segment
-const getSegmentPath = (index: number, total: number): string => {
-    const angle = (360 / total);
-    const startAngle = index * angle;
-    const endAngle = startAngle + angle;
-
-    const startRad = (startAngle - 90) * Math.PI / 180;
-    const endRad = (endAngle - 90) * Math.PI / 180;
-
-    const innerRadius = 30;
-    const outerRadius = 48;
-
-    const x1 = 50 + outerRadius * Math.cos(startRad);
-    const y1 = 50 + outerRadius * Math.sin(startRad);
-    const x2 = 50 + outerRadius * Math.cos(endRad);
-    const y2 = 50 + outerRadius * Math.sin(endRad);
-    const x3 = 50 + innerRadius * Math.cos(endRad);
-    const y3 = 50 + innerRadius * Math.sin(endRad);
-    const x4 = 50 + innerRadius * Math.cos(startRad);
-    const y4 = 50 + innerRadius * Math.sin(startRad);
-
-    const largeArc = angle > 180 ? 1 : 0;
-
-    return `M ${x1} ${y1} A ${outerRadius} ${outerRadius} 0 ${largeArc} 1 ${x2} ${y2} L ${x3} ${y3} A ${innerRadius} ${innerRadius} 0 ${largeArc} 0 ${x4} ${y4} Z`;
+const fetchMoodMovies = async (mood: CollectionDefinition) => {
+  const key = import.meta.env.VITE_TMDB_API_KEY;
+  const res = await fetch(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${key}&sort_by=popularity.desc&with_genres=${mood.genreIds?.join(
+      ","
+    )}`
+  );
+  const data = await res.json();
+  return data.results || [];
 };
 
-// Calculate label position around wheel
-const getLabelPosition = (index: number, total: number) => {
-    const angle = (360 / total) * index - 90;
-    const radius = 180;
-    const rad = angle * Math.PI / 180;
-    const x = 160 + radius * Math.cos(rad);
-    const y = 160 + radius * Math.sin(rad);
+const shuffleMoods = () => {
+  isShuffling.value = true;
+  selectedMood.value = null;
+  moodItems.value = [];
+  localStorage.removeItem("lastMood");
 
-    return {
-        left: `${x}px`,
-        top: `${y}px`,
-        transform: 'translate(-50%, -50%)'
-    };
+  setTimeout(() => {
+    moods.value = [...COLLECTIONS].sort(() => Math.random() - 0.5).slice(0, 8);
+    isShuffling.value = false;
+  }, 600);
 };
 
-const selectMood = async (mood: Mood) => {
-    selectedMood.value = mood;
-    emit('update-ambient', mood.color);
-    await loadMoodItems(mood);
+const selectMood = async (mood: CollectionDefinition) => {
+  selectedMood.value = mood;
+  loading.value = true;
+  moodItems.value = await fetchMoodMovies(mood);
+  loading.value = false;
 };
 
-const handleHoverMood = (mood: Mood) => {
-    emit('update-ambient', mood.color);
-};
-
-const loadMoodItems = async (mood: Mood) => {
-    loading.value = true;
-    try {
-        const genreQuery = mood.genreIds.join(',');
-        const response = await fetch(
-            `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&with_genres=${genreQuery}&sort_by=popularity.desc`
-        );
-        const data = await response.json();
-        moodItems.value = data.results.slice(0, 12);
-    } catch (error) {
-        console.error('Failed to load mood items:', error);
-    } finally {
-        loading.value = false;
-    }
+const viewMood = () => {
+  if (!selectedMood.value) return;
+  router.push({
+    name: "Mood",
+    params: { name: selectedMood.value.name.toLowerCase() },
+  });
 };
 
 const openModal = (item: any) => {
-    modalStore.open('movie', { movieId: item.id, mediaType: 'movie' });
+  modalStore.open("movie", { movieId: item.id, mediaType: "movie" });
+};
+
+const handleKey = (e: KeyboardEvent) => {
+  if (e.code === "Space") shuffleMoods();
 };
 
 onMounted(() => {
-    // Auto-select first mood
-    selectMood(moods.value[0]);
+  shuffleMoods();
+  window.addEventListener("keydown", handleKey);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", handleKey);
 });
 </script>
+
 <style scoped>
-@keyframes spin-slow {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
+@keyframes fast-spin {
+  to {
+    transform: rotate(720deg);
+  }
 }
-
-.animate-spin-slow {
-    animation: spin-slow 20s linear infinite;
+.animate-fast-spin {
+  animation: fast-spin 0.6s ease-in-out;
 }
 </style>

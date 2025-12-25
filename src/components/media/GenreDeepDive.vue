@@ -5,27 +5,27 @@
     <div class="grid grid-cols-12 gap-0 min-h-[600px]">
       <!-- Sidebar -->
       <div
-        class="col-span-12 lg:block bg-black/40 backdrop-blur-sm space-y-2 p-6 border-r border-white/5 transition-all duration-500 overflow-hidden hidden"
-        :class="isCollapsed ? 'lg:col-span-1 w-25' : 'md:col-span-3 w-full'"
+        class="col-span-12 md:block bg-black/40 backdrop-blur-sm space-y-2 p-6 border-r border-white/5 transition-all duration-500 overflow-hidden hidden"
+        :class="isCollapsed ? 'md:col-span-1 w-25' : 'md:col-span-3 w-full'"
       >
         <div
           class="flex items-center justify-between mb-4 transition-all duration-500 ease-in-out"
         >
           <h3
             v-if="!isCollapsed"
-            class="text-white font-[Gilroy-Bold] text-lg lg:text-xl text-nowrap"
+            class="text-white font-[Gilroy-Bold] text-lg md:text-xl text-nowrap"
           >
             Browse Genres
           </h3>
           <button
             @click="isCollapsed = !isCollapsed"
-            class="px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white transition-all duration-500 cursor-pointer text-base lg:text-xl lg:block items-center justify-center w-fit hidden"
+            class="px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white transition-all duration-500 cursor-pointer text-base md:text-xl md:block items-center justify-center w-fit hidden"
           >
             <i :class="isCollapsed ? 'pi pi-bars' : 'pi pi-times'"></i>
           </button>
         </div>
 
-        <div class="space-y-3 hidden lg:block">
+        <div class="space-y-3 hidden md:block">
           <button
             v-for="genre in genres"
             :key="genre.id"
@@ -65,7 +65,7 @@
       <Listbox
         v-model="selectedGenre"
         as="div"
-        class="col-span-12 lg:hidden bg-black/40 backdrop-blur-sm p-6 space-y-2 border-b border-white/5"
+        class="col-span-12 md:hidden bg-black/40 backdrop-blur-sm p-6 space-y-2 border-b border-white/5"
       >
         <ListboxButton
           class="text-white font-[Gilroy-Bold] text-xl mb-4 flex items-center gap-3 justify-between w-full cursor-pointer bg-white/5 hover:bg-white/10 px-4 py-3 rounded-xl transition-all duration-500"
