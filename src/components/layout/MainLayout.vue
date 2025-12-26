@@ -22,7 +22,7 @@
       </button>
     </div>
 
-    <!-- Main Content with relative positioning -->
+    <!-- Main Content -->
     <div class="relative z-10 flex flex-col min-h-screen">
       <Navbar />
 
@@ -32,7 +32,6 @@
 
       <Footer />
 
-      <GlobalModal />
       <CookieBanner />
     </div>
   </div>
@@ -40,23 +39,21 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
+
 import Navbar from "@/components/common/Navbar.vue";
 import Footer from "@/components/common/Footer.vue";
 import CookieBanner from "@/components/ui/CookieBanner.vue";
+
 import { useAmbient, initializeAmbient } from "@/composables/useAmbient";
 
 const { isAmbientEnabled, ambientGradient, toggle } = useAmbient();
 
 const toggleAmbient = () => {
-  console.log("Toggle clicked, current state:", isAmbientEnabled.value);
   toggle();
-  console.log("New state:", isAmbientEnabled.value);
 };
 
 onMounted(() => {
-  // Initialize ambient system once on layout mount
   initializeAmbient();
-  console.log("MainLayout mounted, ambient enabled:", isAmbientEnabled.value);
 });
 </script>
 

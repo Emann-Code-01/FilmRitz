@@ -183,6 +183,7 @@ export interface CollectionDefinition {
   longDescription: string;
   genreIds: number[]; // Support multiple genres
   tags?: string[];
+  slug: string;
 }
 
 export interface Collection extends CollectionDefinition {
@@ -197,7 +198,8 @@ export const COLLECTIONS: CollectionDefinition[] = [
     name: "epic-sci-fi",
     title: "Epic Sci-Fi",
     icon: "🚀",
-  color: "#3B82F6",
+    color: "#3B82F6",
+    slug: "epic-sci-fi",
     description: "Mind-bending journeys through space and time",
     longDescription:
       "Explore the infinite possibilities of science fiction with these mind-bending films that push the boundaries of imagination and reality.",
@@ -215,6 +217,7 @@ export const COLLECTIONS: CollectionDefinition[] = [
       "Prepare to feel deeply with these powerful dramas that explore the human condition and pull at your heartstrings.",
     genreIds: [18], // Drama
     tags: ["Emotional", "Family", "Love", "Loss"],
+    slug: "tear-jerkers",
   },
   {
     id: 3,
@@ -227,6 +230,7 @@ export const COLLECTIONS: CollectionDefinition[] = [
       "Enter the labyrinth of the human mind with these psychological masterpieces that will leave you questioning everything.",
     genreIds: [9648, 53], // Mystery, Thriller
     tags: ["Twists", "Psychology", "Suspense", "Mystery"],
+    slug: "mind-benders",
   },
   {
     id: 4,
@@ -239,6 +243,7 @@ export const COLLECTIONS: CollectionDefinition[] = [
       "Get ready to laugh out loud with these comedy gems that will brighten your day and lift your spirits.",
     genreIds: [35], // Comedy
     tags: ["Funny", "Lighthearted", "Feel-Good", "Humor"],
+    slug: "laugh-riots",
   },
   {
     id: 5,
@@ -251,6 +256,7 @@ export const COLLECTIONS: CollectionDefinition[] = [
       "Buckle up for adrenaline-pumping adventures filled with spectacular stunts, intense battles, and heart-racing sequences.",
     genreIds: [28], // Action
     tags: ["Explosions", "Heroes", "Adventure", "Stunts"],
+    slug: "action-packed",
   },
   {
     id: 6,
@@ -263,6 +269,7 @@ export const COLLECTIONS: CollectionDefinition[] = [
       "Fall in love with these enchanting romantic stories that celebrate the beauty and complexity of human connection.",
     genreIds: [10749], // Romance
     tags: ["Romance", "Love", "Relationships", "Heartwarming"],
+    slug: "love-stories",
   },
   {
     id: 7,
@@ -275,6 +282,7 @@ export const COLLECTIONS: CollectionDefinition[] = [
       "Dare to venture into the darkness with these terrifying films that will keep you up at night and test your courage.",
     genreIds: [27], // Horror
     tags: ["Scary", "Supernatural", "Gore", "Suspense"],
+    slug: "horror-nights",
   },
   {
     id: 8,
@@ -287,6 +295,7 @@ export const COLLECTIONS: CollectionDefinition[] = [
       "Discover the magic of animation with these visually stunning and heartwarming tales that appeal to the child in all of us.",
     genreIds: [16], // Animation
     tags: ["Family", "Adventure", "Magic", "Colorful"],
+    slug: "animated-wonders",
   },
   {
     id: 9,
@@ -299,6 +308,7 @@ export const COLLECTIONS: CollectionDefinition[] = [
       "Dive into the criminal underworld with these intense crime dramas featuring heists, investigations, and moral dilemmas.",
     genreIds: [80, 53], // Crime, Thriller
     tags: ["Heist", "Investigation", "Detective", "Underworld"],
+    slug: "crime-chronicles",
   },
   {
     id: 10,
@@ -311,6 +321,7 @@ export const COLLECTIONS: CollectionDefinition[] = [
       "Journey to fantastical realms filled with magic, mythical creatures, and epic quests that transcend imagination.",
     genreIds: [14], // Fantasy
     tags: ["Magic", "Dragons", "Quest", "Epic"],
+    slug: "fantasy-realms",
   },
   {
     id: 11,
@@ -323,6 +334,7 @@ export const COLLECTIONS: CollectionDefinition[] = [
       "Explore real-world topics through compelling documentaries that educate, inspire, and reveal truths about our world.",
     genreIds: [99], // Documentary
     tags: ["Real", "Educational", "Inspiring", "Truth"],
+    slug: "documentary-deep-dives",
   },
   {
     id: 12,
@@ -335,6 +347,7 @@ export const COLLECTIONS: CollectionDefinition[] = [
       "Witness history come alive with these epic films that recreate pivotal moments and legendary figures from the past.",
     genreIds: [36, 10752], // History, War
     tags: ["History", "Epic", "War", "Biography"],
+    slug: "historical-epics",
   },
 ];
 

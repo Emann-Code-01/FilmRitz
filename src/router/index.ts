@@ -141,7 +141,7 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: true },
       },
       {
-        path: "mood/:name",
+        path: "mood/:slug",
         name: "Mood",
         component: Mood,
         meta: { requireAuth: true },

@@ -298,10 +298,9 @@ import { COLLECTIONS, type CollectionDefinition } from "@/types/media";
 const router = useRouter();
 const modalStore = useModalStore();
 
-// Use global ambient
 const { updateColor } = useAmbient();
 
-const moods = ref<CollectionDefinition[]>([]);
+const moods = ref<CollectionDefinition[]>(COLLECTIONS);
 const selectedMood = ref<CollectionDefinition | null>(null);
 const moodItems = ref<any[]>([]);
 const loading = ref(false);
@@ -329,7 +328,6 @@ const getSegmentPath = (i: number, t: number, isActive: boolean = false) => {
   const a = 360 / t;
   const s = ((i * a - 90) * Math.PI) / 180;
   const e = (((i + 1) * a - 90) * Math.PI) / 180;
-  // Pop out effect: increase outer radius when active
   const r1 = isActive ? 50 : 48;
   const r2 = 28;
 
@@ -345,16 +343,10 @@ const getSegmentPath = (i: number, t: number, isActive: boolean = false) => {
 const fetchMoodMovies = async (mood: CollectionDefinition) => {
   try {
     const key = import.meta.env.VITE_TMDB_API_KEY;
-    if (!key) {
-      console.error("TMDB API key is missing");
-      return [];
-    }
+    if (!key) return [];
 
     const genreIds = mood.genreIds || [];
-    if (genreIds.length === 0) {
-      console.warn("No genre IDs found for mood:", mood.name);
-      return [];
-    }
+    if (!genreIds.length) return [];
 
     const res = await fetch(
       `https://api.themoviedb.org/3/discover/movie?api_key=${key}&sort_by=popularity.desc&with_genres=${genreIds.join(
@@ -362,14 +354,11 @@ const fetchMoodMovies = async (mood: CollectionDefinition) => {
       )}`
     );
 
-    if (!res.ok) {
-      throw new Error(`API request failed: ${res.status}`);
-    }
+    if (!res.ok) throw new Error("API error");
 
     const data = await res.json();
     return data.results || [];
-  } catch (error) {
-    console.error("Error fetching mood movies:", error);
+  } catch {
     return [];
   }
 };
@@ -384,9 +373,7 @@ const shuffleMoods = () => {
   localStorage.removeItem("lastMood");
 
   setTimeout(() => {
-    // Get a completely new random set of 8 moods
-    const allMoods = [...COLLECTIONS];
-    const shuffled = allMoods.sort(() => Math.random() - 0.5);
+    const shuffled = [...COLLECTIONS].sort(() => Math.random() - 0.5);
     moods.value = shuffled.slice(0, 8);
     isShuffling.value = false;
   }, 600);
@@ -398,17 +385,11 @@ const selectMood = async (mood: CollectionDefinition) => {
   selectedMood.value = mood;
   loading.value = true;
 
-  // Update global ambient color
-  if (mood.color) {
-    updateColor(mood.color);
-  }
+  if (mood.color) updateColor(mood.color);
 
   try {
     moodItems.value = await fetchMoodMovies(mood);
-    localStorage.setItem("lastMood", mood.name);
-  } catch (error) {
-    console.error("Error selecting mood:", error);
-    moodItems.value = [];
+    localStorage.setItem("lastMood", mood.slug);
   } finally {
     loading.value = false;
   }
@@ -416,16 +397,17 @@ const selectMood = async (mood: CollectionDefinition) => {
 
 const viewMood = () => {
   if (!selectedMood.value) return;
-  // Navigate to mood page with the mood name as parameter
-  const moodName = selectedMood.value.name.toLowerCase().replace(/\s+/g, "-");
+
   router.push({
-    name: "Mood",
-    params: { name: moodName },
+    name: "Mood", // ensure your route has name: "Mood"
+    params: {
+      slug: selectedMood.value.slug, // use slug from COLLECTIONS
+    },
   });
 };
 
 const openModal = (item: any) => {
-  if (!item || !item.id) return;
+  if (!item?.id) return;
   modalStore.open("movie", { movieId: item.id, mediaType: "movie" });
 };
 
@@ -436,11 +418,8 @@ const handleKey = (e: KeyboardEvent) => {
   }
 };
 
-// Watch for mood changes and update global ambient
-watch(selectedMood, (newMood) => {
-  if (newMood?.color) {
-    updateColor(newMood.color);
-  }
+watch(selectedMood, (m) => {
+  if (m?.color) updateColor(m.color);
 });
 
 onMounted(() => {
