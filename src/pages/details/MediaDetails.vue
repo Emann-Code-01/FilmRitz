@@ -203,7 +203,7 @@
 
         <!-- View More Seasons Button -->
         <div
-          v-if="media.seasons && media.seasons.length > 1"
+          v-if="media.seasons && media.seasons.length > 0"
           class="text-center"
         >
           <router-link

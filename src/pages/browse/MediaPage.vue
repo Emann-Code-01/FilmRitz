@@ -52,7 +52,7 @@
     <!-- FILTER PANEL -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <div
-      class="sticky top-18 md:top-18 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
+      class="sticky top-18 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
       <div class="px-6 max-w-7xl mx-auto">
         <!-- Category Tabs -->

@@ -134,9 +134,13 @@
 
           <!-- Quick tip -->
           <p class="text-gray-500 text-xs text-center max-w-xs leading-relaxed">
-            💡 Click any segment to explore movies, or press
-            <kbd class="px-2 py-1 bg-white/10 rounded text-white">Space</kbd> to
-            shuffle
+            💡 Click any segment to explore movies<span class="hidden lg:block"
+              >, or press
+              <kbd class="px-2 py-1 bg-white/10 rounded text-white"
+                >Space</kbd
+              ></span
+            >
+            to shuffle
           </p>
         </div>
 
