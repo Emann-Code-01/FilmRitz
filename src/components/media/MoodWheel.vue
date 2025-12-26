@@ -5,7 +5,7 @@
       v-if="selectedMood"
       class="absolute inset-0 blur-3xl opacity-40 transition-all duration-700 rounded-2xl"
       :style="{ backgroundColor: selectedMood.color }"
-    />
+    ></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4">
       <div class="grid lg:grid-cols-2 gap-10 items-start">
@@ -38,11 +38,11 @@
                   ? `0 0 60px ${selectedMood.color}40, 0 0 100px ${selectedMood.color}20`
                   : '0 0 30px rgba(255,255,255,0.1)',
               }"
-            />
+            ></div>
 
             <div
               class="absolute inset-0 rounded-full border-4 border-white/10"
-            />
+            ></div>
 
             <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
               <defs>
@@ -210,7 +210,7 @@
                 v-for="i in 6"
                 :key="i"
                 class="aspect-2/3 rounded-xl bg-white/10 animate-pulse"
-              />
+              ></div>
             </div>
 
             <!-- Movie Grid -->
@@ -257,11 +257,7 @@
                           }}</span>
                         </span>
                         <span class="bg-white/20 px-2 py-0.5 rounded">
-                          {{
-                            new Date(
-                              item.release_date || item.first_air_date
-                            ).getFullYear()
-                          }}
+                          {{ getYear(item) }}
                         </span>
                       </div>
                     </div>
@@ -292,14 +288,18 @@
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
 import { useModalStore } from "@/stores/modalStore";
-import { COLLECTIONS, type CollectionDefinition } from "@/types/media";
+import {
+  COLLECTIONS,
+  type CollectionDefinition,
+  type Media,
+} from "@/types/media";
 
 const router = useRouter();
 const modalStore = useModalStore();
 
 const moods = ref<CollectionDefinition[]>([]);
 const selectedMood = ref<CollectionDefinition | null>(null);
-const moodItems = ref<any[]>([]);
+const moodItems = ref<Media[]>([]);
 const loading = ref(false);
 const isShuffling = ref(false);
 const hoveredMoodId = ref<number | null>(null);
@@ -323,6 +323,13 @@ const onCardMouseLeave = (e: MouseEvent) => {
 const getImageUrl = (p: string | null) =>
   p ? `https://image.tmdb.org/t/p/w342${p}` : "https://placehold.co/342x513";
 
+const getYear = (item: Media | null | undefined) => {
+  const dateStr = item?.release_date || item?.first_air_date;
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  return isNaN(d.getTime()) ? "" : d.getFullYear();
+};
+
 const getSegmentPath = (i: number, t: number, isActive: boolean = false) => {
   const a = 360 / t;
   const s = ((i * a - 90) * Math.PI) / 180;
@@ -340,7 +347,7 @@ const getSegmentPath = (i: number, t: number, isActive: boolean = false) => {
   `;
 };
 
-const fetchMoodMovies = async (mood: CollectionDefinition) => {
+const fetchMoodMovies = async (mood: CollectionDefinition): Promise<Media[]> => {
   try {
     const key = import.meta.env.VITE_TMDB_API_KEY;
     if (!key) {
@@ -417,7 +424,7 @@ const viewMood = () => {
   });
 };
 
-const openModal = (item: any) => {
+const openModal = (item: Media | null | undefined) => {
   if (!item || !item.id) return;
   modalStore.open("movie", { movieId: item.id, mediaType: "movie" });
 };
