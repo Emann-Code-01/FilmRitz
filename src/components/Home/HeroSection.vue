@@ -296,7 +296,7 @@
         class="absolute bottom-2 md:bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-40"
       >
         <button
-          v-for="(item, index) in trendingAll.slice(0, 7)"
+          v-for="(_item, index) in trendingAll.slice(0, 7)"
           :key="index"
           @click="goToSlide(index)"
           class="transition-all duration-500 rounded-full cursor-pointer"
@@ -463,7 +463,7 @@ function stopAutoRotation() {
   }
 }
 
-function handleSlideHover(item: any, index: number) {
+function handleSlideHover(_item: any, index: number) {
   // Emit ambient color based on movie
   const hue = (index * 50) % 360;
   emit("update-ambient", `hsl(${hue}, 70%, 50%)`);

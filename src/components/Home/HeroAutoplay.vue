@@ -107,14 +107,8 @@ const isTransitioning = ref<boolean>(false);
 const { extractColors } = useColorExtraction();
 const { ambientColor, updateAmbientLight, activate } =
   useAmbientLighting(videoRef);
-const {
-  isPlaying,
-  isMuted,
-  currentTime,
-  duration,
-  toggleMute,
-  updateProgress,
-} = useTrailerAutoplay();
+const { isMuted, currentTime, duration, toggleMute, updateProgress } =
+  useTrailerAutoplay();
 const { canHandleAdvancedEffects } = usePerformanceOptimization();
 
 const currentSlide = computed<HeroSlide>(

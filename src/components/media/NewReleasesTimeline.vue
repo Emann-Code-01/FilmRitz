@@ -37,7 +37,7 @@
         }"
         class="timeline-swiper px-4 md:px-8 py-6"
       >
-        <SwiperSlide v-for="(item, index) in timelineItems" :key="item.id">
+        <SwiperSlide v-for="item in timelineItems" :key="item.id">
           <div
             class="relative group cursor-pointer w-full"
             @mouseenter="handleHover(item)"
@@ -150,7 +150,7 @@ const formatDate = (dateStr: string): string => {
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 };
 
-const handleHover = (item: any) => {
+const handleHover = (_item: any) => {
   emit("update-ambient", "#FF4500");
 };
 

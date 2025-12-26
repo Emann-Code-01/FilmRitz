@@ -295,7 +295,7 @@ const getTemperatureColor = (index: number): string => {
   return colors[index] || "#FFA500";
 };
 
-const handleHover = (item: any, index: number) => {
+const handleHover = (_item: any, index: number) => {
   hoveredIndex.value = index;
 
   // Emit ambient color update (you can enhance this with actual color extraction)
@@ -323,7 +323,8 @@ onMounted(() => {
 <style scoped>
 /* Ensure smooth animations */
 .popular-grid {
-  @apply transition-all duration-500;
+  /* replaced Tailwind @apply with plain CSS to avoid "Unknown at rule @apply" */
+  transition: all 0.5s;
 }
 
 /* Custom hover lift effect */

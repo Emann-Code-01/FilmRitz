@@ -259,7 +259,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useHead } from "@unhead/vue";
 import { useMedia } from "@/composables/useMedia";

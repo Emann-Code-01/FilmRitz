@@ -293,7 +293,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import axios from "axios";
 import { useWatchlistStore } from "@/stores/watchlist";
 import { genreMap } from "@/types/media";
@@ -315,7 +315,6 @@ interface TrailerData {
 }
 
 const route = useRoute();
-const router = useRouter();
 const baseUrl = "https://image.tmdb.org/t/p/w1280";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -480,7 +479,7 @@ function closeTrailerModal() {
   }, 300);
 }
 
-function openFullDetails(mediaType: "movie" | "tv", mediaId: number) {
+function openFullDetails(_mediaType: "movie" | "tv", _mediaId: number) {
   // Already on the details page, just close the modal
   closeTrailerModal();
 }

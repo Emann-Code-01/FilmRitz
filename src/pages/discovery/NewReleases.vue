@@ -79,12 +79,6 @@ import AdSlot from "@/components/ads/AdSlot.vue";
 
 const modalStore = useModalStore();
 
-const periods = [
-  { label: "This Week", value: "week" },
-  { label: "This Month", value: "month" },
-  { label: "Last 30 Days", value: "30days" },
-];
-
 const selectedPeriod = ref("week");
 const releases = ref<any[]>([]);
 const loading = ref(true);

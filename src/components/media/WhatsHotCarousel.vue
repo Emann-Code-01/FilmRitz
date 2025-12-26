@@ -146,7 +146,7 @@ const formatYear = (date: string): string => {
   return date ? new Date(date).getFullYear().toString() : "TBA";
 };
 
-const handleHover = (item: any, index: number) => {
+const handleHover = (_item: any, index: number) => {
   const colors = ["#FF0000", "#FF4500", "#FF6347", "#FF8C00", "#FFA500"];
   emit("update-ambient", colors[index % colors.length]);
 };

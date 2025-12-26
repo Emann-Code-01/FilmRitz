@@ -297,7 +297,7 @@ const router = createRouter({
 // ═══════════════════════════════════════════════════════════════
 // NAVIGATION GUARD
 // ═══════════════════════════════════════════════════════════════
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, _from, next) => {
   const auth = useAuthStore();
   await auth.syncUser();
   const isLoggedIn = auth.isLoggedIn;

@@ -31,7 +31,7 @@
           <!-- Movie Posters Preview -->
           <div class="absolute inset-0 grid grid-cols-2 gap-1 p-2">
             <div
-              v-for="(item, index) in collection.items.slice(0, 4)"
+              v-for="item in collection.items.slice(0, 4)"
               :key="item.id"
               class="relative overflow-hidden rounded-2xl"
             >

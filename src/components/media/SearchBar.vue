@@ -108,10 +108,8 @@ import { ref, watch, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useMedia } from "@/composables/useMedia";
 import { genreMap } from "@/types/media";
-import { useModalStore } from "@/stores/modalStore";
 
 const { searchMulti, searchResults, loading, error } = useMedia();
-const modalStore = useModalStore();
 const router = useRouter();
 
 const query = ref("");
