@@ -1,5 +1,3 @@
-import type { Ref } from "vue";
-
 export interface SeoMeta {
   title: string;
   description: string;

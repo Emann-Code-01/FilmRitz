@@ -151,7 +151,7 @@
 import { ref, computed, onMounted } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useHead } from "@unhead/vue";
-import { AMBIENT_COLORS, getRandomAmbientColor } from "@/constants/ambientColors";
+import { getRandomAmbientColor } from "@/constants/ambientColors";
 
 // Components
 import SplashScreen from "./SplashScreen.vue";
@@ -220,19 +220,6 @@ function updateAmbientColor(color: string) {
 function updateAmbientPosition(position: { x: number; y: number }) {
   if (!canHandleAdvancedEffects.value || !position) return;
   ambientPosition.value = position;
-}
-
-// Toggle ambient effects
-function toggleAmbient() {
-  canHandleAdvancedEffects.value = !canHandleAdvancedEffects.value;
-  localStorage.setItem(
-    "ambientEnabled",
-    String(canHandleAdvancedEffects.value)
-  );
-
-  if (canHandleAdvancedEffects.value) {
-    ambientColor.value = getRandomAmbientColor();
-  }
 }
 
 // Performance Optimization

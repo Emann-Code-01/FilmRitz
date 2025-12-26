@@ -220,10 +220,6 @@ const showTrailerModal = ref(false);
 const selectedTrailer = ref<TrailerData | null>(null);
 const loadingTrailers = reactive<Record<number, boolean>>({});
 
-const getBackdropUrl_local = (path: string | null): string => {
-  return getBackdropUrl(path);
-};
-
 const openModal = (item: any) => {
   openMediaModal(item);
 };

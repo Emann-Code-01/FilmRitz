@@ -214,7 +214,6 @@ import {
   ListboxOption,
   ListboxButton,
 } from "@headlessui/vue";
-import { useModalStore } from "@/stores/modalStore";
 import { getPosterUrl } from "@/utils/imageHelpers";
 import { openMediaModal } from "@/utils/modalHelpers";
 
@@ -222,7 +221,6 @@ const isCollapsed = ref(false);
 const emit = defineEmits<{
   "update-ambient": [color: string];
 }>();
-const modalStore = useModalStore();
 
 interface Genre {
   id: number;

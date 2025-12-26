@@ -1,5 +1,3 @@
-import { ref } from "vue";
-
 const cache = new Map<string, { data: any; timestamp: number }>();
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 

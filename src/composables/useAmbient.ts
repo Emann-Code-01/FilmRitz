@@ -1,6 +1,6 @@
 import { ref, computed } from "vue";
 import { ColorPalette } from "@/types/media";
-import { AMBIENT_COLORS, getRandomAmbientColor } from "@/constants/ambientColors";
+import { getRandomAmbientColor } from "@/constants/ambientColors";
 
 // Global state - created at module scope, shared across all components
 const ambientColor = ref<string>("#b20710");
