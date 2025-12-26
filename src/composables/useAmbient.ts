@@ -1,28 +1,12 @@
 import { ref, computed } from "vue";
 import { ColorPalette } from "@/types/media";
-
-// Ambient colors pool for variety
-const ambientColors = [
-  "#b20710", // FilmRitz Red
-  "#3B82F6", // Blue
-  "#8B5CF6", // Purple
-  "#EC4899", // Pink
-  "#F59E0B", // Amber
-  "#10B981", // Green
-  "#EF4444", // Red
-  "#06B6D4", // Cyan
-];
+import { AMBIENT_COLORS, getRandomAmbientColor } from "@/constants/ambientColors";
 
 // Global state - created at module scope, shared across all components
 const ambientColor = ref<string>("#b20710");
 const ambientPosition = ref<{ x: number; y: number }>({ x: 50, y: 30 });
 const isAmbientEnabled = ref<boolean>(false);
 const isInitialized = ref<boolean>(false);
-
-// Get random color from pool
-const getRandomAmbientColor = () => {
-  return ambientColors[Math.floor(Math.random() * ambientColors.length)];
-};
 
 // Initialize from localStorage (call once in MainLayout.vue)
 export const initializeAmbient = () => {

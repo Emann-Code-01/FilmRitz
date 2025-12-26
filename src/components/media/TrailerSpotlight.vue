@@ -190,6 +190,8 @@ import { Navigation, FreeMode } from "swiper/modules";
 import { useModalStore } from "@/stores/modalStore";
 import { fetchTrendingMedia, getMediaVideos } from "@/api/tmdb";
 import TrailerModal from "@/components/media/TrailerModal.vue";
+import { getBackdropUrl } from "@/utils/imageHelpers";
+import { openMediaModal } from "@/utils/modalHelpers";
 
 interface TrailerData {
   id: string;
@@ -218,10 +220,12 @@ const showTrailerModal = ref(false);
 const selectedTrailer = ref<TrailerData | null>(null);
 const loadingTrailers = reactive<Record<number, boolean>>({});
 
-const getBackdropUrl = (path: string | null): string => {
-  return path
-    ? `https://image.tmdb.org/t/p/w780${path}`
-    : "https://placehold.co/780x439/0f0f0f/FF0000?text=NO+IMAGE";
+const getBackdropUrl_local = (path: string | null): string => {
+  return getBackdropUrl(path);
+};
+
+const openModal = (item: any) => {
+  openMediaModal(item);
 };
 
 const formatYear = (date: string): string => {
@@ -246,13 +250,6 @@ const handleMouseEnter = (item: any) => {
 const handleMouseLeave = () => {
   hoveredItem.value = null;
   emit("update-ambient", "#111111");
-};
-
-const openModal = (item: any) => {
-  modalStore.open(item.media_type, {
-    movieId: item.id,
-    mediaType: item.media_type,
-  });
 };
 
 async function playTrailer(item: any) {

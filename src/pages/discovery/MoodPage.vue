@@ -1,8 +1,6 @@
 <template>
   <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
-    <!-- HERO HEADER WITH MOOD THEME -->
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
-      <!-- Dynamic Mood Gradient -->
       <div
         class="absolute inset-0 blur-3xl opacity-40 transition-all duration-1000"
         :style="{
@@ -44,7 +42,6 @@
       </div>
     </div>
 
-    <!-- MOOD SELECTOR BAR -->
     <div
       class="sticky top-18 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
@@ -62,13 +59,12 @@
             "
           >
             <span class="text-xl">{{ m.icon }}</span>
-            <span>{{ m.name }}</span>
+            <span>{{ m.title }}</span>
           </button>
         </div>
       </div>
     </div>
 
-    <!-- MOOD ITEMS GRID -->
     <div class="px-6 md:px-10 max-w-7xl mx-auto mt-8">
       <div
         v-if="loading"
@@ -110,18 +106,15 @@
             <h3 class="text-white font-[Gilroy-Bold] text-sm line-clamp-2 mb-2">
               {{ item.title || item.name }}
             </h3>
-
             <div class="flex items-center gap-2">
-              <span class="text-yellow-400 text-xs">
-                ⭐ {{ item.vote_average?.toFixed(1) }}
-              </span>
-              <span class="text-gray-300 text-xs">
-                {{
-                  new Date(
-                    item.release_date || item.first_air_date || ""
-                  ).getFullYear()
-                }}
-              </span>
+              <span class="text-yellow-400 text-xs"
+                >⭐ {{ item.vote_average?.toFixed(1) }}</span
+              >
+              <span class="text-gray-300 text-xs">{{
+                new Date(
+                  item.release_date || item.first_air_date || ""
+                ).getFullYear()
+              }}</span>
             </div>
           </div>
         </div>
@@ -155,7 +148,7 @@ const openModal = (item: any) => {
 };
 
 const selectMood = (m: CollectionDefinition) => {
-  router.push(`/ng/mood/${m.slug}`);
+  router.push({ name: "Mood", params: { slug: m.slug } });
 };
 
 const fetchDiscover = async (type: "movie" | "tv", genreIds: number[]) => {
@@ -171,7 +164,6 @@ const fetchDiscover = async (type: "movie" | "tv", genreIds: number[]) => {
 
 const loadMoodItems = async () => {
   loading.value = true;
-
   const slug = (route.params.slug as string)?.toLowerCase();
   mood.value = COLLECTIONS.find((m) => m.slug === slug) || COLLECTIONS[0];
 

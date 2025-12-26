@@ -14,6 +14,12 @@ export default {
             },
             backgroundImage: {
                 'filmritz-gradient': 'linear-gradient(to top left, rgba(255,153,0,0.6) 0%, rgba(229,9,20,0.6) 20%, rgba(14,27,79,0.6) 77%, rgba(0,4,19,0.6) 100%)',
+            },
+            colors: {
+                "filmritz": {
+                    primary: "#b20710",
+                    dark: "#0a0a0a",
+                }
             }
         },
         screens: {

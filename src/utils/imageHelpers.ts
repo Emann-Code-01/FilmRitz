@@ -1,0 +1,28 @@
+const POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500";
+const BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/w780";
+const PLACEHOLDER = "https://placehold.co/500x750/0f0f0f/FF0000?text=NO+IMAGE";
+
+export const getPosterUrl = (path: string | null): string => {
+  return path ? `${POSTER_BASE_URL}${path}` : PLACEHOLDER;
+};
+
+export const getBackdropUrl = (path: string | null): string => {
+  return path ? `${BACKDROP_BASE_URL}${path}` : PLACEHOLDER;
+};
+
+export const getImageUrl = (
+  path: string | null,
+  type: "poster" | "backdrop" = "poster"
+): string => {
+  if (!path) return PLACEHOLDER;
+  return type === "backdrop" ? getBackdropUrl(path) : getPosterUrl(path);
+};
+
+export const getTmdbImageUrl = (
+  path: string | null,
+  width: number = 500
+): string => {
+  return path
+    ? `https://image.tmdb.org/t/p/w${width}${path}`
+    : PLACEHOLDER;
+};

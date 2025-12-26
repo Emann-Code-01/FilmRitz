@@ -215,6 +215,8 @@ import {
   ListboxButton,
 } from "@headlessui/vue";
 import { useModalStore } from "@/stores/modalStore";
+import { getPosterUrl } from "@/utils/imageHelpers";
+import { openMediaModal } from "@/utils/modalHelpers";
 
 const isCollapsed = ref(false);
 const emit = defineEmits<{
@@ -294,9 +296,7 @@ const genreItems = ref<any[]>([]);
 const loading = ref(false);
 
 const getImageUrl = (path: string | null): string =>
-  path
-    ? `https://image.tmdb.org/t/p/w500${path}`
-    : "https://placehold.co/500x750/0f0f0f/FF0000?text=NO+IMAGE";
+  getPosterUrl(path);
 
 const formatYear = (date: string): string =>
   date ? new Date(date).getFullYear().toString() : "TBA";
@@ -329,7 +329,7 @@ const handleHover = (item: any) => {
 };
 
 const openModal = (item: any) => {
-  modalStore.open("movie", { movieId: item.id, mediaType: "movie" });
+  openMediaModal(item);
 };
 
 onMounted(() => {
