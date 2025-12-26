@@ -322,7 +322,7 @@ const loadGenreItems = async (genreId: number) => {
   }
 };
 
-const handleHover = (item: any) => {
+const handleHover = (_item: any) => {
   emit("update-ambient", selectedGenre.value.color);
 };
 
