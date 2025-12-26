@@ -1,20 +1,20 @@
-// composables/useAmbient.ts
-import { ref, computed } from 'vue';
+import { ref, computed } from "vue";
+import { ColorPalette } from "@/types/media";
 
 // Ambient colors pool for variety
 const ambientColors = [
-  '#b20710', // FilmRitz Red
-  '#3B82F6', // Blue
-  '#8B5CF6', // Purple
-  '#EC4899', // Pink
-  '#F59E0B', // Amber
-  '#10B981', // Green
-  '#EF4444', // Red
-  '#06B6D4', // Cyan
+  "#b20710", // FilmRitz Red
+  "#3B82F6", // Blue
+  "#8B5CF6", // Purple
+  "#EC4899", // Pink
+  "#F59E0B", // Amber
+  "#10B981", // Green
+  "#EF4444", // Red
+  "#06B6D4", // Cyan
 ];
 
 // Global state - created at module scope, shared across all components
-const ambientColor = ref<string>('#b20710');
+const ambientColor = ref<string>("#b20710");
 const ambientPosition = ref<{ x: number; y: number }>({ x: 50, y: 30 });
 const isAmbientEnabled = ref<boolean>(false);
 const isInitialized = ref<boolean>(false);
@@ -24,20 +24,22 @@ const getRandomAmbientColor = () => {
   return ambientColors[Math.floor(Math.random() * ambientColors.length)];
 };
 
-// Initialize from localStorage (call once in App.vue or main layout)
+// Initialize from localStorage (call once in MainLayout.vue)
 export const initializeAmbient = () => {
   if (isInitialized.value) return;
 
   // Check saved preference
-  const savedPreference = localStorage.getItem('ambientEnabled');
-  
+  const savedPreference = localStorage.getItem("ambientEnabled");
+
   // Detect device capabilities
   const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
 
   // Set initial state
   if (savedPreference !== null) {
-    isAmbientEnabled.value = savedPreference === 'true';
+    isAmbientEnabled.value = savedPreference === "true";
   } else {
     // Default: ON for mobile, OFF for desktop
     isAmbientEnabled.value = isMobile && !prefersReducedMotion;
@@ -50,7 +52,7 @@ export const initializeAmbient = () => {
 
   isInitialized.value = true;
 
-  console.log('🎨 Global Ambient System Initialized:', {
+  console.log("🎨 Global Ambient System Initialized:", {
     enabled: isAmbientEnabled.value,
     color: ambientColor.value,
     isMobile,
@@ -61,8 +63,8 @@ export const initializeAmbient = () => {
 export function useAmbient() {
   // Computed gradient background for the ambient layer
   const ambientGradient = computed(() => {
-    if (!isAmbientEnabled.value) return 'transparent';
-    
+    if (!isAmbientEnabled.value) return "transparent";
+
     return `radial-gradient(
       circle at ${ambientPosition.value.x}% ${ambientPosition.value.y}%,
       ${ambientColor.value}40 0%,
@@ -86,25 +88,25 @@ export function useAmbient() {
   // Toggle ambient on/off
   const toggle = () => {
     isAmbientEnabled.value = !isAmbientEnabled.value;
-    localStorage.setItem('ambientEnabled', String(isAmbientEnabled.value));
-    
+    localStorage.setItem("ambientEnabled", String(isAmbientEnabled.value));
+
     if (isAmbientEnabled.value) {
       ambientColor.value = getRandomAmbientColor();
     }
 
-    console.log('🎨 Ambient toggled:', isAmbientEnabled.value);
+    console.log("🎨 Ambient toggled:", isAmbientEnabled.value);
   };
 
   // Activate ambient
   const activate = () => {
     isAmbientEnabled.value = true;
-    localStorage.setItem('ambientEnabled', 'true');
+    localStorage.setItem("ambientEnabled", "true");
   };
 
   // Deactivate ambient
   const deactivate = () => {
     isAmbientEnabled.value = false;
-    localStorage.setItem('ambientEnabled', 'false');
+    localStorage.setItem("ambientEnabled", "false");
   };
 
   // Set random color
@@ -113,10 +115,10 @@ export function useAmbient() {
     ambientColor.value = getRandomAmbientColor();
   };
 
-  // Update with color palette (for video/image analysis)
-  const updateFromPalette = (palette: { vibrant?: string; dominant?: string; muted?: string }) => {
+  // Update with color palette (for video/image analysis integration)
+  const updateFromPalette = (palette: ColorPalette) => {
     if (!isAmbientEnabled.value) return;
-    
+
     // Prioritize vibrant, then dominant, then muted
     const color = palette.vibrant || palette.dominant || palette.muted;
     if (color) {

@@ -1,37 +1,35 @@
-// composables/useAmbientLighting.ts
-import { ref, Ref } from 'vue';
-import { ColorPalette } from '@/types/media';
+import { Ref } from "vue";
+import { useAmbient } from "./useAmbient";
+import type { ColorPalette } from "@/types/media";
 
 export const useAmbientLighting = (_videoRef: Ref<HTMLVideoElement | null>) => {
-  const ambientColor = ref<string>('rgba(0,0,0,0)');
-  const isActive = ref<boolean>(false);
+  const {
+    updateFromPalette,
+    isAmbientEnabled,
+    ambientColor,
+    activate: activateAmbient,
+    deactivate: deactivateAmbient,
+  } = useAmbient();
 
   const updateAmbientLight = (palette: ColorPalette) => {
-    if (!isActive.value) return;
-
-    // Create gradient glow effect
-    ambientColor.value = `radial-gradient(
-      circle at 50% 50%,
-      ${palette.vibrant}40 0%,
-      ${palette.dominant}20 50%,
-      transparent 100%
-    )`;
+    if (!isAmbientEnabled.value) return;
+    // Update the global ambient system
+    updateFromPalette(palette);
   };
 
   const activate = () => {
-    isActive.value = true;
+    activateAmbient();
   };
 
   const deactivate = () => {
-    isActive.value = false;
-    ambientColor.value = 'rgba(0,0,0,0)';
+    deactivateAmbient();
   };
 
   return {
     ambientColor,
-    isActive,
+    isActive: isAmbientEnabled,
     updateAmbientLight,
     activate,
-    deactivate
+    deactivate,
   };
 };

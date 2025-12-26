@@ -1,9 +1,9 @@
 <template>
   <section class="relative py-8 md:py-12 overflow-hidden rounded-2xl">
-    <!-- Ambient -->
+    <!-- Local ambient effect (in addition to global) -->
     <div
       v-if="selectedMood"
-      class="absolute inset-0 blur-3xl opacity-40 transition-all duration-700 rounded-2xl"
+      class="absolute inset-0 blur-3xl opacity-30 transition-all duration-700 rounded-2xl"
       :style="{ backgroundColor: selectedMood.color }"
     ></div>
 
@@ -257,7 +257,11 @@
                           }}</span>
                         </span>
                         <span class="bg-white/20 px-2 py-0.5 rounded">
-                          {{ getYear(item) }}
+                          {{
+                            new Date(
+                              item.release_date || item.first_air_date
+                            ).getFullYear()
+                          }}
                         </span>
                       </div>
                     </div>
@@ -285,32 +289,30 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useModalStore } from "@/stores/modalStore";
-import {
-  COLLECTIONS,
-  type CollectionDefinition,
-  type Media,
-} from "@/types/media";
+import { useAmbient } from "@/composables/useAmbient";
+import { COLLECTIONS, type CollectionDefinition } from "@/types/media";
 
 const router = useRouter();
 const modalStore = useModalStore();
 
+// Use global ambient
+const { updateColor } = useAmbient();
+
 const moods = ref<CollectionDefinition[]>([]);
 const selectedMood = ref<CollectionDefinition | null>(null);
-const moodItems = ref<Media[]>([]);
+const moodItems = ref<any[]>([]);
 const loading = ref(false);
 const isShuffling = ref(false);
-const hoveredMoodId = ref<number | null>(null);
+const hoveredMoodId = ref<string | number | null>(null);
 
 const onCardMouseEnter = (e: MouseEvent) => {
   const el = e.currentTarget as HTMLElement | null;
   if (!el) return;
   if (selectedMood?.value?.color) {
     el.style.boxShadow = `0 10px 40px ${selectedMood.value.color}40`;
-  } else {
-    el.style.boxShadow = "none";
   }
 };
 
@@ -322,13 +324,6 @@ const onCardMouseLeave = (e: MouseEvent) => {
 
 const getImageUrl = (p: string | null) =>
   p ? `https://image.tmdb.org/t/p/w342${p}` : "https://placehold.co/342x513";
-
-const getYear = (item: Media | null | undefined) => {
-  const dateStr = item?.release_date || item?.first_air_date;
-  if (!dateStr) return "";
-  const d = new Date(dateStr);
-  return isNaN(d.getTime()) ? "" : d.getFullYear();
-};
 
 const getSegmentPath = (i: number, t: number, isActive: boolean = false) => {
   const a = 360 / t;
@@ -347,7 +342,7 @@ const getSegmentPath = (i: number, t: number, isActive: boolean = false) => {
   `;
 };
 
-const fetchMoodMovies = async (mood: CollectionDefinition): Promise<Media[]> => {
+const fetchMoodMovies = async (mood: CollectionDefinition) => {
   try {
     const key = import.meta.env.VITE_TMDB_API_KEY;
     if (!key) {
@@ -403,6 +398,11 @@ const selectMood = async (mood: CollectionDefinition) => {
   selectedMood.value = mood;
   loading.value = true;
 
+  // Update global ambient color
+  if (mood.color) {
+    updateColor(mood.color);
+  }
+
   try {
     moodItems.value = await fetchMoodMovies(mood);
     localStorage.setItem("lastMood", mood.name);
@@ -424,7 +424,7 @@ const viewMood = () => {
   });
 };
 
-const openModal = (item: Media | null | undefined) => {
+const openModal = (item: any) => {
   if (!item || !item.id) return;
   modalStore.open("movie", { movieId: item.id, mediaType: "movie" });
 };
@@ -435,6 +435,13 @@ const handleKey = (e: KeyboardEvent) => {
     shuffleMoods();
   }
 };
+
+// Watch for mood changes and update global ambient
+watch(selectedMood, (newMood) => {
+  if (newMood?.color) {
+    updateColor(newMood.color);
+  }
+});
 
 onMounted(() => {
   shuffleMoods();

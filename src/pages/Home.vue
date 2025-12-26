@@ -17,24 +17,7 @@
         :style="{
           background: `radial-gradient(circle at ${ambientPosition.x}% ${ambientPosition.y}%, ${ambientColor}40 0%, ${ambientColor}20 30%, transparent 70%)`,
         }"
-      />
-
-      <!-- Ambient toggle button (md and larger screens only) -->
-      <div class="fixed bottom-4 right-4 z-50 hidden md:block">
-        <button
-          @click="toggleAmbient"
-          class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white backdrop-blur transition-colors shadow-lg"
-        >
-          <span class="flex items-center gap-2">
-            <span>{{ canHandleAdvancedEffects ? "🌈" : "⚫" }}</span>
-            <span class="text-sm font-semibold">
-              Ambient: {{ canHandleAdvancedEffects ? "ON" : "OFF" }}
-            </span>
-          </span>
-        </button>
-      </div>
-
-      <!-- Content Wrapper -->
+      ></div>
       <div class="relative z-10">
         <section class="relative">
           <HeroSection
@@ -148,10 +131,7 @@
               </h2>
               <UpComing @update-ambient="updateAmbientColor" />
             </section>
-            <section
-              v-if="canHandleAdvancedEffects"
-              class="px-4 md:px-8 lg:px-12"
-            >
+            <section class="px-4 md:px-8 lg:px-12">
               <h2
                 class="text-3xl font-[Gilroy-Bold] text-white mb-6 flex items-center gap-3"
               >
