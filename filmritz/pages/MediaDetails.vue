@@ -43,7 +43,7 @@
 
           <!-- Heart Toggle Button -->
           <button @click="toggleWatchlist"
-            class="px-4 py-2 flex items-center gap-2 rounded-xl font-[Gilroy-Medium] bg-gray-800 hover:bg-gray-700 transition-transform duration-300 transform hover:scale-105 cursor-pointer">
+            class="px-4 py-2 flex items-center gap-2 rounded-xl font-[Gilroy-Medium] bg-gray-800 hover:bg-gray-700 transition-transform duration-500 transform hover:scale-105 cursor-pointer">
             <span :class="{ 'text-red-500 animate-pulse': inWatchlist }">♥</span>
             <span>{{ inWatchlist ? "Added to My List" : "Add to My List" }}</span>
           </button>
@@ -83,7 +83,7 @@
           Discover</button>
 
         <button @click="toggleWatchlist"
-          class="px-4 py-2 flex items-center gap-2 rounded-xl font-[Gilroy-Medium] bg-gray-800 hover:bg-gray-700 transition-transform duration-300 transform hover:scale-105">
+          class="px-4 py-2 flex items-center gap-2 rounded-xl font-[Gilroy-Medium] bg-gray-800 hover:bg-gray-700 transition-transform duration-500 transform hover:scale-105">
           <span :class="{ 'text-red-500 animate-pulse': inWatchlist }">♥</span>
           <span>{{ inWatchlist ? "Added to My List" : "Add to My List" }}</span>
         </button>

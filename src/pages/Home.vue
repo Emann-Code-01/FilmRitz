@@ -19,13 +19,18 @@
         }"
       />
 
-      <!-- Dev-only debug toggle for testing ambient effects -->
-      <div v-if="isDev" class="fixed bottom-4 right-4 z-50 space-y-2">
+      <!-- Ambient toggle button (md and larger screens only) -->
+      <div class="fixed bottom-4 right-4 z-50 hidden md:block">
         <button
-          @click="canHandleAdvancedEffects = !canHandleAdvancedEffects"
-          class="px-3 py-2 rounded bg-white/10 text-white backdrop-blur block w-full text-left"
+          @click="toggleAmbient"
+          class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white backdrop-blur transition-colors shadow-lg"
         >
-          Ambient: {{ canHandleAdvancedEffects ? "ON" : "OFF" }}
+          <span class="flex items-center gap-2">
+            <span>{{ canHandleAdvancedEffects ? "🌈" : "⚫" }}</span>
+            <span class="text-sm font-semibold">
+              Ambient: {{ canHandleAdvancedEffects ? "ON" : "OFF" }}
+            </span>
+          </span>
         </button>
       </div>
 
@@ -235,7 +240,6 @@ const ambientColors = [
 const ambientColor = ref<string>("#b20710");
 const ambientPosition = ref<{ x: number; y: number }>({ x: 50, y: 30 });
 const canHandleAdvancedEffects = ref<boolean>(false);
-const isDev = import.meta.env.DEV;
 
 // Get random color from pool
 const getRandomAmbientColor = () => {
@@ -254,27 +258,41 @@ function updateAmbientPosition(position: { x: number; y: number }) {
   ambientPosition.value = position;
 }
 
+// Toggle ambient effects
+function toggleAmbient() {
+  canHandleAdvancedEffects.value = !canHandleAdvancedEffects.value;
+  localStorage.setItem(
+    "ambientEnabled",
+    String(canHandleAdvancedEffects.value)
+  );
+
+  if (canHandleAdvancedEffects.value) {
+    ambientColor.value = getRandomAmbientColor();
+  }
+}
+
 // Performance Optimization
 onMounted(() => {
+  // Check if user has a saved preference
+  const savedPreference = localStorage.getItem("ambientEnabled");
+
   // Detect device capabilities
-  const cores = navigator.hardwareConcurrency || 2;
   const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-  const connection = (navigator as any).connection;
-  const isSlowConnection =
-    connection?.effectiveType === "2g" ||
-    connection?.effectiveType === "slow-2g";
   const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
-  // Enable advanced effects only on capable devices
-  canHandleAdvancedEffects.value =
-    cores > 4 && !isMobile && !isSlowConnection && !prefersReducedMotion;
+  // If user has saved preference, use that
+  if (savedPreference !== null) {
+    canHandleAdvancedEffects.value = savedPreference === "true";
+  } else {
+    // Default: ON for mobile, OFF for desktop (md and larger)
+    canHandleAdvancedEffects.value = isMobile && !prefersReducedMotion;
+  }
 
-  // Set random ambient color on page load
+  // Set random ambient color on page load if enabled
   if (canHandleAdvancedEffects.value) {
     ambientColor.value = getRandomAmbientColor();
-    console.log("🎨 Initial ambient color:", ambientColor.value);
   }
 
   // Read ad consent
@@ -283,12 +301,11 @@ onMounted(() => {
     consentGranted.value = true;
   }
 
-  console.log("🎬 FilmRitz Performance Mode:", {
-    cores,
+  console.log("🎬 FilmRitz Ambient Mode:", {
     isMobile,
-    isSlowConnection,
     prefersReducedMotion,
-    advancedEffects: canHandleAdvancedEffects.value,
+    ambientEnabled: canHandleAdvancedEffects.value,
+    savedPreference,
     consentGranted: consentGranted.value,
     initialAmbientColor: ambientColor.value,
   });

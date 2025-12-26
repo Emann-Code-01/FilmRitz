@@ -205,7 +205,7 @@
           <!-- Remove the full-page overlay if you only want it over the navbar -->
           <TransitionChild
             as="template"
-            enter="duration-300 ease-out"
+            enter="duration-500 ease-out"
             enter-from="opacity-0 -translate-y-5"
             enter-to="opacity-100 translate-y-0"
             leave="duration-200 ease-in"

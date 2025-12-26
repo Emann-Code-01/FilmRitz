@@ -1,6 +1,6 @@
 <template>
   <div
-    class="genre-deep-dive bg-linear-to-br from-black via-gray-900 to-black rounded-2xl overflow-hidden border border-white/5"
+    class="genre-deep-dive bg-linear-to-br from-black via-gray-900 to-black rounded-2xl overflow-hidden relative"
   >
     <div class="grid grid-cols-12 gap-0 min-h-[600px]">
       <!-- Sidebar -->

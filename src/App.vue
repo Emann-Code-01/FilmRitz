@@ -1,39 +1,10 @@
-<!-- <template>
-  <div>
-    <router-view />
-    <MovieModal />
-  </div>
-</template>
-
-<script setup>
-import MovieModal from './components/media/MediaModal.vue'; 
-</script>-->
-
 <template>
-  <span v-if="isLoggingOut">
-    Logging Out ... <i class="pi pi-sign-in"></i>
-  </span>
-  <span v-else>
+  <span class="app-container">
     <router-view />
     <MovieModal />
   </span>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useAuthStore } from "./stores/auth";
-import { useRouter } from "vue-router";
-import MovieModal from './components/media/MediaModal.vue';
-
-const auth = useAuthStore();
-const router = useRouter();
-
-const isLoggingOut = ref(false);
-
-async function logout() {
-  isLoggingOut.value = true;
-  await auth.signOut();
-  router.push("/ng");
-  isLoggingOut.value = false;
-}
+import MovieModal from "./components/media/MediaModal.vue";
 </script>

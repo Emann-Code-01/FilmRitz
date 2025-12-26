@@ -71,7 +71,7 @@
           </div> -->
 
           <div
-            class="absolute bottom-8 left-8 right-8 transition-transform duration-300 transform lg:translate-y-16 lg:group-hover:translate-y-0"
+            class="absolute bottom-8 left-8 right-8 transition-transform duration-500 transform lg:translate-y-16 lg:group-hover:translate-y-0"
           >
             <h3
               class="text-4xl font-[Gilroy-Bold] text-white mb-3 line-clamp-2 drop-shadow-2xl"
