@@ -134,7 +134,7 @@
 
           <!-- Quick tip -->
           <p class="text-gray-500 text-xs text-center max-w-xs leading-relaxed">
-            💡 Click any segment to explore movies<span class="hidden lg:block"
+            💡 Click any segment to explore movies<span class="hidden lg:inline-block"
               >, or press
               <kbd class="px-2 py-1 bg-white/10 rounded text-white"
                 >Space</kbd
@@ -274,7 +274,6 @@
               </div>
             </div>
 
-            <!-- No Results -->
             <div v-else class="text-center py-12">
               <span class="text-5xl block mb-3">🎬</span>
               <p class="text-gray-400">No movies found for this mood</p>

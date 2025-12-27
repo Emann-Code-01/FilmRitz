@@ -223,9 +223,9 @@
       <div v-if="auth.isLoggedIn" class="relative group">
         <button
           @click="handleMenuButtonClick3"
-          class="w-10 h-10 rounded-full bg-red-600 flex text-center select-none items-center justify-center text-white font-[Gilroy-Bold] leading-12 text-2xl cursor-pointer hover:bg-red-700 transition-colors"
+          class="w-10 aspect-square rounded-full bg-red-600 flex text-center select-none items-center justify-center text-white font-[Gilroy-Bold] leading-none text-2xl cursor-pointer hover:bg-red-700 transition-colors"
         >
-          <span class="mt-1">{{ userInitial }}</span>
+          <span class="">{{ userInitial }}</span>
         </button>
         <transition name="slide-fade">
           <div

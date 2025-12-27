@@ -90,7 +90,7 @@
           ref="initialFocus"
           type="submit"
           :disabled="auth.loading"
-          class="w-full py-4 rounded-xl bg-[#b20710] hover:bg-[#e32125] transition-all disabled:opacity-50 disabled:cursor-not-allowed font-[Gilroy-Bold] text-white text-lg transform hover:scale-[1.02] active:scale-[0.98]"
+          class="w-full py-4 rounded-xl bg-[#b20710] hover:bg-[#e32125] transition-all disabled:opacity-50 disabled:cursor-not-allowed font-[Gilroy-Bold] text-white text-lg transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
         >
           {{
             auth.loading
