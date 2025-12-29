@@ -48,7 +48,7 @@
             v-for="filter in filters"
             :key="filter.value"
             @click="selectedFilter = filter.value"
-            class="shrink-0 px-6 py-3 rounded-full font-[Gilroy-SemiBold] transition-all duration-500 cursor-pointer"
+            class="shrink-0 px-3 md:px-6 py-2 md:py-2.5  rounded-full font-[Gilroy-SemiBold] transition-all duration-500 cursor-pointer"
             :class="
               selectedFilter === filter.value
                 ? 'bg-[#b20710] text-white'

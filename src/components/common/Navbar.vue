@@ -430,7 +430,7 @@
         >
           <router-link
             to="/ng/login"
-            class="px-6 py-3 rounded-full bg-red-500 hover:bg-[#e32125] text-[#d1d5dc] font-[Gilroy-SemiBold] transition-all animate-fade-up duration-900"
+            class="px-3 md:px-6 py-2 md:py-2.5  rounded-full bg-red-500 hover:bg-[#e32125] text-[#d1d5dc] font-[Gilroy-SemiBold] transition-all animate-fade-up duration-900"
           >
             Sign In
           </router-link>

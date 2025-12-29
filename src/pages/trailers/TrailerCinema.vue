@@ -224,7 +224,7 @@
               <!-- More Info Button -->
               <button
                 @click="openModal(currentTrailer)"
-                class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center gap-2 border border-white/20 whitespace-nowrap cursor-pointer"
+                class="px-3 md:px-6 py-2 md:py-2.5  bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center gap-2 border border-white/20 whitespace-nowrap cursor-pointer"
               >
                 <i class="pi pi-info-circle"></i>
                 More Info
@@ -280,7 +280,7 @@
               <!-- More Info Button -->
               <button
                 @click="openModal(currentTrailer)"
-                class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center gap-2 border border-white/20 whitespace-nowrap cursor-pointer"
+                class="px-3 md:px-6 py-2 md:py-2.5  bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center gap-2 border border-white/20 whitespace-nowrap cursor-pointer"
               >
                 <i class="pi pi-info-circle"></i>
                 More Info

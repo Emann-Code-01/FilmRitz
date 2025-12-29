@@ -41,7 +41,7 @@
           <button
             v-if="history.length"
             @click="clearHistory"
-            class="px-6 py-3 bg-red-600/20 border border-red-600/50 text-red-400 rounded-xl font-[Gilroy-SemiBold] hover:bg-red-600 hover:text-white transition-all"
+            class="px-3 md:px-6 py-2 md:py-2.5  bg-red-600/20 border border-red-600/50 text-red-400 rounded-xl font-[Gilroy-SemiBold] hover:bg-red-600 hover:text-white transition-all"
           >
             Clear History
           </button>

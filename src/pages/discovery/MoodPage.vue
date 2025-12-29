@@ -51,7 +51,7 @@
             v-for="m in moods"
             :key="m.id"
             @click="selectMood(m)"
-            class="shrink-0 px-6 py-3 rounded-full font-[Gilroy-SemiBold] transition-all duration-500 flex items-center gap-2 cursor-pointer"
+            class="shrink-0 px-3 md:px-6 py-2 md:py-2.5  rounded-full font-[Gilroy-SemiBold] transition-all duration-500 flex items-center gap-2 cursor-pointer"
             :style="
               mood?.id === m.id
                 ? { backgroundColor: m.color, color: 'white' }

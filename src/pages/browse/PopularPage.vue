@@ -42,12 +42,12 @@
       class="sticky top-20 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
       <div class="px-6 md:px-10 max-w-7xl mx-auto">
-        <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+        <div class="flex gap-3 overflow-x-auto pb-2">
           <button
             v-for="filter in filters"
             :key="filter.value"
             @click="selectedFilter = filter.value"
-            class="shrink-0 px-6 py-3 rounded-full font-[Gilroy-SemiBold] transition-all duration-500 cursor-pointer"
+            class="shrink-0 px-3 md:px-6 py-2 md:py-2.5  rounded-full font-[Gilroy-SemiBold] transition-all duration-500 cursor-pointer"
             :class="
               selectedFilter === filter.value
                 ? 'bg-[#b20710] text-white'

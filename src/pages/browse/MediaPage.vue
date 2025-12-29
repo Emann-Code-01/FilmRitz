@@ -56,12 +56,12 @@
     >
       <div class="px-6 max-w-7xl mx-auto">
         <!-- Category Tabs -->
-        <div class="flex gap-3 mb-2 overflow-x-auto pb-2 scrollbar-hide">
+        <div class="flex gap-3 mb-2 overflow-x-auto pb-2">
           <button
             v-for="cat in categories"
             :key="cat.value"
             @click="selectedCategory = cat.value"
-            class="px-5 md:px-6 py-2 md:py-2.5 rounded-full font-[Gilroy-SemiBold] whitespace-nowrap flex items-center justify-center transition-all duration-500 cursor-pointer"
+            class="px-3 md:px-6 py-2 md:py-2.5 rounded-full font-[Gilroy-SemiBold] whitespace-nowrap flex items-center justify-center transition-all duration-500 cursor-pointer"
             :class="
               selectedCategory === cat.value
                 ? 'bg-[#b20710] text-white shadow-lg shadow-[#b20710]/50'
@@ -155,7 +155,7 @@
         </p>
         <button
           @click="() => {}"
-          class="px-6 py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all"
+          class="px-3 md:px-6 py-2 md:py-2.5  bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all"
         >
           Retry
         </button>
@@ -238,19 +238,19 @@
       <button
         @click="prevPage"
         :disabled="currentPage === 1"
-        class="px-6 py-3 rounded-xl bg-gray-950 border border-white/10 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-[Gilroy-SemiBold] cursor-pointer"
+        class="px-3 md:px-6 py-2 md:py-2.5  rounded-xl bg-gray-950 border border-white/10 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-[Gilroy-SemiBold] cursor-pointer"
       >
         ← Previous
       </button>
 
-      <span class="px-6 py-3 bg-[#b20710] rounded-xl font-[Gilroy-Bold]">
+      <span class="px-3 md:px-6 py-2 md:py-2.5  bg-[#b20710] rounded-xl font-[Gilroy-Bold]">
         Page {{ currentPage }}
       </span>
 
       <button
         @click="nextPage"
         :disabled="filteredMedia.length < perPage"
-        class="px-6 py-3 rounded-xl bg-gray-950 border border-white/10 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-[Gilroy-SemiBold] cursor-pointer"
+        class="px-3 md:px-6 py-2 md:py-2.5  rounded-xl bg-gray-950 border border-white/10 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-[Gilroy-SemiBold] cursor-pointer"
       >
         Next →
       </button>
@@ -304,10 +304,13 @@ const filteredMedia = computed(() => {
   );
 
   if (selectedCategory.value === "topRated") {
-    data = data.sort((a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0));
+    data = data.sort(
+      (a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0)
+    );
   } else if (selectedCategory.value === "upcoming") {
     data = data.filter(
-      (m: any) => (m.release_date || "") >= new Date().toISOString().slice(0, 10)
+      (m: any) =>
+        (m.release_date || "") >= new Date().toISOString().slice(0, 10)
     );
   }
 
@@ -342,7 +345,9 @@ const filteredMedia = computed(() => {
       )
     );
   } else if (appliedFilters.value.sort === "topRated") {
-    data = data.sort((a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0));
+    data = data.sort(
+      (a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0)
+    );
   }
 
   const start = (currentPage.value - 1) * perPage;
@@ -389,7 +394,9 @@ onMounted(async () => {
 });
 
 const pageTitle = computed(() =>
-  isMoviePage.value ? "Discover Movies | FilmRitz" : "Discover TV Shows | FilmRitz"
+  isMoviePage.value
+    ? "Discover Movies | FilmRitz"
+    : "Discover TV Shows | FilmRitz"
 );
 const pageDescription = computed(
   () =>

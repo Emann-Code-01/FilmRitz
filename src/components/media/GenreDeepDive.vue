@@ -65,10 +65,10 @@
       <Listbox
         v-model="selectedGenre"
         as="div"
-        class="col-span-12 md:hidden bg-black/40 backdrop-blur-sm p-6 space-y-2 border-b border-white/5"
+        class="col-span-12 md:hidden bg-black/40 backdrop-blur-sm pl-4 py-6 space-y-2 border-b border-white/5"
       >
         <ListboxButton
-          class="text-white font-[Gilroy-Bold] text-xl mb-4 flex items-center gap-3 justify-between w-full cursor-pointer bg-white/5 hover:bg-white/10 px-4 py-3 rounded-xl transition-all duration-500"
+          class="text-white font-[Gilroy-Bold] text-xl mb-4 flex items-center gap-3 justify-between w-full cursor-pointer bg-white/5 hover:bg-white/10 px-4 py-3 rounded-tl-xl rounded-bl-xl transition-all duration-500"
         >
           <span class="flex items-center gap-3">
             <span class="text-2xl">{{ selectedGenre?.icon }}</span>
@@ -87,7 +87,7 @@
             as="template"
           >
             <li
-              class="w-full text-left px-4 py-3 rounded-xl font-[Gilroy-SemiBold] transition-all duration-500 flex items-center justify-between group cursor-pointer"
+              class="w-full text-left px-4 py-3 rounded-tl-xl rounded-bl-xl font-[Gilroy-SemiBold] transition-all duration-500 flex items-center justify-between group cursor-pointer"
               :class="[
                 selected || active
                   ? 'bg-[#b20710] text-white shadow-lg shadow-[#b20710]/50'
@@ -115,9 +115,7 @@
             borderLeft: `4px solid ${selectedGenre?.color}`,
           }"
         >
-          <h2
-            class="text-3xl font-[Gilroy-Bold] text-white flex items-center gap-3"
-          >
+          <h2 class="text-3xl font-[Gilroy-Bold] text-white flex items-center gap-3">
             <span class="text-4xl">{{ selectedGenre?.icon }}</span>
             {{ selectedGenre?.name }}
           </h2>
@@ -127,10 +125,7 @@
         </div>
 
         <!-- Loading State -->
-        <div
-          v-if="loading"
-          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-        >
+        <div v-if="loading" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           <div
             v-for="n in 8"
             :key="n"
@@ -139,10 +134,7 @@
         </div>
 
         <!-- Items Grid -->
-        <div
-          v-else
-          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-        >
+        <div v-else class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           <div
             v-for="item in genreItems"
             :key="item.id"
@@ -171,9 +163,7 @@
               </div>
             </div>
             <div class="absolute bottom-0 left-0 right-0 p-4">
-              <h4
-                class="text-white font-[Gilroy-Bold] text-sm line-clamp-1 mb-1"
-              >
+              <h4 class="text-white font-[Gilroy-Bold] text-sm line-clamp-1 mb-1">
                 {{ item.title || item.name }}
               </h4>
               <div class="flex items-center gap-2 text-xs">
@@ -193,13 +183,8 @@
         </div>
 
         <!-- Empty State -->
-        <div
-          v-if="!loading && genreItems.length === 0"
-          class="text-center py-20"
-        >
-          <p class="text-gray-400 font-[Gilroy-Medium]">
-            No items found in this genre
-          </p>
+        <div v-if="!loading && genreItems.length === 0" class="text-center py-20">
+          <p class="text-gray-400 font-[Gilroy-Medium]">No items found in this genre</p>
         </div>
       </div>
     </div>
@@ -208,12 +193,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import {
-  Listbox,
-  ListboxOptions,
-  ListboxOption,
-  ListboxButton,
-} from "@headlessui/vue";
+import { Listbox, ListboxOptions, ListboxOption, ListboxButton } from "@headlessui/vue";
 import { getPosterUrl } from "@/utils/imageHelpers";
 import { openMediaModal } from "@/utils/modalHelpers";
 
@@ -293,8 +273,7 @@ const selectedGenre = ref<Genre>(genres.value[0]);
 const genreItems = ref<any[]>([]);
 const loading = ref(false);
 
-const getImageUrl = (path: string | null): string =>
-  getPosterUrl(path);
+const getImageUrl = (path: string | null): string => getPosterUrl(path);
 
 const formatYear = (date: string): string =>
   date ? new Date(date).getFullYear().toString() : "TBA";

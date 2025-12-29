@@ -53,7 +53,7 @@
           v-for="tab in tabs"
           :key="tab.value"
           @click="activeTab = tab.value"
-          class="px-6 py-3 font-[Gilroy-SemiBold] transition-all relative cursor-pointer"
+          class="px-3 md:px-6 py-2 md:py-2.5  font-[Gilroy-SemiBold] transition-all relative cursor-pointer"
           :class="
             activeTab === tab.value
               ? 'text-white'
@@ -85,7 +85,7 @@
             </div>
             <div>
               <button
-                class="px-6 py-3 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-alldisabled:opacity-50 disabled:cursor-not-allowed"
+                class="px-3 md:px-6 py-2 md:py-2.5  bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-alldisabled:opacity-50 disabled:cursor-not-allowed"
                 disabled
               >
                 Change Picture

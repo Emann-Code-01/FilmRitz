@@ -121,7 +121,7 @@
             <button
               @click="shuffleMoods"
               :disabled="isShuffling"
-              class="px-6 py-3 bg-linear-to-r from-[#b20710] to-[#e32125] hover:from-[#e32125] hover:to-[#b20710] rounded-xl text-white font-semibold transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 cursor-pointer"
+              class="px-3 md:px-6 py-2 md:py-2.5  bg-linear-to-r from-[#b20710] to-[#e32125] hover:from-[#e32125] hover:to-[#b20710] rounded-xl text-white font-semibold transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 cursor-pointer"
             >
               <span class="flex items-center gap-2">
                 <span class="text-lg">🔀</span>
@@ -201,7 +201,7 @@
 
               <button
                 @click="viewMood"
-                class="w-full px-6 py-3 bg-linear-to-r from-[#b20710] to-[#e32125] hover:from-[#e32125] hover:to-[#b20710] rounded-xl text-white font-semibold transition-all duration-500 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+                class="w-full px-3 md:px-6 py-2 md:py-2.5  bg-linear-to-r from-[#b20710] to-[#e32125] hover:from-[#e32125] hover:to-[#b20710] rounded-xl text-white font-semibold transition-all duration-500 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Explore All {{ selectedMood.name }}</span>
                 <span class="text-lg">→</span>

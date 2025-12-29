@@ -77,7 +77,7 @@
 
               <button
                 @click="viewFullDetails"
-                class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] text-white transition-all hover:scale-105 border border-white/10 cursor-pointer"
+                class="px-3 md:px-6 py-2 md:py-2.5  bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] text-white transition-all hover:scale-105 border border-white/10 cursor-pointer"
               >
                 View Full Details
               </button>
