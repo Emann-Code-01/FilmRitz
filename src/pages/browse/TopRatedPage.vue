@@ -35,7 +35,7 @@
     </div>
 
     <div
-      class="sticky top-18 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
+      class="sticky top-20 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
       <div class="px-6 md:px-10 max-w-7xl mx-auto">
         <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">

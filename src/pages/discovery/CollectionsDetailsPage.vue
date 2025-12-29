@@ -26,7 +26,7 @@
           class="flex flex-col lg:flex-row items-start lg:items-center gap-6 mb-8"
         >
           <div
-            class="w-20 md:w-30 aspect-square rounded-2xl flex items-center justify-center text-4xl md:text-7xl shrink-0"
+            class="w-20 md:w-30 aspect-square rounded-full md:flex hidden items-center justify-center text-4xl md:text-7xl shrink-0"
             :style="{
               backgroundColor: `${collection?.color}20`,
               border: `3px solid ${collection?.color}`,
@@ -35,7 +35,7 @@
             {{ collection?.icon }}
           </div>
 
-          <div class="flex-1">
+          <div class="flex-1 md:block hidden">
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] mb-3">
               {{ collection?.title }}
             </h1>
@@ -52,6 +52,39 @@
               >
                 {{ tag }}
               </span>
+            </div>
+          </div>
+
+          <div class="grid md:hidden space-y-2">
+            <div class="flex items-center gap-4">
+              <div
+                class="w-20 md:w-30 aspect-square rounded-full flex items-center justify-center text-4xl md:text-7xl shrink-0"
+                :style="{
+                  backgroundColor: `${collection?.color}20`,
+                  border: `3px solid ${collection?.color}`,
+                }"
+              >
+                {{ collection?.icon }}
+              </div>
+              <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] mb-3">
+                {{ collection?.title }}
+              </h1>
+            </div>
+            <div class="flex-1">
+              <p class="text-xl text-gray-300 font-[Gilroy-Regular] mb-4">
+                {{ collection?.longDescription }}
+              </p>
+
+              <!-- Tags -->
+              <div class="flex flex-wrap gap-2">
+                <span
+                  v-for="tag in collection?.tags"
+                  :key="tag"
+                  class="px-3 py-1 rounded-full text-sm font-[Gilroy-SemiBold] bg-white/10 text-white"
+                >
+                  {{ tag }}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -81,9 +114,7 @@
         </div>
 
         <!-- Collection Switcher -->
-        <div
-          class="flex items-center gap-3 overflow-x-auto pb-4 scrollbar-hide"
-        >
+        <div class="flex items-center gap-3 overflow-x-auto pb-4">
           <button
             v-for="col in allCollections"
             :key="col.id"
@@ -168,18 +199,6 @@
                   ).getFullYear()
                 }}
               </span>
-            </div>
-          </div>
-
-          <!-- Play Icon -->
-          <div
-            class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            <div
-              class="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl"
-              :style="{ backgroundColor: collection?.color }"
-            >
-              <span class="text-3xl text-white ml-1">▶</span>
             </div>
           </div>
 

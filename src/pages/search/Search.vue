@@ -17,17 +17,13 @@
             🔍
           </div>
           <div>
-            <h1 class="text-4xl md:text-5xl font-[Gilroy-Bold]">
-              Search Results
-            </h1>
+            <h1 class="text-4xl md:text-5xl font-[Gilroy-Bold]">Search Results</h1>
             <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-1">
               Found
               <span class="text-[#b20710] font-[Gilroy-Bold]">{{
                 filteredResults.length
               }}</span>
-              results for "<span class="text-white font-[Gilroy-Bold]">{{
-                query
-              }}</span
+              results for "<span class="text-white font-[Gilroy-Bold]">{{ query }}</span
               >"
             </p>
           </div>
@@ -126,9 +122,7 @@
 
             <div class="flex flex-wrap gap-1">
               <span
-                v-for="genreName in getGenreNames(
-                  getGenreIdsFromMedia(item)
-                ).slice(0, 5)"
+                v-for="genreName in getGenreNames(getGenreIdsFromMedia(item)).slice(0, 5)"
                 :key="genreName"
                 class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-[#b20710]/70 transition-all duration-200 cursor-pointer"
               >
@@ -136,17 +130,6 @@
               </span>
             </div>
           </div>
-
-          <!-- Play Icon
-          <div
-            class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            <div
-              class="w-16 h-16 rounded-full bg-[#b20710] flex items-center justify-center shadow-2xl"
-            >
-              <span class="text-3xl text-white ml-1">▶</span>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
@@ -160,9 +143,7 @@
         :disabled="loading"
         class="px-8 py-4 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"
       >
-        {{
-          loading ? "Loading..." : isExpanded ? "Show Less ↑" : "View More ↓"
-        }}
+        {{ loading ? "Loading..." : isExpanded ? "Show Less ↑" : "View More ↓" }}
       </button>
     </div>
   </div>
@@ -198,20 +179,14 @@ const filters = ref<{
 
 const filteredResults = computed(() => {
   let results = store.searchResults.filter((item: Media) => {
-    if (
-      filters.value.genre &&
-      !item.genre_ids?.includes(Number(filters.value.genre))
-    )
+    if (filters.value.genre && !item.genre_ids?.includes(Number(filters.value.genre)))
       return false;
 
-    const year =
-      item.release_date?.slice(0, 4) || item.first_air_date?.slice(0, 4);
+    const year = item.release_date?.slice(0, 4) || item.first_air_date?.slice(0, 4);
     if (filters.value.year && year !== String(filters.value.year)) return false;
 
-    if (filters.value.rating && item.vote_average < filters.value.rating)
-      return false;
-    if (filters.value.type && item.media_type !== filters.value.type)
-      return false;
+    if (filters.value.rating && item.vote_average < filters.value.rating) return false;
+    if (filters.value.type && item.media_type !== filters.value.type) return false;
 
     return true;
   });
@@ -233,9 +208,7 @@ const filteredResults = computed(() => {
   return results;
 });
 
-const visibleResults = computed(() =>
-  filteredResults.value.slice(0, visibleCount.value)
-);
+const visibleResults = computed(() => filteredResults.value.slice(0, visibleCount.value));
 
 async function fetchResults(searchQuery: string, page = 1) {
   if (!searchQuery.trim()) return;
@@ -282,8 +255,7 @@ function getPoster(item: any) {
 function getGenreIdsFromMedia(media: any): number[] {
   if (!media) return [];
   if (Array.isArray(media.genre_ids)) return media.genre_ids;
-  if (Array.isArray(media.genres))
-    return media.genres.map((g: { id: number }) => g.id);
+  if (Array.isArray(media.genres)) return media.genres.map((g: { id: number }) => g.id);
   return [];
 }
 

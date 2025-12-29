@@ -52,7 +52,7 @@
     <!-- FILTER PANEL -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <div
-      class="sticky top-18 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
+      class="sticky top-20 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
       <div class="px-6 max-w-7xl mx-auto">
         <!-- Category Tabs -->
@@ -61,7 +61,7 @@
             v-for="cat in categories"
             :key="cat.value"
             @click="selectedCategory = cat.value"
-            class="px-6 py-2.5 rounded-full font-[Gilroy-SemiBold] whitespace-nowrap transition-all duration-500 cursor-pointer"
+            class="px-5 md:px-6 py-2 md:py-2.5 rounded-full font-[Gilroy-SemiBold] whitespace-nowrap flex items-center justify-center transition-all duration-500 cursor-pointer"
             :class="
               selectedCategory === cat.value
                 ? 'bg-[#b20710] text-white shadow-lg shadow-[#b20710]/50'
@@ -77,7 +77,7 @@
           <!-- Genre Filter -->
           <select
             v-model="appliedFilters.genre"
-            class="px-4 py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+            class="px-3 md:px-4 py-2 md:py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           >
             <option value="">All Genres</option>
             <option v-for="g in genres" :key="g.id" :value="g.id">
@@ -90,7 +90,7 @@
             type="number"
             v-model.number="appliedFilters.year"
             placeholder="Year"
-            class="px-4 py-2.5 w-28 rounded-xl bg-gray-950 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+            class="px-3 md:px-4 py-2 md:py-2.5 w-28 rounded-xl bg-gray-950 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           />
 
           <!-- Rating Filter -->
@@ -101,13 +101,13 @@
             max="10"
             step="0.1"
             placeholder="Min Rating"
-            class="px-4 py-2.5 w-32 rounded-xl bg-gray-950 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+            class="px-3 md:px-4 py-2 md:py-2.5 w-32 rounded-xl bg-gray-950 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           />
 
           <!-- Sort Filter -->
           <select
             v-model="appliedFilters.sort"
-            class="px-4 py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+            class="px-3 md:px-4 py-2 md:py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           >
             <option value="">Sort By</option>
             <option value="newest">Newest</option>
@@ -118,7 +118,7 @@
           <!-- Clear Filters -->
           <button
             @click="clearFilters"
-            class="px-6 py-2.5 rounded-xl bg-red-600/20 border cursor-pointer border-red-600/50 text-red-400 font-[Gilroy-SemiBold] hover:bg-red-600 hover:text-white transition-all"
+            class="px-5 md:px-6 py-2 md:py-2.5 rounded-xl bg-red-600/20 border cursor-pointer border-red-600/50 text-red-400 font-[Gilroy-SemiBold] hover:bg-red-600 hover:text-white transition-all"
           >
             Clear Filters
           </button>
@@ -304,13 +304,10 @@ const filteredMedia = computed(() => {
   );
 
   if (selectedCategory.value === "topRated") {
-    data = data.sort(
-      (a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0)
-    );
+    data = data.sort((a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0));
   } else if (selectedCategory.value === "upcoming") {
     data = data.filter(
-      (m: any) =>
-        (m.release_date || "") >= new Date().toISOString().slice(0, 10)
+      (m: any) => (m.release_date || "") >= new Date().toISOString().slice(0, 10)
     );
   }
 
@@ -345,9 +342,7 @@ const filteredMedia = computed(() => {
       )
     );
   } else if (appliedFilters.value.sort === "topRated") {
-    data = data.sort(
-      (a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0)
-    );
+    data = data.sort((a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0));
   }
 
   const start = (currentPage.value - 1) * perPage;
@@ -394,9 +389,7 @@ onMounted(async () => {
 });
 
 const pageTitle = computed(() =>
-  isMoviePage.value
-    ? "Discover Movies | FilmRitz"
-    : "Discover TV Shows | FilmRitz"
+  isMoviePage.value ? "Discover Movies | FilmRitz" : "Discover TV Shows | FilmRitz"
 );
 const pageDescription = computed(
   () =>

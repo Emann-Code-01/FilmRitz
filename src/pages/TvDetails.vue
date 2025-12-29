@@ -106,7 +106,7 @@
           </div>
 
           <p
-            class="text-lg md:text-xl text-gray-300 font-[Gilroy-Medium] line-clamp-4 max-w-3xl animate-fade-up"
+            class="text-lg md:text-xl text-gray-300 font-[Gilroy-Medium] line-clamp max-w-3xl animate-fade-up"
             style="animation-delay: 0.2s"
           >
             {{ latestSeason?.overview || tv.overview }}
@@ -117,13 +117,11 @@
       <!-- ═══════════════════════════════════════════════════════════════ -->
       <!-- SEASONS LIST -->
       <!-- ═══════════════════════════════════════════════════════════════ -->
-      <div class="px-12 mx-auto mt-12 transition-all duration-500">
+      <div class="px-6 md:px-12 mx-auto mt-12 transition-all duration-500">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-3xl font-[Gilroy-Bold]">All Seasons</h2>
           <span class="text-gray-400 font-[Gilroy-Medium]">
-            {{ displayedSeasons.length }} season{{
-              displayedSeasons.length > 1 ? "s" : ""
-            }}
+            {{ displayedSeasons.length }} season
           </span>
         </div>
 
@@ -478,7 +476,7 @@ const displayedSeasons = computed(() => {
   if (!tv.value) return [];
   const filteredSeasons = tv.value.seasons.filter(
     (s: any) => s.season_number > 0
-  ); // Exclude specials
+  );
   return showAllSeasons.value ? filteredSeasons : filteredSeasons.slice(0, 2);
 });
 

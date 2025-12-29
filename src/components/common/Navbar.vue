@@ -1,10 +1,10 @@
-  <template>
+<template>
   <nav
     :class="[
       auth.isLoggedIn &&
       router.currentRoute.value.path !== '/forgot-password' &&
       router.currentRoute.value.path !== '/reset-password'
-        ? 'fixed top-0 left-0 w-full py-5 px-6 z-50 flex items-center justify-between transition-all duration-500 ease-out'
+        ? 'fixed top-0 left-0 w-full py-5 pl-6 z-50 flex items-center justify-between transition-all duration-500 ease-out'
         : 'fixed top-0 left-0 w-full py-5 xl:px-32 px-5 z-50 flex items-center justify-between transition-all duration-500 ease-out',
       scrolled
         ? 'bg-black/90 backdrop-blur-xl shadow-lg'
@@ -21,8 +21,8 @@
             auth.isLoggedIn &&
             router.currentRoute.value.path !== '/forgot-password' &&
             router.currentRoute.value.path !== '/reset-password'
-              ? 'transition-all duration-900 animate-fade-up w-10 md:w-15'
-              : 'transition-all duration-900 animate-fade-up w-11 md:w-16'
+              ? 'transition-all duration-900 animate-fade-up w-12 md:w-15'
+              : 'transition-all duration-900 animate-fade-up w-13 md:w-16'
           "
         />
       </router-link>
@@ -202,7 +202,6 @@
       </button>
       <TransitionRoot appear :show="isOpen" as="template">
         <Dialog as="div" @close="closeModal" class="relative z-9999">
-          <!-- Remove the full-page overlay if you only want it over the navbar -->
           <TransitionChild
             as="template"
             enter="duration-500 ease-out"
@@ -223,9 +222,9 @@
       <div v-if="auth.isLoggedIn" class="relative group">
         <button
           @click="handleMenuButtonClick3"
-          class="w-10 aspect-square rounded-full bg-red-600 flex text-center select-none items-center justify-center text-white font-[Gilroy-Bold] leading-none text-2xl cursor-pointer hover:bg-red-700 transition-colors"
+          class="w-10 h-10 lg:aspect-square rounded-full bg-red-600 flex text-center select-none items-center justify-center text-white font-[Gilroy-Bold] leading-none text-2xl cursor-pointer hover:bg-red-700 transition-colors"
         >
-          <span class="">{{ userInitial }}</span>
+          <span class="mt-1 lg:mt-0">{{ userInitial }}</span>
         </button>
         <transition name="slide-fade">
           <div

@@ -52,7 +52,7 @@
           <div class="absolute inset-x-0 bottom-0 p-6">
             <div class="flex items-center gap-3 mb-3">
               <div
-                class="w-14 h-14 rounded-xl flex items-center justify-center text-3xl"
+                class="w-20 aspect-square rounded-full flex items-center justify-center text-3xl"
                 :style="{
                   backgroundColor: `${collection.color}30`,
                   border: `2px solid ${collection.color}`,
@@ -70,9 +70,7 @@
               </div>
             </div>
 
-            <p
-              class="text-gray-300 font-[Gilroy-Regular] text-sm line-clamp-2 mb-4"
-            >
+            <p class="text-gray-300 font-[Gilroy-Regular] text-sm line-clamp-2 mb-4">
               {{ collection.description }}
             </p>
 
