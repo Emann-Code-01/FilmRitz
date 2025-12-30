@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import { useMedia } from "@/composables/useMedia";
 import type { Media } from "@/types/media"; // ✅ Ensure Media includes media_type: "movie" | "tv"
 
-export const useMediatore = defineStore("movieStore", {
+export const useMediaStore = defineStore("movieStore", {
   state: () => ({
     trending: [] as Media[],
     topRated: [] as Media[],

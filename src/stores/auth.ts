@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import { supabase } from "../lib/supabaseClient";
+import type { User, AuthError } from "@supabase/supabase-js";
 
-function mapAuthError(error: any): string {
+function mapAuthError(error: AuthError | null): string {
   if (!error?.message) return "Something went wrong. Please try again.";
 
   const msg = error.message;
@@ -31,7 +32,7 @@ function mapAuthError(error: any): string {
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    user: null as any,
+    user: null as User | null,
     loading: false,
     loaded: false,
     error: null as string | null,
@@ -56,7 +57,7 @@ export const useAuthStore = defineStore("auth", {
       }
 
       this.user = data.user;
-      localStorage.setItem("user", JSON.stringify(this.user));
+      localStorage.setItem("auth.user", JSON.stringify(this.user));
     },
 
     async signIn(email: string, password: string) {
@@ -77,14 +78,14 @@ export const useAuthStore = defineStore("auth", {
       }
 
       this.user = data.user;
-      localStorage.setItem("user", JSON.stringify(this.user));
+      localStorage.setItem("auth.user", JSON.stringify(this.user));
     },
 
     async signOut() {
       await supabase.auth.signOut();
       this.user = null;
       this.loaded = true;
-      localStorage.removeItem("user");
+      localStorage.removeItem("auth.user");
     },
 
     async syncUser() {
@@ -93,9 +94,9 @@ export const useAuthStore = defineStore("auth", {
 
       if (data.session?.user) {
         this.user = data.session.user;
-        localStorage.setItem("user", JSON.stringify(this.user));
+        localStorage.setItem("auth.user", JSON.stringify(this.user));
       } else {
-        const cached = localStorage.getItem("user");
+        const cached = localStorage.getItem("auth.user");
         this.user = cached ? JSON.parse(cached) : null;
       }
 

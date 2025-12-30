@@ -66,7 +66,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from '#imports'
-import { useMediatore } from '../../src/stores/mediaStore'
+import { useMediaStore } from '../../src/stores/mediaStore'
 import { useModalStore } from '../../src/stores/modalStore'
 import FilterPanel from '../../src/components/media/FilterPanel.vue'
 import type { Media } from '../../src/types/media'
@@ -75,7 +75,7 @@ import { useHead } from '#imports'
 
 const route = useRoute()
 const router = useRouter()
-const store = useMediatore()
+const store = useMediaStore()
 const modalStore = useModalStore()
 
 const query = ref((route.query.q as string) || '')

@@ -1,6 +1,6 @@
 <!-- components/Navigation/Footer.vue -->
 <template>
-  <footer class="bg-black/60 border-t border-white/10 mt-20">
+  <footer class="bg-black/60 border-t border-white/10">
     <div class="mx-auto px-14 py-12">
       <div class="grid md:grid-cols-2 gap-8 md:gap-0 mb-8">
         <!-- Company -->
