@@ -166,16 +166,17 @@ const openModal = (item: any) => {
 const loadPopular = async () => {
   loading.value = true;
   try {
+    // Fetch 3 pages for each filter to get 60+ items
     if (selectedFilter.value === "all") {
-      popularItems.value = await fetchPopularMedia();
+      popularItems.value = await fetchPopularMedia(3);
     } else if (selectedFilter.value === "movie") {
-      const movies = await fetchPopularMovies();
+      const movies = await fetchPopularMovies(3);
       popularItems.value = movies.map((m: any) => ({
         ...m,
         media_type: "movie",
       }));
     } else {
-      const shows = await fetchPopularTV();
+      const shows = await fetchPopularTV(3);
       popularItems.value = shows.map((s: any) => ({ ...s, media_type: "tv" }));
     }
   } catch (error) {

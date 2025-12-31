@@ -118,7 +118,7 @@
                 </router-link>
               </div>
               <CuratedCollections
-                :limit="3"
+                :limit="4"
                 @update-ambient="updateAmbientColor"
               />
             </section>

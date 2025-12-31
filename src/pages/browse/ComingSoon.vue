@@ -121,7 +121,8 @@ const openModal = (item: any) => {
 
 onMounted(async () => {
   try {
-    upcomingItems.value = await fetchUpcomingMedia();
+    // Fetch 3 pages (60+ items) of upcoming content
+    upcomingItems.value = await fetchUpcomingMedia(3);
   } catch (error) {
     console.error("Failed to load upcoming:", error);
   } finally {

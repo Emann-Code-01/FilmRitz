@@ -167,7 +167,7 @@ const openModal = (item: any) => {
 
 onMounted(async () => {
   try {
-    const data = await fetchTrendingMedia("day");
+    const data = await fetchTrendingMedia("day", 3);
     hotItems.value = data.slice(0, 15);
   } catch (err) {
     error.value = "Failed to load hot content";

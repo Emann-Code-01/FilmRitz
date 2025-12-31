@@ -351,16 +351,16 @@ const fetchMoodMovies = async (mood: CollectionDefinition) => {
     const genreIds = mood.genreIds || [];
     if (!genreIds.length) return [];
 
-    const res = await fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${key}&sort_by=popularity.desc&with_genres=${genreIds.join(
-        ","
-      )}`
-    );
+     
+    const [page1, page2] = await Promise.all([
+      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${key}&sort_by=popularity.desc&with_genres=${genreIds.join(",")}&page=1`),
+      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${key}&sort_by=popularity.desc&with_genres=${genreIds.join(",")}&page=2`)
+    ]);
 
-    if (!res.ok) throw new Error("API error");
+    if (!page1.ok || !page2.ok) throw new Error("API error");
 
-    const data = await res.json();
-    return data.results || [];
+    const [data1, data2] = await Promise.all([page1.json(), page2.json()]);
+    return [...(data1.results || []), ...(data2.results || [])];
   } catch {
     return [];
   }

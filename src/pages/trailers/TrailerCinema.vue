@@ -439,9 +439,10 @@ async function fetchTrailerSlides() {
   try {
     console.log("Fetching trailer cinema items...");
 
-    const trending = await fetchTrendingMedia("week");
+    // Fetch 3 pages (60+ items) and use top 30 for trailers
+    const trending = await fetchTrendingMedia("week", 3);
 
-    const topItems = trending.slice(0, 20);
+    const topItems = trending.slice(0, 30);
 
     const itemsWithVideos = await Promise.all(
       topItems.map(async (item) => {

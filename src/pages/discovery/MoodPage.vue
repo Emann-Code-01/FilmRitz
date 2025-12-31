@@ -151,15 +151,22 @@ const selectMood = (m: CollectionDefinition) => {
   router.push({ name: "Mood", params: { slug: m.slug } });
 };
 
-const fetchDiscover = async (type: "movie" | "tv", genreIds: number[]) => {
+const fetchDiscover = async (type: "movie" | "tv", genreIds: number[], maxPages = 3) => {
   const key = import.meta.env.VITE_TMDB_API_KEY;
-  const res = await fetch(
-    `https://api.themoviedb.org/3/discover/${type}?api_key=${key}&with_genres=${genreIds.join(
-      ","
-    )}&sort_by=popularity.desc`
+  
+  // Fetch multiple pages to get more results
+  const pagePromises = Array.from({ length: maxPages }, (_, i) =>
+    fetch(
+      `https://api.themoviedb.org/3/discover/${type}?api_key=${key}&with_genres=${genreIds.join(
+        ","
+      )}&sort_by=popularity.desc&page=${i + 1}`
+    ).then(res => res.json())
   );
-  const data = await res.json();
-  return data.results.map((item: any) => ({ ...item, media_type: type }));
+  
+  const responses = await Promise.all(pagePromises);
+  const allResults = responses.flatMap(data => data.results || []);
+  
+  return allResults.map((item: any) => ({ ...item, media_type: type }));
 };
 
 const loadMoodItems = async () => {
@@ -174,13 +181,15 @@ const loadMoodItems = async () => {
   }
 
   try {
+    // Fetch 3 pages of both movies and TV shows (approximately 60 items each)
     const [movies, tv] = await Promise.all([
-      fetchDiscover("movie", mood.value.genreIds),
-      fetchDiscover("tv", mood.value.genreIds),
+      fetchDiscover("movie", mood.value.genreIds, 3),
+      fetchDiscover("tv", mood.value.genreIds, 3),
     ]);
+    
+    // Mix and sort by popularity, no limit on slice
     moodItems.value = [...movies, ...tv]
-      .sort((a, b) => b.popularity - a.popularity)
-      .slice(0, 20);
+      .sort((a, b) => b.popularity - a.popularity);
   } catch (err) {
     console.error("Mood load failed:", err);
   } finally {

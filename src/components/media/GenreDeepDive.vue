@@ -287,13 +287,18 @@ const selectGenre = async (genre: Genre) => {
 const loadGenreItems = async (genreId: number) => {
   loading.value = true;
   try {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${
-        import.meta.env.VITE_TMDB_API_KEY
-      }&with_genres=${genreId}&sort_by=popularity.desc&page=1`
-    );
-    const data = await response.json();
-    genreItems.value = data.results.slice(0, 12);
+    const key = import.meta.env.VITE_TMDB_API_KEY;
+    
+     
+    const [page1, page2] = await Promise.all([
+      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${key}&with_genres=${genreId}&sort_by=popularity.desc&page=1`),
+      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${key}&with_genres=${genreId}&sort_by=popularity.desc&page=2`)
+    ]);
+    
+    const [data1, data2] = await Promise.all([page1.json(), page2.json()]);
+    const allResults = [...(data1.results || []), ...(data2.results || [])];
+    
+    genreItems.value = allResults.slice(0, 20);
   } catch (error) {
     console.error("Failed to load genre items:", error);
   } finally {

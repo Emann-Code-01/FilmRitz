@@ -91,7 +91,8 @@ export function useMedia() {
     loading.value = true;
     error.value = null;
     try {
-      trending.value = await fetchTrendingMovies("week");
+      // Fetch 3 pages (60+ items)
+      trending.value = await fetchTrendingMovies("week", 3);
       lastFetched.value = now;
     } catch (err: any) {
       console.error("❌ Failed to fetch trending movies:", err);
@@ -104,7 +105,8 @@ export function useMedia() {
   const getTopRated = async () => {
     loading.value = true;
     try {
-      topRated.value = await fetchTopRatedMovies();
+      // Fetch 3 pages (60+ items)
+      topRated.value = await fetchTopRatedMovies(3);
     } catch (err: any) {
       console.error("❌ Top rated movies failed:", err);
       error.value = "Failed to fetch top rated movies.";
@@ -116,7 +118,8 @@ export function useMedia() {
   const getUpcoming = async () => {
     loading.value = true;
     try {
-      upcoming.value = await fetchUpcomingMovies();
+      // Fetch 3 pages (60+ items)
+      upcoming.value = await fetchUpcomingMovies(3);
     } catch (err: any) {
       console.error("❌ Upcoming movies failed:", err);
       error.value = "Failed to fetch upcoming movies.";
@@ -137,7 +140,8 @@ export function useMedia() {
     loading.value = true;
     error.value = null;
     try {
-      trendingTV.value = await fetchTrendingTV("week");
+      // Fetch 3 pages (60+ items)
+      trendingTV.value = await fetchTrendingTV("week", 3);
       lastFetched.value = now;
     } catch (err: any) {
       console.error("❌ Failed to fetch trending TV:", err);
@@ -150,7 +154,8 @@ export function useMedia() {
   const getTopRatedTV = async () => {
     loading.value = true;
     try {
-      topRatedTV.value = await fetchTopRatedTV();
+      // Fetch 3 pages (60+ items)
+      topRatedTV.value = await fetchTopRatedTV(3);
     } catch (err: any) {
       console.error("❌ Top rated TV failed:", err);
       error.value = "Failed to fetch top rated TV shows.";
@@ -162,7 +167,8 @@ export function useMedia() {
   const getUpcomingTV = async () => {
     loading.value = true;
     try {
-      upcomingTV.value = await fetchOnTheAir();
+      // Fetch 3 pages (60+ items)
+      upcomingTV.value = await fetchOnTheAir(3);
     } catch (err: any) {
       console.error("❌ Upcoming TV failed:", err);
       error.value = "Failed to fetch upcoming TV shows.";
@@ -227,7 +233,7 @@ export function useMedia() {
     }
   };
 
-  const searchMulti = async (query: string, page = 1) => {
+  const searchMulti = async (query: string, maxPages = 3) => {
     if (!query.trim()) {
       searchResults.value = [];
       return;
@@ -235,7 +241,8 @@ export function useMedia() {
     loading.value = true;
     error.value = null;
     try {
-      const results = await movieService.searchMulti(query, page); // ✅ pass page to service
+      // Fetch multiple pages to get more search results (approximately 60 items)
+      const results = await movieService.searchMulti(query, maxPages);
       searchResults.value = results;
     } catch (err: any) {
       console.error("❌ Search failed:", err);

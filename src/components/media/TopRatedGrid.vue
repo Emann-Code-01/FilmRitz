@@ -249,8 +249,9 @@ const loadTopRatedMedia = async () => {
   loading.value = true;
   error.value = null;
   try {
-    const topRated = await fetchTopRatedMedia();
-    mediaList.value = topRated.slice(0, 10);
+    // Fetch 3 pages (60+ items) and display top 20
+    const topRated = await fetchTopRatedMedia(3);
+    mediaList.value = topRated.slice(0, 20);
   } catch (err: any) {
     console.error("❌ Failed to fetch top rated media:", err);
     error.value =

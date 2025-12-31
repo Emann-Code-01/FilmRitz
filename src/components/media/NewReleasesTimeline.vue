@@ -176,17 +176,20 @@ const loadItems = async () => {
       startDate.setMonth(now.getMonth() - 1);
     }
 
-    const response = await fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${
-        import.meta.env.VITE_TMDB_API_KEY
-      }&primary_release_date.gte=${
-        startDate.toISOString().split("T")[0]
-      }&primary_release_date.lte=${
-        now.toISOString().split("T")[0]
-      }&sort_by=primary_release_date.desc`
-    );
-    const data = await response.json();
-    timelineItems.value = data.results.slice(0, 15).map((item: any) => ({
+    const key = import.meta.env.VITE_TMDB_API_KEY;
+    const startDateStr = startDate.toISOString().split("T")[0];
+    const endDateStr = now.toISOString().split("T")[0];
+    
+     
+    const [page1, page2] = await Promise.all([
+      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${key}&primary_release_date.gte=${startDateStr}&primary_release_date.lte=${endDateStr}&sort_by=primary_release_date.desc&page=1`),
+      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${key}&primary_release_date.gte=${startDateStr}&primary_release_date.lte=${endDateStr}&sort_by=primary_release_date.desc&page=2`)
+    ]);
+    
+    const [data1, data2] = await Promise.all([page1.json(), page2.json()]);
+    const allResults = [...(data1.results || []), ...(data2.results || [])];
+    
+    timelineItems.value = allResults.slice(0, 30).map((item: any) => ({
       ...item,
       media_type: "movie",
     }));

@@ -309,8 +309,9 @@ function openFullDetails(mediaType: "movie" | "tv", mediaId: number) {
 
 onMounted(async () => {
   try {
-    const data = await fetchTrendingMedia("week");
-    spotlightItems.value = data.slice(10, 25); // Different items from trending
+    // Fetch 3 pages (60+ items) and display items 10-25 for variety
+    const data = await fetchTrendingMedia("week", 3);
+    spotlightItems.value = data.slice(10, 30); // Different items from trending, more variety
   } catch (error) {
     console.error("Failed to load spotlight items:", error);
   } finally {

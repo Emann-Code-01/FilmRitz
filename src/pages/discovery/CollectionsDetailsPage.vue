@@ -98,7 +98,7 @@
                 {{ collection?.totalItems || 0 }}+
               </div>
               <div class="text-sm text-gray-400 font-[Gilroy-Medium]">
-                Movies
+                Items
               </div>
             </div>
             <div class="text-center flex items-center justify-center gap-2">
@@ -220,7 +220,7 @@
         <button
           @click="changePage(currentPage - 1)"
           :disabled="currentPage === 1"
-          class="px-3 md:px-6 py-2 md:py-2.5  rounded-xl font-[Gilroy-Bold] text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          class="px-3 md:px-6 py-2 md:py-2.5 rounded-xl font-[Gilroy-Bold] text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         >
           ← Previous
         </button>
@@ -243,7 +243,7 @@
         <button
           @click="changePage(currentPage + 1)"
           :disabled="currentPage === totalPages"
-          class="px-3 md:px-6 py-2 md:py-2.5  rounded-xl font-[Gilroy-Bold] text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          class="px-3 md:px-6 py-2 md:py-2.5 rounded-xl font-[Gilroy-Bold] text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         >
           Next →
         </button>

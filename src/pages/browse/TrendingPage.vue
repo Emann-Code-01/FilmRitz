@@ -170,12 +170,13 @@ const openModal = (item: any) => {
 const loadTrending = async () => {
   loading.value = true;
   try {
+    // Fetch 3 pages for each filter to get 60+ items
     if (selectedFilter.value === "all") {
-      trendingItems.value = await fetchTrendingMedia("week");
+      trendingItems.value = await fetchTrendingMedia("week", 3);
     } else if (selectedFilter.value === "movie") {
-      trendingItems.value = await fetchTrendingMovies("week");
+      trendingItems.value = await fetchTrendingMovies("week", 3);
     } else {
-      trendingItems.value = await fetchTrendingTV("week");
+      trendingItems.value = await fetchTrendingTV("week", 3);
     }
   } catch (error) {
     console.error("Failed to load trending:", error);

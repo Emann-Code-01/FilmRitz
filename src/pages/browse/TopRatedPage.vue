@@ -152,16 +152,17 @@ const openModal = (item: any) => {
 const loadTopRated = async () => {
   loading.value = true;
   try {
+    // Fetch 3 pages for each filter to get 60+ items
     if (selectedFilter.value === "all") {
-      topRatedItems.value = await fetchTopRatedMedia();
+      topRatedItems.value = await fetchTopRatedMedia(3);
     } else if (selectedFilter.value === "movie") {
-      const movies = await fetchTopRatedMovies();
+      const movies = await fetchTopRatedMovies(3);
       topRatedItems.value = movies.map((m: any) => ({
         ...m,
         media_type: "movie",
       }));
     } else {
-      const shows = await fetchTopRatedTV();
+      const shows = await fetchTopRatedTV(3);
       topRatedItems.value = shows.map((s: any) => ({ ...s, media_type: "tv" }));
     }
   } catch (error) {

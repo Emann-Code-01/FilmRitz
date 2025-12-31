@@ -63,7 +63,7 @@ export const useMediaStore = defineStore("movieStore", {
     },
 
     // 🔎 Unified Search for both Movies + TV shows
-    async searchMulti(query: string, page = 1) {
+    async searchMulti(query: string, maxPages = 3) {
       const { searchMulti, searchResults, error } = useMedia();
 
       if (!query.trim()) {
@@ -75,15 +75,9 @@ export const useMediaStore = defineStore("movieStore", {
       this.error = null;
 
       try {
-        await searchMulti(query, page);
-
-        // If this is page 1 → reset results, otherwise append
-        if (page === 1) {
-          this.searchResults = searchResults.value;
-        } else {
-          this.searchResults = [...this.searchResults, ...searchResults.value];
-        }
-
+        // Fetch multiple pages to get more results (approximately 60 items)
+        await searchMulti(query, maxPages);
+        this.searchResults = searchResults.value;
       } catch (err: any) {
         console.error("❌ Search failed:", err);
         this.error = error.value || "Search failed.";

@@ -108,9 +108,10 @@ const openModal = (item: any) => {
 const loadReleases = async () => {
   loading.value = true;
   try {
+    // Fetch 3 pages of each to get 60+ items per type
     const [movies, shows] = await Promise.all([
-      fetchUpcomingMovies(),
-      fetchOnTheAir(),
+      fetchUpcomingMovies(3),
+      fetchOnTheAir(3),
     ]);
 
     const combined = [
