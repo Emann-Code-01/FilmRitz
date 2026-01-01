@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
-    <!-- Loading Skeleton -->
     <div v-if="loading" class="px-6 md:px-10 max-w-7xl mx-auto pt-24">
       <div class="grid md:grid-cols-3 gap-8">
         <div class="h-96 bg-gray-800/50 rounded-2xl animate-pulse"></div>
@@ -11,7 +10,6 @@
       </div>
     </div>
 
-    <!-- Not Found -->
     <div v-else-if="notFound" class="px-6 md:px-10 max-w-7xl mx-auto pt-24">
       <div class="text-center py-20">
         <p class="text-2xl text-gray-400">Actor not found</p>
@@ -21,11 +19,8 @@
       </div>
     </div>
 
-    <!-- Main Content -->
     <div v-else-if="person" class="px-6 md:px-10 max-w-7xl mx-auto pt-24">
-      <!-- PERSON INFO -->
       <div class="grid md:grid-cols-3 gap-8 mb-12">
-        <!-- Profile Image -->
         <div>
           <div
             class="relative rounded-2xl overflow-hidden border-2 border-white/10 group"
@@ -44,7 +39,6 @@
             </div>
           </div>
 
-          <!-- Quick Stats -->
           <div class="mt-6 space-y-3">
             <div class="bg-white/5 rounded-xl p-4 border border-white/10">
               <p class="text-gray-400 text-sm font-[Gilroy-Medium] mb-1">
@@ -75,7 +69,7 @@
 
             <div
               v-if="person.place_of_birth"
-              class="bg-white/5 rounded-xl p-4 border border-white/10"
+            class="bg-white/5 rounded-xl p-4 border border-white/10"
             >
               <p class="text-gray-400 text-sm font-[Gilroy-Medium] mb-1">
                 Place of Birth
@@ -87,7 +81,6 @@
           </div>
         </div>
 
-        <!-- Bio & Details -->
         <div class="md:col-span-2">
           <h1 class="text-5xl font-[Gilroy-Bold] mb-4">{{ person.name }}</h1>
 
@@ -100,7 +93,6 @@
         </div>
       </div>
 
-      <!-- KNOWN FOR -->
       <div v-if="knownFor.length" class="mb-12">
         <h2 class="text-3xl font-[Gilroy-Bold] mb-6">Known For</h2>
         <div
@@ -123,7 +115,6 @@
         </div>
       </div>
 
-      <!-- FILMOGRAPHY -->
       <div v-if="filmography.length">
         <h2 class="text-3xl font-[Gilroy-Bold] mb-6">Filmography</h2>
         <div class="space-y-3">
@@ -180,7 +171,9 @@ const loading = ref(true);
 const notFound = ref(false);
 
 const openModal = (item: Credit) => {
-  const mediaType = (item.media_type || (item.title ? "movie" : "tv")) as "movie" | "tv";
+  const mediaType = (item.media_type || (item.title ? "movie" : "tv")) as
+    | "movie"
+    | "tv";
   modalStore.open(mediaType, { movieId: item.id, mediaType });
 };
 

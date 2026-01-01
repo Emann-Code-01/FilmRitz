@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
-    <!-- Trailer Player Modal -->
     <TrailerModal
       :is-open="showTrailerModal"
       :trailer="selectedTrailer"
@@ -8,11 +7,7 @@
       @view-details="openFullDetails"
     />
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- HERO HEADER -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
-      <!-- Ambient Glow -->
       <div
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
@@ -47,7 +42,6 @@
       </div>
     </div>
 
-    <!-- Category Filters -->
     <div
       class="sticky top-20 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
@@ -70,9 +64,7 @@
       </div>
     </div>
 
-    <!-- Trailers Grid -->
     <div class="px-6 md:px-10 max-w-7xl mx-auto mt-8">
-      <!-- Loading Skeleton -->
       <div
         v-if="loading"
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
@@ -84,7 +76,6 @@
         ></div>
       </div>
 
-      <!-- No Trailers Found -->
       <div v-else-if="filteredTrailers.length === 0" class="text-center py-20">
         <div class="text-6xl mb-4">🎬</div>
         <h3 class="text-2xl font-[Gilroy-Bold] text-gray-400 mb-2">
@@ -93,7 +84,6 @@
         <p class="text-gray-500">Try selecting a different category</p>
       </div>
 
-      <!-- Trailers Grid -->
       <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
           v-for="trailer in filteredTrailers"
@@ -101,7 +91,6 @@
           @click="playTrailer(trailer)"
           class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all hover:scale-105"
         >
-          <!-- Thumbnail -->
           <div class="aspect-video overflow-hidden">
             <img
               :src="`https://image.tmdb.org/t/p/w780${trailer.backdrop_path}`"
@@ -110,21 +99,103 @@
             />
           </div>
 
-          <!-- Gradient Overlay -->
+          <div
+            class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              version="1.1"
+              width="50"
+              height="50"
+              viewBox="0 0 256 256"
+              xml:space="preserve"
+            >
+              <g
+                style="
+                  stroke: none;
+                  stroke-width: 0;
+                  stroke-dasharray: none;
+                  stroke-linecap: butt;
+                  stroke-linejoin: miter;
+                  stroke-miterlimit: 10;
+                  fill: none;
+                  fill-rule: nonzero;
+                  opacity: 1;
+                "
+                transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"
+              >
+                <path
+                  d="M 45 90 C 20.187 90 0 69.813 0 45 c 31.16 -8.812 61.257 -9.555 90 0 C 90 69.813 69.813 90 45 90 z"
+                  style="
+                    stroke: none;
+                    stroke-width: 1;
+                    stroke-dasharray: none;
+                    stroke-linecap: butt;
+                    stroke-linejoin: miter;
+                    stroke-miterlimit: 10;
+                    fill: rgb(187, 26, 26);
+                    fill-rule: nonzero;
+                    opacity: 1;
+                  "
+                  transform=" matrix(1 0 0 1 0 0) "
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M 45 0 C 20.187 0 0 20.187 0 45 h 90 C 90 20.187 69.813 0 45 0 z"
+                  style="
+                    stroke: none;
+                    stroke-width: 1;
+                    stroke-dasharray: none;
+                    stroke-linecap: butt;
+                    stroke-linejoin: miter;
+                    stroke-miterlimit: 10;
+                    fill: rgb(221, 34, 34);
+                    fill-rule: nonzero;
+                    opacity: 1;
+                  "
+                  transform=" matrix(1 0 0 1 0 0) "
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M 63.885 47.325 l -14.816 8.554 l -14.816 8.554 c -1.79 1.033 -4.026 -0.258 -4.026 -2.325 V 45 c 10.606 -4.196 22.359 -3.855 35 0 C 65.227 45.904 64.78 46.808 63.885 47.325 z"
+                  style="
+                    stroke: none;
+                    stroke-width: 1;
+                    stroke-dasharray: none;
+                    stroke-linecap: butt;
+                    stroke-linejoin: miter;
+                    stroke-miterlimit: 10;
+                    fill: rgb(240, 240, 240);
+                    fill-rule: nonzero;
+                    opacity: 1;
+                  "
+                  transform=" matrix(1 0 0 1 0 0) "
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M 63.885 42.675 l -14.816 -8.554 l -14.816 -8.554 c -1.79 -1.033 -4.026 0.258 -4.026 2.325 V 45 h 35 C 65.227 44.096 64.78 43.192 63.885 42.675 z"
+                  style="
+                    stroke: none;
+                    stroke-width: 1;
+                    stroke-dasharray: none;
+                    stroke-linecap: butt;
+                    stroke-linejoin: miter;
+                    stroke-miterlimit: 10;
+                    fill: rgb(255, 255, 255);
+                    fill-rule: nonzero;
+                    opacity: 1;
+                  "
+                  transform=" matrix(1 0 0 1 0 0) "
+                  stroke-linecap="round"
+                />
+              </g>
+            </svg>
+          </div>
           <div
             class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent"
           ></div>
 
-          <!-- Play Button
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div
-              class="w-20 h-20 rounded-full bg-[#b20710] flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-transform"
-            >
-              <span class="text-4xl text-white ml-1">▶</span>
-            </div>
-          </div> -->
-
-          <!-- Info -->
           <div class="absolute bottom-0 left-0 right-0 p-6">
             <h3 class="text-white font-[Gilroy-Bold] text-lg line-clamp-1 mb-2">
               {{ trailer.title }}

@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
-    <!-- Loading State -->
     <div
       v-if="loading"
       class="flex flex-col items-center justify-center min-h-screen space-y-6"
@@ -35,7 +34,6 @@
       </div>
     </div>
 
-    <!-- Error State -->
     <div
       v-else-if="error"
       class="flex items-center justify-center min-h-screen"
@@ -54,9 +52,7 @@
       </div>
     </div>
 
-    <!-- Main Content -->
     <div v-else-if="trailerItems.length > 0" class="space-y-8">
-      <!-- Header Section -->
       <div class="relative pt-24 px-6 md:px-10 overflow-hidden">
         <div
           class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
@@ -73,7 +69,6 @@
               </p>
             </div>
 
-            <!-- Action Buttons -->
             <div class="flex gap-3 *:cursor-pointer">
               <button
                 @click="shuffleSlides"
@@ -105,7 +100,6 @@
               </p>
             </div>
 
-            <!-- Action Buttons -->
             <div class="flex gap-3 *:cursor-pointer">
               <button
                 @click="shuffleSlides"
@@ -128,14 +122,11 @@
         </div>
       </div>
 
-      <!-- Trailer Player Section -->
       <div class="px-6 md:px-10 max-w-7xl mx-auto">
         <div v-if="currentTrailer" class="space-y-4">
-          <!-- Video Player -->
           <div
             class="relative aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
           >
-            <!-- Loading Spinner for Video -->
             <div
               v-if="videoLoading"
               class="absolute inset-0 flex items-center justify-center bg-black/80 z-10"
@@ -160,7 +151,6 @@
               @load="videoLoading = false"
             ></iframe>
 
-            <!-- Fallback for no trailer -->
             <div
               v-else
               class="absolute inset-0 flex items-center justify-center bg-linear-to-br from-gray-900 to-black"
@@ -174,7 +164,6 @@
             </div>
           </div>
 
-          <!-- Current Trailer Info -->
           <div
             class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hidden md:block"
           >
@@ -221,10 +210,9 @@
                 </div>
               </div>
 
-              <!-- More Info Button -->
               <button
                 @click="openModal(currentTrailer)"
-                class="px-3 md:px-6 py-2 md:py-2.5  bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center gap-2 border border-white/20 whitespace-nowrap cursor-pointer"
+                class="px-3 md:px-6 py-2 md:py-2.5 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center gap-2 border border-white/20 whitespace-nowrap cursor-pointer"
               >
                 <i class="pi pi-info-circle"></i>
                 More Info
@@ -268,7 +256,7 @@
                 </p>
                 <div class="flex flex-wrap gap-2">
                   <span
-                    v-for="genreId in currentTrailer.genre_ids?.slice(1, 2)"
+                    v-for="genreId in currentTrailer.genre_ids?.slice(0, 2)"
                     :key="genreId"
                     class="px-3 py-1 bg-white/10 rounded-lg text-sm font-[Gilroy-SemiBold]"
                   >
@@ -277,10 +265,9 @@
                 </div>
               </div>
 
-              <!-- More Info Button -->
               <button
                 @click="openModal(currentTrailer)"
-                class="px-3 md:px-6 py-2 md:py-2.5  bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center gap-2 border border-white/20 whitespace-nowrap cursor-pointer"
+                class="px-3 md:px-6 py-2 md:py-2.5 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center gap-2 border border-white/20 whitespace-nowrap cursor-pointer"
               >
                 <i class="pi pi-info-circle"></i>
                 More Info
@@ -290,7 +277,6 @@
         </div>
       </div>
 
-      <!-- Trailer List -->
       <div class="px-6 md:px-10 max-w-7xl mx-auto">
         <h3 class="text-2xl font-[Gilroy-Bold] mb-6">
           Available Trailers ({{ trailerItems.length }})
@@ -310,7 +296,6 @@
                 : 'border-white/10 hover:border-[#b20710]/50'
             "
           >
-            <!-- Poster -->
             <div class="aspect-2/3 overflow-hidden relative">
               <img
                 :src="getPoster(item.poster_path)"
@@ -318,18 +303,100 @@
                 class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
               />
 
-              <!-- Play Icon Overlay -->
               <div
-                class="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
               >
-                <div
-                  class="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  version="1.1"
+                  width="50"
+                  height="50"
+                  viewBox="0 0 256 256"
+                  xml:space="preserve"
                 >
-                  <span class="text-3xl text-white ml-1">▶</span>
-                </div>
+                  <g
+                    style="
+                      stroke: none;
+                      stroke-width: 0;
+                      stroke-dasharray: none;
+                      stroke-linecap: butt;
+                      stroke-linejoin: miter;
+                      stroke-miterlimit: 10;
+                      fill: none;
+                      fill-rule: nonzero;
+                      opacity: 1;
+                    "
+                    transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"
+                  >
+                    <path
+                      d="M 45 90 C 20.187 90 0 69.813 0 45 c 31.16 -8.812 61.257 -9.555 90 0 C 90 69.813 69.813 90 45 90 z"
+                      style="
+                        stroke: none;
+                        stroke-width: 1;
+                        stroke-dasharray: none;
+                        stroke-linecap: butt;
+                        stroke-linejoin: miter;
+                        stroke-miterlimit: 10;
+                        fill: rgb(187, 26, 26);
+                        fill-rule: nonzero;
+                        opacity: 1;
+                      "
+                      transform=" matrix(1 0 0 1 0 0) "
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M 45 0 C 20.187 0 0 20.187 0 45 h 90 C 90 20.187 69.813 0 45 0 z"
+                      style="
+                        stroke: none;
+                        stroke-width: 1;
+                        stroke-dasharray: none;
+                        stroke-linecap: butt;
+                        stroke-linejoin: miter;
+                        stroke-miterlimit: 10;
+                        fill: rgb(221, 34, 34);
+                        fill-rule: nonzero;
+                        opacity: 1;
+                      "
+                      transform=" matrix(1 0 0 1 0 0) "
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M 63.885 47.325 l -14.816 8.554 l -14.816 8.554 c -1.79 1.033 -4.026 -0.258 -4.026 -2.325 V 45 c 10.606 -4.196 22.359 -3.855 35 0 C 65.227 45.904 64.78 46.808 63.885 47.325 z"
+                      style="
+                        stroke: none;
+                        stroke-width: 1;
+                        stroke-dasharray: none;
+                        stroke-linecap: butt;
+                        stroke-linejoin: miter;
+                        stroke-miterlimit: 10;
+                        fill: rgb(240, 240, 240);
+                        fill-rule: nonzero;
+                        opacity: 1;
+                      "
+                      transform=" matrix(1 0 0 1 0 0) "
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M 63.885 42.675 l -14.816 -8.554 l -14.816 -8.554 c -1.79 -1.033 -4.026 0.258 -4.026 2.325 V 45 h 35 C 65.227 44.096 64.78 43.192 63.885 42.675 z"
+                      style="
+                        stroke: none;
+                        stroke-width: 1;
+                        stroke-dasharray: none;
+                        stroke-linecap: butt;
+                        stroke-linejoin: miter;
+                        stroke-miterlimit: 10;
+                        fill: rgb(255, 255, 255);
+                        fill-rule: nonzero;
+                        opacity: 1;
+                      "
+                      transform=" matrix(1 0 0 1 0 0) "
+                      stroke-linecap="round"
+                    />
+                  </g>
+                </svg>
               </div>
 
-              <!-- Currently Playing Badge -->
               <div
                 v-if="currentTrailer?.id === item.id"
                 class="absolute top-3 left-3 px-3 py-1.5 bg-[#b20710] rounded-lg text-xs font-[Gilroy-Bold] flex items-center gap-2"
@@ -339,7 +406,6 @@
               </div>
             </div>
 
-            <!-- Info -->
             <div class="p-4">
               <h4
                 class="text-white font-[Gilroy-Bold] text-sm line-clamp-2 mb-2"
@@ -362,7 +428,6 @@
       </div>
     </div>
 
-    <!-- No Trailers Found -->
     <div v-else class="flex items-center justify-center min-h-screen">
       <div class="text-center space-y-4 max-w-md">
         <div class="text-6xl mb-4">🎬</div>

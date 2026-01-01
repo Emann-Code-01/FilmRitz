@@ -1,15 +1,10 @@
 <template>
   <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- LOADING SKELETON -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
     <div v-if="!tv" class="px-6 md:px-10 max-w-7xl mx-auto pt-24">
-      <!-- Hero Skeleton -->
       <div
         class="relative h-[70vh] rounded-2xl bg-gray-800/50 animate-pulse mb-8"
       ></div>
 
-      <!-- Seasons Skeleton -->
       <div class="space-y-6">
         <div
           v-for="i in 3"
@@ -23,11 +18,7 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- MAIN CONTENT -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
     <div v-else>
-      <!-- Hero Banner -->
       <div
         class="relative h-screen overflow-hidden duration-500 transition-all"
         :style="{
@@ -41,7 +32,6 @@
           backgroundPosition: 'center',
         }"
       >
-        <!-- linear Overlays -->
         <div
           class="absolute inset-0 bg-linear-to-t from-black via-black/70 to-transparent"
         ></div>
@@ -49,9 +39,7 @@
           class="absolute inset-0 bg-linear-to-r from-black/80 via-transparent to-transparent"
         ></div>
 
-        <!-- Content -->
         <div class="absolute bottom-0 left-0 right-0 p-6 md:p-12 mx-auto">
-          <!-- Back Button -->
           <router-link
             :to="`/ng/tv/${slugify(tv.name)}-${tv.id}`"
             class="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors font-[Gilroy-Medium] animate-fade-up"
@@ -60,7 +48,6 @@
             Back to Show
           </router-link>
 
-          <!-- Title & Info -->
           <h1
             class="text-4xl md:text-6xl font-[Gilroy-Bold] mb-4 animate-fade-up"
             style="animation-delay: 0.1s"
@@ -114,9 +101,6 @@
         </div>
       </div>
 
-      <!-- ═══════════════════════════════════════════════════════════════ -->
-      <!-- SEASONS LIST -->
-      <!-- ═══════════════════════════════════════════════════════════════ -->
       <div class="px-6 md:px-12 mx-auto mt-12 transition-all duration-500">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-3xl font-[Gilroy-Bold]">All Seasons</h2>
@@ -131,7 +115,6 @@
             :key="season.id"
             class="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-[#b20710]/50 transition-all duration-500 overflow-hidden"
           >
-            <!-- Season Header (Clickable) -->
             <div
               @click="toggleSeason(season.season_number)"
               class="p-6 cursor-pointer hover:bg-white/5 transition-all duration-500"
@@ -174,7 +157,6 @@
                   </p>
                 </div>
 
-                <!-- Toggle Icon -->
                 <button
                   class="ml-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center transition-transform duration-500 cursor-pointer"
                   :class="
@@ -186,12 +168,10 @@
               </div>
             </div>
 
-            <!-- Episodes List (Expandable) -->
             <div
               v-if="selectedSeason === season.season_number"
               class="border-t border-white/10"
             >
-              <!-- Loading Episodes -->
               <div
                 v-if="loadingEpisodes"
                 class="p-6 grid md:grid-cols-2 lg:grid-cols-3 gap-4"
@@ -209,7 +189,6 @@
                 </div>
               </div>
 
-              <!-- Episodes Grid -->
               <div
                 v-else-if="episodes.length"
                 class="p-6 grid md:grid-cols-2 lg:grid-cols-3 gap-4 transition-all duration-500"
@@ -220,7 +199,6 @@
                   @click="openModal(ep)"
                   class="group relative cursor-pointer rounded-xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all duration-900"
                 >
-                  <!-- Episode Thumbnail -->
                   <div
                     class="relative aspect-video overflow-hidden bg-gray-800 transition-all duration-900"
                   >
@@ -237,7 +215,7 @@
                     >
                       📺
                     </div>
-                    <!-- Episode Number Badge -->
+
                     <div
                       class="absolute top-2 left-2 px-2 py-1 bg-black/80 backdrop-blur-sm rounded-lg font-[Gilroy-Bold] text-sm"
                     >
@@ -245,7 +223,6 @@
                     </div>
                   </div>
 
-                  <!-- Episode Info -->
                   <div class="p-4">
                     <h4
                       class="text-white font-[Gilroy-Bold] text-lg line-clamp-1 mb-2"
@@ -270,7 +247,6 @@
                 </div>
               </div>
 
-              <!-- No Episodes -->
               <div v-else class="p-6 text-center text-gray-400">
                 No episodes available for this season
               </div>
@@ -278,7 +254,6 @@
           </div>
         </div>
 
-        <!-- View More/Less Button -->
         <div v-if="tv.seasons.length > 2" class="mt-8 text-center">
           <button
             @click="toggleSeasons"
@@ -289,9 +264,6 @@
         </div>
       </div>
 
-      <!-- ═══════════════════════════════════════════════════════════════ -->
-      <!-- EPISODE MODAL -->
-      <!-- ═══════════════════════════════════════════════════════════════ -->
       <TransitionRoot :show="isOpen" as="template">
         <Dialog as="div" @close="closeModal" class="relative z-50 text-white">
           <DialogOverlay class="fixed inset-0 bg-black/90 backdrop-blur-sm" />
@@ -301,7 +273,6 @@
               <DialogPanel
                 class="relative w-full max-w-6xl rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10"
               >
-                <!-- Loading Skeleton -->
                 <div v-if="loading" class="animate-pulse">
                   <div class="h-[60vh] bg-gray-800"></div>
                   <div class="p-8 space-y-4">
@@ -311,12 +282,10 @@
                   </div>
                 </div>
 
-                <!-- Episode Content -->
                 <div
                   v-else-if="selectedEpisode"
                   class="max-h-[90vh] overflow-y-auto"
                 >
-                  <!-- Episode Still/Backdrop -->
                   <div
                     class="relative h-[60vh] bg-cover bg-center"
                     :style="{
@@ -329,7 +298,6 @@
                       class="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent"
                     ></div>
 
-                    <!-- Close Button -->
                     <button
                       @click="closeModal"
                       class="absolute top-6 right-6 w-12 h-12 rounded-full bg-black/60 backdrop-blur-sm hover:bg-[#b20710] transition-all flex items-center justify-center z-10 text-white cursor-pointer"
@@ -338,16 +306,13 @@
                     </button>
                   </div>
 
-                  <!-- Episode Info -->
                   <div
                     class="relative -mt-32 p-8 bg-linear-to-t from-black via-black to-transparent"
                   >
-                    <!-- Title -->
                     <DialogTitle class="text-4xl font-[Gilroy-Bold] mb-2">
                       {{ selectedEpisode.name }}
                     </DialogTitle>
 
-                    <!-- Metadata -->
                     <div class="flex flex-wrap items-center gap-3 mb-4">
                       <span class="text-gray-400 font-[Gilroy-Medium]">
                         Season {{ selectedEpisode.season_number }} • Episode
@@ -377,7 +342,6 @@
                       </span>
                     </div>
 
-                    <!-- Overview -->
                     <DialogDescription
                       class="text-lg text-gray-300 font-[Gilroy-Regular] mb-8 max-w-4xl"
                     >
@@ -386,7 +350,6 @@
                       }}
                     </DialogDescription>
 
-                    <!-- Cast -->
                     <div v-if="episodeCredits.length" class="mt-8 text-white">
                       <h3 class="text-2xl font-[Gilroy-Bold] mb-6">
                         Episode Cast
@@ -471,7 +434,6 @@ useHead({
   ),
 });
 
-// Computed
 const displayedSeasons = computed(() => {
   if (!tv.value) return [];
   const filteredSeasons = tv.value.seasons.filter(
@@ -480,7 +442,6 @@ const displayedSeasons = computed(() => {
   return showAllSeasons.value ? filteredSeasons : filteredSeasons.slice(0, 2);
 });
 
-// Helpers
 function slugToId(param: string | string[] | undefined): number | null {
   if (!param) return null;
   const raw = Array.isArray(param) ? param[0] : param;
@@ -502,7 +463,6 @@ function slugify(str: string | undefined) {
   );
 }
 
-// Toggle season episodes
 async function toggleSeason(seasonNumber: number) {
   if (selectedSeason.value === seasonNumber) {
     selectedSeason.value = null;
@@ -514,7 +474,6 @@ async function toggleSeason(seasonNumber: number) {
   await loadEpisodes(seasonNumber);
 }
 
-// Load episodes for a season
 async function loadEpisodes(seasonNumber: number) {
   if (!tv.value) return;
 
@@ -529,7 +488,6 @@ async function loadEpisodes(seasonNumber: number) {
   }
 }
 
-// Toggle show all seasons
 function toggleSeasons() {
   showAllSeasons.value = !showAllSeasons.value;
   if (!showAllSeasons.value) {
@@ -537,7 +495,6 @@ function toggleSeasons() {
   }
 }
 
-// Modal actions
 function closeModal() {
   isOpen.value = false;
   selectedEpisode.value = null;
@@ -551,7 +508,6 @@ async function openModal(ep: Episode) {
   if (!tv.value) return;
 
   try {
-    // Load episode details and credits
     const [epDetails, credits] = await Promise.all([
       getTVEpisodeDetails(tv.value.id, ep.season_number, ep.episode_number),
       getTVEpisodeCredits(tv.value.id, ep.season_number, ep.episode_number),
@@ -566,7 +522,6 @@ async function openModal(ep: Episode) {
   }
 }
 
-// Load TV show on mount
 onMounted(async () => {
   const id = slugToId(route.params.name);
   if (!id) return;
@@ -574,7 +529,6 @@ onMounted(async () => {
   try {
     tv.value = await getTVDetails(id);
     if (tv.value?.seasons?.length) {
-      // Get latest season (exclude specials)
       const regularSeasons = tv.value.seasons.filter(
         (s: any) => s.season_number > 0
       );
