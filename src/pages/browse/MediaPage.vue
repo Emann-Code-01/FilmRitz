@@ -19,6 +19,25 @@
               Explore trending, top-rated, and upcoming
               {{ isMoviePage ? "movies" : "shows" }} with trailers.
             </p>
+            <!-- Stats -->
+            <div class="flex gap-6">
+              <div class="text-center flex items-center justify-center gap-2">
+                <div class="text-3xl font-[Gilroy-Bold] text-[#b20710]">
+                  {{ totalItems }}+
+                </div>
+                <div class="text-sm text-gray-400 font-[Gilroy-Medium]">
+                  Items
+                </div>
+              </div>
+              <div class="text-center flex items-center justify-center gap-2">
+                <div class="text-sm text-gray-400 font-[Gilroy-Medium]">
+                  Page
+                </div>
+                <div class="text-3xl font-[Gilroy-Bold] text-[#b20710]">
+                  {{ currentPage }}
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Right: 3D Card Stack -->
@@ -32,7 +51,7 @@
               class="w-64 h-full"
             >
               <SwiperSlide
-                v-for="item in filteredMedia.slice(0, 8)"
+                v-for="item in allFilteredMedia.slice(0, 8)"
                 :key="item.id"
                 class="rounded-2xl overflow-hidden shadow-2xl"
               >
@@ -56,11 +75,11 @@
     >
       <div class="px-6 max-w-7xl mx-auto">
         <!-- Category Tabs -->
-        <div class="flex gap-3 mb-2 overflow-x-auto pb-2">
+        <div class="flex gap-3 mb-2 overflow-x-auto pb-2 scrollbar-hide">
           <button
             v-for="cat in categories"
             :key="cat.value"
-            @click="selectedCategory = cat.value"
+            @click="changeCategory(cat.value)"
             class="px-3 md:px-6 py-2 md:py-2.5 rounded-full font-[Gilroy-SemiBold] whitespace-nowrap flex items-center justify-center transition-all duration-500 cursor-pointer"
             :class="
               selectedCategory === cat.value
@@ -77,6 +96,7 @@
           <!-- Genre Filter -->
           <select
             v-model="appliedFilters.genre"
+            @change="currentPage = 1"
             class="px-3 md:px-4 py-2 md:py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           >
             <option value="">All Genres</option>
@@ -89,6 +109,7 @@
           <input
             type="number"
             v-model.number="appliedFilters.year"
+            @input="currentPage = 1"
             placeholder="Year"
             class="px-3 md:px-4 py-2 md:py-2.5 w-28 rounded-xl bg-gray-950 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           />
@@ -97,6 +118,7 @@
           <input
             type="number"
             v-model.number="appliedFilters.rating"
+            @input="currentPage = 1"
             min="0"
             max="10"
             step="0.1"
@@ -107,6 +129,7 @@
           <!-- Sort Filter -->
           <select
             v-model="appliedFilters.sort"
+            @change="currentPage = 1"
             class="px-3 md:px-4 py-2 md:py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           >
             <option value="">Sort By</option>
@@ -129,23 +152,17 @@
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- MEDIA GRID -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="px-6 mx-auto mt-8">
+    <div class="px-6 mx-auto mt-8 max-w-7xl">
       <!-- Loading Skeleton -->
       <div
         v-if="loading"
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12"
       >
         <div
           v-for="n in 20"
           :key="n"
-          class="relative rounded-2xl overflow-hidden bg-white/5 animate-pulse"
-        >
-          <div class="aspect-2/3 bg-gray-800"></div>
-          <div class="p-4 space-y-2">
-            <div class="h-4 bg-gray-700 rounded w-3/4"></div>
-            <div class="h-3 bg-gray-700 rounded w-1/2"></div>
-          </div>
-        </div>
+          class="aspect-2/3 bg-gray-800/50 rounded-2xl animate-pulse"
+        ></div>
       </div>
 
       <!-- Error State -->
@@ -155,7 +172,7 @@
         </p>
         <button
           @click="() => {}"
-          class="px-3 md:px-6 py-2 md:py-2.5  bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all"
+          class="px-3 md:px-6 py-2 md:py-2.5 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all"
         >
           Retry
         </button>
@@ -164,13 +181,14 @@
       <!-- Media Grid -->
       <div
         v-else
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12"
       >
         <div
-          v-for="item in filteredMedia"
+          v-for="(item, index) in currentPageItems"
           :key="item.id + item.media_type"
           @click="openModal(item)"
-          class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all duration-500 hover:scale-105"
+          class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all duration-500 hover:scale-105 animate-fade-up"
+          :style="{ animationDelay: `${index * 30}ms` }"
         >
           <!-- Poster -->
           <div class="aspect-2/3 overflow-hidden">
@@ -181,7 +199,7 @@
             />
           </div>
 
-          <!-- linear Overlay -->
+          <!-- Gradient Overlay -->
           <div
             class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
           ></div>
@@ -226,35 +244,59 @@
               </router-link>
             </div>
           </div>
+
+          <!-- Rank Badge -->
+          <div
+            class="absolute top-3 right-3 w-10 h-10 rounded-full bg-[#b20710] flex items-center justify-center font-[Gilroy-Bold] text-white shadow-xl"
+          >
+            #{{ (currentPage - 1) * 20 + index + 1 }}
+          </div>
         </div>
+      </div>
+
+      <!-- Pagination -->
+      <div
+        v-if="totalPages > 1"
+        class="flex items-center justify-center gap-4 mb-12"
+      >
+        <button
+          @click="changePage(currentPage - 1)"
+          :disabled="currentPage === 1"
+          class="px-3 md:px-6 py-2 md:py-2.5 rounded-xl font-[Gilroy-Bold] text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all cursor-pointer"
+        >
+          ← Previous
+        </button>
+
+        <div
+          class="flex items-center gap-2 overflow-x-auto scrollbar-hide max-w-md"
+        >
+          <button
+            v-for="page in visiblePages"
+            :key="page"
+            @click="page !== -1 && changePage(page)"
+            class="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-xl font-[Gilroy-Bold] text-white transition-all cursor-pointer"
+            :class="[
+              page === currentPage
+                ? 'bg-[#b20710]'
+                : 'bg-white/10 hover:bg-white/20',
+              page === -1 ? 'cursor-default hover:bg-white/10' : '',
+            ]"
+            :disabled="page === -1"
+          >
+            {{ page === -1 ? "..." : page }}
+          </button>
+        </div>
+
+        <button
+          @click="changePage(currentPage + 1)"
+          :disabled="currentPage === totalPages"
+          class="px-3 md:px-6 py-2 md:py-2.5 rounded-xl font-[Gilroy-Bold] text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all cursor-pointer"
+        >
+          Next →
+        </button>
       </div>
     </div>
     <AdSlot />
-
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- PAGINATION -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="flex justify-center items-center gap-4 mt-24">
-      <button
-        @click="prevPage"
-        :disabled="currentPage === 1"
-        class="px-3 md:px-6 py-2 md:py-2.5  rounded-xl bg-gray-950 border border-white/10 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-[Gilroy-SemiBold] cursor-pointer"
-      >
-        ← Previous
-      </button>
-
-      <span class="px-3 md:px-6 py-2 md:py-2.5  bg-[#b20710] rounded-xl font-[Gilroy-Bold]">
-        Page {{ currentPage }}
-      </span>
-
-      <button
-        @click="nextPage"
-        :disabled="filteredMedia.length < perPage"
-        class="px-3 md:px-6 py-2 md:py-2.5  rounded-xl bg-gray-950 border border-white/10 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-[Gilroy-SemiBold] cursor-pointer"
-      >
-        Next →
-      </button>
-    </div>
   </div>
 </template>
 
@@ -298,7 +340,7 @@ const categories = [
   { label: "Upcoming", value: "upcoming" },
 ];
 
-const filteredMedia = computed(() => {
+const allFilteredMedia = computed(() => {
   let data = trendingAll.value.filter((m: any) =>
     isMoviePage.value ? m.media_type === "movie" : m.media_type === "tv"
   );
@@ -350,9 +392,55 @@ const filteredMedia = computed(() => {
     );
   }
 
-  const start = (currentPage.value - 1) * perPage;
-  return data.slice(start, start + perPage);
+  return data;
 });
+
+const totalPages = computed(() => {
+  return Math.ceil(allFilteredMedia.value.length / perPage);
+});
+
+const totalItems = computed(() => {
+  return allFilteredMedia.value.length;
+});
+
+const currentPageItems = computed(() => {
+  const start = (currentPage.value - 1) * perPage;
+  const end = start + perPage;
+  return allFilteredMedia.value.slice(start, end);
+});
+
+const visiblePages = computed(() => {
+  const pages: number[] = [];
+  const total = totalPages.value;
+  const current = currentPage.value;
+
+  if (total <= 7) {
+    for (let i = 1; i <= total; i++) pages.push(i);
+  } else {
+    if (current <= 4) {
+      for (let i = 1; i <= 5; i++) pages.push(i);
+      pages.push(-1);
+      pages.push(total);
+    } else if (current >= total - 3) {
+      pages.push(1);
+      pages.push(-1);
+      for (let i = total - 4; i <= total; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      pages.push(-1);
+      for (let i = current - 1; i <= current + 1; i++) pages.push(i);
+      pages.push(-1);
+      pages.push(total);
+    }
+  }
+
+  return pages;
+});
+
+function changeCategory(value: string) {
+  selectedCategory.value = value;
+  currentPage.value = 1;
+}
 
 function clearFilters() {
   appliedFilters.value = { genre: "", year: null, rating: null, sort: "" };
@@ -363,13 +451,9 @@ function openModal(item: any) {
   modalStore.open(item.media_type, { id: item.id });
 }
 
-function prevPage() {
-  if (currentPage.value > 1) currentPage.value--;
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function nextPage() {
-  currentPage.value++;
+function changePage(page: number) {
+  if (page < 1 || page > totalPages.value) return;
+  currentPage.value = page;
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -417,6 +501,22 @@ useHead(() => ({
 </script>
 
 <style scoped>
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s ease-out forwards;
+  opacity: 0;
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
