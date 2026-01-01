@@ -62,16 +62,6 @@
               <div
                 class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent lg:opacity-0 lg:group-hover:opacity-100 lg:group-hover:scale-105 duration-500 transition-all"
               ></div>
-
-              <!-- Play Button (on hover)
-              <div
-                class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-                <div
-                  class="w-20 h-20 rounded-full bg-[#b20710] flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform">
-                  <i class="pi pi-info-circle text-5xl text-white hover:text-[#ffffffec]"></i>
-                </div>
-              </div> -->
-
               <!-- Info (on hover) -->
               <div
                 class="absolute bottom-0 left-0 right-0 p-6 transform lg:translate-y-full lg:group-hover:translate-y-0 transition-transform duration-500 animate-fade-up"
@@ -109,12 +99,34 @@
       <button
         class="hot-prev absolute cursor-pointer left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/70 backdrop-blur-sm flex items-center justify-center text-white hover:bg-[#b20710] transition-all"
       >
-        <i class="pi pi-chevron-left"></i>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-6"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z"
+            clip-rule="evenodd"
+          />
+        </svg>
       </button>
       <button
         class="hot-next absolute cursor-pointer right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/70 backdrop-blur-sm flex items-center justify-center text-white hover:bg-[#b20710] transition-all"
       >
-        <i class="pi pi-chevron-right"></i>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-6"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+            clip-rule="evenodd"
+          />
+        </svg>
       </button>
     </div>
   </section>

@@ -77,9 +77,18 @@
                 <div
                   class="w-16 h-16 rounded-full bg-[#b20710] flex items-center justify-center animate-pulse"
                 >
-                  <i
-                    class="pi pi-info-circle text-5xl text-white hover:text-[#ffffffec]"
-                  ></i>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="size-6 text-white hover:text-[#ffffffec]"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 0 1 .67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 1 1-.671-1.34l.041-.022ZM12 9a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
                 </div>
               </div>
 
@@ -107,12 +116,34 @@
       <button
         class="timeline-prev absolute cursor-pointer left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-[#b20710] transition-all"
       >
-        <i class="pi pi-chevron-left"></i>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-6"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z"
+            clip-rule="evenodd"
+          />
+        </svg>
       </button>
       <button
         class="timeline-next absolute cursor-pointer right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-[#b20710] transition-all"
       >
-        <i class="pi pi-chevron-right"></i>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-6"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+            clip-rule="evenodd"
+          />
+        </svg>
       </button>
     </div>
   </section>
@@ -179,16 +210,19 @@ const loadItems = async () => {
     const key = import.meta.env.VITE_TMDB_API_KEY;
     const startDateStr = startDate.toISOString().split("T")[0];
     const endDateStr = now.toISOString().split("T")[0];
-    
-     
+
     const [page1, page2] = await Promise.all([
-      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${key}&primary_release_date.gte=${startDateStr}&primary_release_date.lte=${endDateStr}&sort_by=primary_release_date.desc&page=1`),
-      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${key}&primary_release_date.gte=${startDateStr}&primary_release_date.lte=${endDateStr}&sort_by=primary_release_date.desc&page=2`)
+      fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${key}&primary_release_date.gte=${startDateStr}&primary_release_date.lte=${endDateStr}&sort_by=primary_release_date.desc&page=1`
+      ),
+      fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${key}&primary_release_date.gte=${startDateStr}&primary_release_date.lte=${endDateStr}&sort_by=primary_release_date.desc&page=2`
+      ),
     ]);
-    
+
     const [data1, data2] = await Promise.all([page1.json(), page2.json()]);
     const allResults = [...(data1.results || []), ...(data2.results || [])];
-    
+
     timelineItems.value = allResults.slice(0, 30).map((item: any) => ({
       ...item,
       media_type: "movie",

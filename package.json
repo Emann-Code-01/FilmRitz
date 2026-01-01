@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.23",
+    "@heroicons/vue": "^2.2.0",
     "@supabase/supabase-js": "^2.74.0",
     "@tailwindcss/vite": "^4.1.13",
     "@unhead/vue": "^1.8.10",
     "@vercel/speed-insights": "^1.2.0",
+    "@vue-hero-icons/outline": "^1.7.2",
+    "@vue-hero-icons/solid": "^1.7.2",
     "axios": "^1.12.2",
     "colorthief": "^2.6.0",
     "init": "^0.1.2",

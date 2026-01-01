@@ -66,9 +66,12 @@
                 <div
                   class="absolute inset-0 bg-linear-to-t from-black/80 via-black/50 to-transparent"
                 ></div>
-                <button @click="modalStore.closeModal" class="absolute top-6 right-6">
+                <button
+                  @click="modalStore.closeModal"
+                  class="absolute top-6 right-6"
+                >
                   <span
-                  class="fixed right-9 hover:bg-[#b20710]/70 rounded-full p-1 transition-all duration-500 z-20 cursor-pointer"
+                    class="fixed right-9 hover:bg-[#b20710]/70 rounded-full p-1 transition-all duration-500 z-20 cursor-pointer"
                   >
                     <svg
                       viewBox="0 0 36 36"
@@ -91,7 +94,10 @@
               <div
                 class="relative -mt-6 p-6 bg-linear-to-t from-black/95 via-black/70 to-transparent rounded-t-2xl"
               >
-                <DialogTitle as="h2" class="md:text-6xl text-3xl font-[Gilroy-Bold]">
+                <DialogTitle
+                  as="h2"
+                  class="md:text-6xl text-3xl font-[Gilroy-Bold]"
+                >
                   {{ media?.title }}
                 </DialogTitle>
 
@@ -110,7 +116,9 @@
                     {{ new Date(media?.release_date).getFullYear() }}
                   </span>
                   <span
-                    v-for="genreName in getGenreNames(getGenreIdsFromMedia(media))"
+                    v-for="genreName in getGenreNames(
+                      getGenreIdsFromMedia(media)
+                    )"
                     :key="genreName"
                     @click="goToGenre(genreName)"
                     class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-3 py-0.5 rounded-full hover:bg-[#b20710]/70 hover:text-white transition-all duration-200 cursor-pointer"
@@ -118,17 +126,36 @@
                     {{ genreName }}
                   </span>
                 </div>
-                <DialogDescription class="mt-4 max-w-2xl text-xl font-[Gilroy-SemiBold]">
-                  {{ expanded ? media?.overview : truncateText(media?.overview, 30) }}
+                <DialogDescription
+                  class="mt-4 max-w-2xl text-xl font-[Gilroy-SemiBold]"
+                >
+                  {{
+                    expanded
+                      ? media?.overview
+                      : truncateText(media?.overview, 30)
+                  }}
                 </DialogDescription>
 
                 <div class="pt-3">
                   <button
                     @click="handleProtectedRoute"
-                    class="gap-3 bg-[#b20710] text-white flex items-center w-fit text-xl focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500 cursor-pointer"
+                    class="gap-3 bg-[#b20710] text-white flex items-center justify-center w-fit text-xl focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500 cursor-pointer"
                   >
                     {{ auth.isLoggedIn ? "View Info" : "Sign In" }}
-                    <i class="pi pi-chevron-right text-xl group-hover:animate-pulse"></i>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6 group-hover:animate-pulse"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                      />
+                    </svg>
                   </button>
                 </div>
               </div>
@@ -197,13 +224,16 @@ const detailRoute = computed(() => {
   if (!media.value) return "/";
   const title = media.value.title ?? media.value.name ?? "untitled";
   const slug = `${slugify(title)}-${media.value.id}`;
-  return media.value.media_type === "tv" ? `/ng/tv/${slug}` : `/ng/movie/${slug}`;
+  return media.value.media_type === "tv"
+    ? `/ng/tv/${slug}`
+    : `/ng/movie/${slug}`;
 });
 
 function getGenreIdsFromMedia(media: any): number[] {
   if (!media) return [];
   if (Array.isArray(media.genre_ids)) return media.genre_ids;
-  if (Array.isArray(media.genres)) return media.genres.map((g: { id: number }) => g.id);
+  if (Array.isArray(media.genres))
+    return media.genres.map((g: { id: number }) => g.id);
   return [];
 }
 

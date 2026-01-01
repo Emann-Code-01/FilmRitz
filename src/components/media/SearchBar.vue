@@ -4,7 +4,19 @@
     <div
       class="flex items-center gap-3 bg-white/10 backdrop-blur-xl w-md md:w-xl mx-auto px-4 py-3 rounded-full border border-white/10 focus-within:ring-2 ring-red-500/70 transition-all duration-500"
     >
-      <i class="pi pi-search text-gray-300 text-lg"></i>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="size-6 text-gray-300"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
+          clip-rule="evenodd"
+        />
+      </svg>
+
       <input
         v-model="query"
         type="text"
@@ -16,9 +28,20 @@
         arial-label="Cancel"
         v-if="query"
         @click="clearSearch"
-        class="text-gray-400 hover:text-white flex items-center transition-all duration-200"
+        class="text-gray-400 hover:text-white flex items-center transition-all duration-200 cursor-pointer"
       >
-        <i class="pi pi-times text-xl"></i>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-6"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+            clip-rule="evenodd"
+          />
+        </svg>
       </button>
     </div>
 

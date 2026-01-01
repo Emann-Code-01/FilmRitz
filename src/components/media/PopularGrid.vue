@@ -19,7 +19,7 @@
       <p class="font-[Gilroy-SemiBold]">{{ error }}</p>
       <button
         @click="loadPopularMedia"
-        class="mt-4 px-6 py-2 bg-[#b20710] hover:bg-[#e32125] text-white rounded-lg transition-all"
+        class="mt-4 px-6 py-2 bg-[#b20710] hover:bg-[#e32125] text-white rounded-lg transition-all cursor-pointer"
       >
         Try Again
       </button>
@@ -61,14 +61,6 @@
               <span class="text-white font-[Gilroy-Bold] text-sm">HOT</span>
             </div>
           </div>
-          <!-- <div
-            class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 bg-black/40">
-            <div
-              class="w-24 h-24 rounded-full bg-[#b20710] flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform duration-500 shadow-2xl">
-              <i class="pi pi-info-circle text-5xl text-white hover:text-[#ffffffec]"></i>
-            </div>
-          </div> -->
-
           <div
             class="absolute bottom-8 left-8 right-8 transition-transform duration-500 transform lg:translate-y-16 lg:group-hover:translate-y-0"
           >
@@ -163,15 +155,6 @@
             <span class="text-lg animate-pulse">🔥</span>
           </div>
 
-          <!-- Play Button Overlay
-          <div
-            class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 bg-black/40">
-            <div
-              class="w-16 h-16 rounded-full bg-[#b20710] flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform duration-500">
-              <i class="pi pi-info-circle text-5xl text-white hover:text-[#ffffffec]"></i>
-            </div>
-          </div> -->
-
           <!-- Info -->
           <div class="absolute bottom-4 left-4 right-4">
             <h4
@@ -207,23 +190,6 @@
             </router-link>
           </div>
         </div>
-        <!-- <router-link
-          v-if="!auth.isLoggedIn"
-          to="/ng/login"
-          class="col-span-6 md:col-span-3 h-64 md:h-72 bg-linear-to-br from-[#b20710] to-[#8a0509] rounded-xl flex flex-col items-center justify-center gap-4 hover:scale-105 transition-all duration-500 cursor-pointer group"
-        >
-          <div
-            class="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-all"
-          >
-            <span class="text-4xl">🎬</span>
-          </div>
-          <div class="text-center px-4">
-            <p class="text-white font-[Gilroy-Bold] text-xl mb-2">See More</p>
-            <p class="text-white/80 font-[Gilroy-Regular] text-sm">
-              Sign in to explore all popular content
-            </p>
-          </div>
-        </router-link> -->
       </div>
     </div>
   </section>

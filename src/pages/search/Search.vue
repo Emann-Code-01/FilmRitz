@@ -1,10 +1,6 @@
 <template>
   <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-20">
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- SEARCH HEADER -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
-      <!-- Ambient Glow -->
       <div
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
@@ -17,13 +13,17 @@
             🔍
           </div>
           <div>
-            <h1 class="text-4xl md:text-5xl font-[Gilroy-Bold]">Search Results</h1>
+            <h1 class="text-4xl md:text-5xl font-[Gilroy-Bold]">
+              Search Results
+            </h1>
             <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-1">
               Found
               <span class="text-[#b20710] font-[Gilroy-Bold]">{{
                 filteredResults.length
               }}</span>
-              results for "<span class="text-white font-[Gilroy-Bold]">{{ query }}</span
+              results for "<span class="text-white font-[Gilroy-Bold]">{{
+                query
+              }}</span
               >"
             </p>
           </div>
@@ -31,9 +31,6 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- FILTER PANEL -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
     <div
       class="sticky top-22 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
@@ -42,11 +39,7 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- RESULTS GRID -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
     <div class="px-6 md:px-10 mx-auto mt-8">
-      <!-- Loading Skeleton -->
       <div
         v-if="loading"
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
@@ -64,7 +57,6 @@
         </div>
       </div>
 
-      <!-- Empty State -->
       <div v-else-if="filteredResults.length === 0" class="text-center py-20">
         <div class="text-6xl mb-4">🎬</div>
         <p class="text-gray-400 text-xl font-[Gilroy-SemiBold] mb-2">
@@ -75,7 +67,6 @@
         </p>
       </div>
 
-      <!-- Results Grid -->
       <div
         v-else
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
@@ -86,7 +77,6 @@
           @click="openMediaModal(item)"
           class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all duration-500 hover:scale-105"
         >
-          <!-- Poster -->
           <div class="aspect-2/3 overflow-hidden">
             <img
               loading="lazy"
@@ -122,7 +112,9 @@
 
             <div class="flex flex-wrap gap-1">
               <span
-                v-for="genreName in getGenreNames(getGenreIdsFromMedia(item)).slice(0, 5)"
+                v-for="genreName in getGenreNames(
+                  getGenreIdsFromMedia(item)
+                ).slice(0, 5)"
                 :key="genreName"
                 class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-[#b20710]/70 transition-all duration-200 cursor-pointer"
               >
@@ -134,16 +126,15 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- VIEW MORE BUTTON -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
     <div v-if="filteredResults.length > itemsPerPage" class="text-center mt-12">
       <button
         @click="toggleView"
         :disabled="loading"
         class="px-8 py-4 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"
       >
-        {{ loading ? "Loading..." : isExpanded ? "Show Less ↑" : "View More ↓" }}
+        {{
+          loading ? "Loading..." : isExpanded ? "Show Less ↑" : "View More ↓"
+        }}
       </button>
     </div>
   </div>
@@ -179,14 +170,20 @@ const filters = ref<{
 
 const filteredResults = computed(() => {
   let results = store.searchResults.filter((item: Media) => {
-    if (filters.value.genre && !item.genre_ids?.includes(Number(filters.value.genre)))
+    if (
+      filters.value.genre &&
+      !item.genre_ids?.includes(Number(filters.value.genre))
+    )
       return false;
 
-    const year = item.release_date?.slice(0, 4) || item.first_air_date?.slice(0, 4);
+    const year =
+      item.release_date?.slice(0, 4) || item.first_air_date?.slice(0, 4);
     if (filters.value.year && year !== String(filters.value.year)) return false;
 
-    if (filters.value.rating && item.vote_average < filters.value.rating) return false;
-    if (filters.value.type && item.media_type !== filters.value.type) return false;
+    if (filters.value.rating && item.vote_average < filters.value.rating)
+      return false;
+    if (filters.value.type && item.media_type !== filters.value.type)
+      return false;
 
     return true;
   });
@@ -208,7 +205,9 @@ const filteredResults = computed(() => {
   return results;
 });
 
-const visibleResults = computed(() => filteredResults.value.slice(0, visibleCount.value));
+const visibleResults = computed(() =>
+  filteredResults.value.slice(0, visibleCount.value)
+);
 
 async function fetchResults(searchQuery: string, page = 1) {
   if (!searchQuery.trim()) return;
@@ -255,7 +254,8 @@ function getPoster(item: any) {
 function getGenreIdsFromMedia(media: any): number[] {
   if (!media) return [];
   if (Array.isArray(media.genre_ids)) return media.genre_ids;
-  if (Array.isArray(media.genres)) return media.genres.map((g: { id: number }) => g.id);
+  if (Array.isArray(media.genres))
+    return media.genres.map((g: { id: number }) => g.id);
   return [];
 }
 

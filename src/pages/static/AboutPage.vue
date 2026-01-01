@@ -183,21 +183,21 @@
         <div class="flex flex-wrap gap-4">
           <a
             href="mailto:olajubajeifeoluwa93@gmail.com"
-            class="px-3 md:px-6 py-2 md:py-2.5  bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center justify-center gap-2"
+            class="px-3 md:px-6 py-2 md:py-2.5 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center justify-center gap-2"
           >
             <i class="pi pi-envelope text-xl"></i> Email Us
           </a>
           <a
             href="https://x.com/emanncodedev"
             target="_blank"
-            class="px-3 md:px-6 py-2 md:py-2.5  bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center justify-center gap-2"
+            class="px-3 md:px-6 py-2 md:py-2.5 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center justify-center gap-2"
           >
             <i class="pi pi-twitter text-lg"></i> Twitter
           </a>
           <a
             href="https://github.com/Emann-Code-01"
             target="_blank"
-            class="px-3 md:px-6 py-2 md:py-2.5  bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center justify-center gap-2"
+            class="px-3 md:px-6 py-2 md:py-2.5 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center justify-center gap-2"
           >
             <i class="pi pi-github text-xl"></i> GitHub
           </a>

@@ -37,13 +37,6 @@
           </Swiper>
         </div>
       </div>
-      <!-- <div
-                class="flex items-center justify-center text-[#448EF4] hover:text-[#0071EB] font-[Gilroy-Medium] mt-2 transition-all duration-900 ease-out">
-                <router-link to="/ng/login" class="inline-flex items-center gap-3 text-center">
-                    <span class="underline">Sign In</span>
-                    <i class="pi pi-chevron-right text-lg"></i>
-                </router-link>
-      </div> -->
     </div>
   </div>
 </template>

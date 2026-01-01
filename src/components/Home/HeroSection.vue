@@ -71,7 +71,18 @@
                 v-if="showError"
                 class="relative text-red-500 text-sm mt-1 flex items-center text-center gap-1 w-max"
               >
-                <i class="pi pi-times-circle flex items-center text-xs"></i>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="size-6 flex items-center"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
                 {{ errorMessage }}
               </p>
             </div>
@@ -83,9 +94,18 @@
             class="gap-3 bg-[#b20710] text-white items-center flex font-[Gilroy-Bold] text-xl md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500 cursor-pointer"
           >
             Sign In
-            <i
-              class="pi pi-chevron-right text-xl group-hover:animate-pulse"
-            ></i>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="size-6 group-hover:animate-pulse"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M16.5 3.75a1.5 1.5 0 0 1 1.5 1.5v13.5a1.5 1.5 0 0 1-1.5 1.5h-6a1.5 1.5 0 0 1-1.5-1.5V15a.75.75 0 0 0-1.5 0v3.75a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V5.25a3 3 0 0 0-3-3h-6a3 3 0 0 0-3 3V9A.75.75 0 1 0 9 9V5.25a1.5 1.5 0 0 1 1.5-1.5h6Zm-5.03 4.72a.75.75 0 0 0 0 1.06l1.72 1.72H2.25a.75.75 0 0 0 0 1.5h10.94l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 0 0-1.06 0Z"
+                clip-rule="evenodd"
+              />
+            </svg>
           </button>
         </div>
 
@@ -94,7 +114,18 @@
             v-if="showError"
             class="relative text-red-500 text-sm mt-1 flex items-center text-center gap-1 w-max"
           >
-            <i class="pi pi-times-circle flex items-center text-xs"></i>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="size-6 flex items-center"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                clip-rule="evenodd"
+              />
+            </svg>
             {{ errorMessage }}
           </p>
         </div>
@@ -138,7 +169,7 @@
       <p class="font-[Gilroy-SemiBold] text-xl mb-4">{{ error }}</p>
       <button
         @click="retryLoad"
-        class="px-3 md:px-6 py-2 md:py-2.5  bg-[#b20710] hover:bg-[#e32125] text-white rounded-full font-[Gilroy-SemiBold] transition-all cursor-pointer"
+        class="px-3 md:px-6 py-2 md:py-2.5 bg-[#b20710] hover:bg-[#e32125] text-white rounded-full font-[Gilroy-SemiBold] transition-all cursor-pointer"
       >
         Retry
       </button>
@@ -276,7 +307,18 @@
               @click="modalStore.open(item.media_type, { id: item.id })"
               class="px-6 md:px-8 py-3 cursor-pointer md:py-4 bg-white/20 backdrop-blur-sm text-white rounded-full font-[Gilroy-SemiBold] text-base md:text-lg hover:bg-white/30 transition-all flex items-center gap-2"
             >
-              <i class="pi pi-info-circle"></i>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-6"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 0 1 .67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 1 1-.671-1.34l.041-.022ZM12 9a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
               <span>More Info</span>
             </button>
           </div>
@@ -314,7 +356,18 @@
       >
         <div class="flex flex-col items-center gap-2 text-white/60">
           <span class="text-sm font-[Gilroy-Medium]">Scroll to explore</span>
-          <i class="pi pi-chevron-down text-xl"></i>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="size-6"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
+              clip-rule="evenodd"
+            />
+          </svg>
         </div>
       </div>
     </div>

@@ -105,19 +105,24 @@
                 </span>
               </div>
             </div>
-
-            <!-- <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-              <div class="w-16 h-16 rounded-full bg-[#b20710] flex items-center justify-center shadow-2xl">
-                <span class="text-3xl text-white ml-1">▶</span>
-              </div>
-            </div> -->
           </div>
 
           <button
             @click.stop="removeItem(item.id)"
             class="absolute top-3 right-3 w-10 h-10 rounded-full bg-black/80 backdrop-blur-sm border border-white/20 flex items-center justify-center text-red-500 hover:bg-red-600 hover:text-white transition-all z-10 transform cursor-pointer hover:scale-110"
           >
-            <i class="text-xl pi pi-times"></i>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="size-6"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                clip-rule="evenodd"
+              />
+            </svg>
           </button>
         </div>
       </div>

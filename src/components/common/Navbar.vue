@@ -60,7 +60,20 @@
               class="text-[#d1d5dc] font-[Gilroy-SemiBold] hover:text-red-500 transition-colors flex items-center gap-2 cursor-pointer"
             >
               Browse
-              <i class="pi pi-chevron-down text-lg"></i>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                />
+              </svg>
             </button>
             <div
               class="absolute top-full left-0 mt-2 w-48 bg-black/95 backdrop-blur-xl rounded-xl border border-white/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all"
@@ -114,7 +127,20 @@
               class="text-[#d1d5dc] font-[Gilroy-SemiBold] hover:text-red-500 transition-colors flex items-center gap-2 cursor-pointer"
             >
               Discover
-              <i class="pi pi-chevron-down text-lg"></i>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                />
+              </svg>
             </button>
             <div
               class="absolute top-full left-0 mt-2 w-48 bg-black/95 backdrop-blur-xl rounded-xl border border-white/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all"
@@ -198,7 +224,18 @@
         type="button"
         @click="openModal"
       >
-        <i class="pi pi-search text-gray-300 text-xl"></i>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-6 text-gray-300"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
+            clip-rule="evenodd"
+          />
+        </svg>
       </button>
       <TransitionRoot appear :show="isOpen" as="template">
         <Dialog as="div" @close="closeModal" class="relative z-9999">
@@ -248,7 +285,20 @@
               class="text-[#d1d5dc] font-[Gilroy-SemiBold] hover:text-red-500 transition-colors flex items-center gap-2 cursor-pointer px-4 py-3 xl:hidden"
             >
               Browse
-              <i class="pi pi-chevron-down text-lg"></i>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                />
+              </svg>
             </button>
             <transition name="slide-fade">
               <div
@@ -311,7 +361,20 @@
               class="text-[#d1d5dc] font-[Gilroy-SemiBold] hover:text-red-500 transition-colors flex items-center gap-2 cursor-pointer px-4 py-3 xl:hidden"
             >
               Discover
-              <i class="pi pi-chevron-down text-lg"></i>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                />
+              </svg>
             </button>
             <transition name="slide-fade">
               <div
@@ -412,8 +475,19 @@
                 v-if="!isLoggingOut"
                 @click="closeMenuOnMobile"
                 class="flex items-center gap-3"
-                >🚪 Sign Out<i class="pi pi-sign-in"></i
-              ></span>
+                >Sign Out<svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="size-6"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.5 3.75a1.5 1.5 0 0 1 1.5 1.5v13.5a1.5 1.5 0 0 1-1.5 1.5h-6a1.5 1.5 0 0 1-1.5-1.5V15a.75.75 0 0 0-1.5 0v3.75a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V5.25a3 3 0 0 0-3-3h-6a3 3 0 0 0-3 3V9A.75.75 0 1 0 9 9V5.25a1.5 1.5 0 0 1 1.5-1.5h6ZM5.78 8.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 0 0 0 1.06l3 3a.75.75 0 0 0 1.06-1.06l-1.72-1.72H15a.75.75 0 0 0 0-1.5H4.06l1.72-1.72a.75.75 0 0 0 0-1.06Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
               <span v-else class="">Signing Out...</span>
             </button>
           </div>
@@ -430,7 +504,7 @@
         >
           <router-link
             to="/ng/login"
-            class="px-3 md:px-6 py-2 md:py-2.5  rounded-full bg-red-500 hover:bg-[#e32125] text-[#d1d5dc] font-[Gilroy-SemiBold] transition-all animate-fade-up duration-900"
+            class="px-3 md:px-6 py-2 md:py-2.5 rounded-full bg-red-500 hover:bg-[#e32125] text-[#d1d5dc] font-[Gilroy-SemiBold] transition-all animate-fade-up duration-900"
           >
             Sign In
           </router-link>

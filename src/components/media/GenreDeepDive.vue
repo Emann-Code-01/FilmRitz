@@ -17,12 +17,38 @@
           >
             Browse Genres
           </h3>
-          <button
+          <div
             @click="isCollapsed = !isCollapsed"
-            class="px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white transition-all duration-500 cursor-pointer text-base md:text-xl md:block items-center justify-center w-fit hidden"
+            class="px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white transition-all duration-500 text-base md:text-xl lg:flex items-center justify-center w-fit hidden cursor-pointer"
           >
-            <i :class="isCollapsed ? 'pi pi-bars' : 'pi pi-times'"></i>
-          </button>
+            <svg
+              v-if="isCollapsed"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="size-6 text-white"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+
+            <svg
+              v-else
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="size-6 text-white"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
         </div>
 
         <div class="space-y-3 hidden md:block">
@@ -52,16 +78,24 @@
               </span>
             </span>
 
-            <i
+            <svg
               v-if="!isCollapsed"
-              class="pi pi-chevron-right opacity-0 group-hover:opacity-100 transition-opacity"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="size-6 opacity-0 group-hover:opacity-100 transition-all duration-500 hidden lg:block"
               :class="selectedGenre?.id === genre.id && 'opacity-100'"
-            ></i>
+            >
+              <path
+                fill-rule="evenodd"
+                d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                clip-rule="evenodd"
+              />
+            </svg>
           </button>
         </div>
       </div>
 
-      <!-- Mobile Listbox -->
       <Listbox
         v-model="selectedGenre"
         as="div"
@@ -74,7 +108,18 @@
             <span class="text-2xl">{{ selectedGenre?.icon }}</span>
             <span>{{ selectedGenre?.name }}</span>
           </span>
-          <i class="pi pi-chevron-down transition-all duration-500"></i>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="size-6 transition-all duration-500"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
+              clip-rule="evenodd"
+            />
+          </svg>
         </ListboxButton>
 
         <ListboxOptions class="space-y-2 mt-2">
@@ -103,7 +148,6 @@
         </ListboxOptions>
       </Listbox>
 
-      <!-- Main Content -->
       <div
         class="col-span-12 md:col-span-9 p-6 relative transition-all duration-500"
         :class="isCollapsed ? 'md:col-span-11' : 'md:col-span-9'"
@@ -115,7 +159,9 @@
             borderLeft: `4px solid ${selectedGenre?.color}`,
           }"
         >
-          <h2 class="text-3xl font-[Gilroy-Bold] text-white flex items-center gap-3">
+          <h2
+            class="text-3xl font-[Gilroy-Bold] text-white flex items-center gap-3"
+          >
             <span class="text-4xl">{{ selectedGenre?.icon }}</span>
             {{ selectedGenre?.name }}
           </h2>
@@ -125,7 +171,10 @@
         </div>
 
         <!-- Loading State -->
-        <div v-if="loading" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div
+          v-if="loading"
+          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+        >
           <div
             v-for="n in 8"
             :key="n"
@@ -134,7 +183,10 @@
         </div>
 
         <!-- Items Grid -->
-        <div v-else class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div
+          v-else
+          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+        >
           <div
             v-for="item in genreItems"
             :key="item.id"
@@ -154,16 +206,27 @@
               class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
             >
               <div
-                class="w-16 h-16 rounded-full flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform"
+                class="w-10 h-10 rounded-full flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform"
                 :style="{ backgroundColor: selectedGenre?.color }"
               >
-                <i
-                  class="pi pi-info-circle text-5xl text-white hover:text-[#ffffffec]"
-                ></i>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="size-6 text-white hover:text-[#ffffffec]"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 0 1 .67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 1 1-.671-1.34l.041-.022ZM12 9a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
               </div>
             </div>
             <div class="absolute bottom-0 left-0 right-0 p-4">
-              <h4 class="text-white font-[Gilroy-Bold] text-sm line-clamp-1 mb-1">
+              <h4
+                class="text-white font-[Gilroy-Bold] text-sm line-clamp-1 mb-1"
+              >
                 {{ item.title || item.name }}
               </h4>
               <div class="flex items-center gap-2 text-xs">
@@ -183,8 +246,13 @@
         </div>
 
         <!-- Empty State -->
-        <div v-if="!loading && genreItems.length === 0" class="text-center py-20">
-          <p class="text-gray-400 font-[Gilroy-Medium]">No items found in this genre</p>
+        <div
+          v-if="!loading && genreItems.length === 0"
+          class="text-center py-20"
+        >
+          <p class="text-gray-400 font-[Gilroy-Medium]">
+            No items found in this genre
+          </p>
         </div>
       </div>
     </div>
@@ -193,7 +261,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { Listbox, ListboxOptions, ListboxOption, ListboxButton } from "@headlessui/vue";
+import {
+  Listbox,
+  ListboxOptions,
+  ListboxOption,
+  ListboxButton,
+} from "@headlessui/vue";
 import { getPosterUrl } from "@/utils/imageHelpers";
 import { openMediaModal } from "@/utils/modalHelpers";
 
@@ -288,16 +361,19 @@ const loadGenreItems = async (genreId: number) => {
   loading.value = true;
   try {
     const key = import.meta.env.VITE_TMDB_API_KEY;
-    
-     
+
     const [page1, page2] = await Promise.all([
-      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${key}&with_genres=${genreId}&sort_by=popularity.desc&page=1`),
-      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${key}&with_genres=${genreId}&sort_by=popularity.desc&page=2`)
+      fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${key}&with_genres=${genreId}&sort_by=popularity.desc&page=1`
+      ),
+      fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${key}&with_genres=${genreId}&sort_by=popularity.desc&page=2`
+      ),
     ]);
-    
+
     const [data1, data2] = await Promise.all([page1.json(), page2.json()]);
     const allResults = [...(data1.results || []), ...(data2.results || [])];
-    
+
     genreItems.value = allResults.slice(0, 20);
   } catch (error) {
     console.error("Failed to load genre items:", error);
