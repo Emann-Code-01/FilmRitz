@@ -72,11 +72,7 @@
 
             <div class="flex items-center gap-3 mb-3">
               <span class="text-gray-300 font-[Gilroy-Medium]">
-                {{
-                  formatDate(
-                    mediaList[0].release_date || mediaList[0].first_air_date
-                  )
-                }}
+                {{ formatDate(mediaList[0].release_date || mediaList[0].first_air_date) }}
               </span>
               <span class="text-yellow-400 flex items-center gap-1">
                 ⭐ {{ mediaList[0].vote_average?.toFixed(1) }}
@@ -92,15 +88,10 @@
             <!-- Genre Tags -->
             <div class="flex flex-wrap gap-2">
               <router-link
-                v-for="genreName in getGenreNames(mediaList[0].genre_ids).slice(
-                  0,
-                  3
-                )"
+                v-for="genreName in getGenreNames(mediaList[0].genre_ids).slice(0, 3)"
                 :key="genreName"
                 :to="
-                  auth.isLoggedIn
-                    ? `/ng/genre/${genreName.toLowerCase()}`
-                    : '/ng/login'
+                  auth.isLoggedIn ? `/ng/genre/${genreName.toLowerCase()}` : '/ng/login'
                 "
                 class="text-sm font-[Gilroy-SemiBold] text-white bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full hover:bg-[#b20710] transition-all duration-200"
               >
@@ -142,9 +133,7 @@
           <div
             class="absolute top-3 left-3 w-12 h-12 bg-[#b20710]/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg"
           >
-            <span class="text-xl font-[Gilroy-Bold] text-white"
-              >#{{ index + 2 }}</span
-            >
+            <span class="text-xl font-[Gilroy-Bold] text-white">#{{ index + 2 }}</span>
           </div>
 
           <!-- Heat Score (for top 3 only) -->
@@ -176,9 +165,7 @@
               v-if="getGenreNames(item.genre_ids)[0]"
               :to="
                 auth.isLoggedIn
-                  ? `/ng/genre/${getGenreNames(
-                      item.genre_ids
-                    )[0].toLowerCase()}`
+                  ? `/ng/genre/${getGenreNames(item.genre_ids)[0].toLowerCase()}`
                   : '/ng/login'
               "
               class="inline-block text-sm font-[Gilroy-SemiBold] text-white bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full hover:bg-[#b20710] transition-all duration-200"
@@ -235,8 +222,7 @@ const loadTrendingMedia = async () => {
     mediaList.value = res.slice(0, 20);
   } catch (err: any) {
     console.error("❌ Failed to fetch trending media:", err);
-    error.value =
-      "Couldn't load trending movies and shows. Please refresh in a bit.";
+    error.value = "Couldn't load trending movies and shows. Please refresh in a bit.";
   } finally {
     loading.value = false;
   }

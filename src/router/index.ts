@@ -20,7 +20,8 @@ const ActorDetails = () => import("@/pages/details/ActorDetails.vue");
 const Watch = () => import("@/pages/Watch.vue");
 const TvDetails = () => import("@/pages/TvDetails.vue");
 const CollectionsPage = () => import("@/pages/discovery/CollectionsPage.vue");
-const CollectionDetails = () => import("@/pages/discovery/CollectionsDetailsPage.vue");
+const CollectionDetails = () =>
+  import("@/pages/discovery/CollectionsDetailsPage.vue");
 const TrendingTrailers = () => import("@/pages/trailers/TrendingTrailers.vue");
 const Trailers = () => import("@/pages/trailers/TrailersPage.vue");
 const NewReleases = () => import("@/pages/discovery/NewReleases.vue");

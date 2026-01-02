@@ -48,14 +48,6 @@
   ::-webkit-scrollbar-corner {
     background: #1a1a1a;
   }
-
-  .font-outline-2 {
-    -webkit-text-stroke: 2px currentColor;
-  }
-
-  .font-outline-4 {
-    -webkit-text-stroke: 4px currentColor;
-  }
 }
 
 input:-webkit-autofill,
@@ -132,6 +124,14 @@ input:-webkit-autofill:active {
 }
 
 @layer components {
+  .font-outline-2 {
+    -webkit-text-stroke: 2px currentColor;
+  }
+
+  .font-outline-4 {
+    -webkit-text-stroke: 4px currentColor;
+  }
+
   .custom-container {
     @apply relative flex items-center justify-center w-full text-center max-w-xs mx-auto;
   }

@@ -31,7 +31,7 @@
         </p>
         <button
           @click="fetchDetails"
-          class="px-3 md:px-6 py-2 md:py-2.5  bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all"
+          class="px-3 md:px-6 py-2 md:py-2.5 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all"
         >
           Try Again
         </button>
@@ -76,9 +76,7 @@
             style="animation-delay: 0.1s"
           >
             <!-- Rating -->
-            <div
-              class="flex items-center gap-2 px-3 py-2 bg-[#b20710] rounded-xl"
-            >
+            <div class="px-3 py-2 bg-[#b20710] rounded-xl">
               <span class="text-yellow-400 text-xl">⭐</span>
               <span class="font-[Gilroy-Bold] text-lg">{{
                 media.vote_average?.toFixed(1)
@@ -150,8 +148,34 @@
               class="px-8 py-4 bg-white text-black rounded-full font-[Gilroy-Bold] text-lg hover:bg-white/90 transition-all flex items-center gap-3 cursor-pointer"
               :class="loadingTrailer ? 'opacity-75 cursor-wait' : ''"
             >
-              <span v-if="!loadingTrailer" class="text-2xl">▶</span>
-              <span v-else class="animate-spin">⏳</span>
+              <span v-if="!loadingTrailer" class="text-2xl"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="size-6"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
+              <span v-else class="animate-spin"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="size-6"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M12 5.25c1.213 0 2.415.046 3.605.135a3.256 3.256 0 0 1 3.01 3.01c.044.583.077 1.17.1 1.759L17.03 8.47a.75.75 0 1 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l3-3a.75.75 0 0 0-1.06-1.06l-1.752 1.751c-.023-.65-.06-1.296-.108-1.939a4.756 4.756 0 0 0-4.392-4.392 49.422 49.422 0 0 0-7.436 0A4.756 4.756 0 0 0 3.89 8.282c-.017.224-.033.447-.046.672a.75.75 0 1 0 1.497.092c.013-.217.028-.434.044-.651a3.256 3.256 0 0 1 3.01-3.01c1.19-.09 2.392-.135 3.605-.135Zm-6.97 6.22a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.752-1.751c.023.65.06 1.296.108 1.939a4.756 4.756 0 0 0 4.392 4.392 49.413 49.413 0 0 0 7.436 0 4.756 4.756 0 0 0 4.392-4.392c.017-.223.032-.447.046-.672a.75.75 0 0 0-1.497-.092c-.013.217-.028.434-.044.651a3.256 3.256 0 0 1-3.01 3.01 47.953 47.953 0 0 1-7.21 0 3.256 3.256 0 0 1-3.01-3.01 47.759 47.759 0 0 1-.1-1.759L6.97 15.53a.75.75 0 0 0 1.06-1.06l-3-3Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
               <span>{{ loadingTrailer ? "Loading..." : "Watch Trailer" }}</span>
             </button>
 
@@ -159,11 +183,33 @@
               @click="toggleWatchlist"
               class="px-8 py-4 bg-white/20 backdrop-blur-sm text-white rounded-xl font-[Gilroy-SemiBold] text-lg hover:bg-white/30 transition-all flex items-center gap-3 cursor-pointer"
             >
-              <span
-                :class="{ 'text-red-500 animate-pulse': inWatchlist }"
-                class="text-2xl"
-              >
-                {{ inWatchlist ? "♥" : "♡" }}
+              <span :class="{ 'text-red-500 animate-pulse': inWatchlist }">
+                <svg
+                  v-if="inWatchlist"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="size-6"
+                >
+                  <path
+                    d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"
+                  />
+                </svg>
+                <svg
+                  v-else
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                  />
+                </svg>
               </span>
               <span>{{ inWatchlist ? "In My List" : "Add to List" }}</span>
             </button>
