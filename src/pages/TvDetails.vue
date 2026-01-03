@@ -277,7 +277,7 @@
           </div>
         </div>
 
-        <div v-if="tv.seasons.length > 2" class="mt-8 text-center">
+        <div v-if="tv.seasons.length > 3" class="mt-8 text-center">
           <button
             @click="toggleSeasons"
             class="px-8 py-4 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all transform hover:scale-105 cursor-pointer"
@@ -288,11 +288,18 @@
       </div>
 
       <TransitionRoot :show="isOpen" as="template">
-        <Dialog as="div" @close="closeModal" class="relative z-50 text-white">
+        <Dialog
+          as="div"
+          @close="closeModal"
+          class="relative z-50 text-white"
+          :initialFocus="initialFocus"
+        >
           <DialogOverlay class="fixed inset-0 bg-black/90 backdrop-blur-sm" />
 
           <div class="fixed inset-0 overflow-y-auto">
             <div class="flex items-center justify-center min-h-screen p-4">
+              <button ref="initialFocus" class="sr-only" />
+
               <DialogPanel
                 class="relative w-full max-w-6xl rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10"
               >
@@ -321,22 +328,22 @@
                       class="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent"
                     ></div>
 
-                    <button
-                      @click="closeModal"
-                      class="absolute top-6 right-6 w-12 h-12 rounded-full bg-black/60 backdrop-blur-sm hover:bg-[#b20710] transition-all flex items-center justify-center z-10 text-white cursor-pointer"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        class="size-6"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
-                          clip-rule="evenodd"
-                        />
-                      </svg>
+                    <button @click="closeModal" class="absolute top-6 right-6">
+                      <span class="fixed">
+                        <svg
+                          viewBox="0 0 36 36"
+                          width="36"
+                          height="36"
+                          class="transform -rotate-45 absolute right-2 p-1 hover:bg-[#b20710]/70 rounded-full transition-all duration-500 z-20 cursor-pointer"
+                          fill="currentColor"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M17 17V3H19V17H33V19H19V33H17V19H3V17H17Z"
+                          />
+                        </svg>
+                      </span>
                     </button>
                   </div>
 
@@ -430,7 +437,6 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
-import { useRoute } from "vue-router";
 import {
   getTVDetails,
   getTVSeasonDetails,
@@ -448,7 +454,6 @@ import {
   DialogOverlay,
 } from "@headlessui/vue";
 
-const route = useRoute();
 const tv = ref<TVShow | null>(null);
 const episodes = ref<Episode[]>([]);
 const selectedSeason = ref<number | null>(null);
@@ -460,6 +465,8 @@ const loading = ref(false);
 const selectedEpisode = ref<Episode | null>(null);
 const episodeCredits = ref<any[]>([]);
 
+const initialFocus = ref<HTMLElement | null>(null);
+
 useHead({
   title: computed(() =>
     tv.value
@@ -467,6 +474,10 @@ useHead({
       : "TV Show Seasons | FilmRitz"
   ),
 });
+
+const props = defineProps<{
+  name: string;
+}>();
 
 const displayedSeasons = computed(() => {
   if (!tv.value) return [];
@@ -557,7 +568,7 @@ async function openModal(ep: Episode) {
 }
 
 onMounted(async () => {
-  const id = slugToId(route.params.name);
+  const id = slugToId(props.name);
   if (!id) return;
 
   try {

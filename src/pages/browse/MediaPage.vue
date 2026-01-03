@@ -3,14 +3,12 @@
     class="min-h-screen text-white py-10 mt-10 transition-all duration-900 animate-fade-up"
   >
     <div class="relative py-12 px-6 mx-auto overflow-hidden">
-      <!-- Ambient Glow Background -->
       <div
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
 
       <div class="relative z-10 max-w-[1230px] mx-auto justify-between">
         <div class="grid lg:grid-cols-2 gap-8 items-center">
-          <!-- Left: Title & Description -->
           <div class="space-y-4">
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] leading-tight">
               {{ isMoviePage ? "Discover Movies" : "Discover TV Shows" }}
@@ -19,7 +17,6 @@
               Explore trending, top-rated, and upcoming
               {{ isMoviePage ? "movies" : "shows" }} with trailers.
             </p>
-            <!-- Stats -->
             <div class="flex gap-6">
               <div class="text-center flex items-center justify-center gap-2">
                 <div class="text-3xl font-[Gilroy-Bold] text-[#b20710]">
@@ -40,18 +37,21 @@
             </div>
           </div>
 
-          <!-- Right: 3D Card Stack -->
           <div class="relative h-full flex-end items-center justify-center">
             <Swiper
+              v-if="heroReady"
+              :key="route.fullPath"
               :modules="[EffectCards, Autoplay]"
               effect="cards"
+              :slides-per-view="1"
+              :slides-per-group="1"
               :grab-cursor="true"
-              :loop="true"
+              loop
               :autoplay="{ delay: 3000, disableOnInteraction: false }"
               class="w-64 h-full"
             >
               <SwiperSlide
-                v-for="item in allFilteredMedia.slice(0, 8)"
+                v-for="item in heroSlides"
                 :key="item.id"
                 class="rounded-2xl overflow-hidden shadow-2xl"
               >
@@ -62,19 +62,24 @@
                 />
               </SwiperSlide>
             </Swiper>
+
+            <div v-else-if="heroSlides.length === 1" class="w-64 h-full">
+              <img
+                :src="getPoster(heroSlides[0].poster_path, 'w500')"
+                class="rounded-2xl shadow-2xl"
+              />
+            </div>
+
+            <div v-else class="w-64 h-full bg-white/5 rounded-2xl"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- FILTER PANEL -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
     <div
       class="sticky top-20 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
       <div class="px-6 max-w-7xl mx-auto">
-        <!-- Category Tabs -->
         <div class="flex gap-3 mb-2 overflow-x-auto pb-2 scrollbar-hide">
           <button
             v-for="cat in categories"
@@ -91,9 +96,7 @@
           </button>
         </div>
 
-        <!-- Filters Row -->
         <div class="flex flex-wrap gap-3 items-center">
-          <!-- Genre Filter -->
           <select
             v-model="appliedFilters.genre"
             @change="currentPage = 1"
@@ -105,7 +108,6 @@
             </option>
           </select>
 
-          <!-- Year Filter -->
           <input
             type="number"
             v-model.number="appliedFilters.year"
@@ -114,7 +116,6 @@
             class="px-3 md:px-4 py-2 md:py-2.5 w-28 rounded-xl bg-gray-950 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           />
 
-          <!-- Rating Filter -->
           <input
             type="number"
             v-model.number="appliedFilters.rating"
@@ -126,7 +127,6 @@
             class="px-3 md:px-4 py-2 md:py-2.5 w-32 rounded-xl bg-gray-950 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           />
 
-          <!-- Sort Filter -->
           <select
             v-model="appliedFilters.sort"
             @change="currentPage = 1"
@@ -138,7 +138,6 @@
             <option value="topRated">Top Rated</option>
           </select>
 
-          <!-- Clear Filters -->
           <button
             @click="clearFilters"
             class="px-5 md:px-6 py-2 md:py-2.5 rounded-xl bg-red-600/20 border cursor-pointer border-red-600/50 text-red-400 font-[Gilroy-SemiBold] hover:bg-red-600 hover:text-white transition-all"
@@ -149,11 +148,7 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- MEDIA GRID -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
     <div class="px-6 mx-auto mt-8 max-w-7xl">
-      <!-- Loading Skeleton -->
       <div
         v-if="loading"
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12"
@@ -165,7 +160,6 @@
         ></div>
       </div>
 
-      <!-- Error State -->
       <div v-else-if="error" class="text-center py-20">
         <p class="text-red-500 text-xl font-[Gilroy-SemiBold] mb-4">
           {{ error }}
@@ -178,7 +172,6 @@
         </button>
       </div>
 
-      <!-- Media Grid -->
       <div
         v-else
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12"
@@ -190,7 +183,6 @@
           class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all duration-500 hover:scale-105 animate-fade-up"
           :style="{ animationDelay: `${index * 30}ms` }"
         >
-          <!-- Poster -->
           <div class="aspect-2/3 overflow-hidden">
             <img
               :src="getPoster(item.poster_path, 'w500')"
@@ -199,12 +191,10 @@
             />
           </div>
 
-          <!-- Gradient Overlay -->
           <div
             class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
           ></div>
 
-          <!-- Info Overlay -->
           <div
             class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"
           >
@@ -228,7 +218,6 @@
               </span>
             </div>
 
-            <!-- Genre Tags -->
             <div class="flex flex-wrap gap-1">
               <router-link
                 v-for="genreName in getGenreNames(item.genre_ids).slice(0, 2)"
@@ -245,7 +234,6 @@
             </div>
           </div>
 
-          <!-- Rank Badge -->
           <div
             class="absolute top-3 right-3 w-10 h-10 rounded-full bg-[#b20710] flex items-center justify-center font-[Gilroy-Bold] text-white shadow-xl"
           >
@@ -254,7 +242,6 @@
         </div>
       </div>
 
-      <!-- Pagination -->
       <div
         v-if="totalPages > 1"
         class="flex items-center justify-center gap-4 mb-12"
@@ -436,6 +423,10 @@ const visiblePages = computed(() => {
 
   return pages;
 });
+
+const heroSlides = computed(() => allFilteredMedia.value.slice(0, 10));
+
+const heroReady = computed(() => heroSlides.value.length >= 3);
 
 function changeCategory(value: string) {
   selectedCategory.value = value;

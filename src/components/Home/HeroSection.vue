@@ -1,5 +1,4 @@
 <template>
-  <!-- Trailer Modal -->
   <TrailerModal
     :is-open="showTrailerModal"
     :trailer="selectedTrailer"
@@ -133,11 +132,7 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════════════ -->
-  <!-- LOGGED-IN HERO - CINEMATIC BILLBOARD WITH SMART AUTO-ROTATION -->
-  <!-- ═══════════════════════════════════════════════════════════════ -->
   <div v-else class="relative w-full">
-    <!-- Loading Skeleton -->
     <div
       v-if="loading"
       class="relative h-screen w-full bg-black flex flex-col justify-end p-10 animate-pulse overflow-hidden"
@@ -161,7 +156,6 @@
       </div>
     </div>
 
-    <!-- Error State -->
     <div
       v-else-if="error"
       class="text-red-500 text-center py-20 bg-red-500/10 rounded-xl mt-10"
@@ -175,9 +169,7 @@
       </button>
     </div>
 
-    <!-- Hero Carousel -->
     <div v-else class="relative h-screen overflow-hidden">
-      <!-- Slides Container -->
       <div
         v-for="(item, index) in trendingAll.slice(0, 7)"
         :key="item.id"
@@ -187,7 +179,6 @@
         "
         @mouseenter="handleSlideHover(item, index)"
       >
-        <!-- Background Image -->
         <div
           class="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat transition-all duration-700"
           :style="{
@@ -198,7 +189,6 @@
           }"
         ></div>
 
-        <!-- Cinematic Letterbox Bars -->
         <div
           class="absolute top-0 left-0 right-0 h-20 bg-linear-to-b from-black/90 to-transparent z-20"
         ></div>
@@ -206,25 +196,21 @@
           class="absolute bottom-0 left-0 right-0 h-64 bg-linear-to-t from-black via-black/60 to-transparent z-20"
         ></div>
 
-        <!-- Content Overlay -->
         <div
           class="absolute inset-0 flex flex-col justify-end p-6 md:p-12 lg:p-16 z-30"
         >
-          <!-- Title -->
           <h2
             class="text-4xl md:text-6xl lg:text-7xl font-[Gilroy-Bold] mb-4 max-w-4xl drop-shadow-2xl text-[#ffffffec] animate-fade-up"
           >
             {{ item.title || item.name }}
           </h2>
 
-          <!-- Metadata Row -->
           <div
             class="flex flex-wrap items-center gap-3 md:gap-4 text-[#ffffffec] mb-4 animate-fade-up"
             style="animation-delay: 0.1s"
           >
-            <!-- Rating -->
             <div
-              class="flex items-center gap-2 px-3 py-1.5 bg-[#b20710] rounded-full"
+              class="flex items-center px-3 py-1.5 bg-[#b20710] rounded-full"
             >
               <span class="text-yellow-400">⭐</span>
               <span class="font-[Gilroy-Bold]">{{
@@ -232,14 +218,12 @@
               }}</span>
             </div>
 
-            <!-- Media Type -->
             <span
               class="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-full font-[Gilroy-SemiBold] text-sm"
             >
               {{ item.media_type === "movie" ? "🎬 MOVIE" : "📺 TV SHOW" }}
             </span>
 
-            <!-- Year -->
             <span class="font-[Gilroy-Medium] text-gray-300">
               {{
                 new Date(
@@ -248,7 +232,6 @@
               }}
             </span>
 
-            <!-- Genres (Desktop) -->
             <div class="hidden md:flex gap-2">
               <router-link
                 v-for="genreName in getGenreNames(item.genre_ids).slice(0, 3)"
@@ -264,7 +247,6 @@
             </div>
           </div>
 
-          <!-- Genres (Mobile) -->
           <div
             class="flex md:hidden gap-2 mb-4 flex-wrap animate-fade-up"
             style="animation-delay: 0.15s"
@@ -278,7 +260,6 @@
             </span>
           </div>
 
-          <!-- Overview -->
           <p
             class="text-base md:text-lg text-white font-[Gilroy-Medium] line-clamp-3 max-w-3xl mb-6 animate-fade-up"
             style="animation-delay: 0.2s"
@@ -286,7 +267,6 @@
             {{ item.overview }}
           </p>
 
-          <!-- Action Buttons -->
           <div
             class="flex flex-wrap gap-3 md:gap-4 animate-fade-up"
             style="animation-delay: 0.25s"
@@ -351,7 +331,6 @@
         </div>
       </div>
 
-      <!-- Progress Bar -->
       <div class="absolute bottom-0 left-0 right-0 h-1 bg-white/20 z-40">
         <div
           class="h-full bg-[#b20710] transition-all duration-100"
@@ -359,7 +338,6 @@
         ></div>
       </div>
 
-      <!-- Navigation Dots -->
       <div
         class="absolute bottom-2 md:bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-40"
       >
@@ -376,7 +354,6 @@
         ></button>
       </div>
 
-      <!-- Scroll Indicator -->
       <div
         class="absolute bottom-20 left-1/2 transform -translate-x-1/2 animate-bounce z-40 hidden md:block"
       >

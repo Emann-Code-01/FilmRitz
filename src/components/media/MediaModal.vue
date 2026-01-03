@@ -1,4 +1,3 @@
-<!-- src/components/media/MediaModal.vue -->
 <template>
   <div v-if="loading">
     <div class="fixed inset-0 flex items-center justify-center p-4">
@@ -33,15 +32,20 @@
   </div>
 
   <TransitionRoot :show="modalStore.isModalOpen" as="template">
-    <Dialog @close="modalStore.closeModal" class="relative z-50">
+    <Dialog
+      @close="modalStore.closeModal"
+      class="relative z-50"
+      :initialFocus="initialFocus"
+    >
       <div class="fixed inset-0 overflow-y-auto">
         <DialogOverlay class="fixed inset-0 bg-black/80" />
         <div class="flex items-center justify-center min-h-screen p-4">
+          <button ref="initialFocus" class="sr-only" />
+
           <DialogPanel
             v-if="media"
             class="relative w-full max-w-4xl rounded-xl overflow-hidden text-white shadow-xl bg-black"
           >
-            <!-- Skeleton -->
             <div v-if="loading" class="animate-pulse">
               <div class="h-[70vh] bg-gray-700 rounded-t-xl"></div>
               <div class="p-6 space-y-3 bg-gray-800 rounded-b-xl">
@@ -52,9 +56,7 @@
               </div>
             </div>
 
-            <!-- Actual content -->
             <div v-else class="overflow-y-auto h-[90vh]">
-              <!-- Backdrop Image -->
               <div
                 class="relative h-[70vh] bg-cover bg-center"
                 :style="{
@@ -70,14 +72,12 @@
                   @click="modalStore.closeModal"
                   class="absolute top-6 right-6"
                 >
-                  <span
-                    class="fixed right-9 hover:bg-[#b20710]/70 rounded-full p-1 transition-all duration-500 z-20 cursor-pointer"
-                  >
+                  <span class="fixed">
                     <svg
                       viewBox="0 0 36 36"
                       width="36"
                       height="36"
-                      class="transform -rotate-45"
+                      class="transform -rotate-45 absolute right-2 p-1 hover:bg-[#b20710]/70 rounded-full transition-all duration-500 z-20 cursor-pointer"
                       fill="currentColor"
                     >
                       <path
@@ -90,7 +90,6 @@
                 </button>
               </div>
 
-              <!-- Overlay Info -->
               <div
                 class="relative -mt-6 p-6 bg-linear-to-t from-black/95 via-black/70 to-transparent rounded-t-2xl"
               >
@@ -126,6 +125,7 @@
                     {{ genreName }}
                   </span>
                 </div>
+
                 <DialogDescription
                   class="mt-4 max-w-2xl text-xl font-[Gilroy-SemiBold]"
                 >
@@ -162,7 +162,6 @@
             </div>
           </DialogPanel>
 
-          <!-- Skeleton if media is null -->
           <DialogPanel
             v-else
             class="flex flex-col justify-start h-[40em] w-full max-w-4xl rounded-xl bg-black/40 text-white p-8 space-y-6 animate-pulse"
@@ -196,13 +195,14 @@ import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-// const route = useRoute();
 const auth = useAuthStore();
 const modalStore = useModalStore();
 const loading = ref(false);
 const media = ref<any>(null);
 const expanded = ref(false);
 const baseUrl = "https://image.tmdb.org/t/p/w1280";
+
+const initialFocus = ref<HTMLElement | null>(null);
 
 function truncateText(text: string, limit = 30) {
   if (!text) return "";

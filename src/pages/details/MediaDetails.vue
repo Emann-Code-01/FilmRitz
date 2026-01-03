@@ -1,5 +1,4 @@
 <template>
-  <!-- Trailer Modal -->
   <TrailerModal
     :is-open="showTrailerModal"
     :trailer="selectedTrailer"
@@ -8,7 +7,6 @@
   />
 
   <div class="min-h-screen bg-[#0a0a0a] text-white">
-    <!-- Loading Skeleton -->
     <div v-if="loading" class="space-y-8 py-10 px-6 mt-18">
       <div
         class="relative overflow-hidden rounded-2xl h-[60vh] bg-gray-800/50 animate-pulse"
@@ -20,7 +18,6 @@
       </div>
     </div>
 
-    <!-- Error State -->
     <div
       v-else-if="error"
       class="flex items-center justify-center min-h-screen"
@@ -38,11 +35,7 @@
       </div>
     </div>
 
-    <!-- Main Content -->
     <section v-else-if="media" class="space-y-8">
-      <!-- ═══════════════════════════════════════════════════════════════ -->
-      <!-- HERO BACKDROP -->
-      <!-- ═══════════════════════════════════════════════════════════════ -->
       <div
         class="relative h-screen overflow-hidden"
         :style="{
@@ -53,7 +46,6 @@
           backgroundPosition: 'center',
         }"
       >
-        <!-- linear Overlays -->
         <div
           class="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent"
         ></div>
@@ -61,21 +53,17 @@
           class="absolute inset-0 bg-linear-to-r from-black/80 via-transparent to-transparent"
         ></div>
 
-        <!-- Content Container -->
         <div class="absolute bottom-0 left-0 right-0 p-6 mx-auto">
-          <!-- Title -->
           <h1
             class="text-4xl md:text-6xl lg:text-7xl font-[Gilroy-Bold] mb-4 max-w-4xl drop-shadow-2xl animate-fade-up"
           >
             {{ media.title }}
           </h1>
 
-          <!-- Metadata Row -->
           <div
             class="flex flex-wrap items-center gap-3 md:gap-4 mb-4 animate-fade-up"
             style="animation-delay: 0.1s"
           >
-            <!-- Rating -->
             <div class="px-3 py-2 bg-[#b20710] rounded-xl">
               <span class="text-yellow-400 text-xl">⭐</span>
               <span class="font-[Gilroy-Bold] text-lg">{{
@@ -83,14 +71,12 @@
               }}</span>
             </div>
 
-            <!-- Media Type -->
             <span
               class="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-xl font-[Gilroy-SemiBold]"
             >
               {{ media.media_type === "tv" ? "📺 TV SHOW" : "🎬 MOVIE" }}
             </span>
 
-            <!-- Year -->
             <span
               class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-xl font-[Gilroy-Medium]"
             >
@@ -101,7 +87,6 @@
               }}
             </span>
 
-            <!-- TV Status -->
             <span
               v-if="isTv && media.number_of_seasons"
               class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-xl font-[Gilroy-SemiBold]"
@@ -113,7 +98,6 @@
             </span>
           </div>
 
-          <!-- Genre Tags -->
           <div
             class="flex flex-wrap gap-2 mb-6 animate-fade-up"
             style="animation-delay: 0.15s"
@@ -130,7 +114,6 @@
             </router-link>
           </div>
 
-          <!-- Overview -->
           <p
             class="text-lg md:text-xl text-gray-200 font-[Gilroy-Medium] line-clamp max-w-5xl mb-6 animate-fade-up"
             style="animation-delay: 0.2s"
@@ -138,7 +121,6 @@
             {{ media.overview }}
           </p>
 
-          <!-- Action Buttons -->
           <div
             class="flex flex-wrap gap-4 animate-fade-up"
             style="animation-delay: 0.25s"
@@ -217,7 +199,6 @@
         </div>
       </div>
 
-      <!-- Latest Season Section -->
       <div v-if="isTv && latestSeason" class="px-6 mx-auto space-y-4">
         <h2 class="text-3xl font-[Gilroy-Bold]">Latest Season</h2>
         <div
@@ -247,7 +228,6 @@
           </div>
         </div>
 
-        <!-- View More Seasons Button -->
         <div
           v-if="media.seasons && media.seasons.length > 0"
           class="text-center"
@@ -261,7 +241,6 @@
         </div>
       </div>
 
-      <!-- Cast Section -->
       <div v-if="cast.length" class="px-6 mx-auto space-y-4">
         <h2 class="text-3xl font-[Gilroy-Bold]">Cast</h2>
         <div class="flex gap-4 overflow-x-auto pb-4">
@@ -295,7 +274,6 @@
         </div>
       </div>
 
-      <!-- Similar Titles Section -->
       <div v-if="similar.length" class="px-6 mx-auto space-y-4 pb-12">
         <h2 class="text-3xl font-[Gilroy-Bold]">Similar Titles</h2>
         <div
@@ -324,7 +302,6 @@
       </div>
     </section>
 
-    <!-- Toast Notification -->
     <transition name="fade">
       <div
         v-if="showToast"
@@ -346,6 +323,10 @@ import { genreMap } from "@/types/media";
 import { getMediaVideos } from "@/api/tmdb";
 import TrailerModal from "@/components/media/TrailerModal.vue";
 import AdSlot from "@/components/ads/AdSlot.vue";
+
+const props = defineProps<{
+  name: string;
+}>();
 
 interface TrailerData {
   id: string;
@@ -423,7 +404,7 @@ async function fetchDetails() {
   error.value = null;
 
   try {
-    const idNum = slugToId(route.params.name);
+    const idNum = slugToId(props.name);
     if (!idNum) {
       error.value = "Invalid media ID";
       return;
@@ -574,7 +555,7 @@ function toggleWatchlist() {
 }
 
 onMounted(fetchDetails);
-watch(() => route.params.name, fetchDetails);
+watch(() => props.name, fetchDetails);
 </script>
 
 <style scoped>
