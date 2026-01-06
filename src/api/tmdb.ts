@@ -305,8 +305,22 @@ export const getMediaDetails = async (
   return fulfilled.length ? fulfilled[0].value : null;
 };
 
-export const getMediaVideos = async (id: number, mediaType: "movie" | "tv") => {
-  return mediaType === "movie" ? getMovieVideos(id) : getTVVideos(id);
+export const getMediaVideos = async (
+  id: number,
+  mediaType: "movie" | "tv",
+  seasonNumber?: number
+) => {
+  if (mediaType === "movie") {
+    return getMovieVideos(id);
+  } else {
+    // For TV shows, if season is specified, get season videos
+    if (seasonNumber) {
+      const res = await apiV3.get(`/tv/${id}/season/${seasonNumber}/videos`);
+      return res.data.results || [];
+    }
+    // Otherwise get general TV show videos
+    return getTVVideos(id);
+  }
 };
 
 export const getMediaSeasonDetails = async (

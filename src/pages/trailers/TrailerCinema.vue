@@ -98,7 +98,6 @@
                     clip-rule="evenodd"
                   />
                 </svg>
-
                 <span class="hidden md:inline">Shuffle</span>
               </button>
               <button
@@ -118,7 +117,6 @@
                     clip-rule="evenodd"
                   />
                 </svg>
-
                 <span class="hidden md:inline">Refresh</span>
               </button>
             </div>
@@ -153,7 +151,6 @@
                     clip-rule="evenodd"
                   />
                 </svg>
-
                 <span class="inline">Shuffle</span>
               </button>
               <button
@@ -173,7 +170,6 @@
                     clip-rule="evenodd"
                   />
                 </svg>
-
                 <span class="inline">Refresh</span>
               </button>
             </div>
@@ -202,6 +198,7 @@
 
             <iframe
               v-if="currentTrailer.key"
+              :key="currentTrailer.key"
               :src="`https://www.youtube.com/embed/${currentTrailer.key}?autoplay=1&rel=0&modestbranding=1`"
               class="w-full h-full"
               frameborder="0"
@@ -223,20 +220,43 @@
             </div>
           </div>
 
+          <!-- Desktop Info Card -->
           <div
             class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hidden md:block"
           >
             <div class="flex items-start justify-between gap-4">
               <div class="flex-1">
-                <h2 class="text-3xl font-[Gilroy-Bold] mb-3">
-                  {{ currentTrailer.title }}
-                </h2>
+                <div class="flex items-center gap-3 mb-3 flex-wrap">
+                  <h2 class="text-3xl font-[Gilroy-Bold]">
+                    {{ currentTrailer.title || currentTrailer.name }}
+                  </h2>
+
+                  <!-- Season Dropdown -->
+                  <select
+                    v-if="
+                      currentTrailer.media_type === 'tv' &&
+                      availableSeasons.length > 1
+                    "
+                    v-model="selectedSeason"
+                    @change="changeSeason"
+                    class="px-2 py-2 bg-white/10 hover:bg-white/20 rounded-lg font-[Gilroy-SemiBold] border border-white/20 cursor-pointer transition-all focus:outline-none text-white"
+                  >
+                    <option
+                      v-for="season in availableSeasons"
+                      :key="season"
+                      :value="season"
+                      class="bg-[#1a1a1a] text-white"
+                    >
+                      Season {{ season }}
+                    </option>
+                  </select>
+                </div>
+
                 <div class="flex flex-wrap items-center gap-3 mb-4">
                   <span
                     class="px-3 py-1.5 bg-[#b20710] rounded-lg text-sm font-[Gilroy-SemiBold]"
+                    >⭐ {{ currentTrailer.vote_average?.toFixed(1) }}</span
                   >
-                    ⭐ {{ currentTrailer.vote_average?.toFixed(1) }}
-                  </span>
                   <span
                     class="px-3 py-1.5 bg-white/20 rounded-lg text-sm font-[Gilroy-SemiBold]"
                   >
@@ -246,10 +266,19 @@
                         : "📺 TV Show"
                     }}
                   </span>
-                  <span class="text-gray-400 font-[Gilroy-Medium]">
-                    {{
-                      currentTrailer.release_date?.slice(0, 4) ||
-                      currentTrailer.first_air_date?.slice(0, 4)
+                  <span class="text-gray-400 font-[Gilroy-Medium]">{{
+                    currentTrailer.release_date?.slice(0, 4) ||
+                    currentTrailer.first_air_date?.slice(0, 4)
+                  }}</span>
+                  <span
+                    v-if="
+                      currentTrailer.media_type === 'tv' &&
+                      currentTrailer.number_of_seasons
+                    "
+                    class="text-gray-400 font-[Gilroy-Medium]"
+                  >
+                    {{ currentTrailer.number_of_seasons }} Season{{
+                      currentTrailer.number_of_seasons > 1 ? "s" : ""
                     }}
                   </span>
                 </div>
@@ -271,7 +300,7 @@
 
               <button
                 @click="openModal(currentTrailer)"
-                class="px-3 md:px-6 py-2 md:py-2.5 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center gap-2 border border-white/20 whitespace-nowrap cursor-pointer"
+                class="px-6 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center gap-2 border border-white/20 whitespace-nowrap cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -289,20 +318,44 @@
               </button>
             </div>
           </div>
+
+          <!-- Mobile Info Card -->
           <div
             class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 md:hidden block"
           >
             <div class="flex flex-col items-start justify-between gap-4">
-              <div class="flex-1">
-                <h2 class="text-3xl font-[Gilroy-Bold] mb-3">
-                  {{ currentTrailer.title }}
-                </h2>
+              <div class="flex-1 w-full">
+                <div class="flex flex-col gap-3 mb-3">
+                  <h2 class="text-3xl font-[Gilroy-Bold]">
+                    {{ currentTrailer.title || currentTrailer.name }}
+                  </h2>
+
+                  <!-- Season Dropdown (Mobile) -->
+                  <select
+                    v-if="
+                      currentTrailer.media_type === 'tv' &&
+                      availableSeasons.length > 1
+                    "
+                    v-model="selectedSeason"
+                    @change="changeSeason"
+                    class="w-full px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg font-[Gilroy-SemiBold] border border-white/20 cursor-pointer transition-all focus:outline-none focus:ring-2 focus:ring-[#b20710] text-white"
+                  >
+                    <option
+                      v-for="season in availableSeasons"
+                      :key="season"
+                      :value="season"
+                      class="bg-[#1a1a1a] text-white"
+                    >
+                      Season {{ season }}
+                    </option>
+                  </select>
+                </div>
+
                 <div class="flex flex-wrap items-center gap-3 mb-4">
                   <span
                     class="px-3 py-1.5 bg-[#b20710] rounded-lg text-sm font-[Gilroy-SemiBold]"
+                    >⭐ {{ currentTrailer.vote_average?.toFixed(1) }}</span
                   >
-                    ⭐ {{ currentTrailer.vote_average?.toFixed(1) }}
-                  </span>
                   <span
                     class="px-3 py-1.5 bg-white/20 rounded-lg text-sm font-[Gilroy-SemiBold]"
                   >
@@ -312,10 +365,19 @@
                         : "📺 TV Show"
                     }}
                   </span>
-                  <span class="text-gray-400 font-[Gilroy-Medium]">
-                    {{
-                      currentTrailer.release_date?.slice(0, 4) ||
-                      currentTrailer.first_air_date?.slice(0, 4)
+                  <span class="text-gray-400 font-[Gilroy-Medium]">{{
+                    currentTrailer.release_date?.slice(0, 4) ||
+                    currentTrailer.first_air_date?.slice(0, 4)
+                  }}</span>
+                  <span
+                    v-if="
+                      currentTrailer.media_type === 'tv' &&
+                      currentTrailer.number_of_seasons
+                    "
+                    class="text-gray-400 font-[Gilroy-Medium]"
+                  >
+                    {{ currentTrailer.number_of_seasons }} Season{{
+                      currentTrailer.number_of_seasons > 1 ? "s" : ""
                     }}
                   </span>
                 </div>
@@ -324,9 +386,9 @@
                 >
                   {{ currentTrailer.overview }}
                 </p>
-                <div class="flex flex-wrap gap-2">
+                <div class="flex flex-wrap gap-2 mb-4">
                   <span
-                    v-for="genreId in currentTrailer.genre_ids?.slice(0, 2)"
+                    v-for="genreId in currentTrailer.genre_ids?.slice(1, 2)"
                     :key="genreId"
                     class="px-3 py-1 bg-white/10 rounded-lg text-sm font-[Gilroy-SemiBold]"
                   >
@@ -337,7 +399,7 @@
 
               <button
                 @click="openModal(currentTrailer)"
-                class="px-3 md:px-6 py-2 md:py-2.5 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center gap-2 border border-white/20 whitespace-nowrap cursor-pointer"
+                class="w-full px-6 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center justify-center gap-2 border border-white/20 cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -385,97 +447,24 @@
               />
 
               <div
-                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                  version="1.1"
-                  width="50"
-                  height="50"
-                  viewBox="0 0 256 256"
-                  xml:space="preserve"
+                <span
+                  class="bg-[#b20710] rounded-full p-2 flex items-center justify-center"
                 >
-                  <g
-                    style="
-                      stroke: none;
-                      stroke-width: 0;
-                      stroke-dasharray: none;
-                      stroke-linecap: butt;
-                      stroke-linejoin: miter;
-                      stroke-miterlimit: 10;
-                      fill: none;
-                      fill-rule: nonzero;
-                      opacity: 1;
-                    "
-                    transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="size-6"
                   >
                     <path
-                      d="M 45 90 C 20.187 90 0 69.813 0 45 c 31.16 -8.812 61.257 -9.555 90 0 C 90 69.813 69.813 90 45 90 z"
-                      style="
-                        stroke: none;
-                        stroke-width: 1;
-                        stroke-dasharray: none;
-                        stroke-linecap: butt;
-                        stroke-linejoin: miter;
-                        stroke-miterlimit: 10;
-                        fill: rgb(187, 26, 26);
-                        fill-rule: nonzero;
-                        opacity: 1;
-                      "
-                      transform=" matrix(1 0 0 1 0 0) "
-                      stroke-linecap="round"
+                      fill-rule="evenodd"
+                      d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                      clip-rule="evenodd"
                     />
-                    <path
-                      d="M 45 0 C 20.187 0 0 20.187 0 45 h 90 C 90 20.187 69.813 0 45 0 z"
-                      style="
-                        stroke: none;
-                        stroke-width: 1;
-                        stroke-dasharray: none;
-                        stroke-linecap: butt;
-                        stroke-linejoin: miter;
-                        stroke-miterlimit: 10;
-                        fill: rgb(221, 34, 34);
-                        fill-rule: nonzero;
-                        opacity: 1;
-                      "
-                      transform=" matrix(1 0 0 1 0 0) "
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="M 63.885 47.325 l -14.816 8.554 l -14.816 8.554 c -1.79 1.033 -4.026 -0.258 -4.026 -2.325 V 45 c 10.606 -4.196 22.359 -3.855 35 0 C 65.227 45.904 64.78 46.808 63.885 47.325 z"
-                      style="
-                        stroke: none;
-                        stroke-width: 1;
-                        stroke-dasharray: none;
-                        stroke-linecap: butt;
-                        stroke-linejoin: miter;
-                        stroke-miterlimit: 10;
-                        fill: rgb(240, 240, 240);
-                        fill-rule: nonzero;
-                        opacity: 1;
-                      "
-                      transform=" matrix(1 0 0 1 0 0) "
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="M 63.885 42.675 l -14.816 -8.554 l -14.816 -8.554 c -1.79 -1.033 -4.026 0.258 -4.026 2.325 V 45 h 35 C 65.227 44.096 64.78 43.192 63.885 42.675 z"
-                      style="
-                        stroke: none;
-                        stroke-width: 1;
-                        stroke-dasharray: none;
-                        stroke-linecap: butt;
-                        stroke-linejoin: miter;
-                        stroke-miterlimit: 10;
-                        fill: rgb(255, 255, 255);
-                        fill-rule: nonzero;
-                        opacity: 1;
-                      "
-                      transform=" matrix(1 0 0 1 0 0) "
-                      stroke-linecap="round"
-                    />
-                  </g>
-                </svg>
+                  </svg>
+                </span>
               </div>
 
               <div
@@ -496,12 +485,11 @@
               <div class="flex items-center gap-2">
                 <span
                   class="px-2 py-1 bg-[#b20710] rounded-md text-xs font-[Gilroy-SemiBold]"
+                  >⭐ {{ item.vote_average?.toFixed(1) }}</span
                 >
-                  ⭐ {{ item.vote_average?.toFixed(1) }}
-                </span>
-                <span class="text-xs text-gray-400">
-                  {{ (item.release_date || item.first_air_date)?.slice(0, 4) }}
-                </span>
+                <span class="text-xs text-gray-400">{{
+                  (item.release_date || item.first_air_date)?.slice(0, 4)
+                }}</span>
               </div>
             </div>
           </div>
@@ -518,7 +506,7 @@
         </p>
         <button
           @click="fetchTrailerSlides"
-          class="px-8 py-4 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all inline-flex items-center gap-2"
+          class="px-8 py-4 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all inline-flex items-center gap-2 cursor-pointer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -532,7 +520,6 @@
               clip-rule="evenodd"
             />
           </svg>
-
           Refresh
         </button>
       </div>
@@ -543,8 +530,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useHead } from "@unhead/vue";
-import { getMediaVideos } from "@/api/tmdb";
-import { getRotatedTrending } from "@/services/mediaRotation";
+import { fetchTrendingMedia, getMediaVideos } from "@/api/tmdb";
 import { useModalStore } from "@/stores/modalStore";
 import { genreMap } from "@/types/media";
 
@@ -561,6 +547,8 @@ interface TrailerItem {
   release_date?: string;
   first_air_date?: string;
   key?: string;
+  number_of_seasons?: number;
+  current_season?: number;
 }
 
 const modalStore = useModalStore();
@@ -569,6 +557,8 @@ const currentTrailer = ref<TrailerItem | null>(null);
 const loading = ref(true);
 const videoLoading = ref(false);
 const error = ref<string | null>(null);
+const selectedSeason = ref(1);
+const availableSeasons = ref<number[]>([]);
 
 useHead({
   title: "Trailer Cinema | FilmRitz - Watch Movie & TV Trailers",
@@ -598,13 +588,33 @@ async function fetchTrailerSlides() {
   try {
     console.log("Fetching trailer cinema items...");
 
-    // Use rotated trending for trailer variety (cached for 6 hours)
-    const topItems = await getRotatedTrending();
+    const trending = await fetchTrendingMedia("week", 3);
+    const topItems = trending.slice(0, 30);
 
     const itemsWithVideos = await Promise.all(
       topItems.map(async (item) => {
         try {
-          const videos = await getMediaVideos(item.id, item.media_type);
+          let seasonToFetch = 1;
+          let numberOfSeasons = 1;
+
+          if (item.media_type === "tv") {
+            try {
+              const detailsResponse = await fetch(
+                `https://api.themoviedb.org/3/tv/${item.id}?api_key=15d2ea6d0dc1d476efbca3eba2b9bbfb`
+              );
+              const details = await detailsResponse.json();
+              numberOfSeasons = details.number_of_seasons || 1;
+              seasonToFetch = numberOfSeasons;
+            } catch (err) {
+              console.error("Failed to fetch TV show details:", err);
+            }
+          }
+
+          const videos = await getMediaVideos(
+            item.id,
+            item.media_type,
+            seasonToFetch
+          );
           const trailer = videos.find(
             (v: any) => v.type === "Trailer" && v.site === "YouTube"
           );
@@ -623,6 +633,8 @@ async function fetchTrailerSlides() {
               release_date: item.release_date,
               first_air_date: item.first_air_date,
               key: trailer.key,
+              number_of_seasons: numberOfSeasons,
+              current_season: seasonToFetch,
             } as TrailerItem;
           }
           return null;
@@ -644,6 +656,7 @@ async function fetchTrailerSlides() {
 
       if (!currentTrailer.value) {
         currentTrailer.value = validItems[0];
+        updateAvailableSeasons(validItems[0]);
       }
       console.log(`Loaded ${validItems.length} trailers`);
     }
@@ -658,12 +671,62 @@ async function fetchTrailerSlides() {
 function selectTrailer(item: TrailerItem) {
   videoLoading.value = true;
   currentTrailer.value = item;
+  updateAvailableSeasons(item);
 
   window.scrollTo({ top: 33, behavior: "smooth" });
 
   setTimeout(() => {
     videoLoading.value = false;
   }, 500);
+}
+
+function updateAvailableSeasons(item: TrailerItem) {
+  if (item.media_type === "tv" && item.number_of_seasons) {
+    availableSeasons.value = Array.from(
+      { length: item.number_of_seasons },
+      (_, i) => i + 1
+    );
+    selectedSeason.value = item.current_season || 1;
+  } else {
+    availableSeasons.value = [];
+    selectedSeason.value = 1;
+  }
+}
+
+async function changeSeason() {
+  if (!currentTrailer.value || currentTrailer.value.media_type !== "tv") return;
+
+  videoLoading.value = true;
+
+  try {
+    const videos = await getMediaVideos(
+      currentTrailer.value.id,
+      currentTrailer.value.media_type,
+      selectedSeason.value
+    );
+    const trailer = videos.find(
+      (v: any) => v.type === "Trailer" && v.site === "YouTube"
+    );
+
+    if (trailer) {
+      currentTrailer.value = {
+        ...currentTrailer.value,
+        key: trailer.key,
+        current_season: selectedSeason.value,
+      };
+    } else {
+      alert(`No trailer available for Season ${selectedSeason.value}`);
+      selectedSeason.value = currentTrailer.value.current_season || 1;
+    }
+  } catch (error) {
+    console.error("Failed to fetch season trailer:", error);
+    alert(`Failed to load Season ${selectedSeason.value} trailer`);
+    selectedSeason.value = currentTrailer.value.current_season || 1;
+  } finally {
+    setTimeout(() => {
+      videoLoading.value = false;
+    }, 500);
+  }
 }
 
 function shuffleSlides() {
@@ -674,6 +737,7 @@ function shuffleSlides() {
   }
   trailerItems.value = shuffled;
   currentTrailer.value = shuffled[0];
+  updateAvailableSeasons(shuffled[0]);
   window.scrollTo({ top: 33, behavior: "smooth" });
 }
 

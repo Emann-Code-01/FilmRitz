@@ -87,95 +87,22 @@
           <div
             class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              version="1.1"
-              width="50"
-              height="50"
-              viewBox="0 0 256 256"
-              xml:space="preserve"
+            <span
+              class="bg-[#b20710] rounded-full p-2 flex items-center justify-center"
             >
-              <g
-                style="
-                  stroke: none;
-                  stroke-width: 0;
-                  stroke-dasharray: none;
-                  stroke-linecap: butt;
-                  stroke-linejoin: miter;
-                  stroke-miterlimit: 10;
-                  fill: none;
-                  fill-rule: nonzero;
-                  opacity: 1;
-                "
-                transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-6"
               >
                 <path
-                  d="M 45 90 C 20.187 90 0 69.813 0 45 c 31.16 -8.812 61.257 -9.555 90 0 C 90 69.813 69.813 90 45 90 z"
-                  style="
-                    stroke: none;
-                    stroke-width: 1;
-                    stroke-dasharray: none;
-                    stroke-linecap: butt;
-                    stroke-linejoin: miter;
-                    stroke-miterlimit: 10;
-                    fill: rgb(187, 26, 26);
-                    fill-rule: nonzero;
-                    opacity: 1;
-                  "
-                  transform=" matrix(1 0 0 1 0 0) "
-                  stroke-linecap="round"
+                  fill-rule="evenodd"
+                  d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                  clip-rule="evenodd"
                 />
-                <path
-                  d="M 45 0 C 20.187 0 0 20.187 0 45 h 90 C 90 20.187 69.813 0 45 0 z"
-                  style="
-                    stroke: none;
-                    stroke-width: 1;
-                    stroke-dasharray: none;
-                    stroke-linecap: butt;
-                    stroke-linejoin: miter;
-                    stroke-miterlimit: 10;
-                    fill: rgb(221, 34, 34);
-                    fill-rule: nonzero;
-                    opacity: 1;
-                  "
-                  transform=" matrix(1 0 0 1 0 0) "
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M 63.885 47.325 l -14.816 8.554 l -14.816 8.554 c -1.79 1.033 -4.026 -0.258 -4.026 -2.325 V 45 c 10.606 -4.196 22.359 -3.855 35 0 C 65.227 45.904 64.78 46.808 63.885 47.325 z"
-                  style="
-                    stroke: none;
-                    stroke-width: 1;
-                    stroke-dasharray: none;
-                    stroke-linecap: butt;
-                    stroke-linejoin: miter;
-                    stroke-miterlimit: 10;
-                    fill: rgb(240, 240, 240);
-                    fill-rule: nonzero;
-                    opacity: 1;
-                  "
-                  transform=" matrix(1 0 0 1 0 0) "
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M 63.885 42.675 l -14.816 -8.554 l -14.816 -8.554 c -1.79 -1.033 -4.026 0.258 -4.026 2.325 V 45 h 35 C 65.227 44.096 64.78 43.192 63.885 42.675 z"
-                  style="
-                    stroke: none;
-                    stroke-width: 1;
-                    stroke-dasharray: none;
-                    stroke-linecap: butt;
-                    stroke-linejoin: miter;
-                    stroke-miterlimit: 10;
-                    fill: rgb(255, 255, 255);
-                    fill-rule: nonzero;
-                    opacity: 1;
-                  "
-                  transform=" matrix(1 0 0 1 0 0) "
-                  stroke-linecap="round"
-                />
-              </g>
-            </svg>
+              </svg>
+            </span>
           </div>
 
           <div
