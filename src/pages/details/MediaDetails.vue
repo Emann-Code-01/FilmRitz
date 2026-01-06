@@ -153,7 +153,7 @@
                 >
                   <path
                     fill-rule="evenodd"
-                    d="M12 5.25c1.213 0 2.415.046 3.605.135a3.256 3.256 0 0 1 3.01 3.01c.044.583.077 1.17.1 1.759L17.03 8.47a.75.75 0 1 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l3-3a.75.75 0 0 0-1.06-1.06l-1.752 1.751c-.023-.65-.06-1.296-.108-1.939a4.756 4.756 0 0 0-4.392-4.392 49.422 49.422 0 0 0-7.436 0A4.756 4.756 0 0 0 3.89 8.282c-.017.224-.033.447-.046.672a.75.75 0 1 0 1.497.092c.013-.217.028-.434.044-.651a3.256 3.256 0 0 1 3.01-3.01c1.19-.09 2.392-.135 3.605-.135Zm-6.97 6.22a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.752-1.751c.023.65.06 1.296.108 1.939a4.756 4.756 0 0 0 4.392 4.392 49.413 49.413 0 0 0 7.436 0 4.756 4.756 0 0 0 4.392-4.392c.017-.223.032-.447.046-.672a.75.75 0 0 0-1.497-.092c-.013.217-.028.434-.044.651a3.256 3.256 0 0 1-3.01 3.01 47.953 47.953 0 0 1-7.21 0 3.256 3.256 0 0 1-3.01-3.01 47.759 47.759 0 0 1-.1-1.759L6.97 15.53a.75.75 0 0 0 1.06-1.06l-3-3Z"
+                    d="M12 5.25c1.213 0 2.415.046 3.605.135a3.256 3.256 0 0 1 3.01 3.01c.044.583.077 1.17.1 1.759L17.03 8.47a.75.75 0 1 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l3-3a.75.75 0 0 0-1.06-1.06l-1.752 1.751c-.023-.65-.06-1.296-.108-1.939a4.756 4.756 0 0 0-4.392-4.392 49.422 49.422 0 0 0-7.436 0A4.756 4.756 0 0 0 3.89 8.282c-.017.224-.033.447-.046.672a.75.75 0 1 0 1.497.092c.013-.217.028-.434.044-.651a3.256 3.256 0 0 1-3.01-3.01c1.19-.09 2.392-.135 3.605-.135Zm-6.97 6.22a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.752-1.751c.023.65.06 1.296.108 1.939a4.756 4.756 0 0 0 4.392 4.392 49.413 49.413 0 0 0 7.436 0 4.756 4.756 0 0 0 4.392-4.392c.017-.223.032-.447.046-.672a.75.75 0 0 0-1.497-.092c-.013.217-.028.434-.044.651a3.256 3.256 0 0 1-3.01 3.01 47.953 47.953 0 0 1-7.21 0 3.256 3.256 0 0 1-3.01-3.01 47.759 47.759 0 0 1-.1-1.759L6.97 15.53a.75.75 0 0 0 1.06-1.06l-3-3Z"
                     clip-rule="evenodd"
                   />
                 </svg>
@@ -305,9 +305,51 @@
     <transition name="fade">
       <div
         v-if="showToast"
-        class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-black/90 backdrop-blur-xl text-white px-6 py-4 rounded-xl shadow-2xl border border-white/20 z-50"
+        class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-black/90 backdrop-blur-xl text-white px-6 py-4 rounded-xl shadow-2xl border border-white/20 z-50 flex items-center gap-3"
       >
-        {{ toastMessage }}
+        <span v-if="toastIcon === 'error'" class="text-red-500">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="w-5 h-5"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-3.53 5.97a.75.75 0 0 1 1.06 0L12 10.69l2.47-2.47a.75.75 0 1 1 1.06 1.06L13.06 11.75l2.47 2.47a.75.75 0 1 1-1.06 1.06L12 12.81l-2.47 2.47a.75.75 0 1 1-1.06-1.06l2.47-2.47-2.47-2.47a.75.75 0 0 1 0-1.06Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <span v-else-if="toastIcon === 'success'" class="text-green-500">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="size-6"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <span v-else-if="toastIcon === 'warning'" class="text-red-500">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="size-6"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <span>{{ toastMessage }}</span>
       </div>
     </transition>
   </div>
@@ -363,6 +405,7 @@ store.loadFromLocalStorage();
 const inWatchlist = ref(false);
 const showToast = ref(false);
 const toastMessage = ref("");
+const toastIcon = ref<null | "error" | "success" | "warning">(null);
 
 const isTv = computed(
   () => route.params.type === "tv" || media.value?.media_type === "tv"
@@ -485,14 +528,17 @@ async function playTrailer() {
       showTrailerModal.value = true;
     } else {
       console.warn("No trailer found");
-      toastMessage.value = "⚠️ No trailer available";
+      toastIcon.value = "warning";
+      toastMessage.value = "No trailer available";
       showToast.value = true;
       setTimeout(() => (showToast.value = false), 3000);
     }
   } catch (error) {
     console.error("Error fetching trailer:", error);
-    toastMessage.value = "❌ Failed to load trailer";
+    toastIcon.value = "error";
+    toastMessage.value = "Failed to load trailer";
     showToast.value = true;
+    ("");
     setTimeout(() => (showToast.value = false), 3000);
   } finally {
     loadingTrailer.value = false;
@@ -535,7 +581,8 @@ function toggleWatchlist() {
 
   if (inWatchlist.value) {
     store.removeFromWatchlist(media.value.id);
-    toastMessage.value = "❌ Removed from Watchlist";
+    toastIcon.value = "error";
+    toastMessage.value = "Removed from Watchlist";
   } else {
     store.addToWatchlist({
       id: media.value.id,
@@ -546,7 +593,8 @@ function toggleWatchlist() {
       release_date: media.value.release_date,
       vote_average: media.value.vote_average,
     });
-    toastMessage.value = "✅ Added to Watchlist";
+    toastIcon.value = "success";
+    toastMessage.value = "Added to Watchlist";
   }
 
   inWatchlist.value = !inWatchlist.value;

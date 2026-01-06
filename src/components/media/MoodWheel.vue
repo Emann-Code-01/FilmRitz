@@ -121,10 +121,23 @@
             <button
               @click="shuffleMoods"
               :disabled="isShuffling"
-              class="px-3 md:px-6 py-2 md:py-2.5  bg-linear-to-r from-[#b20710] to-[#e32125] hover:from-[#e32125] hover:to-[#b20710] rounded-xl text-white font-semibold transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 cursor-pointer"
+              class="px-3 md:px-6 py-2 md:py-2.5 bg-linear-to-r from-[#b20710] to-[#e32125] hover:from-[#e32125] hover:to-[#b20710] rounded-xl text-white font-semibold transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 cursor-pointer"
             >
               <span class="flex items-center gap-2">
-                <span class="text-lg">🔀</span>
+                <span class="text-lg" :class="[isShuffling ? 'animate-spin' : '']"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="size-6"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </span>
                 <span>{{
                   isShuffling ? "Shuffling..." : "Shuffle Moods"
                 }}</span>
@@ -134,7 +147,8 @@
 
           <!-- Quick tip -->
           <p class="text-gray-500 text-xs text-center max-w-xs leading-relaxed">
-            💡 Click any segment to explore movies<span class="hidden lg:inline-block"
+            💡 Click any segment to explore movies<span
+              class="hidden lg:inline-block"
               >, or press
               <kbd class="px-2 py-1 bg-white/10 rounded text-white"
                 >Space</kbd
@@ -201,7 +215,7 @@
 
               <button
                 @click="viewMood"
-                class="w-full px-3 md:px-6 py-2 md:py-2.5  bg-linear-to-r from-[#b20710] to-[#e32125] hover:from-[#e32125] hover:to-[#b20710] rounded-xl text-white font-semibold transition-all duration-500 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+                class="w-full px-3 md:px-6 py-2 md:py-2.5 bg-linear-to-r from-[#b20710] to-[#e32125] hover:from-[#e32125] hover:to-[#b20710] rounded-xl text-white font-semibold transition-all duration-500 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Explore All {{ selectedMood.name }}</span>
                 <span class="text-lg">→</span>
@@ -349,10 +363,17 @@ const fetchMoodMovies = async (mood: CollectionDefinition) => {
     const genreIds = mood.genreIds || [];
     if (!genreIds.length) return [];
 
-     
     const [page1, page2] = await Promise.all([
-      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${key}&sort_by=popularity.desc&with_genres=${genreIds.join(",")}&page=1`),
-      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${key}&sort_by=popularity.desc&with_genres=${genreIds.join(",")}&page=2`)
+      fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${key}&sort_by=popularity.desc&with_genres=${genreIds.join(
+          ","
+        )}&page=1`
+      ),
+      fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${key}&sort_by=popularity.desc&with_genres=${genreIds.join(
+          ","
+        )}&page=2`
+      ),
     ]);
 
     if (!page1.ok || !page2.ok) throw new Error("API error");

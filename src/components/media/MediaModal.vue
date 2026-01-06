@@ -11,7 +11,7 @@
           class="absolute inset-0 bg-white/10 bg-fixed bg-center bg-cover mx-auto bg-no-repeat transition-all duration-500 animate-pulse"
         ></div>
         <div
-          class="absolute inset-0 bg-linear-to-t from-black/80 via-black/50 to-transparent"
+          class="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent"
         ></div>
       </div>
 
@@ -66,7 +66,7 @@
                 }"
               >
                 <div
-                  class="absolute inset-0 bg-linear-to-t from-black/80 via-black/50 to-transparent"
+                  class="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent"
                 ></div>
                 <button
                   @click="modalStore.closeModal"
@@ -91,7 +91,7 @@
               </div>
 
               <div
-                class="relative -mt-6 p-6 bg-linear-to-t from-black/95 via-black/70 to-transparent rounded-t-2xl"
+                class="relative -mt-6 p-6 bg-linear-to-t from-black/ via-black/70 to-transparent rounded-t-2xl"
               >
                 <DialogTitle
                   as="h2"
