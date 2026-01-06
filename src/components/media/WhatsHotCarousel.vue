@@ -45,7 +45,7 @@
           <div
             class="relative group cursor-pointer"
             @mouseenter="handleHover(item, index)"
-            @click="openModal(item)"
+            @click="openMediaModal(item)"
           >
             <!-- Card -->
             <div
@@ -53,7 +53,7 @@
             >
               <!-- Poster Image -->
               <img
-                :src="getImageUrl(item.poster_path)"
+                :src="getPosterUrl(item.poster_path)"
                 :alt="item.title || item.name"
                 class="w-full h-[480px] object-cover"
               />
@@ -136,27 +136,19 @@
 import { ref, onMounted } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation, EffectCoverflow } from "swiper/modules";
-import { useModalStore } from "@/stores/modalStore";
-import { fetchTrendingMedia } from "../../api/tmdb";
+import { getRotatedTrending } from "@/services/mediaRotation";
+import { getPosterUrl } from "@/utils/imageHelpers";
+import { formatYear } from "@/utils/dateHelpers";
+import { openMediaModal } from "@/utils/modalHelpers";
 
 const emit = defineEmits<{
   "update-ambient": [color: string];
 }>();
 
-const modalStore = useModalStore();
 const hotItems = ref<any[]>([]);
 const loading = ref(true);
 const error = ref<string | null>(null);
 
-const getImageUrl = (path: string | null): string => {
-  return path
-    ? `https://image.tmdb.org/t/p/w500${path}`
-    : "https://placehold.co/500x750/0f0f0f/FF0000?text=NO+IMAGE";
-};
-
-const formatYear = (date: string): string => {
-  return date ? new Date(date).getFullYear().toString() : "TBA";
-};
 
 const handleHover = (_item: any, index: number) => {
   const colors = ["#FF0000", "#FF4500", "#FF6347", "#FF8C00", "#FFA500"];
@@ -170,17 +162,11 @@ const onSlideChange = (swiper: any) => {
   }
 };
 
-const openModal = (item: any) => {
-  modalStore.open(item.media_type, {
-    movieId: item.id,
-    mediaType: item.media_type,
-  });
-};
 
 onMounted(async () => {
   try {
-    const data = await fetchTrendingMedia("day", 3);
-    hotItems.value = data.slice(0, 15);
+    const rotated = await getRotatedTrending();
+    hotItems.value = rotated.slice(0, 12);
   } catch (err) {
     error.value = "Failed to load hot content";
   } finally {

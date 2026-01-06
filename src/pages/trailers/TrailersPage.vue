@@ -221,7 +221,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import { useModalStore } from "@/stores/modalStore";
-import { fetchAllTrailers, type TrailerData } from "@/api/tmdb";
+import { type TrailerData } from "@/api/tmdb";
+import { getRotatedTrailers } from "@/services/mediaRotation";
 import TrailerModal from "@/components/media/TrailerModal.vue";
 import AdSlot from "@/components/ads/AdSlot.vue";
 
@@ -292,7 +293,8 @@ onMounted(async () => {
   try {
     loading.value = true;
     console.log("Fetching trailers..."); // Debug log
-    const fetchedTrailers = await fetchAllTrailers();
+    // Use rotated trailers for variety (cached for 6 hours)
+    const fetchedTrailers = await getRotatedTrailers();
     console.log("Fetched trailers:", fetchedTrailers); // Debug log
     trailers.value = fetchedTrailers;
   } catch (error) {

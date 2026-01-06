@@ -233,7 +233,7 @@ export function useMedia() {
     }
   };
 
-  const searchMulti = async (query: string, maxPages = 3) => {
+  const searchMulti = async (query: string, maxPages = 4) => {
     if (!query.trim()) {
       searchResults.value = [];
       return;

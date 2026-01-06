@@ -195,7 +195,7 @@
                 {{ trailer.type }}
               </span>
               <span class="text-gray-300 text-sm">
-                {{ trailer.mediaType === "movie" ? "Movie" : "TV Show" }}
+                {{ formatDuration(trailer.duration) }}
               </span>
             </div>
           </div>
@@ -209,7 +209,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useModalStore } from "@/stores/modalStore";
-import { fetchAllTrailers, type TrailerData } from "@/api/tmdb";
+import { type TrailerData } from "@/api/tmdb";
+import { getRotatedTrailers } from "@/services/mediaRotation";
 import TrailerModal from "@/components/media/TrailerModal.vue";
 import AdSlot from "@/components/ads/AdSlot.vue";
 
@@ -247,11 +248,18 @@ const handleImageError = (event: Event) => {
   target.src = "/no-poster.jpg";
 };
 
+const formatDuration = (seconds: number): string => {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
+};
+
 onMounted(async () => {
   try {
     loading.value = true;
     console.log("Fetching trending trailers...");
-    const fetchedTrailers = await fetchAllTrailers();
+    // Use rotated trailers for variety (cached for 6 hours)
+    const fetchedTrailers = await getRotatedTrailers();
     console.log("Fetched trailers:", fetchedTrailers);
     trailers.value = fetchedTrailers;
   } catch (error) {

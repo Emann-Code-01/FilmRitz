@@ -212,9 +212,11 @@ import { ref, onMounted, reactive } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation, FreeMode } from "swiper/modules";
 import { useModalStore } from "@/stores/modalStore";
-import { fetchTrendingMedia, getMediaVideos } from "@/api/tmdb";
+import { getMediaVideos } from "@/api/tmdb";
+import { getRotatedTrending } from "@/services/mediaRotation";
 import TrailerModal from "@/components/media/TrailerModal.vue";
 import { getBackdropUrl } from "@/utils/imageHelpers";
+import { formatYear } from "@/utils/dateHelpers";
 import { openMediaModal } from "@/utils/modalHelpers";
 
 interface TrailerData {
@@ -246,10 +248,6 @@ const loadingTrailers = reactive<Record<number, boolean>>({});
 
 const openModal = (item: any) => {
   openMediaModal(item);
-};
-
-const formatYear = (date: string): string => {
-  return date ? new Date(date).getFullYear().toString() : "TBA";
 };
 
 const handleMouseEnter = (item: any) => {
@@ -333,9 +331,8 @@ function openFullDetails(mediaType: "movie" | "tv", mediaId: number) {
 
 onMounted(async () => {
   try {
-    // Fetch 3 pages (60+ items) and display items 10-25 for variety
-    const data = await fetchTrendingMedia("week", 3);
-    spotlightItems.value = data.slice(10, 30); // Different items from trending, more variety
+    // Use rotated trending for variety (cached for 6 hours)
+    spotlightItems.value = await getRotatedTrending();
   } catch (error) {
     console.error("Failed to load spotlight items:", error);
   } finally {

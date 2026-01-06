@@ -153,7 +153,8 @@
 import { ref, onMounted, watch } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation, FreeMode } from "swiper/modules";
-import { useModalStore } from "@/stores/modalStore";
+import { getPosterUrl } from "@/utils/imageHelpers";
+import { openMediaModal } from "@/utils/modalHelpers";
 
 interface Props {
   period: string;
@@ -165,15 +166,10 @@ const emit = defineEmits<{
   "update-ambient": [color: string];
 }>();
 
-const modalStore = useModalStore();
 const timelineItems = ref<any[]>([]);
 const loading = ref(true);
 
-const getImageUrl = (path: string | null): string => {
-  return path
-    ? `https://image.tmdb.org/t/p/w342${path}`
-    : "https://placehold.co/342x513/0f0f0f/FF0000?text=NO+IMAGE";
-};
+const getImageUrl = (path: string | null): string => getPosterUrl(path);
 
 const formatDate = (dateStr: string): string => {
   if (!dateStr) return "TBA";
@@ -186,10 +182,7 @@ const handleHover = (_item: any) => {
 };
 
 const openModal = (item: any) => {
-  modalStore.open(item.media_type, {
-    movieId: item.id,
-    mediaType: item.media_type,
-  });
+  openMediaModal(item);
 };
 
 const loadItems = async () => {

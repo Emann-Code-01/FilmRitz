@@ -4,7 +4,7 @@ import { normalize } from "../api/tmdb";
 /**
  * Fetch movies by genre with multiple pages to get more results
  */
-export const getMoviesByGenre = async (genreId: number, maxPages = 3) => {
+export const getMoviesByGenre = async (genreId: number, maxPages = 4) => {
   try {
     const pagePromises = Array.from({ length: maxPages }, (_, i) =>
       apiV3.get("/discover/movie", {
@@ -29,7 +29,7 @@ export const getMoviesByGenre = async (genreId: number, maxPages = 3) => {
 /**
  * Fetch TV shows by genre with multiple pages to get more results
  */
-export const getShowsByGenre = async (genreId: number, maxPages = 3) => {
+export const getShowsByGenre = async (genreId: number, maxPages = 4) => {
   try {
     const pagePromises = Array.from({ length: maxPages }, (_, i) =>
       apiV3.get("/discover/tv", {

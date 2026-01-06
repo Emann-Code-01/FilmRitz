@@ -17,7 +17,7 @@ function normalizeItem(item: any) {
 
 export const movieService = {
   // Search multi (movie + tv) - fetch multiple pages for more results
-  async searchMulti(query: string, maxPages = 3) {
+  async searchMulti(query: string, maxPages = 4) {
     try {
       // Fetch multiple pages in parallel to get more results
       const pagePromises = Array.from({ length: maxPages }, (_, i) =>

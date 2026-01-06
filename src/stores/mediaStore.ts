@@ -1,7 +1,7 @@
 // src/stores/movieStore.ts
 import { defineStore } from "pinia";
 import { useMedia } from "@/composables/useMedia";
-import type { Media } from "@/types/media"; // ✅ Ensure Media includes media_type: "movie" | "tv"
+import type { Media } from "@/types/media";
 
 export const useMediaStore = defineStore("movieStore", {
   state: () => ({
@@ -63,7 +63,7 @@ export const useMediaStore = defineStore("movieStore", {
     },
 
     // 🔎 Unified Search for both Movies + TV shows
-    async searchMulti(query: string, maxPages = 3) {
+    async searchMulti(query: string, maxPages = 4) {
       const { searchMulti, searchResults, error } = useMedia();
 
       if (!query.trim()) {

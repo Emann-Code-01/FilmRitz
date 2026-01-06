@@ -33,11 +33,11 @@
           class="col-span-12 md:col-span-6 lg:col-span-6 row-span-2 relative group cursor-pointer overflow-hidden rounded-xl transition-all duration-500 hover:shadow-2xl hover:shadow-[#b20710]/30"
           @mouseenter="handleHover(mediaList[0], 0)"
           @mouseleave="handleMouseLeave"
-          @click="openModal(mediaList[0])"
+          @click="openMediaModal(mediaList[0])"
         >
           <img
             loading="lazy"
-            :src="getImageUrl(mediaList[0].backdrop_path)"
+            :src="getBackdropUrl(mediaList[0].backdrop_path)"
             :alt="mediaList[0].title || mediaList[0].name"
             class="w-full h-full min-h-[500px] object-cover transition-all duration-500 group-hover:scale-110"
           />
@@ -118,12 +118,12 @@
           class="col-span-6 md:col-span-3 lg:col-span-3 relative group cursor-pointer overflow-hidden rounded-xl transition-all duration-500 hover:shadow-xl hover:shadow-[#b20710]/20 hover:scale-105"
           @mouseenter="handleHover(item, index + 1)"
           @mouseleave="handleMouseLeave"
-          @click="openModal(item)"
+          @click="openMediaModal(item)"
         >
           <!-- Background Image -->
           <img
             loading="lazy"
-            :src="getImageUrl(item.backdrop_path)"
+            :src="getBackdropUrl(item.backdrop_path)"
             :alt="item.title || item.name"
             class="w-full h-64 md:h-72 object-cover transition-all duration-500 group-hover:scale-110"
           />
@@ -197,14 +197,16 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useModalStore } from "@/stores/modalStore";
-import { fetchUpcomingMedia } from "../../api/tmdb";
+import { getRotatedUpcoming } from "@/services/mediaRotation";
 import { useAuthStore } from "@/stores/auth";
-import { genreMap } from "@/types/media";
+import { getBackdropUrl } from "@/utils/imageHelpers";
+import { formatYear, formatDate } from "@/utils/dateHelpers";
+import { getGenreNames } from "@/utils/genreHelpers";
+import { getTemperatureColor, AMBIENT_COLORS } from "@/utils/colorHelpers";
+import { openMediaModal } from "@/utils/modalHelpers";
 const emit = defineEmits<{
   "update-ambient": [color: string];
 }>();
-const modalStore = useModalStore();
 const auth = useAuthStore();
 const mediaList = ref<any[]>([]);
 const error = ref<string | null>(null);
@@ -215,8 +217,8 @@ const loadUpcomingMedia = async () => {
   error.value = null;
   try {
     // Fetch 3 pages (60+ items) and display top 20
-    const upcoming = await fetchUpcomingMedia(3);
-    mediaList.value = upcoming.slice(0, 20);
+    // Use rotated upcoming for variety (cached for 6 hours)
+    mediaList.value = await getRotatedUpcoming();
   } catch (err: any) {
     console.error("❌ Failed to fetch upcoming media:", err);
     error.value =
@@ -226,41 +228,6 @@ const loadUpcomingMedia = async () => {
   }
 };
 
-const getImageUrl = (path: string | null): string => {
-  if (!path) {
-    return "https://placehold.co/780x439/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE&font=montserrat";
-  }
-  return `https://image.tmdb.org/t/p/w780${path}`;
-};
-
-const getGenreNames = (genreIds?: number[]): string[] => {
-  if (!genreIds || !genreIds.length) return [];
-  return genreIds.map((id) => genreMap[id]).filter(Boolean);
-};
-
-const formatDate = (date: string): string => {
-  if (!date) return "TBA";
-  return new Date(date).getFullYear().toString();
-};
-
-const formatYear = (date: string): string => {
-  if (!date) return "TBA";
-  return new Date(date).getFullYear().toString();
-};
-
-// Temperature color based on ranking (hot to cool)
-const getTemperatureColor = (index: number): string => {
-  const colors = [
-    "#FF0000", // #1 - Red hot
-    "#FF4500", // #2 - Orange red
-    "#FF6347", // #3 - Tomato
-    "#FF8C00", // #4 - Dark orange
-    "#FFA500", // #5 - Orange
-    "#FFD700", // #6 - Gold
-    "#FFFF00", // #7 - Yellow
-  ];
-  return colors[index] || "#FFA500";
-};
 
 const handleHover = (_item: any, index: number) => {
   hoveredIndex.value = index;
@@ -272,14 +239,7 @@ const handleHover = (_item: any, index: number) => {
 
 const handleMouseLeave = () => {
   hoveredIndex.value = null;
-  emit("update-ambient", "#111111");
-};
-
-const openModal = (item: any) => {
-  modalStore.open(item.media_type, {
-    movieId: item.id,
-    mediaType: item.media_type,
-  });
+  emit("update-ambient", AMBIENT_COLORS.default);
 };
 
 onMounted(() => {

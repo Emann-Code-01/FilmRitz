@@ -543,7 +543,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useHead } from "@unhead/vue";
-import { fetchTrendingMedia, getMediaVideos } from "@/api/tmdb";
+import { getMediaVideos } from "@/api/tmdb";
+import { getRotatedTrending } from "@/services/mediaRotation";
 import { useModalStore } from "@/stores/modalStore";
 import { genreMap } from "@/types/media";
 
@@ -597,10 +598,8 @@ async function fetchTrailerSlides() {
   try {
     console.log("Fetching trailer cinema items...");
 
-    // Fetch 3 pages (60+ items) and use top 30 for trailers
-    const trending = await fetchTrendingMedia("week", 3);
-
-    const topItems = trending.slice(0, 30);
+    // Use rotated trending for trailer variety (cached for 6 hours)
+    const topItems = await getRotatedTrending();
 
     const itemsWithVideos = await Promise.all(
       topItems.map(async (item) => {

@@ -320,7 +320,7 @@ const changePage = (page: number) => {
 const fetchDiscover = async (
   type: "movie" | "tv",
   genreIds: number[],
-  maxPages = 3
+  maxPages = 4
 ) => {
   const key = import.meta.env.VITE_TMDB_API_KEY;
 

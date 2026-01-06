@@ -210,7 +210,7 @@
             style="animation-delay: 0.1s"
           >
             <div
-              class="flex items-center px-3 py-1.5 bg-[#b20710] rounded-full"
+              class="flex items-center px-3 py-1.5 gap-1 bg-[#b20710] rounded-full"
             >
               <span class="text-yellow-400">⭐</span>
               <span class="font-[Gilroy-Bold]">{{

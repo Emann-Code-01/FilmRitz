@@ -294,13 +294,12 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 import { useRouter } from "vue-router";
-import { useModalStore } from "@/stores/modalStore";
 import { useAmbient } from "@/composables/useAmbient";
 import { COLLECTIONS, type CollectionDefinition } from "@/types/media";
+import { getPosterUrl } from "@/utils/imageHelpers";
+import { openMediaModal } from "@/utils/modalHelpers";
 
 const router = useRouter();
-const modalStore = useModalStore();
-
 const { updateColor } = useAmbient();
 
 const moods = ref<CollectionDefinition[]>(COLLECTIONS);
@@ -324,8 +323,7 @@ const onCardMouseLeave = (e: MouseEvent) => {
   el.style.boxShadow = "none";
 };
 
-const getImageUrl = (p: string | null) =>
-  p ? `https://image.tmdb.org/t/p/w342${p}` : "https://placehold.co/342x513";
+const getImageUrl = (p: string | null) => getPosterUrl(p);
 
 const getSegmentPath = (i: number, t: number, isActive: boolean = false) => {
   const a = 360 / t;
@@ -411,7 +409,7 @@ const viewMood = () => {
 
 const openModal = (item: any) => {
   if (!item?.id) return;
-  modalStore.open("movie", { movieId: item.id, mediaType: "movie" });
+  openMediaModal(item);
 };
 
 const handleKey = (e: KeyboardEvent) => {

@@ -34,60 +34,77 @@ export function normalize(item: any, mediaType?: "movie" | "tv"): Media {
   return base;
 }
 
+const SAFE_MAX_PAGES = 5;
+const PAGE_SIZE = 20;
+
+// --------------------------- PAGINATION HELPER ---------------------------
+
+async function fetchPagedResults<T>(
+  endpoint: string,
+  params: Record<string, any>,
+  maxPages = 5
+): Promise<T[]> {
+  const results: T[] = [];
+  const pagesToFetch = Math.min(maxPages, SAFE_MAX_PAGES);
+
+  for (let page = 1; page <= pagesToFetch; page++) {
+    try {
+      const res = await apiV3.get(endpoint, {
+        params: { ...params, page },
+      });
+
+      const pageResults = res.data?.results || [];
+      results.push(...pageResults);
+
+      // Stop early if no more data
+      if (pageResults.length < PAGE_SIZE) break;
+    } catch (error) {
+      console.error(`Failed fetching ${endpoint} page ${page}`, error);
+      break;
+    }
+  }
+
+  return results;
+}
+
 // --------------------------- MOVIES ---------------------------
 
 export const fetchTrendingMovies = async (
   timeWindow: "day" | "week" = "week",
-  maxPages = 3
+  maxPages = 4
 ): Promise<Media[]> => {
-  try {
-    const pagePromises = Array.from({ length: maxPages }, (_, i) =>
-      apiV3.get(`/trending/movie/${timeWindow}`, { params: { page: i + 1 } })
-    );
-    const responses = await Promise.all(pagePromises);
-    const allResults = responses.flatMap(res => res.data.results || []);
-    return allResults.map((r: any) => normalize(r, "movie"));
-  } catch (error) {
-    console.error("Failed to fetch trending movies:", error);
-    return [];
-  }
+  const results = await fetchPagedResults<any>(
+    `/trending/movie/${timeWindow}`,
+    {},
+    maxPages
+  );
+
+  return results.map((r) => normalize(r, "movie"));
 };
 
-export const fetchPopularMovies = async (maxPages = 3): Promise<Media[]> => {
-  try {
-    const pagePromises = Array.from({ length: maxPages }, (_, i) =>
-      apiV3.get("/movie/popular", { params: { page: i + 1 } })
-    );
-    const responses = await Promise.all(pagePromises);
-    const allResults = responses.flatMap(res => res.data.results || []);
-    return allResults.map((r: any) => normalize(r, "movie"));
-  } catch (error) {
-    console.error("Failed to fetch popular movies:", error);
-    return [];
-  }
+export const fetchPopularMovies = async (maxPages = 4): Promise<Media[]> => {
+  const results = await fetchPagedResults<any>("/movie/popular", {}, maxPages);
+
+  return results.map((r) => normalize(r, "movie"));
 };
 
-export const fetchTopRatedMovies = async (maxPages = 3): Promise<Media[]> => {
-  try {
-    const pagePromises = Array.from({ length: maxPages }, (_, i) =>
-      apiV3.get("/movie/top_rated", { params: { page: i + 1 } })
-    );
-    const responses = await Promise.all(pagePromises);
-    const allResults = responses.flatMap(res => res.data.results || []);
-    return allResults.map((r: any) => normalize(r, "movie"));
-  } catch (error) {
-    console.error("Failed to fetch top rated movies:", error);
-    return [];
-  }
+export const fetchTopRatedMovies = async (maxPages = 4): Promise<Media[]> => {
+  const results = await fetchPagedResults<any>(
+    "/movie/top_rated",
+    {},
+    maxPages
+  );
+
+  return results.map((r) => normalize(r, "movie"));
 };
 
-export const fetchUpcomingMovies = async (maxPages = 3): Promise<Media[]> => {
+export const fetchUpcomingMovies = async (maxPages = 4): Promise<Media[]> => {
   try {
     const pagePromises = Array.from({ length: maxPages }, (_, i) =>
       apiV3.get("/movie/upcoming", { params: { page: i + 1 } })
     );
     const responses = await Promise.all(pagePromises);
-    const allResults = responses.flatMap(res => res.data.results || []);
+    const allResults = responses.flatMap((res) => res.data.results || []);
     return allResults.map((r: any) => normalize(r, "movie"));
   } catch (error) {
     console.error("Failed to fetch upcoming movies:", error);
@@ -109,42 +126,30 @@ export const getMovieVideos = async (id: number) => {
 
 export const fetchTrendingTV = async (
   timeWindow: "day" | "week" = "week",
-  maxPages = 3
+  maxPages = 4
 ): Promise<TVShow[]> => {
-  try {
-    const pagePromises = Array.from({ length: maxPages }, (_, i) =>
-      apiV3.get(`/trending/tv/${timeWindow}`, { params: { page: i + 1 } })
-    );
-    const responses = await Promise.all(pagePromises);
-    const allResults = responses.flatMap(res => res.data.results || []);
-    return allResults.map((r: any) => normalize(r, "tv")) as TVShow[];
-  } catch (error) {
-    console.error("Failed to fetch trending TV:", error);
-    return [];
-  }
+  const results = await fetchPagedResults<any>(
+    `/trending/tv/${timeWindow}`,
+    {},
+    maxPages
+  );
+
+  return results.map((r) => normalize(r, "tv")) as TVShow[];
 };
 
-export const fetchPopularTV = async (maxPages = 3): Promise<TVShow[]> => {
-  try {
-    const pagePromises = Array.from({ length: maxPages }, (_, i) =>
-      apiV3.get("/tv/popular", { params: { page: i + 1 } })
-    );
-    const responses = await Promise.all(pagePromises);
-    const allResults = responses.flatMap(res => res.data.results || []);
-    return allResults.map((r: any) => normalize(r, "tv")) as TVShow[];
-  } catch (error) {
-    console.error("Failed to fetch popular TV:", error);
-    return [];
-  }
+export const fetchPopularTV = async (maxPages = 4): Promise<TVShow[]> => {
+  const results = await fetchPagedResults<any>("/tv/popular", {}, maxPages);
+
+  return results.map((r) => normalize(r, "tv")) as TVShow[];
 };
 
-export const fetchTopRatedTV = async (maxPages = 3): Promise<TVShow[]> => {
+export const fetchTopRatedTV = async (maxPages = 4): Promise<TVShow[]> => {
   try {
     const pagePromises = Array.from({ length: maxPages }, (_, i) =>
       apiV3.get("/tv/top_rated", { params: { page: i + 1 } })
     );
     const responses = await Promise.all(pagePromises);
-    const allResults = responses.flatMap(res => res.data.results || []);
+    const allResults = responses.flatMap((res) => res.data.results || []);
     return allResults.map((r: any) => normalize(r, "tv")) as TVShow[];
   } catch (error) {
     console.error("Failed to fetch top rated TV:", error);
@@ -153,13 +158,13 @@ export const fetchTopRatedTV = async (maxPages = 3): Promise<TVShow[]> => {
 };
 
 // TMDB doesn't have /tv/upcoming; use /tv/on_the_air or /tv/airing_today instead.
-export const fetchOnTheAir = async (maxPages = 3): Promise<TVShow[]> => {
+export const fetchOnTheAir = async (maxPages = 4): Promise<TVShow[]> => {
   try {
     const pagePromises = Array.from({ length: maxPages }, (_, i) =>
       apiV3.get("/tv/on_the_air", { params: { page: i + 1 } })
     );
     const responses = await Promise.all(pagePromises);
-    const allResults = responses.flatMap(res => res.data.results || []);
+    const allResults = responses.flatMap((res) => res.data.results || []);
     return allResults.map((r: any) => normalize(r, "tv")) as TVShow[];
   } catch (error) {
     // Fallback to airing_today
@@ -168,7 +173,7 @@ export const fetchOnTheAir = async (maxPages = 3): Promise<TVShow[]> => {
         apiV3.get("/tv/airing_today", { params: { page: i + 1 } })
       );
       const responses = await Promise.all(pagePromises);
-      const allResults = responses.flatMap(res => res.data.results || []);
+      const allResults = responses.flatMap((res) => res.data.results || []);
       return allResults.map((r: any) => normalize(r, "tv")) as TVShow[];
     } catch (error) {
       console.error("Failed to fetch on the air TV:", error);
@@ -247,7 +252,7 @@ export const getTVEpisodeExtras = async (
 
 export const fetchTrendingMedia = async (
   timeWindow: "day" | "week" = "week",
-  maxPages = 3
+  maxPages = 4
 ): Promise<Media[]> => {
   const results = await Promise.allSettled([
     fetchTrendingMovies(timeWindow, maxPages),
@@ -264,7 +269,7 @@ export const fetchTrendingMedia = async (
   );
 };
 
-export const fetchTopRatedMedia = async (maxPages = 3): Promise<Media[]> => {
+export const fetchTopRatedMedia = async (maxPages = 4): Promise<Media[]> => {
   const results = await Promise.allSettled([
     fetchTopRatedMovies(maxPages),
     fetchTopRatedTV(maxPages),
@@ -421,7 +426,7 @@ export const searchMoviesAndShows = async (
 
 // --------------------------- ✔ NEW: POPULAR MEDIA ---------------------------
 
-export const fetchPopularMedia = async (maxPages = 3): Promise<Media[]> => {
+export const fetchPopularMedia = async (maxPages = 5): Promise<Media[]> => {
   const results = await Promise.allSettled([
     fetchPopularMovies(maxPages),
     fetchPopularTV(maxPages),
@@ -440,7 +445,7 @@ export const fetchPopularMedia = async (maxPages = 3): Promise<Media[]> => {
 
 // --------------------------- ✔ NEW: UPCOMING MEDIA (movie + tv-on-air) ---------------------------
 
-export const fetchUpcomingMedia = async (maxPages = 3): Promise<Media[]> => {
+export const fetchUpcomingMedia = async (maxPages = 5): Promise<Media[]> => {
   const results = await Promise.allSettled([
     fetchUpcomingMovies(maxPages),
     fetchOnTheAir(maxPages), // tv version of "upcoming"
@@ -525,15 +530,14 @@ export const fetchAllTrailers = async (): Promise<TrailerData[]> => {
     .filter(
       (item, index, self) => index === self.findIndex((t) => t.id === item.id)
     )
-    .slice(0, 10);
+    .slice(0, 20);
 
   const tvShows = [...popularTV, ...trendingTV]
     .filter(
       (item, index, self) => index === self.findIndex((t) => t.id === item.id)
     )
-    .slice(0, 10);
+    .slice(0, 20);
 
-  // Fetch videos for each media item
   const movieTrailerPromises = movies.map(async (movie) => {
     try {
       const videos = await getMovieVideos(movie.id);
@@ -676,9 +680,13 @@ export const fetchCollectionByName = async (
     ]);
 
     // Combine and normalize both types
-    const movies = (movieRes.data.results || []).map((r: any) => normalize(r, "movie"));
-    const tvShows = (tvRes.data.results || []).map((r: any) => normalize(r, "tv"));
-    
+    const movies = (movieRes.data.results || []).map((r: any) =>
+      normalize(r, "movie")
+    );
+    const tvShows = (tvRes.data.results || []).map((r: any) =>
+      normalize(r, "tv")
+    );
+
     // Mix movies and TV shows, sort by vote_average
     const allItems = [...movies, ...tvShows]
       .sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0))
