@@ -1,6 +1,9 @@
 <template>
   <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
-    <div v-if="!tv" class="px-6 md:px-10 max-w-7xl mx-auto pt-24">
+    <div
+      v-if="!tv"
+      class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto pt-24"
+    >
       <div
         class="relative h-[70vh] rounded-2xl bg-gray-800/50 animate-pulse mb-8"
       ></div>
@@ -98,14 +101,26 @@
                 v-if="latestSeason.vote_average"
                 class="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-xl font-[Gilroy-Medium] flex items-center gap-2"
               >
-                <span class="text-yellow-400">⭐</span>
+                <span class="text-yellow-400 flex items-center gap-1"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    class="size-4"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                      clip-rule="evenodd"
+                    /></svg
+                ></span>
                 {{ latestSeason.vote_average.toFixed(1) }}
               </span>
             </div>
           </div>
 
           <p
-            class="text-lg md:text-xl text-gray-300 font-[Gilroy-Medium] line-clamp max-w-3xl animate-fade-up"
+            class="text-lg md:text-xl text-gray-300 font-[Gilroy-Medium] line-clamp max-w-[1230px] lg:max-w-[1440px] animate-fade-up"
             style="animation-delay: 0.2s"
           >
             {{ latestSeason?.overview || tv.overview }}
@@ -159,7 +174,19 @@
                       v-if="season.vote_average"
                       class="flex items-center gap-1"
                     >
-                      <span class="text-yellow-400">⭐</span>
+                      <span class="text-yellow-400 flex items-center gap-1"
+                        ><svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                          fill="currentColor"
+                          class="size-4"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                            clip-rule="evenodd"
+                          /></svg
+                      ></span>
                       {{ season.vote_average.toFixed(1) }}
                     </span>
                   </div>
@@ -263,7 +290,20 @@
                       }}</span>
                       <span v-if="ep.runtime">• {{ ep.runtime }}min</span>
                       <span v-if="ep.vote_average"
-                        >• ⭐ {{ ep.vote_average.toFixed(1) }}</span
+                        >•
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                          fill="currentColor"
+                          class="size-4 text-yellow-400"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                        {{ ep.vote_average.toFixed(1) }}</span
                       >
                     </div>
                   </div>
@@ -301,7 +341,7 @@
               <button ref="initialFocus" class="sr-only" />
 
               <DialogPanel
-                class="relative w-full max-w-6xl rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10"
+                class="relative w-full max-w-[1230px] lg:max-w-[1440px] rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10"
               >
                 <div v-if="loading" class="animate-pulse">
                   <div class="h-[60vh] bg-gray-800"></div>
@@ -361,9 +401,21 @@
                       </span>
                       <span
                         v-if="selectedEpisode.vote_average"
-                        class="px-3 py-1 bg-[#b20710] rounded-lg font-[Gilroy-SemiBold]"
+                        class="px-3 py-1 bg-[#b20710] rounded-lg font-[Gilroy-SemiBold] flex items-center gap-1"
                       >
-                        ⭐ {{ selectedEpisode.vote_average.toFixed(1) }}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                          fill="currentColor"
+                          class="size-4"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                        {{ selectedEpisode.vote_average.toFixed(1) }}
                       </span>
                       <span
                         v-if="selectedEpisode.air_date"
@@ -371,7 +423,7 @@
                       >
                         {{
                           new Date(
-                            selectedEpisode.air_date
+                            selectedEpisode.air_date,
                           ).toLocaleDateString()
                         }}
                       </span>
@@ -384,7 +436,7 @@
                     </div>
 
                     <DialogDescription
-                      class="text-lg text-gray-300 font-[Gilroy-Regular] mb-8 max-w-4xl"
+                      class="text-lg text-gray-300 font-[Gilroy-Regular] mb-8 max-w-[1230px] lg:max-w-[1440px]"
                     >
                       {{
                         selectedEpisode.overview || "No description available."
@@ -471,7 +523,7 @@ useHead({
   title: computed(() =>
     tv.value
       ? `${tv.value.name} - All Seasons | FilmRitz`
-      : "TV Show Seasons | FilmRitz"
+      : "TV Show Seasons | FilmRitz",
   ),
 });
 
@@ -482,7 +534,7 @@ const props = defineProps<{
 const displayedSeasons = computed(() => {
   if (!tv.value) return [];
   const filteredSeasons = tv.value.seasons.filter(
-    (s: any) => s.season_number > 0
+    (s: any) => s.season_number > 0,
   );
   return showAllSeasons.value ? filteredSeasons : filteredSeasons.slice(0, 2);
 });
@@ -494,8 +546,8 @@ function slugToId(param: string | string[] | undefined): number | null {
   return match
     ? Number(match[1])
     : /^\d+$/.test(raw as string)
-    ? Number(raw)
-    : null;
+      ? Number(raw)
+      : null;
 }
 
 function slugify(str: string | undefined) {
@@ -504,7 +556,7 @@ function slugify(str: string | undefined) {
     String(str)
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)+/g, "")
+      .replace(/(^-|-$)+/g, ""),
   );
 }
 
@@ -575,7 +627,7 @@ onMounted(async () => {
     tv.value = await getTVDetails(id);
     if (tv.value?.seasons?.length) {
       const regularSeasons = tv.value.seasons.filter(
-        (s: any) => s.season_number > 0
+        (s: any) => s.season_number > 0,
       );
       latestSeason.value = regularSeasons[regularSeasons.length - 1];
     }

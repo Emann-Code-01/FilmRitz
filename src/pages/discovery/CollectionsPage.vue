@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20  ">
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- HERO HEADER -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -12,7 +12,7 @@
         }"
       ></div>
 
-      <div class="relative z-10 max-w-7xl mx-auto">
+      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] mb-3">
           Curated Collections
         </h1>

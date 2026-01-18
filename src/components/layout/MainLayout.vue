@@ -26,7 +26,7 @@
     <div class="relative z-10 flex flex-col min-h-screen">
       <Navbar />
 
-      <main class="grow">
+      <main class="grow mt-10">
         <router-view />
       </main>
 

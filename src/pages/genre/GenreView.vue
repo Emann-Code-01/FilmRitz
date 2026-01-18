@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 md:mt-10">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 md: ">
     <!-- HERO HEADER -->
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <div
@@ -9,7 +9,7 @@
         }"
       ></div>
 
-      <div class="relative z-10 max-w-[1230px] mx-auto justify-between">
+      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto justify-between">
         <div class="md:flex items-center gap-4 mb-4 hidden">
           <div
             class="w-20 aspect-square rounded-full flex items-center justify-center text-4xl"

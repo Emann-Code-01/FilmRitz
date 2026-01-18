@@ -13,7 +13,7 @@
       <div class="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent"></div>
 
       <!-- Desktop Info -->
-      <div class="absolute bottom-0 hidden md:flex flex-col md:left-8 max-w-5xl space-y-3 animate-fade-up">
+      <div class="absolute bottom-0 hidden md:flex flex-col md:left-8 max-w-[1230px] lg:max-w-[1440px] space-y-3 animate-fade-up">
         <h1 class="text-4xl font-[Gilroy-Bold]">{{ media.title }}</h1>
         <p class="text-lg text-gray-300 font-[Gilroy-Medium]">{{ media.overview }}</p>
         <div class="flex items-center gap-4">
@@ -99,7 +99,7 @@
     </div>
 
     <!-- Latest Season, Cast, Similar Titles remain unchanged -->
-    <div v-if="isTv && latestSeason" class="px-8 space-y-4 mt-10">
+    <div v-if="isTv && latestSeason" class="px-8 space-y-4  ">
       <h2 class="text-2xl font-[Gilroy-Bold]">Latest Season</h2>
       <div class="bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-all duration-500">
         <div class="flex md:flex-row gap-4">

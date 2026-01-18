@@ -11,7 +11,7 @@
       <div
         class="relative overflow-hidden rounded-2xl h-[60vh] bg-gray-800/50 animate-pulse"
       ></div>
-      <div class="space-y-4 max-w-7xl mx-auto">
+      <div class="space-y-4 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <div class="h-10 w-3/4 rounded bg-gray-800/50 animate-pulse"></div>
         <div class="h-6 w-full rounded bg-gray-800/50 animate-pulse"></div>
         <div class="h-6 w-2/3 rounded bg-gray-800/50 animate-pulse"></div>
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <section v-else-if="media" class="space-y-8">
+    <section v-else-if="media" class="space-y-8 -mt-10">
       <div
         class="relative h-screen overflow-hidden"
         :style="{
@@ -55,7 +55,7 @@
 
         <div class="absolute bottom-0 left-0 right-0 p-6 mx-auto">
           <h1
-            class="text-4xl md:text-6xl lg:text-7xl font-[Gilroy-Bold] mb-4 max-w-4xl drop-shadow-2xl animate-fade-up"
+            class="text-4xl md:text-6xl lg:text-7xl font-[Gilroy-Bold] mb-4 max-w-[1230px] lg:max-w-[1440px] drop-shadow-2xl animate-fade-up"
           >
             {{ media.title }}
           </h1>
@@ -65,7 +65,19 @@
             style="animation-delay: 0.1s"
           >
             <div class="px-3 py-2 bg-[#b20710] gap-1 rounded-xl">
-              <span class="text-yellow-400 text-xl">⭐</span>
+              <span class="text-yellow-400 text-xl flex items-center gap-1"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                    clip-rule="evenodd"
+                  /></svg
+              ></span>
               <span class="font-[Gilroy-Bold] text-lg">{{
                 media.vote_average?.toFixed(1)
               }}</span>
@@ -82,7 +94,7 @@
             >
               {{
                 new Date(
-                  media.release_date || media.first_air_date || ""
+                  media.release_date || media.first_air_date || "",
                 ).getFullYear()
               }}
             </span>
@@ -104,7 +116,7 @@
           >
             <router-link
               v-for="genreName in getGenreNames(
-                getGenreIdsFromMedia(media)
+                getGenreIdsFromMedia(media),
               ).slice(0, 5)"
               :key="genreName"
               :to="`/ng/genre/${genreName.toLowerCase()}`"
@@ -115,7 +127,7 @@
           </div>
 
           <p
-            class="text-lg md:text-xl text-gray-200 font-[Gilroy-Medium] line-clamp max-w-5xl mb-6 animate-fade-up"
+            class="text-lg md:text-xl text-gray-200 font-[Gilroy-Medium] line-clamp max-w-[1230px] lg:max-w-[1440px] mb-6 animate-fade-up"
             style="animation-delay: 0.2s"
           >
             {{ media.overview }}
@@ -247,6 +259,7 @@
           <div
             v-for="actor in cast"
             :key="actor.id"
+            @click="goToActor(actor)"
             class="shrink-0 w-32 text-center group cursor-pointer"
           >
             <div class="relative overflow-hidden rounded-2xl mb-3">
@@ -364,6 +377,7 @@ import { useWatchlistStore } from "@/stores/watchlist";
 import { genreMap } from "@/types/media";
 import { getMediaVideos } from "@/api/tmdb";
 import TrailerModal from "@/components/media/TrailerModal.vue";
+import { useActorNavigation } from "@/utils/actorHelpers";
 import AdSlot from "@/components/ads/AdSlot.vue";
 
 const props = defineProps<{
@@ -393,6 +407,7 @@ const similar = ref<any[]>([]);
 const latestSeason = ref<any | null>(null);
 const loading = ref(false);
 const error = ref<string | null>(null);
+const { goToActor } = useActorNavigation();
 
 // Trailer state
 const showTrailerModal = ref(false);
@@ -408,7 +423,7 @@ const toastMessage = ref("");
 const toastIcon = ref<null | "error" | "success" | "warning">(null);
 
 const isTv = computed(
-  () => route.params.type === "tv" || media.value?.media_type === "tv"
+  () => route.params.type === "tv" || media.value?.media_type === "tv",
 );
 
 const tvStatus = computed(() => {
@@ -438,7 +453,7 @@ function slugify(str: string | undefined) {
     str
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)+/g, "")
+      .replace(/(^-|-$)+/g, ""),
   );
 }
 
@@ -506,7 +521,7 @@ async function playTrailer() {
     console.log("Fetched videos:", videos);
 
     const trailer = videos.find(
-      (v: any) => v.type === "Trailer" && v.site === "YouTube"
+      (v: any) => v.type === "Trailer" && v.site === "YouTube",
     );
 
     if (trailer) {

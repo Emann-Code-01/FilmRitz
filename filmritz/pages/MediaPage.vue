@@ -116,7 +116,7 @@
                 class="px-3 py-1 rounded bg-gray-800 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
                 Prev
             </button>
-            <span class="px-3 py-1 bg-gray-900 rounded">{{ currentPage }}</span>
+            <span class="px-3 py-1 bg-gray-900 rounded">{{ pagination.currentPage.value }}</span>
             <button @click="nextPage" :disabled="filteredMedia.length < perPage"
                 class="px-3 py-1 rounded bg-gray-800 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
                 Next

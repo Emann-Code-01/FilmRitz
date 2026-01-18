@@ -1,5 +1,5 @@
 <template>
-  <section class="relative mt-10">
+  <section class="relative  ">
     <!-- Loading State -->
     <div v-if="loading" :class="gridClass">
       <div

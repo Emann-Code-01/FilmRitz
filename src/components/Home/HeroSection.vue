@@ -158,7 +158,7 @@
 
     <div
       v-else-if="error"
-      class="text-red-500 text-center py-20 bg-red-500/10 rounded-xl mt-10"
+      class="text-red-500 text-center py-20 bg-red-500/10 rounded-xl"
     >
       <p class="font-[Gilroy-SemiBold] text-xl mb-4">{{ error }}</p>
       <button
@@ -200,7 +200,7 @@
           class="absolute inset-0 flex flex-col justify-end p-6 md:p-12 lg:p-16 z-30"
         >
           <h2
-            class="text-4xl md:text-6xl lg:text-7xl font-[Gilroy-Bold] mb-4 max-w-4xl drop-shadow-2xl text-[#ffffffec] animate-fade-up"
+            class="text-4xl md:text-6xl lg:text-7xl font-[Gilroy-Bold] mb-4 max-w-[1230px] lg:max-w-[1440px] drop-shadow-2xl text-[#ffffffec] animate-fade-up"
           >
             {{ item.title || item.name }}
           </h2>
@@ -210,9 +210,22 @@
             style="animation-delay: 0.1s"
           >
             <div
-              class="flex items-center px-3 py-1.5 gap-1 bg-[#b20710] rounded-full"
+              class="flex items-center justify-center px-3 py-1.5 gap-1 bg-[#b20710] rounded-full"
             >
-              <span class="text-yellow-400">⭐</span>
+              <span class="text-yellow-400"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
               <span class="font-[Gilroy-Bold]">{{
                 item?.vote_average?.toFixed(1)
               }}</span>
@@ -227,7 +240,7 @@
             <span class="font-[Gilroy-Medium] text-gray-300">
               {{
                 new Date(
-                  item.release_date ?? item.first_air_date ?? ""
+                  item.release_date ?? item.first_air_date ?? "",
                 ).getFullYear()
               }}
             </span>
@@ -261,7 +274,7 @@
           </div>
 
           <p
-            class="text-base md:text-lg text-white font-[Gilroy-Medium] line-clamp-3 max-w-3xl mb-6 animate-fade-up"
+            class="text-base md:text-lg text-white font-[Gilroy-Medium] line-clamp-3 max-w-[1230px] lg:max-w-[1440px] mb-6 animate-fade-up"
             style="animation-delay: 0.2s"
           >
             {{ item.overview }}
@@ -539,7 +552,7 @@ async function playTrailer(item: any) {
 
     // Find the first YouTube trailer
     const trailer = videos.find(
-      (v: any) => v.type === "Trailer" && v.site === "YouTube"
+      (v: any) => v.type === "Trailer" && v.site === "YouTube",
     );
 
     if (trailer) {

@@ -5,7 +5,7 @@
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
 
-      <div class="relative z-10 max-w-[1230px] mx-auto">
+      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <div class="flex items-center gap-4 mb-6">
           <div
             class="w-16 h-16 rounded-2xl bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-3xl"
@@ -34,7 +34,7 @@
     <div
       class="sticky top-22 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
-      <div class="px-6 max-w-[1230px] mx-auto">
+      <div class="px-6 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <FilterPanel @apply="onFilterApply" @clear="onFilterClear" />
       </div>
     </div>
@@ -98,8 +98,19 @@
             </h3>
 
             <div class="flex items-center gap-2 mb-2">
-              <span class="text-yellow-400 text-xs">
-                ⭐ {{ item.vote_average?.toFixed(1) }}
+              <span class="text-yellow-400 text-xs flex items-center gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                    clip-rule="evenodd"
+                  />
+                </svg> {{ item.vote_average?.toFixed(1) }}
               </span>
               <span class="text-gray-300 text-xs">
                 {{

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
     <div
       v-if="loading"
       class="flex flex-col items-center justify-center min-h-screen space-y-6"
@@ -82,7 +82,7 @@
           class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
         ></div>
 
-        <div class="relative z-10 max-w-7xl mx-auto">
+        <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
           <div class="md:flex items-center justify-between mb-6 hidden">
             <div>
               <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] mb-3">
@@ -190,7 +190,7 @@
         </div>
       </div>
 
-      <div class="px-6 md:px-10 max-w-7xl mx-auto">
+      <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <div v-if="currentTrailer" class="space-y-4">
           <div
             class="relative aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
@@ -215,7 +215,14 @@
               :src="`https://www.youtube.com/embed/${currentTrailer.key}?autoplay=1&rel=0&modestbranding=1`"
               class="w-full h-full"
               frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="
+                accelerometer;
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                gyroscope;
+                picture-in-picture;
+              "
               allowfullscreen
               @load="videoLoading = false"
             ></iframe>
@@ -267,8 +274,20 @@
 
                 <div class="flex flex-wrap items-center gap-3 mb-4">
                   <span
-                    class="px-3 py-1.5 bg-[#b20710] rounded-lg text-sm font-[Gilroy-SemiBold]"
-                    >⭐ {{ currentTrailer.vote_average?.toFixed(1) }}</span
+                    class="px-3 py-1.5 bg-[#b20710] rounded-lg text-sm font-[Gilroy-SemiBold] flex items-center gap-1"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      class="size-4 text-yellow-400"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    {{ currentTrailer.vote_average?.toFixed(1) }}</span
                   >
                   <span
                     class="px-3 py-1.5 bg-white/20 rounded-lg text-sm font-[Gilroy-SemiBold]"
@@ -366,8 +385,20 @@
 
                 <div class="flex flex-wrap items-center gap-3 mb-4">
                   <span
-                    class="px-3 py-1.5 bg-[#b20710] rounded-lg text-sm font-[Gilroy-SemiBold]"
-                    >⭐ {{ currentTrailer.vote_average?.toFixed(1) }}</span
+                    class="px-3 py-1.5 bg-[#b20710] rounded-lg text-sm font-[Gilroy-SemiBold] flex items-center gap-1"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      class="size-4 text-yellow-400"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    {{ currentTrailer.vote_average?.toFixed(1) }}</span
                   >
                   <span
                     class="px-3 py-1.5 bg-white/20 rounded-lg text-sm font-[Gilroy-SemiBold]"
@@ -433,7 +464,7 @@
         </div>
       </div>
 
-      <div class="px-6 md:px-10 max-w-7xl mx-auto">
+      <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <h3 class="text-2xl font-[Gilroy-Bold] mb-6">
           Available Trailers ({{ trailerItems.length }})
         </h3>
@@ -497,8 +528,20 @@
               </h4>
               <div class="flex items-center gap-2">
                 <span
-                  class="px-2 py-1 bg-[#b20710] rounded-md text-xs font-[Gilroy-SemiBold]"
-                  >⭐ {{ item.vote_average?.toFixed(1) }}</span
+                  class="px-2 py-1 bg-[#b20710] rounded-md text-xs font-[Gilroy-SemiBold] flex items-center gap-1"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    class="size-4 text-yellow-400"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  {{ item.vote_average?.toFixed(1) }}</span
                 >
                 <span class="text-xs text-gray-400">{{
                   (item.release_date || item.first_air_date)?.slice(0, 4)
@@ -613,7 +656,7 @@ async function fetchTrailerSlides() {
           if (item.media_type === "tv") {
             try {
               const detailsResponse = await fetch(
-                `https://api.themoviedb.org/3/tv/${item.id}?api_key=15d2ea6d0dc1d476efbca3eba2b9bbfb`
+                `https://api.themoviedb.org/3/tv/${item.id}?api_key=15d2ea6d0dc1d476efbca3eba2b9bbfb`,
               );
               const details = await detailsResponse.json();
               numberOfSeasons = details.number_of_seasons || 1;
@@ -626,10 +669,10 @@ async function fetchTrailerSlides() {
           const videos = await getMediaVideos(
             item.id,
             item.media_type,
-            seasonToFetch
+            seasonToFetch,
           );
           const trailer = videos.find(
-            (v: any) => v.type === "Trailer" && v.site === "YouTube"
+            (v: any) => v.type === "Trailer" && v.site === "YouTube",
           );
 
           if (trailer) {
@@ -655,11 +698,11 @@ async function fetchTrailerSlides() {
           console.error(`Failed to fetch videos for item ${item.id}:`, error);
           return null;
         }
-      })
+      }),
     );
 
     const validItems = itemsWithVideos.filter(
-      (item): item is TrailerItem => item !== null
+      (item): item is TrailerItem => item !== null,
     );
 
     if (validItems.length === 0) {
@@ -697,7 +740,7 @@ function updateAvailableSeasons(item: TrailerItem) {
   if (item.media_type === "tv" && item.number_of_seasons) {
     availableSeasons.value = Array.from(
       { length: item.number_of_seasons },
-      (_, i) => i + 1
+      (_, i) => i + 1,
     );
     selectedSeason.value = item.current_season || 1;
   } else {
@@ -715,10 +758,10 @@ async function changeSeason() {
     const videos = await getMediaVideos(
       currentTrailer.value.id,
       currentTrailer.value.media_type,
-      selectedSeason.value
+      selectedSeason.value,
     );
     const trailer = videos.find(
-      (v: any) => v.type === "Trailer" && v.site === "YouTube"
+      (v: any) => v.type === "Trailer" && v.site === "YouTube",
     );
 
     if (trailer) {

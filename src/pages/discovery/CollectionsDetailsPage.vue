@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen text-white py-10 mt-10">
+  <div class="min-h-screen text-white py-10">
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- HERO HEADER -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -12,13 +12,25 @@
         }"
       ></div>
 
-      <div class="relative z-10 max-w-7xl mx-auto">
+      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <!-- Back Button -->
         <router-link
           to="/ng/collections"
           class="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors font-[Gilroy-Medium]"
         >
-          ← Back to All Collections
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="size-5"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          Back to All Collections
         </router-link>
 
         <!-- Collection Header -->
@@ -141,7 +153,7 @@
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- COLLECTION GRID -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="px-6 md:px-10 max-w-7xl mx-auto">
+    <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
       <!-- Loading Skeleton -->
       <div
         v-if="loading"
@@ -156,11 +168,11 @@
 
       <!-- Items Grid -->
       <div
-        v-else-if="collection && collection.items.length > 0"
+        v-else-if="collection && pagedItems.length > 0"
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12"
       >
         <div
-          v-for="(item, index) in collection.items"
+          v-for="(item, index) in pagedItems"
           :key="item.id"
           @click="openModal(item)"
           class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 transition-all hover:scale-105 animate-fade-up"
@@ -189,13 +201,25 @@
             </h3>
 
             <div class="flex items-center gap-2">
-              <span class="text-yellow-400 text-xs">
-                ⭐ {{ item.vote_average?.toFixed(1) }}
+              <span class="text-yellow-400 text-xs flex items-center gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {{ item.vote_average?.toFixed(1) }}
               </span>
               <span class="text-gray-300 text-xs">
                 {{
                   new Date(
-                    item.release_date || item.first_air_date || ""
+                    item.release_date || item.first_air_date || "",
                   ).getFullYear()
                 }}
               </span>
@@ -207,46 +231,23 @@
             class="absolute top-3 left-3 w-10 h-10 rounded-full flex items-center justify-center font-[Gilroy-Bold] text-white shadow-xl"
             :style="{ backgroundColor: collection?.color }"
           >
-            {{ (currentPage - 1) * 20 + index + 1 }}
+            {{ (currentPage - 1) * perPage + index + 1 }}
           </div>
         </div>
       </div>
 
       <!-- Pagination -->
-      <div
-        v-if="collection && totalPages > 1"
-        class="flex items-center justify-center gap-4 mb-12"
-      >
-        <button
-          @click="changePage(currentPage - 1)"
-          :disabled="currentPage === 1"
-          class="px-3 md:px-6 py-2 md:py-2.5 rounded-xl font-[Gilroy-Bold] text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-        >
-          ← Previous
-        </button>
-
-        <div class="flex items-center gap-2">
-          <button
-            v-for="page in visiblePages"
-            :key="page"
-            @click="changePage(page)"
-            class="w-12 h-12 rounded-xl font-[Gilroy-Bold] text-white transition-all"
-            :class="page === currentPage ? '' : 'bg-white/10 hover:bg-white/20'"
-            :style="
-              page === currentPage ? { backgroundColor: collection?.color } : {}
-            "
-          >
-            {{ page }}
-          </button>
-        </div>
-
-        <button
-          @click="changePage(currentPage + 1)"
-          :disabled="currentPage === totalPages"
-          class="px-3 md:px-6 py-2 md:py-2.5 rounded-xl font-[Gilroy-Bold] text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-        >
-          Next →
-        </button>
+      <div v-if="collection && totalPages > 1" class="mb-12">
+        <Pagination
+          :model-value="currentPage"
+          @update:modelValue="changePage"
+          :total-items="totalItems"
+          :per-page="perPage"
+          :theme-color="collection?.color"
+          :max-buttons="7"
+          aria-label-prev="Previous page"
+          aria-label-next="Next page"
+        />
       </div>
 
       <!-- Error State -->
@@ -256,7 +257,19 @@
           to="/ng/collections"
           class="text-[#b20710] hover:underline"
         >
-          ← Back to All Collections
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="size-5"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          Back to All Collections
         </router-link>
       </div>
     </div>
@@ -270,47 +283,40 @@ import { useModalStore } from "@/stores/modalStore";
 import { fetchCollectionByName } from "@/api/tmdb";
 import { COLLECTIONS } from "@/types/media";
 import type { Collection } from "@/types/media";
+import Pagination from "@/components/ui/Pagination.vue";
+import { usePagination } from "@/composables/usePagination";
 
 const route = useRoute();
 const router = useRouter();
 const modalStore = useModalStore();
 
 const collection = ref<Collection | null>(null);
-const loading = ref(true);
-const currentPage = ref(1);
 const allCollections = COLLECTIONS;
 
-const totalPages = computed(() => {
-  if (!collection.value?.totalItems) return 0;
-  return Math.ceil(collection.value.totalItems / 20);
-});
+const {
+  perPage,
+  currentPage,
+  loading,
+  totalItems,
+  totalPages,
+  pagedItems,
+  changePage,
+  reset,
+} = usePagination<any>([], {
+  perPage: 20,
+  mode: "server",
 
-const visiblePages = computed(() => {
-  const pages: number[] = [];
-  const total = totalPages.value;
-  const current = currentPage.value;
-
-  if (total <= 7) {
-    for (let i = 1; i <= total; i++) pages.push(i);
-  } else {
-    if (current <= 4) {
-      for (let i = 1; i <= 5; i++) pages.push(i);
-      pages.push(-1); // Ellipsis
-      pages.push(total);
-    } else if (current >= total - 3) {
-      pages.push(1);
-      pages.push(-1);
-      for (let i = total - 4; i <= total; i++) pages.push(i);
-    } else {
-      pages.push(1);
-      pages.push(-1);
-      for (let i = current - 1; i <= current + 1; i++) pages.push(i);
-      pages.push(-1);
-      pages.push(total);
-    }
-  }
-
-  return pages;
+  totalItems: computed(() => collection.value?.totalItems ?? 0),
+  fetchItems: async (page, size) => {
+    const collectionName = route.params.name as string;
+    const result = await fetchCollectionByName(collectionName, page, size);
+    collection.value = result;
+    return result?.items || [];
+  },
+  syncWithUrl: true,
+  urlParam: "page",
+  scrollOnChange: true,
+  scrollBehavior: "smooth",
 });
 
 const openModal = (item: any) => {
@@ -320,32 +326,8 @@ const openModal = (item: any) => {
   });
 };
 
-const loadCollection = async () => {
-  loading.value = true;
-  const collectionName = route.params.name as string;
-
-  try {
-    collection.value = await fetchCollectionByName(
-      collectionName,
-      currentPage.value,
-      20
-    );
-  } catch (error) {
-    console.error("Failed to load collection:", error);
-  } finally {
-    loading.value = false;
-  }
-};
-
-const changePage = (page: number) => {
-  if (page < 1 || page > totalPages.value) return;
-  currentPage.value = page;
-  window.scrollTo({ top: 0, behavior: "smooth" });
-  loadCollection();
-};
-
 const switchCollection = (collectionName: string) => {
-  currentPage.value = 1;
+  reset();
   router.push({
     name: "CollectionDetails",
     params: { name: collectionName },
@@ -354,14 +336,16 @@ const switchCollection = (collectionName: string) => {
 
 watch(
   () => route.params.name,
-  () => {
-    currentPage.value = 1;
-    loadCollection();
-  }
+  async () => {
+    currentPage.value = 0;
+    await changePage(1, true);
+  },
 );
 
-onMounted(() => {
-  loadCollection();
+onMounted(async () => {
+  const initialPage = currentPage.value || 1;
+  currentPage.value = 0;
+  await changePage(initialPage, true);
 });
 </script>
 

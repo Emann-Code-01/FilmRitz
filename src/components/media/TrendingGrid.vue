@@ -72,10 +72,28 @@
 
             <div class="flex items-center gap-3 mb-3">
               <span class="text-gray-300 font-[Gilroy-Medium]">
-                {{ formatDate(mediaList[0].release_date || mediaList[0].first_air_date) }}
+                {{
+                  formatDate(
+                    mediaList[0].release_date || mediaList[0].first_air_date,
+                  )
+                }}
               </span>
-              <span class="text-yellow-400 flex items-center gap-1">
-                ⭐ {{ mediaList[0].vote_average?.toFixed(1) }}
+              <span
+                class="text-yellow-400 flex items-center justify-center gap-1"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {{ mediaList[0].vote_average?.toFixed(1) }}
               </span>
             </div>
 
@@ -88,10 +106,15 @@
             <!-- Genre Tags -->
             <div class="flex flex-wrap gap-2">
               <router-link
-                v-for="genreName in getGenreNames(mediaList[0].genre_ids).slice(0, 3)"
+                v-for="genreName in getGenreNames(mediaList[0].genre_ids).slice(
+                  0,
+                  3,
+                )"
                 :key="genreName"
                 :to="
-                  auth.isLoggedIn ? `/ng/genre/${genreName.toLowerCase()}` : '/ng/login'
+                  auth.isLoggedIn
+                    ? `/ng/genre/${genreName.toLowerCase()}`
+                    : '/ng/login'
                 "
                 class="text-sm font-[Gilroy-SemiBold] text-white bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full hover:bg-[#b20710] transition-all duration-200"
               >
@@ -108,12 +131,12 @@
           class="col-span-6 md:col-span-3 lg:col-span-3 relative lg:group cursor-pointer overflow-hidden rounded-xl transition-all duration-500 hover:shadow-xl hover:shadow-[#b20710]/20 hover:scale-105"
           @mouseenter="handleHover(item, index + 1)"
           @mouseleave="handleMouseLeave"
-            @click="openMediaModal(item)"
+          @click="openMediaModal(item)"
         >
           <!-- Background Image -->
           <img
             loading="lazy"
-              :src="getBackdropUrl(item.backdrop_path)"
+            :src="getBackdropUrl(item.backdrop_path)"
             :alt="item.title || item.name"
             class="w-full h-64 md:h-72 object-cover transition-all duration-500 group-hover:scale-110"
           />
@@ -133,7 +156,10 @@
           <div
             class="absolute top-3 left-3 w-12 h-12 bg-[#b20710]/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg"
           >
-            <span class="text-xl font-[Gilroy-Bold] text-white">#{{ index + 2 }}</span>
+            <span
+              class="text-xl font-[Gilroy-Bold] text-white flex items-center justify-center"
+              >#{{ index + 2 }}</span
+            >
           </div>
 
           <!-- Heat Score (for top 3 only) -->
@@ -155,8 +181,20 @@
               <span class="text-gray-300 font-[Gilroy-Medium]">
                 {{ formatYear(item.release_date || item.first_air_date) }}
               </span>
-              <span class="text-yellow-400">
-                ⭐ {{ item.vote_average?.toFixed(1) }}
+              <span class="text-yellow-400 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {{ item.vote_average?.toFixed(1) }}
               </span>
             </div>
 
@@ -223,12 +261,12 @@ const loadTrendingMedia = async () => {
     mediaList.value = await getRotatedTrending();
   } catch (err: any) {
     console.error("❌ Failed to fetch trending media:", err);
-    error.value = "Couldn't load trending movies and shows. Please refresh in a bit.";
+    error.value =
+      "Couldn't load trending movies and shows. Please refresh in a bit.";
   } finally {
     loading.value = false;
   }
 };
-
 
 const handleHover = (_item: any, index: number) => {
   hoveredIndex.value = index;

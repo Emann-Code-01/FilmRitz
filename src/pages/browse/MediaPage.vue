@@ -1,13 +1,15 @@
 <template>
   <div
-    class="min-h-screen text-white py-10 mt-10 transition-all duration-900 animate-fade-up"
+    class="min-h-screen text-white py-10 transition-all duration-900 animate-fade-up"
   >
     <div class="relative py-12 px-6 mx-auto overflow-hidden">
       <div
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
 
-      <div class="relative z-10 max-w-[1230px] mx-auto justify-between">
+      <div
+        class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto justify-between"
+      >
         <div class="grid lg:grid-cols-2 gap-8 items-center">
           <div class="space-y-4">
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] leading-tight">
@@ -20,7 +22,7 @@
             <div class="flex gap-6">
               <div class="text-center flex items-center justify-center gap-2">
                 <div class="text-3xl font-[Gilroy-Bold] text-[#b20710]">
-                  {{ totalItems }}+
+                  {{ pagination.totalItems.value }}+
                 </div>
                 <div class="text-sm text-gray-400 font-[Gilroy-Medium]">
                   Items
@@ -31,7 +33,7 @@
                   Page
                 </div>
                 <div class="text-3xl font-[Gilroy-Bold] text-[#b20710]">
-                  {{ currentPage }}
+                  {{ pagination.currentPage.value }}
                 </div>
               </div>
             </div>
@@ -79,7 +81,7 @@
     <div
       class="sticky top-20 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
-      <div class="px-6 max-w-7xl mx-auto">
+      <div class="px-6 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <div class="flex gap-3 mb-2 overflow-x-auto pb-2 scrollbar-hide">
           <button
             v-for="cat in categories"
@@ -99,7 +101,7 @@
         <div class="flex flex-wrap gap-3 items-center">
           <select
             v-model="appliedFilters.genre"
-            @change="currentPage = 1"
+            @change="pagination.reset()"
             class="px-3 md:px-4 py-2 md:py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           >
             <option value="">All Genres</option>
@@ -111,7 +113,7 @@
           <input
             type="number"
             v-model.number="appliedFilters.year"
-            @input="currentPage = 1"
+            @input="pagination.reset()"
             placeholder="Year"
             class="px-3 md:px-4 py-2 md:py-2.5 w-28 rounded-xl bg-gray-950 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           />
@@ -119,7 +121,7 @@
           <input
             type="number"
             v-model.number="appliedFilters.rating"
-            @input="currentPage = 1"
+            @input="pagination.reset()"
             min="0"
             max="10"
             step="0.1"
@@ -129,7 +131,7 @@
 
           <select
             v-model="appliedFilters.sort"
-            @change="currentPage = 1"
+            @change="pagination.reset()"
             class="px-3 md:px-4 py-2 md:py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
           >
             <option value="">Sort By</option>
@@ -148,7 +150,7 @@
       </div>
     </div>
 
-    <div class="px-6 mx-auto mt-8 max-w-7xl">
+    <div class="px-6 mx-auto mt-8 max-w-[1230px] lg:max-w-[1440px]">
       <div
         v-if="loading"
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12"
@@ -177,7 +179,7 @@
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12"
       >
         <div
-          v-for="(item, index) in currentPageItems"
+          v-for="(item, index) in pagination.pagedItems.value"
           :key="item.id + item.media_type"
           @click="openModal(item)"
           class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all duration-500 hover:scale-105 animate-fade-up"
@@ -204,9 +206,21 @@
 
             <div class="flex items-center gap-2 mb-2 flex-wrap">
               <span
-                class="px-2 py-1 bg-[#b20710] rounded-md text-xs font-[Gilroy-SemiBold]"
+                class="px-2 py-1 bg-[#b20710] rounded-md text-xs font-[Gilroy-SemiBold] flex items-center gap-1"
               >
-                ⭐ {{ item.vote_average?.toFixed(1) }}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {{ item.vote_average?.toFixed(1) }}
               </span>
               <span
                 class="px-2 py-1 bg-white/20 rounded-md text-xs font-[Gilroy-SemiBold]"
@@ -237,51 +251,26 @@
           <div
             class="absolute top-3 right-3 w-10 h-10 rounded-full bg-[#b20710] flex items-center justify-center font-[Gilroy-Bold] text-white shadow-xl"
           >
-            #{{ (currentPage - 1) * 20 + index + 1 }}
+            #{{ pagination.startIndex.value + index }}
           </div>
         </div>
       </div>
 
-      <div
-        v-if="totalPages > 1"
-        class="flex items-center justify-center gap-4 mb-12"
-      >
-        <button
-          @click="changePage(currentPage - 1)"
-          :disabled="currentPage === 1"
-          class="px-3 md:px-6 py-2 md:py-2.5 rounded-xl font-[Gilroy-Bold] text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all cursor-pointer"
-        >
-          ← Previous
-        </button>
-
-        <div
-          class="flex items-center gap-2 overflow-x-auto scrollbar-hide max-w-md"
-        >
-          <button
-            v-for="page in visiblePages"
-            :key="page"
-            @click="page !== -1 && changePage(page)"
-            class="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-xl font-[Gilroy-Bold] text-white transition-all cursor-pointer"
-            :class="[
-              page === currentPage
-                ? 'bg-[#b20710]'
-                : 'bg-white/10 hover:bg-white/20',
-              page === -1 ? 'cursor-default hover:bg-white/10' : '',
-            ]"
-            :disabled="page === -1"
-          >
-            {{ page === -1 ? "..." : page }}
-          </button>
-        </div>
-
-        <button
-          @click="changePage(currentPage + 1)"
-          :disabled="currentPage === totalPages"
-          class="px-3 md:px-6 py-2 md:py-2.5 rounded-xl font-[Gilroy-Bold] text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all cursor-pointer"
-        >
-          Next →
-        </button>
-      </div>
+      <!-- Replace custom pagination with Pagination component -->
+      <Pagination
+        :model-value="pagination.currentPage.value"
+        @update:model-value="pagination.changePage"
+        :total-items="pagination.totalItems.value"
+        :total-pages="pagination.totalPages.value"
+        :per-page="pagination.perPage.value"
+        :start-index="pagination.startIndex.value"
+        :end-index="pagination.endIndex.value"
+        show-info
+        show-ellipsis
+        show-labels
+        :max-buttons="7"
+        theme-color="#b20710"
+      />
     </div>
     <AdSlot />
   </div>
@@ -293,10 +282,12 @@ import { useRoute } from "vue-router";
 import { useHead } from "@unhead/vue";
 import { useMedia } from "@/composables/useMedia";
 import { useModalStore } from "@/stores/modalStore";
+import { usePagination } from "@/composables/usePagination";
 import { genreMap } from "@/types/media";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay, EffectCards } from "swiper/modules";
 import AdSlot from "@/components/ads/AdSlot.vue";
+import Pagination from "@/components/ui/Pagination.vue";
 
 const route = useRoute();
 const isMoviePage = computed(() => route.name === "Movies");
@@ -309,8 +300,6 @@ const genres = Object.entries(genreMap).map(([id, name]) => ({
   name,
 }));
 
-const currentPage = ref(1);
-const perPage = 20;
 const selectedCategory = ref("all");
 
 const appliedFilters = ref({
@@ -329,17 +318,17 @@ const categories = [
 
 const allFilteredMedia = computed(() => {
   let data = trendingAll.value.filter((m: any) =>
-    isMoviePage.value ? m.media_type === "movie" : m.media_type === "tv"
+    isMoviePage.value ? m.media_type === "movie" : m.media_type === "tv",
   );
 
   if (selectedCategory.value === "topRated") {
     data = data.sort(
-      (a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0)
+      (a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0),
     );
   } else if (selectedCategory.value === "upcoming") {
     data = data.filter(
       (m: any) =>
-        (m.release_date || "") >= new Date().toISOString().slice(0, 10)
+        (m.release_date || "") >= new Date().toISOString().slice(0, 10),
     );
   }
 
@@ -364,88 +353,45 @@ const allFilteredMedia = computed(() => {
   if (appliedFilters.value.sort === "newest") {
     data = data.sort((a: any, b: any) =>
       (b.release_date || b.first_air_date || "").localeCompare(
-        a.release_date || a.first_air_date || ""
-      )
+        a.release_date || a.first_air_date || "",
+      ),
     );
   } else if (appliedFilters.value.sort === "oldest") {
     data = data.sort((a: any, b: any) =>
       (a.release_date || a.first_air_date || "").localeCompare(
-        b.release_date || b.first_air_date || ""
-      )
+        b.release_date || b.first_air_date || "",
+      ),
     );
   } else if (appliedFilters.value.sort === "topRated") {
     data = data.sort(
-      (a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0)
+      (a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0),
     );
   }
 
   return data;
 });
 
-const totalPages = computed(() => {
-  return Math.ceil(allFilteredMedia.value.length / perPage);
-});
-
-const totalItems = computed(() => {
-  return allFilteredMedia.value.length;
-});
-
-const currentPageItems = computed(() => {
-  const start = (currentPage.value - 1) * perPage;
-  const end = start + perPage;
-  return allFilteredMedia.value.slice(start, end);
-});
-
-const visiblePages = computed(() => {
-  const pages: number[] = [];
-  const total = totalPages.value;
-  const current = currentPage.value;
-
-  if (total <= 7) {
-    for (let i = 1; i <= total; i++) pages.push(i);
-  } else {
-    if (current <= 4) {
-      for (let i = 1; i <= 5; i++) pages.push(i);
-      pages.push(-1);
-      pages.push(total);
-    } else if (current >= total - 3) {
-      pages.push(1);
-      pages.push(-1);
-      for (let i = total - 4; i <= total; i++) pages.push(i);
-    } else {
-      pages.push(1);
-      pages.push(-1);
-      for (let i = current - 1; i <= current + 1; i++) pages.push(i);
-      pages.push(-1);
-      pages.push(total);
-    }
-  }
-
-  return pages;
+// Use the pagination composable
+const pagination = usePagination(allFilteredMedia, {
+  perPage: 20,
+  scrollBehavior: "smooth",
 });
 
 const heroSlides = computed(() => allFilteredMedia.value.slice(0, 10));
-
 const heroReady = computed(() => heroSlides.value.length >= 3);
 
 function changeCategory(value: string) {
   selectedCategory.value = value;
-  currentPage.value = 1;
+  pagination.reset();
 }
 
 function clearFilters() {
   appliedFilters.value = { genre: "", year: null, rating: null, sort: "" };
-  currentPage.value = 1;
+  pagination.reset();
 }
 
 function openModal(item: any) {
   modalStore.open(item.media_type, { id: item.id });
-}
-
-function changePage(page: number) {
-  if (page < 1 || page > totalPages.value) return;
-  currentPage.value = page;
-  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function getPoster(path: string | null, size: string = "w500") {
@@ -471,13 +417,13 @@ onMounted(async () => {
 const pageTitle = computed(() =>
   isMoviePage.value
     ? "Discover Movies | FilmRitz"
-    : "Discover TV Shows | FilmRitz"
+    : "Discover TV Shows | FilmRitz",
 );
 const pageDescription = computed(
   () =>
     `Explore trending, top-rated, and upcoming ${
       isMoviePage.value ? "movies" : "TV shows"
-    } with trailers on FilmRitz.`
+    } with trailers on FilmRitz.`,
 );
 
 useHead(() => ({

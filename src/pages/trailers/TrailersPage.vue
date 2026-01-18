@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20  ">
     <TrailerModal
       :is-open="showTrailerModal"
       :trailer="selectedTrailer"
@@ -12,7 +12,7 @@
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
 
-      <div class="relative z-10 max-w-7xl mx-auto">
+      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <div class="md:flex items-center gap-4 hidden">
           <div
             class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
@@ -45,7 +45,7 @@
     <div
       class="sticky top-20 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
-      <div class="px-6 md:px-10 max-w-7xl mx-auto">
+      <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
           <button
             v-for="cat in categories"
@@ -64,7 +64,7 @@
       </div>
     </div>
 
-    <div class="px-6 md:px-10 max-w-7xl mx-auto mt-8">
+    <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto mt-8">
       <div
         v-if="loading"
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
@@ -194,13 +194,11 @@ const formatDuration = (seconds: number): string => {
 };
 
 const playTrailer = (trailer: TrailerData) => {
-  console.log("Playing trailer:", trailer); // Debug log
   selectedTrailer.value = trailer;
   showTrailerModal.value = true;
 };
 
 const closeTrailerModal = () => {
-  console.log("Closing trailer modal"); // Debug log
   showTrailerModal.value = false;
   // Small delay before clearing to allow modal animation
   setTimeout(() => {
@@ -209,7 +207,6 @@ const closeTrailerModal = () => {
 };
 
 const openFullDetails = (mediaType: "movie" | "tv", mediaId: number) => {
-  console.log("Opening full details:", mediaType, mediaId); // Debug log
   modalStore.open(mediaType, {
     movieId: mediaId,
     mediaType: mediaType,
@@ -219,10 +216,8 @@ const openFullDetails = (mediaType: "movie" | "tv", mediaId: number) => {
 onMounted(async () => {
   try {
     loading.value = true;
-    console.log("Fetching trailers..."); // Debug log
     // Use rotated trailers for variety (cached for 6 hours)
     const fetchedTrailers = await getRotatedTrailers();
-    console.log("Fetched trailers:", fetchedTrailers); // Debug log
     trailers.value = fetchedTrailers;
   } catch (error) {
     console.error("Error loading trailers:", error);

@@ -1,12 +1,12 @@
 <!-- (Enhanced Watchlist) -->
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20  ">
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <div
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
 
-      <div class="relative z-10 max-w-7xl mx-auto">
+      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <div
           class="grid space-y-3 md:space-y-0 md:flex items-center md:justify-between"
         >
@@ -100,8 +100,19 @@
                 <span v-if="item.release_date" class="text-gray-300">
                   {{ new Date(item.release_date).getFullYear() }}
                 </span>
-                <span v-if="item.vote_average" class="text-yellow-400">
-                  ⭐ {{ item.vote_average.toFixed(1) }}
+                <span v-if="item.vote_average" class="text-yellow-400 flex items-center gap-1">
+                  <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                    clip-rule="evenodd"
+                  />
+                </svg> {{ item.vote_average.toFixed(1) }}
                 </span>
               </div>
             </div>

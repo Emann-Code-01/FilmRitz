@@ -34,6 +34,9 @@ export interface Credit {
   first_air_date?: string;
   vote_average?: number;
   popularity?: number;
+  biography?: string;
+  order?: number;
+  credit_id: number;
 }
 
 export interface Season {
@@ -147,6 +150,7 @@ export interface Person {
   birthday: string | null;
   place_of_birth: string | null;
   biography: string;
+  gender: number;
 }
 
 export interface HeroSlide extends Media {

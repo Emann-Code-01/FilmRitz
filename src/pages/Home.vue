@@ -42,9 +42,21 @@
                 </h2>
                 <router-link
                   to="/ng/trending"
-                  class="text-[#b20710] hover:text-[#e32125] font-[Gilroy-SemiBold] transition-colors"
+                  class="text-[#b20710] hover:text-[#e32125] font-[Gilroy-SemiBold] transition-all flex text-nowrap items-center gap-1"
                 >
-                  View All →
+                  View All
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    class="size-5 hidden md:block"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
                 </router-link>
               </div>
               <TrendingGrid @update-ambient="updateAmbientColor" />
@@ -97,7 +109,18 @@
               <h2
                 class="text-3xl font-[Gilroy-Bold] text-white mb-6 flex items-center gap-3"
               >
-                <span class="text-4xl">⭐</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="size-8 text-yellow-400"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
                 Top Rated All Time
               </h2>
               <TopRated @update-ambient="updateAmbientColor" />
@@ -112,9 +135,21 @@
                 </h2>
                 <router-link
                   to="/ng/collections"
-                  class="text-[#b20710] hover:text-[#e32125] font-[Gilroy-SemiBold] transition-colors"
+                  class="text-[#b20710] hover:text-[#e32125] font-[Gilroy-SemiBold] transition-all flex text-nowrap items-center gap-1"
                 >
-                  View All →
+                  View All
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    class="size-5 hidden md:block"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
                 </router-link>
               </div>
               <CuratedCollections
@@ -230,7 +265,7 @@ onMounted(() => {
   // Detect device capabilities
   const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
   const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
+    "(prefers-reduced-motion: reduce)",
   ).matches;
 
   // If user has saved preference, use that

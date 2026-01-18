@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20  ">
     <TrailerModal
       :is-open="showTrailerModal"
       :trailer="selectedTrailer"
@@ -11,7 +11,7 @@
       <div
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
-      <div class="relative z-10 max-w-7xl mx-auto">
+      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <div class="md:flex items-center gap-4 hidden">
           <div
             class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <div class="px-6 md:px-10 max-w-7xl mx-auto">
+    <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
       <div
         v-if="loading"
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"

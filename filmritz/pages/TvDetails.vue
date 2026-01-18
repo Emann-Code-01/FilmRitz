@@ -38,7 +38,7 @@
           class="absolute inset-0 bg-linear-to-t from-black via-black/70 to-transparent"
         ></div>
         <div
-          class="absolute bottom-0 left-0 p-6 md:p-10 max-w-3xl space-y-3 animate-fade-up"
+          class="absolute bottom-0 left-0 p-6 md:p-10 max-w-[1230px] lg:max-w-[1440px] space-y-3 animate-fade-up"
         >
           <h1 class="text-4xl font-[Gilroy-Bold]">
             {{ tv.name }} — {{ latestSeason.name }}
@@ -142,7 +142,7 @@
             <div class="flex items-center justify-center min-h-screen p-4">
               <DialogPanel
                 v-if="selectedEpisode"
-                class="relative w-full max-w-5xl rounded-xl overflow-hidden text-white shadow-xl bg-black"
+                class="relative w-full max-w-[1230px] lg:max-w-[1440px] rounded-xl overflow-hidden text-white shadow-xl bg-black"
               >
                 <div v-if="loading" class="animate-pulse">
                   <div class="h-[70vh] bg-gray-700"></div>

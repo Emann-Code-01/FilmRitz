@@ -36,7 +36,7 @@
     </div>
 
     <!-- Episode/Media Info -->
-    <div class="px-6 md:px-10 max-w-7xl mx-auto py-8">
+    <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto py-8">
       <h1 class="text-3xl font-[Gilroy-Bold] mb-4">Media Title</h1>
       <p class="text-gray-400 font-[Gilroy-Regular] mb-6">
         Play the video above to watch your content

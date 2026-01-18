@@ -2,7 +2,7 @@
 <template>
   <div class="relative z-40 w-full mx-auto">
     <div
-      class="flex items-center gap-3 bg-white/10 backdrop-blur-xl w-md md:w-xl mx-auto px-4 py-3 rounded-full border border-white/10 focus-within:ring-2 ring-red-500/70 transition-all duration-500"
+      class="flex items-center gap-3 bg-white/10 backdrop-blur-xl w-md md:w-lg mx-auto px-4 py-3 rounded-full border border-white/10 focus-within:ring-2 ring-red-500/70 transition-all duration-500"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +59,7 @@
 
     <div
       v-if="searchResults.length > 0 && query"
-      class="absolute top-[110%] w-full bg-black/90 backdrop-blur-2xl rounded-2xl border border-white/10 shadow-2xl max-h-[60vh] overflow-y-auto transition-all duration-500"
+      class="absolute top-[110%] w-full bg-black/60 backdrop-blur-2xl rounded-2xl border border-white/10 shadow-2xl max-h-[60vh] overflow-y-auto transition-all duration-500"
     >
       <div
         role="status"
@@ -85,8 +85,20 @@
           >
             {{ item.title }}
           </title>
-          <p class="text-gray-400 text-sm">
-            {{ new Date(item.release_date).getFullYear() }} · ⭐
+          <p class="text-gray-400 text-sm flex items-center gap-1">
+            {{ new Date(item.release_date).getFullYear() }} ·
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              class="size-4 text-yellow-400"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                clip-rule="evenodd"
+              />
+            </svg>
             {{ item.vote_average?.toFixed(1) }} · {{ item.media_type }}
           </p>
           <span as="p" class="flex flex-wrap gap-2">
@@ -168,7 +180,7 @@ function selectMovie(item: any) {
     (item.title || item.name || "untitled")
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)+/g, "")
+      .replace(/(^-|-$)+/g, ""),
   );
   router.push(`/ng/${type}/${slug}-${item.id}`);
   query.value = "";

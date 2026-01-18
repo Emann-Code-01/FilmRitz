@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-[#0a0a0a] text-white px-6 md:px-10 pt-32 pb-20">
-    <div class="max-w-4xl mx-auto space-y-8">
+    <div class="max-w-[1230px] lg:max-w-[1440px] mx-auto space-y-8">
       <h1 class="text-4xl font-[Gilroy-Bold]">Advertising on FilmRitz</h1>
 
       <p class="text-gray-300 text-lg leading-relaxed">

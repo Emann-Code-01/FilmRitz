@@ -18,11 +18,13 @@
           :src="currentLogo"
           alt="Filmritz Logo"
           :class="
-            auth.isLoggedIn &&
-            router.currentRoute.value.path !== '/forgot-password' &&
-            router.currentRoute.value.path !== '/reset-password'
-              ? 'transition-all duration-900 animate-fade-up w-12 md:w-15'
-              : 'transition-all duration-900 animate-fade-up w-13 md:w-16'
+            router.currentRoute.value.path.startsWith('/ng')
+              ? auth.isLoggedIn &&
+                router.currentRoute.value.path !== '/forgot-password' &&
+                router.currentRoute.value.path !== '/reset-password'
+                ? 'transition-all duration-900 animate-fade-up w-12 md:w-15'
+                : 'transition-all duration-900 animate-fade-up w-13 md:w-16'
+              : 'hidden'
           "
         />
       </router-link>
@@ -40,7 +42,8 @@
         v-if="
           auth.isLoggedIn &&
           router.currentRoute.value.path !== '/forgot-password' &&
-          router.currentRoute.value.path !== '/reset-password'
+          router.currentRoute.value.path !== '/reset-password' &&
+          router.currentRoute.value.path.startsWith('/ng')
         "
       >
         <div
@@ -104,9 +107,21 @@
               </router-link>
               <router-link
                 to="/ng/top-rated"
-                class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                class="flex items-center gap-2 px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
               >
-                ⭐ Top Rated
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  class="size-4 text-yellow-500"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                Top Rated
               </router-link>
               <router-link
                 to="/ng/new-releases"
@@ -261,7 +276,7 @@
           @click="handleMenuButtonClick3"
           class="w-10 h-10 lg:aspect-square rounded-full bg-red-600 flex text-center select-none items-center justify-center text-white font-[Gilroy-Bold] leading-none text-2xl cursor-pointer hover:bg-red-700 transition-colors"
         >
-          <span class="mt-1 lg:mt-0">{{ userInitial }}</span>
+          <span class="mt-1.5 lg:mt-0">{{ userInitial }}</span>
         </button>
         <transition name="slide-fade">
           <div
@@ -336,9 +351,21 @@
                 <router-link
                   to="/ng/top-rated"
                   @click="closeMenuOnMobile"
-                  class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
+                  class="flex items-center gap-2 px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] text-[#d1d5dc] font-[Gilroy-Medium] transition-colors"
                 >
-                  ⭐ Top Rated
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    class="size-4 text-yellow-500"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  Top Rated
                 </router-link>
                 <router-link
                   to="/ng/new-releases"
@@ -532,11 +559,11 @@ const isLoggingOut = ref(false);
 const isLoggedIn = computed(() => !!auth.user);
 
 async function logout() {
+  // Remove local storage flag
   localStorage.removeItem("visitedLogin");
-  isLoggingOut.value = true;
-  await auth.signOut();
-  router.push("/ng");
-  isLoggingOut.value = false;
+
+  // Navigate to logout screen - the screen will handle the actual logout
+  router.push("/logout");
 }
 
 const scrolled = ref(false);

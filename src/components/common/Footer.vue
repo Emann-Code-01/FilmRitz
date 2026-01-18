@@ -1,6 +1,15 @@
 <!-- components/Navigation/Footer.vue -->
 <template>
-  <footer class="bg-black/60 border-t border-white/10">
+  <footer
+    :class="[
+      auth.isLoggedIn &&
+      router.currentRoute.value.path !== '/forgot-password' &&
+      router.currentRoute.value.path !== '/reset-password' &&
+      router.currentRoute.value.path !== '/logout'
+        ? 'bg-black/60 border-t border-white/10'
+        : 'bg-black/60 border-t border-white/10 *:transition-all duration-500 ease-out hidden',
+    ]"
+  >
     <div class="mx-auto px-14 py-12">
       <div class="grid md:grid-cols-2 gap-8 md:gap-0 mb-8">
         <!-- Company -->
@@ -144,7 +153,9 @@
             >@EmannCode</a
           >
         </p>
-        <section class="max-w-4xl mx-auto space-y-4 text-gray-300">
+        <section
+          class="max-w-[1230px] lg:max-w-[1440px] mx-auto space-y-4 text-gray-300"
+        >
           <h1 class="text-3xl font-[Gilroy-Bold] text-white">Privacy Policy</h1>
           <p class="leading-relaxed font-[Gilroy-Medium] text-sm">
             FilmRitz respects your privacy and is committed to protecting user
@@ -184,3 +195,11 @@
     </div>
   </footer>
 </template>
+
+<script setup lang="ts">
+import { useAuthStore } from "@/stores/auth";
+import { useRouter } from "vue-router";
+
+const auth = useAuthStore();
+const router = useRouter();
+</script>

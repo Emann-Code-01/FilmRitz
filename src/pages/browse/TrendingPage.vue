@@ -1,11 +1,11 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 mt-10">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <div
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
 
-      <div class="relative z-10 max-w-7xl mx-auto">
+      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <div class="md:flex items-center gap-4 hidden">
           <div
             class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
@@ -23,7 +23,7 @@
           <div class="flex gap-6">
             <div class="text-center flex items-center justify-center gap-2">
               <div class="text-3xl font-[Gilroy-Bold] text-[#b20710]">
-                {{ totalItems }}+
+                {{ pagination.totalItems.value }}+
               </div>
               <div class="text-sm text-gray-400 font-[Gilroy-Medium]">
                 Items
@@ -32,7 +32,7 @@
             <div class="text-center flex items-center justify-center gap-2">
               <div class="text-sm text-gray-400 font-[Gilroy-Medium]">Page</div>
               <div class="text-3xl font-[Gilroy-Bold] text-[#b20710]">
-                {{ currentPage }}
+                {{ pagination.currentPage.value }}
               </div>
             </div>
           </div>
@@ -51,10 +51,10 @@
           <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-2">
             What everyone's watching this week
           </p>
-          <div class="flex gap-6 justify-center">
+          <div class="flex gap-6">
             <div class="text-center flex items-center justify-center gap-2">
               <div class="text-2xl font-[Gilroy-Bold] text-[#b20710]">
-                {{ totalItems }}+
+                {{ pagination.totalItems.value }}+
               </div>
               <div class="text-sm text-gray-400 font-[Gilroy-Medium]">
                 Items
@@ -63,7 +63,7 @@
             <div class="text-center flex items-center justify-center gap-2">
               <div class="text-sm text-gray-400 font-[Gilroy-Medium]">Page</div>
               <div class="text-2xl font-[Gilroy-Bold] text-[#b20710]">
-                {{ currentPage }}
+                {{ pagination.currentPage.value }}
               </div>
             </div>
           </div>
@@ -74,7 +74,7 @@
     <div
       class="sticky top-20 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
-      <div class="px-6 md:px-10 max-w-7xl mx-auto">
+      <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
           <button
             v-for="filter in filters"
@@ -93,7 +93,7 @@
       </div>
     </div>
 
-    <div class="px-6 md:px-10 mx-auto mt-8 max-w-7xl">
+    <div class="px-6 md:px-10 mx-auto mt-8 max-w-[1230px] lg:max-w-[1440px]">
       <div
         v-if="loading"
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12"
@@ -110,7 +110,7 @@
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12"
       >
         <div
-          v-for="(item, index) in currentPageItems"
+          v-for="(item, index) in pagination.pagedItems.value"
           :key="item.id"
           @click="openModal(item)"
           class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all hover:scale-105 animate-fade-up"
@@ -134,13 +134,25 @@
               {{ item.title || item.name }}
             </h3>
             <div class="flex items-center gap-2">
-              <span class="text-yellow-400 text-xs"
-                >⭐ {{ item.vote_average?.toFixed(1) }}</span
+              <span class="text-yellow-400 text-xs flex items-center gap-1"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {{ item.vote_average?.toFixed(1) }}</span
               >
               <span class="text-gray-300 text-xs">
                 {{
                   new Date(
-                    item.release_date || item.first_air_date || ""
+                    item.release_date || item.first_air_date || "",
                   ).getFullYear()
                 }}
               </span>
@@ -150,51 +162,26 @@
           <div
             class="absolute top-3 left-3 w-10 h-10 rounded-full bg-[#b20710] flex items-center justify-center font-[Gilroy-Bold] text-white shadow-xl"
           >
-            #{{ (currentPage - 1) * 20 + index + 1 }}
+            #{{ pagination.startIndex.value + index }}
           </div>
         </div>
       </div>
 
-      <div
-        v-if="totalPages > 1"
-        class="flex items-center justify-center gap-4 mb-12"
-      >
-        <button
-          @click="changePage(currentPage - 1)"
-          :disabled="currentPage === 1"
-          class="px-3 md:px-6 py-2 md:py-2.5 rounded-xl font-[Gilroy-Bold] text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all cursor-pointer"
-        >
-          ← Previous
-        </button>
-
-        <div
-          class="flex items-center gap-2 overflow-x-auto scrollbar-hide max-w-md"
-        >
-          <button
-            v-for="page in visiblePages"
-            :key="page"
-            @click="page !== -1 && changePage(page)"
-            class="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-xl font-[Gilroy-Bold] text-white transition-all cursor-pointer"
-            :class="[
-              page === currentPage
-                ? 'bg-[#b20710]'
-                : 'bg-white/10 hover:bg-white/20',
-              page === -1 ? 'cursor-default hover:bg-white/10' : '',
-            ]"
-            :disabled="page === -1"
-          >
-            {{ page === -1 ? "..." : page }}
-          </button>
-        </div>
-
-        <button
-          @click="changePage(currentPage + 1)"
-          :disabled="currentPage === totalPages"
-          class="px-3 md:px-6 py-2 md:py-2.5 rounded-xl font-[Gilroy-Bold] text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all cursor-pointer"
-        >
-          Next →
-        </button>
-      </div>
+      <!-- Use Pagination component -->
+      <Pagination
+        :model-value="pagination.currentPage.value"
+        @update:model-value="pagination.changePage"
+        :total-items="pagination.totalItems.value"
+        :total-pages="pagination.totalPages.value"
+        :per-page="pagination.perPage.value"
+        :start-index="pagination.startIndex.value"
+        :end-index="pagination.endIndex.value"
+        show-info
+        show-ellipsis
+        show-labels
+        :max-buttons="7"
+        theme-color="#b20710"
+      />
     </div>
   </div>
   <AdSlot />
@@ -203,7 +190,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
 import { useModalStore } from "@/stores/modalStore";
+import { usePagination } from "@/composables/usePagination";
 import AdSlot from "@/components/ads/AdSlot.vue";
+import Pagination from "@/components/ui/Pagination.vue";
 import {
   fetchTrendingMedia,
   fetchTrendingMovies,
@@ -221,56 +210,18 @@ const filters = [
 const selectedFilter = ref("all");
 const trendingItems = ref<any[]>([]);
 const loading = ref(true);
-const currentPage = ref(1);
-const itemsPerPage = 20;
 
 const filteredItems = computed(() => {
   if (selectedFilter.value === "all") return trendingItems.value;
   return trendingItems.value.filter(
-    (item) => item.media_type === selectedFilter.value
+    (item) => item.media_type === selectedFilter.value,
   );
 });
 
-const totalPages = computed(() => {
-  return Math.ceil(filteredItems.value.length / itemsPerPage);
-});
-
-const totalItems = computed(() => {
-  return filteredItems.value.length;
-});
-
-const currentPageItems = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  return filteredItems.value.slice(start, end);
-});
-
-const visiblePages = computed(() => {
-  const pages: number[] = [];
-  const total = totalPages.value;
-  const current = currentPage.value;
-
-  if (total <= 7) {
-    for (let i = 1; i <= total; i++) pages.push(i);
-  } else {
-    if (current <= 4) {
-      for (let i = 1; i <= 5; i++) pages.push(i);
-      pages.push(-1); // Ellipsis
-      pages.push(total);
-    } else if (current >= total - 3) {
-      pages.push(1);
-      pages.push(-1);
-      for (let i = total - 4; i <= total; i++) pages.push(i);
-    } else {
-      pages.push(1);
-      pages.push(-1);
-      for (let i = current - 1; i <= current + 1; i++) pages.push(i);
-      pages.push(-1);
-      pages.push(total);
-    }
-  }
-
-  return pages;
+// Use pagination composable
+const pagination = usePagination(filteredItems, {
+  perPage: 20,
+  scrollBehavior: "smooth",
 });
 
 const getImageUrl = (path: string | null): string => {
@@ -286,15 +237,9 @@ const openModal = (item: any) => {
   });
 };
 
-const changePage = (page: number) => {
-  if (page < 1 || page > totalPages.value) return;
-  currentPage.value = page;
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
-
 const changeFilter = (filterValue: string) => {
   selectedFilter.value = filterValue;
-  currentPage.value = 1; // Reset to page 1 when filter changes
+  pagination.reset(); // Reset to page 1 when filter changes
 };
 
 const loadTrending = async () => {

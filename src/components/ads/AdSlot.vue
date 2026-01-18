@@ -4,7 +4,7 @@
     aria-label="Advertisement"
   >
     <ins
-      class="adsbygoogle block w-full max-w-4xl"
+      class="adsbygoogle block w-full max-w-[1230px] lg:max-w-[1440px]"
       style="display: block"
       data-ad-client="ca-pub-4160697772127882"
       data-ad-slot="5690255382"

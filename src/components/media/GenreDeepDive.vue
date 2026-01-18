@@ -229,9 +229,21 @@
               >
                 {{ item.title || item.name }}
               </h4>
-              <div class="flex items-center gap-2 text-xs">
-                <span class="text-yellow-400"
-                  >⭐ {{ item.vote_average?.toFixed(1) }}</span
+              <div class="flex items-center gap-2 text-xs flex-nowrap">
+                <span class="text-yellow-400 flex gap-1 items-center"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    class="size-4"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  {{ item.vote_average?.toFixed(1) }}</span
                 >
                 <span class="text-gray-300">{{
                   formatYear(item.release_date || item.first_air_date)
@@ -269,78 +281,13 @@ import {
 } from "@headlessui/vue";
 import { getPosterUrl } from "@/utils/imageHelpers";
 import { openMediaModal } from "@/utils/modalHelpers";
+import { genres } from "@/types/genresDeepDive";
+import type { Genre } from "@/types/genresDeepDive";
 
 const isCollapsed = ref(false);
 const emit = defineEmits<{
   "update-ambient": [color: string];
 }>();
-
-interface Genre {
-  id: number;
-  name: string;
-  icon: string;
-  color: string;
-  description: string;
-}
-
-const genres = ref<Genre[]>([
-  {
-    id: 28,
-    name: "Action",
-    icon: "💥",
-    color: "#FF4500",
-    description: "High-octane thrills and explosive adventures",
-  },
-  {
-    id: 35,
-    name: "Comedy",
-    icon: "😂",
-    color: "#FFD700",
-    description: "Laugh-out-loud moments and feel-good stories",
-  },
-  {
-    id: 27,
-    name: "Horror",
-    icon: "👻",
-    color: "#DC2626",
-    description: "Spine-chilling scares and supernatural terror",
-  },
-  {
-    id: 878,
-    name: "Sci-Fi",
-    icon: "🚀",
-    color: "#3B82F6",
-    description: "Futuristic worlds and mind-bending concepts",
-  },
-  {
-    id: 10749,
-    name: "Romance",
-    icon: "💕",
-    color: "#EC4899",
-    description: "Heartwarming love stories and connections",
-  },
-  {
-    id: 18,
-    name: "Drama",
-    icon: "🎭",
-    color: "#8B5CF6",
-    description: "Powerful performances and emotional depth",
-  },
-  {
-    id: 12,
-    name: "Adventure",
-    icon: "🗺️",
-    color: "#10B981",
-    description: "Epic journeys and daring quests",
-  },
-  {
-    id: 16,
-    name: "Animation",
-    icon: "🎨",
-    color: "#F59E0B",
-    description: "Animated wonders for all ages",
-  },
-]);
 
 const selectedGenre = ref<Genre>(genres.value[0]);
 const genreItems = ref<any[]>([]);
@@ -364,10 +311,10 @@ const loadGenreItems = async (genreId: number) => {
 
     const [page1, page2] = await Promise.all([
       fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${key}&with_genres=${genreId}&sort_by=popularity.desc&page=1`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${key}&with_genres=${genreId}&sort_by=popularity.desc&page=1`,
       ),
       fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${key}&with_genres=${genreId}&sort_by=popularity.desc&page=2`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${key}&with_genres=${genreId}&sort_by=popularity.desc&page=2`,
       ),
     ]);
 

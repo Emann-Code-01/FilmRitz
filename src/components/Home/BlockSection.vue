@@ -726,72 +726,44 @@
       >
         Frequently Asked Question
       </h1>
-      <div class="" v-for="(faq, index) in faqs" :key="id">
-        <div class="space-y-0.5 transition-all duration-900 animate-fade-up">
+      <div v-for="(faq, index) in faqs" :key="index">
+        <div class="space-y-0.5">
           <button
-            ref="initialFocus"
             @click="toggle(index)"
-            class="font-[Gilroy-Medium] cursor-pointer flex relative w-full h-fit justify-between place-items-center px-5 bg-white/20 hover:bg-white/40 py-7 transition-all duration-900 animate-fade-up text-xl md:text-2xl"
+            class="font-[Gilroy-Medium] cursor-pointer flex relative w-full h-fit justify-between items-center px-5 bg-white/20 hover:bg-white/40 py-7 transition-all duration-300 text-xl md:text-2xl"
           >
             <h1 class="text-nowrap">{{ faq.question }}</h1>
-            <span @click="openFAQ">
+            <span
+              class="ml-4 w-10 h-10 rounded-full flex items-center justify-center transition-transform duration-300"
+              :class="activeIndex === index && 'rotate-45'"
+            >
               <svg
-                v-if="activeIndex !== index"
                 viewBox="0 0 36 36"
-                width="36"
-                height="36"
-                data-icon="PlusLarge"
-                data-icon-id=":r38:"
-                aria-hidden="true"
-                class="default-ltr-iqcdef-cache-1ulhx3w e164gv2o4"
+                width="24"
+                height="24"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
-                role="img"
-                loading="lazy"
               >
                 <path
                   fill-rule="evenodd"
                   clip-rule="evenodd"
                   d="M17 17V3H19V17H33V19H19V33H17V19H3V17H17Z"
                   fill="currentColor"
-                ></path>
-              </svg>
-              <svg
-                v-else
-                viewBox="0 0 36 36"
-                width="36"
-                height="36"
-                data-icon="PlusLarge"
-                data-icon-id=":r9:"
-                aria-hidden="true"
-                class="tramsform -rotate-45"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                role="img"
-                loading="lazy"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M17 17V3H19V17H33V19H19V33H17V19H3V17H17Z"
-                  fill="currentColor"
-                ></path>
+                />
               </svg>
             </span>
           </button>
-          <transition :duration="550" name="nested">
+          <transition name="accordion" @enter="onEnter" @leave="onLeave">
             <div
-              v-if="activeIndex === index"
-              class="relative px-5 py-3 space-y-3 w-full font-[Gilroy-Medium] text-xl md:text-2xl bg-white/20 leading-10 transition-all duration-900 animate-fade outer"
+              v-show="activeIndex === index"
+              class="overflow-hidden bg-white/20 px-5"
             >
-              <p class="transition-all duration-900 animate-fade-up inner">
-                {{ faq.answer1 }}
-              </p>
-              <p
-                class="max-w-6xl transition-all duration-900 animate-fade-up inner"
+              <div
+                class="py-3 space-y-3 font-[Gilroy-Medium] text-xl md:text-2xl leading-10"
               >
-                {{ faq.answer2 }}
-              </p>
+                <p>{{ faq.answer1 }}</p>
+                <p class="max-w-[1440px]">{{ faq.answer2 }}</p>
+              </div>
             </div>
           </transition>
         </div>
@@ -899,7 +871,7 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from "vue";
 import TrendingGrid from "../media/TrendingGrid.vue";
 import { useRouter } from "vue-router";
@@ -953,8 +925,8 @@ const email = ref("");
 const router = useRouter();
 const touched = ref(false);
 
-const activeIndex = ref(null);
-const isValidEmail = (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+const activeIndex = ref<number | null>(null);
+const isValidEmail = (val: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
 
 const ringColor = computed(() => {
   if (email.value === "") return "focus:ring-[#BDBCBB]";
@@ -973,6 +945,48 @@ const errorMessage = computed(() => {
   return "Please enter a valid email address.";
 });
 
+const onEnter = (el: Element, done: () => void) => {
+  const element = el as HTMLElement;
+
+  element.style.height = "0";
+  element.style.overflow = "hidden";
+
+  const height = element.scrollHeight;
+
+  requestAnimationFrame(() => {
+    element.style.height = height + "px";
+  });
+
+  element.addEventListener(
+    "transitionend",
+    () => {
+      element.style.height = "";
+      element.style.overflow = "";
+      done();
+    },
+    { once: true },
+  );
+};
+
+const onLeave = (el: Element, done: () => void) => {
+  const element = el as HTMLElement;
+
+  element.style.height = element.scrollHeight + "px";
+  element.style.overflow = "hidden";
+
+  requestAnimationFrame(() => {
+    element.style.height = "0";
+  });
+
+  element.addEventListener(
+    "transitionend",
+    () => {
+      done();
+    },
+    { once: true },
+  );
+};
+
 defineProps({
   id: {
     type: [String, Number],
@@ -980,7 +994,7 @@ defineProps({
   },
 });
 
-function toggle(index) {
+function toggle(index: number): void {
   activeIndex.value = activeIndex.value === index ? null : index;
 }
 
@@ -1034,7 +1048,9 @@ function handleGetStarted() {
 
 /* Inner element still smooth on open only */
 .nested-enter-active .inner {
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
 
 .nested-leave-active .inner {

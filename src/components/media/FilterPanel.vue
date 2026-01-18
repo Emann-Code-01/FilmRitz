@@ -1,5 +1,5 @@
 <template>
-  <div class="px-6 max-w-[1230px] mx-auto">
+  <div class="px-6 max-w-[1230px] lg:max-w-[1440px] mx-auto">
     <!-- Genre -->
     <div class="flex flex-wrap gap-3 items-center">
       <div>

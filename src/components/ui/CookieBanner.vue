@@ -4,7 +4,7 @@
     v-if="!hasConsented"
     class="fixed bottom-0 left-0 right-0 z-50 bg-black/95 backdrop-blur p-4"
   >
-    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+    <div class="max-w-[1230px] lg:max-w-[1440px] mx-auto flex items-center justify-between gap-4">
       <p class="text-sm text-gray-300">
         We use cookies to enhance your experience. By continuing, you accept our
         <router-link

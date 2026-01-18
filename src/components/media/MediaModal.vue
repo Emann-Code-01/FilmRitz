@@ -5,7 +5,7 @@
         class="absolute inset-0 bg-[linear-gradient(to_bottom,#000000CC_10%,#000000_50%)]"
       ></div>
       <div
-        class="relative w-full max-w-4xl h-[40em] overflow-hidden rounded-xl text-white shadow-xl animate-pulse"
+        class="relative w-full max-w-[1230px] lg:max-w-[1440px] h-[40em] overflow-hidden rounded-xl text-white shadow-xl animate-pulse"
       >
         <div
           class="absolute inset-0 bg-white/10 bg-fixed bg-center bg-cover mx-auto bg-no-repeat transition-all duration-500 animate-pulse"
@@ -15,7 +15,7 @@
         ></div>
       </div>
 
-      <div class="absolute bottom-0 left-0 z-10 p-6 space-y-3 w-full max-w-4xl">
+      <div class="absolute bottom-0 left-0 z-10 p-6 space-y-3 w-full max-w-[1230px] lg:max-w-[1440px]">
         <div class="h-8 w-1/3 bg-white/10 rounded-md animate-pulse"></div>
         <div class="flex items-center gap-4">
           <div class="h-6 w-10 bg-white/10 rounded-md animate-pulse"></div>
@@ -44,7 +44,7 @@
 
           <DialogPanel
             v-if="media"
-            class="relative w-full max-w-4xl rounded-xl overflow-hidden text-white shadow-xl bg-black"
+            class="relative w-full max-w-[1230px] lg:max-w-[1440px] rounded-xl overflow-hidden text-white shadow-xl bg-black"
           >
             <div v-if="loading" class="animate-pulse">
               <div class="h-[70vh] bg-gray-700 rounded-t-xl"></div>
@@ -164,7 +164,7 @@
 
           <DialogPanel
             v-else
-            class="flex flex-col justify-start h-[40em] w-full max-w-4xl rounded-xl bg-black/40 text-white p-8 space-y-6 animate-pulse"
+            class="flex flex-col justify-start h-[40em] w-full max-w-[1230px] lg:max-w-[1440px] rounded-xl bg-black/40 text-white p-8 space-y-6 animate-pulse"
           >
             <div class="h-64 w-full bg-white/10 rounded-xl"></div>
             <div class="h-6 w-1/3 bg-white/10 rounded-md"></div>

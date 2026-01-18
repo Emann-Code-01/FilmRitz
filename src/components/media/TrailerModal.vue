@@ -7,7 +7,7 @@
         @click.self="close"
       >
         <div
-          class="relative w-full max-w-5xl bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
+          class="relative w-full max-w-[1230px] lg:max-w-[1440px] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
           @click.stop
         >
           <!-- Close Button -->
