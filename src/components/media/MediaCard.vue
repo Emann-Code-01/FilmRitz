@@ -19,7 +19,9 @@
       <div
         class="absolute inset-0 bg-linear-to-t from-black/90 via-transparent opacity-100 group-hover:opacity-100 transition-all"
       ></div>
-      <div class="absolute bottom-3 left-3">
+      <div
+        class="absolute bottom-3 left-3 transform translate-y-full opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-transform duration-500"
+      >
         <h3 class="text-white font-[Gilroy-SemiBold] text-base line-clamp-1">
           {{ media.title }}
         </h3>

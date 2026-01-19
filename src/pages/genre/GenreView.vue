@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 md: ">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 md:">
     <!-- HERO HEADER -->
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <div
@@ -9,7 +9,9 @@
         }"
       ></div>
 
-      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto justify-between">
+      <div
+        class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto justify-between"
+      >
         <div class="md:flex items-center gap-4 mb-4 hidden">
           <div
             class="w-20 aspect-square rounded-full flex items-center justify-center text-4xl"
@@ -115,15 +117,15 @@ const genreMetadata: Record<
 };
 
 const genreColor = computed(
-  () => genreMetadata[genreName.value.toLowerCase()]?.color || "#b20710"
+  () => genreMetadata[genreName.value.toLowerCase()]?.color || "#b20710",
 );
 const genreIcon = computed(
-  () => genreMetadata[genreName.value.toLowerCase()]?.icon || "🎬"
+  () => genreMetadata[genreName.value.toLowerCase()]?.icon || "🎬",
 );
 const genreDescription = computed(
   () =>
     genreMetadata[genreName.value.toLowerCase()]?.description ||
-    "Explore movies and shows in this genre"
+    "Explore movies and shows in this genre",
 );
 
 /* ✅ FETCH USING PROP (NOT route.params) */
@@ -157,12 +159,12 @@ const filteredMedia = computed(() =>
   media.value.filter((item) =>
     filters.value.genre
       ? item.genre_ids?.includes(Number(filters.value.genre))
-      : true
-  )
+      : true,
+  ),
 );
 
 const visibleResults = computed(() =>
-  filteredMedia.value.slice(0, visibleCount.value)
+  filteredMedia.value.slice(0, visibleCount.value),
 );
 
 function onFilterApply(newFilters: any) {
