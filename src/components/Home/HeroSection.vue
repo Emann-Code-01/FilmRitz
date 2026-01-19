@@ -169,7 +169,7 @@
       </button>
     </div>
 
-    <div v-else class="relative h-screen overflow-hidden">
+    <div v-else class="relative h-screen overflow-hidden -mt-10">
       <div
         v-for="(item, index) in trendingAll.slice(0, 7)"
         :key="item.id"

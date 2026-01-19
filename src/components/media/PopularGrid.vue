@@ -179,7 +179,7 @@
               <span class="text-gray-300 font-[Gilroy-Medium]">
                 {{ formatYear(item.release_date || item.first_air_date) }}
               </span>
-              <span class="text-yellow-400">
+              <span class="text-yellow-400 flex items-center gap-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"

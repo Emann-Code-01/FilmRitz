@@ -179,6 +179,7 @@
         </template>
       </div>
     </div>
+    <AdsenseAd v-if="isLoggedIn && consentGranted" adSlot="5823677820" />
   </div>
 </template>
 
