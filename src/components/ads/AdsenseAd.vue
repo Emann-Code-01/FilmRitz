@@ -73,5 +73,8 @@ onMounted(() => {
   overflow: hidden;
   text-align: center;
   margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
