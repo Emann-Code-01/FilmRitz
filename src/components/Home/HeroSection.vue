@@ -190,9 +190,6 @@
         ></div>
 
         <div
-          class="absolute top-0 left-0 right-0 h-20 bg-linear-to-b from-black/90 to-transparent z-20"
-        ></div>
-        <div
           class="absolute bottom-0 left-0 right-0 h-64 bg-linear-to-t from-black via-black/60 to-transparent z-20"
         ></div>
 
@@ -212,27 +209,25 @@
             <div
               class="flex items-center justify-center px-3 py-1.5 gap-1 bg-[#b20710] rounded-full"
             >
-              <span class="text-yellow-400"
-                ><svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  class="size-4"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </span>
-              <span class="font-[Gilroy-Bold]">{{
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                class="size-4 text-yellow-400"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <span class="font-[Gilroy-Bold] mt-1 md:mt-0">{{
                 item?.vote_average?.toFixed(1)
               }}</span>
             </div>
 
             <span
-              class="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-full font-[Gilroy-SemiBold] text-sm"
+              class="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-full font-[Gilroy-SemiBold] text-sm flex items-center justify-center"
             >
               {{ item.media_type === "movie" ? "🎬 MOVIE" : "📺 TV SHOW" }}
             </span>
@@ -400,6 +395,7 @@ import { genreMap } from "@/types/media";
 import { useRouter } from "vue-router";
 import { getMediaVideos } from "@/api/tmdb";
 import TrailerModal from "@/components/media/TrailerModal.vue";
+import logger from "@/utils/logger";
 
 interface TrailerData {
   id: string;
@@ -540,7 +536,7 @@ function handleSlideHover(_item: any, index: number) {
 }
 
 async function playTrailer(item: any) {
-  console.log("Playing trailer for:", item);
+  logger.log("Playing trailer for:", item);
 
   // Set loading state
   loadingTrailers[item.id] = true;
@@ -548,7 +544,7 @@ async function playTrailer(item: any) {
   try {
     // Fetch videos for this media item
     const videos = await getMediaVideos(item.id, item.media_type);
-    console.log("Fetched videos:", videos);
+    logger.log("Fetched videos:", videos);
 
     // Find the first YouTube trailer
     const trailer = videos.find(
@@ -576,11 +572,11 @@ async function playTrailer(item: any) {
       // Pause auto-rotation while watching trailer
       stopAutoRotation();
     } else {
-      console.warn("No trailer found for this item");
+      logger.warn("No trailer found for this item");
       alert("No trailer available for this title");
     }
   } catch (error) {
-    console.error("Error fetching trailer:", error);
+    logger.error("Error fetching trailer:", error);
     alert("Failed to load trailer. Please try again.");
   } finally {
     loadingTrailers[item.id] = false;
@@ -609,7 +605,7 @@ async function retryLoad() {
   try {
     await Promise.all([getTrendingAll(), getTopRated(), getUpcoming()]);
   } catch (err: any) {
-    console.error("❌ Failed to fetch movies:", err);
+    logger.error("❌ Failed to fetch movies:", err);
     error.value = "Couldn't load movies. Please refresh in a bit";
   } finally {
     loading.value = false;
@@ -640,7 +636,7 @@ onMounted(async () => {
         startAutoRotation();
       }
     } catch (err: any) {
-      console.error("❌ Failed to fetch movies:", err);
+      logger.error("❌ Failed to fetch movies:", err);
       error.value = "Couldn't load movies. Please refresh in a bit";
     } finally {
       loading.value = false;

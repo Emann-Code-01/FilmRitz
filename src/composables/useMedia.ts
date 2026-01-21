@@ -12,6 +12,11 @@ import {
   fetchOnTheAir,
   // fetchTrendingMedia,
 } from "../api/tmdb";
+import { useMediaCache } from "./useMediaCache";
+import logger from "@/utils/logger";
+
+// Request deduplication map to prevent duplicate API calls
+const pendingRequests = new Map<string, Promise<any>>();
 
 export const useMediaStore = defineStore("media", () => {
   const trendingMovies = ref<Media[]>([]);
@@ -80,110 +85,229 @@ export function useMedia() {
   const loading = ref(false);
   const error = ref<string | null>(null);
 
-  const lastFetched = ref<number>(0);
-  const CACHE_TTL = 1000 * 60 * 10; // 10 minutes
-
   // 🎬 MOVIES
   const getTrending = async (force = false) => {
-    const now = Date.now();
-    if (!force && trending.value.length && now - lastFetched.value < CACHE_TTL)
+    const cacheKey = "trending-movies-week";
+    const { getCached, setCached, isCacheValid } = useMediaCache();
+
+    // Check cache first
+    if (!force && isCacheValid(cacheKey)) {
+      const cached = getCached<Media[]>(cacheKey);
+      if (cached) {
+        trending.value = cached;
+        logger.log("✅ Using cached trending movies");
+        return;
+      }
+    }
+
+    // Check if request is already pending (deduplication)
+    if (pendingRequests.has(cacheKey)) {
+      logger.log("⏳ Waiting for pending trending movies request");
+      trending.value = await pendingRequests.get(cacheKey);
       return;
+    }
+
     loading.value = true;
     error.value = null;
+
     try {
-      // Fetch 3 pages (60+ items)
-      trending.value = await fetchTrendingMovies("week", 3);
-      lastFetched.value = now;
+      // Create and store the promise for deduplication
+      const promise = fetchTrendingMovies("week", 3);
+      pendingRequests.set(cacheKey, promise);
+
+      trending.value = await promise;
+
+      // Cache the result
+      setCached(cacheKey, trending.value);
+      logger.log("✅ Fetched and cached trending movies");
     } catch (err: any) {
-      console.error("❌ Failed to fetch trending movies:", err);
+      logger.error("❌ Failed to fetch trending movies:", err);
       error.value = "Failed to fetch trending movies.";
     } finally {
       loading.value = false;
+      pendingRequests.delete(cacheKey);
     }
   };
 
   const getTopRated = async () => {
+    const cacheKey = "top-rated-movies";
+    const { getCached, setCached, isCacheValid } = useMediaCache();
+
+    if (isCacheValid(cacheKey)) {
+      const cached = getCached<Media[]>(cacheKey);
+      if (cached) {
+        topRated.value = cached;
+        logger.log("✅ Using cached top rated movies");
+        return;
+      }
+    }
+
+    if (pendingRequests.has(cacheKey)) {
+      topRated.value = await pendingRequests.get(cacheKey);
+      return;
+    }
+
     loading.value = true;
     try {
-      // Fetch 3 pages (60+ items)
-      topRated.value = await fetchTopRatedMovies(3);
+      const promise = fetchTopRatedMovies(3);
+      pendingRequests.set(cacheKey, promise);
+      topRated.value = await promise;
+      setCached(cacheKey, topRated.value);
+      logger.log("✅ Fetched and cached top rated movies");
     } catch (err: any) {
-      console.error("❌ Top rated movies failed:", err);
+      logger.error("❌ Top rated movies failed:", err);
       error.value = "Failed to fetch top rated movies.";
     } finally {
       loading.value = false;
+      pendingRequests.delete(cacheKey);
     }
   };
 
   const getUpcoming = async () => {
+    const cacheKey = "upcoming-movies";
+    const { getCached, setCached, isCacheValid } = useMediaCache();
+
+    if (isCacheValid(cacheKey)) {
+      const cached = getCached<Media[]>(cacheKey);
+      if (cached) {
+        upcoming.value = cached;
+        logger.log("✅ Using cached upcoming movies");
+        return;
+      }
+    }
+
+    if (pendingRequests.has(cacheKey)) {
+      upcoming.value = await pendingRequests.get(cacheKey);
+      return;
+    }
+
     loading.value = true;
     try {
-      // Fetch 3 pages (60+ items)
-      upcoming.value = await fetchUpcomingMovies(3);
+      const promise = fetchUpcomingMovies(3);
+      pendingRequests.set(cacheKey, promise);
+      upcoming.value = await promise;
+      setCached(cacheKey, upcoming.value);
+      logger.log("✅ Fetched and cached upcoming movies");
     } catch (err: any) {
-      console.error("❌ Upcoming movies failed:", err);
+      logger.error("❌ Upcoming movies failed:", err);
       error.value = "Failed to fetch upcoming movies.";
     } finally {
       loading.value = false;
+      pendingRequests.delete(cacheKey);
     }
   };
 
   // 📺 TV
   const getTrendingTV = async (force = false) => {
-    const now = Date.now();
-    if (
-      !force &&
-      trendingTV.value.length &&
-      now - lastFetched.value < CACHE_TTL
-    )
+    const cacheKey = "trending-tv-week";
+    const { getCached, setCached, isCacheValid } = useMediaCache();
+
+    if (!force && isCacheValid(cacheKey)) {
+      const cached = getCached<Media[]>(cacheKey);
+      if (cached) {
+        trendingTV.value = cached;
+        logger.log("✅ Using cached trending TV");
+        return;
+      }
+    }
+
+    if (pendingRequests.has(cacheKey)) {
+      trendingTV.value = await pendingRequests.get(cacheKey);
       return;
+    }
+
     loading.value = true;
     error.value = null;
     try {
-      // Fetch 3 pages (60+ items)
-      trendingTV.value = await fetchTrendingTV("week", 3);
-      lastFetched.value = now;
+      const promise = fetchTrendingTV("week", 3);
+      pendingRequests.set(cacheKey, promise);
+      trendingTV.value = await promise;
+      setCached(cacheKey, trendingTV.value);
+      logger.log("✅ Fetched and cached trending TV");
     } catch (err: any) {
-      console.error("❌ Failed to fetch trending TV:", err);
+      logger.error("❌ Failed to fetch trending TV:", err);
       error.value = "Failed to fetch trending TV shows.";
     } finally {
       loading.value = false;
+      pendingRequests.delete(cacheKey);
     }
   };
 
   const getTopRatedTV = async () => {
+    const cacheKey = "top-rated-tv";
+    const { getCached, setCached, isCacheValid } = useMediaCache();
+
+    if (isCacheValid(cacheKey)) {
+      const cached = getCached<Media[]>(cacheKey);
+      if (cached) {
+        topRatedTV.value = cached;
+        logger.log("✅ Using cached top rated TV");
+        return;
+      }
+    }
+
+    if (pendingRequests.has(cacheKey)) {
+      topRatedTV.value = await pendingRequests.get(cacheKey);
+      return;
+    }
+
     loading.value = true;
     try {
-      // Fetch 3 pages (60+ items)
-      topRatedTV.value = await fetchTopRatedTV(3);
+      const promise = fetchTopRatedTV(3);
+      pendingRequests.set(cacheKey, promise);
+      topRatedTV.value = await promise;
+      setCached(cacheKey, topRatedTV.value);
+      logger.log("✅ Fetched and cached top rated TV");
     } catch (err: any) {
-      console.error("❌ Top rated TV failed:", err);
+      logger.error("❌ Top rated TV failed:", err);
       error.value = "Failed to fetch top rated TV shows.";
     } finally {
       loading.value = false;
+      pendingRequests.delete(cacheKey);
     }
   };
 
   const getUpcomingTV = async () => {
+    const cacheKey = "upcoming-tv";
+    const { getCached, setCached, isCacheValid } = useMediaCache();
+
+    if (isCacheValid(cacheKey)) {
+      const cached = getCached<Media[]>(cacheKey);
+      if (cached) {
+        upcomingTV.value = cached;
+        logger.log("✅ Using cached upcoming TV");
+        return;
+      }
+    }
+
+    if (pendingRequests.has(cacheKey)) {
+      upcomingTV.value = await pendingRequests.get(cacheKey);
+      return;
+    }
+
     loading.value = true;
     try {
-      // Fetch 3 pages (60+ items)
-      upcomingTV.value = await fetchOnTheAir(3);
+      const promise = fetchOnTheAir(3);
+      pendingRequests.set(cacheKey, promise);
+      upcomingTV.value = await promise;
+      setCached(cacheKey, upcomingTV.value);
+      logger.log("✅ Fetched and cached upcoming TV");
     } catch (err: any) {
-      console.error("❌ Upcoming TV failed:", err);
+      logger.error("❌ Upcoming TV failed:", err);
       error.value = "Failed to fetch upcoming TV shows.";
     } finally {
       loading.value = false;
+      pendingRequests.delete(cacheKey);
     }
   };
 
   const fetchTrendingMedia = async (
     timeWindow: string = "week",
-    page: number = 1
+    page: number = 1,
   ) => {
     const API_KEY = import.meta.env.VITE_TMDB_API_KEY; // Use your env variable
     const response = await fetch(
-      `https://api.themoviedb.org/3/trending/all/${timeWindow}?page=${page}&api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/trending/all/${timeWindow}?page=${page}&api_key=${API_KEY}`,
     );
 
     if (!response.ok) {
@@ -195,41 +319,54 @@ export function useMedia() {
   };
 
   const getTrendingAll = async (force = false) => {
-    const now = Date.now();
-    if (
-      !force &&
-      trendingAll.value.length &&
-      now - lastFetched.value < CACHE_TTL
-    )
+    const cacheKey = "trending-all-week";
+    const { getCached, setCached, isCacheValid } = useMediaCache();
+
+    if (!force && isCacheValid(cacheKey)) {
+      const cached = getCached<Media[]>(cacheKey);
+      if (cached) {
+        trendingAll.value = cached;
+        logger.log("✅ Using cached trending all");
+        return;
+      }
+    }
+
+    if (pendingRequests.has(cacheKey)) {
+      trendingAll.value = await pendingRequests.get(cacheKey);
       return;
+    }
 
     loading.value = true;
     error.value = null;
 
     try {
       // Fetch multiple pages to get 60+ items
-      const [page1, page2, page3] = await Promise.all([
+      const promise = Promise.all([
         fetchTrendingMedia("week", 1),
         fetchTrendingMedia("week", 2),
         fetchTrendingMedia("week", 3),
-      ]);
+      ]).then(([page1, page2, page3]) => {
+        // Combine all results and remove duplicates based on id + media_type
+        const allResults = [...page1, ...page2, ...page3];
+        return allResults.filter(
+          (item, index, self) =>
+            index ===
+            self.findIndex(
+              (t) => t.id === item.id && t.media_type === item.media_type,
+            ),
+        );
+      });
 
-      // Combine all results and remove duplicates based on id + media_type
-      const allResults = [...page1, ...page2, ...page3];
-      trendingAll.value = allResults.filter(
-        (item, index, self) =>
-          index ===
-          self.findIndex(
-            (t) => t.id === item.id && t.media_type === item.media_type
-          )
-      );
-
-      lastFetched.value = now;
+      pendingRequests.set(cacheKey, promise);
+      trendingAll.value = await promise;
+      setCached(cacheKey, trendingAll.value);
+      logger.log("✅ Fetched and cached trending all");
     } catch (err: any) {
-      console.error("❌ Combined trending failed:", err);
+      logger.error("❌ Combined trending failed:", err);
       error.value = "Failed to fetch combined media.";
     } finally {
       loading.value = false;
+      pendingRequests.delete(cacheKey);
     }
   };
 

@@ -19,12 +19,12 @@ export function normalize(item: any, mediaType?: "movie" | "tv"): Media {
     media_type: mt,
     title:
       mt === "movie"
-        ? item.title ?? item.name ?? ""
-        : item.name ?? item.title ?? "",
+        ? (item.title ?? item.name ?? "")
+        : (item.name ?? item.title ?? ""),
     release_date:
       mt === "movie"
-        ? item.release_date ?? item.first_air_date ?? ""
-        : item.first_air_date ?? item.release_date ?? "",
+        ? (item.release_date ?? item.first_air_date ?? "")
+        : (item.first_air_date ?? item.release_date ?? ""),
     genres,
   };
   if (mt === "tv") {
@@ -42,41 +42,46 @@ const PAGE_SIZE = 20;
 async function fetchPagedResults<T>(
   endpoint: string,
   params: Record<string, any>,
-  maxPages = 5
+  maxPages = 5,
 ): Promise<T[]> {
-  const results: T[] = [];
   const pagesToFetch = Math.min(maxPages, SAFE_MAX_PAGES);
 
-  for (let page = 1; page <= pagesToFetch; page++) {
-    try {
-      const res = await apiV3.get(endpoint, {
-        params: { ...params, page },
-      });
+  try {
+    // Fetch all pages in parallel for better performance
+    const pagePromises = Array.from({ length: pagesToFetch }, (_, i) =>
+      apiV3.get(endpoint, {
+        params: { ...params, page: i + 1 },
+      }),
+    );
 
+    const responses = await Promise.all(pagePromises);
+    const results: T[] = [];
+
+    for (const res of responses) {
       const pageResults = res.data?.results || [];
       results.push(...pageResults);
 
-      // Stop early if no more data
+      // Stop if we got less than a full page (no more data)
       if (pageResults.length < PAGE_SIZE) break;
-    } catch (error) {
-      console.error(`Failed fetching ${endpoint} page ${page}`, error);
-      break;
     }
-  }
 
-  return results;
+    return results;
+  } catch (error) {
+    console.error(`Failed fetching ${endpoint}`, error);
+    return [];
+  }
 }
 
 // --------------------------- MOVIES ---------------------------
 
 export const fetchTrendingMovies = async (
   timeWindow: "day" | "week" = "week",
-  maxPages = 4
+  maxPages = 4,
 ): Promise<Media[]> => {
   const results = await fetchPagedResults<any>(
     `/trending/movie/${timeWindow}`,
     {},
-    maxPages
+    maxPages,
   );
 
   return results.map((r) => normalize(r, "movie"));
@@ -92,24 +97,16 @@ export const fetchTopRatedMovies = async (maxPages = 4): Promise<Media[]> => {
   const results = await fetchPagedResults<any>(
     "/movie/top_rated",
     {},
-    maxPages
+    maxPages,
   );
 
   return results.map((r) => normalize(r, "movie"));
 };
 
 export const fetchUpcomingMovies = async (maxPages = 4): Promise<Media[]> => {
-  try {
-    const pagePromises = Array.from({ length: maxPages }, (_, i) =>
-      apiV3.get("/movie/upcoming", { params: { page: i + 1 } })
-    );
-    const responses = await Promise.all(pagePromises);
-    const allResults = responses.flatMap((res) => res.data.results || []);
-    return allResults.map((r: any) => normalize(r, "movie"));
-  } catch (error) {
-    console.error("Failed to fetch upcoming movies:", error);
-    return [];
-  }
+  const results = await fetchPagedResults<any>("/movie/upcoming", {}, maxPages);
+
+  return results.map((r) => normalize(r, "movie"));
 };
 
 export const getMovieDetails = async (id: number): Promise<Media> => {
@@ -126,12 +123,12 @@ export const getMovieVideos = async (id: number) => {
 
 export const fetchTrendingTV = async (
   timeWindow: "day" | "week" = "week",
-  maxPages = 4
+  maxPages = 4,
 ): Promise<TVShow[]> => {
   const results = await fetchPagedResults<any>(
     `/trending/tv/${timeWindow}`,
     {},
-    maxPages
+    maxPages,
   );
 
   return results.map((r) => normalize(r, "tv")) as TVShow[];
@@ -144,42 +141,26 @@ export const fetchPopularTV = async (maxPages = 4): Promise<TVShow[]> => {
 };
 
 export const fetchTopRatedTV = async (maxPages = 4): Promise<TVShow[]> => {
-  try {
-    const pagePromises = Array.from({ length: maxPages }, (_, i) =>
-      apiV3.get("/tv/top_rated", { params: { page: i + 1 } })
-    );
-    const responses = await Promise.all(pagePromises);
-    const allResults = responses.flatMap((res) => res.data.results || []);
-    return allResults.map((r: any) => normalize(r, "tv")) as TVShow[];
-  } catch (error) {
-    console.error("Failed to fetch top rated TV:", error);
-    return [];
-  }
+  const results = await fetchPagedResults<any>(
+    "/tv/top_rated",
+    {},
+    maxPages
+  );
+
+  return results.map((r) => normalize(r, "tv")) as TVShow[];
 };
 
 // TMDB doesn't have /tv/upcoming; use /tv/on_the_air or /tv/airing_today instead.
 export const fetchOnTheAir = async (maxPages = 4): Promise<TVShow[]> => {
-  try {
-    const pagePromises = Array.from({ length: maxPages }, (_, i) =>
-      apiV3.get("/tv/on_the_air", { params: { page: i + 1 } })
-    );
-    const responses = await Promise.all(pagePromises);
-    const allResults = responses.flatMap((res) => res.data.results || []);
-    return allResults.map((r: any) => normalize(r, "tv")) as TVShow[];
-  } catch (error) {
-    // Fallback to airing_today
-    try {
-      const pagePromises = Array.from({ length: maxPages }, (_, i) =>
-        apiV3.get("/tv/airing_today", { params: { page: i + 1 } })
-      );
-      const responses = await Promise.all(pagePromises);
-      const allResults = responses.flatMap((res) => res.data.results || []);
-      return allResults.map((r: any) => normalize(r, "tv")) as TVShow[];
-    } catch (error) {
-      console.error("Failed to fetch on the air TV:", error);
-      return [];
-    }
+  // Try on_the_air first
+  let results = await fetchPagedResults<any>("/tv/on_the_air", {}, maxPages);
+
+  // Fallback to airing_today if no results
+  if (results.length === 0) {
+    results = await fetchPagedResults<any>("/tv/airing_today", {}, maxPages);
   }
+
+  return results.map((r) => normalize(r, "tv")) as TVShow[];
 };
 
 export const getTVDetails = async (id: number): Promise<TVShow> => {
@@ -197,10 +178,10 @@ export const getTVVideos = async (id: number) => {
 export const getTVEpisodeCredits = async (
   tvId: number,
   seasonNumber: number,
-  episodeNumber: number
+  episodeNumber: number,
 ) => {
   const res = await apiV3.get(
-    `/tv/${tvId}/season/${seasonNumber}/episode/${episodeNumber}/credits`
+    `/tv/${tvId}/season/${seasonNumber}/episode/${episodeNumber}/credits`,
   );
   return res.data.cast || [];
 };
@@ -209,7 +190,7 @@ export const getTVEpisodeCredits = async (
 
 export const getTVSeasonDetails = async (
   tvId: number,
-  seasonNumber: number
+  seasonNumber: number,
 ): Promise<Season & { episodes: Episode[] }> => {
   const res = await apiV3.get(`/tv/${tvId}/season/${seasonNumber}`);
   return res.data;
@@ -218,10 +199,10 @@ export const getTVSeasonDetails = async (
 export const getTVEpisodeDetails = async (
   tvId: number,
   seasonNumber: number,
-  episodeNumber: number
+  episodeNumber: number,
 ): Promise<Episode> => {
   const res = await apiV3.get(
-    `/tv/${tvId}/season/${seasonNumber}/episode/${episodeNumber}`
+    `/tv/${tvId}/season/${seasonNumber}/episode/${episodeNumber}`,
   );
   return res.data;
 };
@@ -229,10 +210,10 @@ export const getTVEpisodeDetails = async (
 export const getTVEpisodeVideos = async (
   tvId: number,
   seasonNumber: number,
-  episodeNumber: number
+  episodeNumber: number,
 ): Promise<any[]> => {
   const res = await apiV3.get(
-    `/tv/${tvId}/season/${seasonNumber}/episode/${episodeNumber}/videos`
+    `/tv/${tvId}/season/${seasonNumber}/episode/${episodeNumber}/videos`,
   );
   return res.data.results || [];
 };
@@ -240,10 +221,10 @@ export const getTVEpisodeVideos = async (
 export const getTVEpisodeExtras = async (
   tvId: number,
   seasonNumber: number,
-  episodeNumber: number
+  episodeNumber: number,
 ) => {
   const res = await apiV3.get(
-    `/tv/${tvId}/season/${seasonNumber}/episode/${episodeNumber}/credits`
+    `/tv/${tvId}/season/${seasonNumber}/episode/${episodeNumber}/credits`,
   );
   return res.data;
 };
@@ -252,7 +233,7 @@ export const getTVEpisodeExtras = async (
 
 export const fetchTrendingMedia = async (
   timeWindow: "day" | "week" = "week",
-  maxPages = 4
+  maxPages = 4,
 ): Promise<Media[]> => {
   const results = await Promise.allSettled([
     fetchTrendingMovies(timeWindow, maxPages),
@@ -260,12 +241,12 @@ export const fetchTrendingMedia = async (
   ]);
 
   const fulfilled = results.filter(
-    (r): r is PromiseFulfilledResult<any[]> => r.status === "fulfilled"
+    (r): r is PromiseFulfilledResult<any[]> => r.status === "fulfilled",
   );
 
   const values = fulfilled.map((r) => r.value).flat();
   return values.sort(
-    (a: any, b: any) => (b.popularity || 0) - (a.popularity || 0)
+    (a: any, b: any) => (b.popularity || 0) - (a.popularity || 0),
   );
 };
 
@@ -276,20 +257,20 @@ export const fetchTopRatedMedia = async (maxPages = 4): Promise<Media[]> => {
   ]);
 
   const fulfilled = results.filter(
-    (r): r is PromiseFulfilledResult<any[]> => r.status === "fulfilled"
+    (r): r is PromiseFulfilledResult<any[]> => r.status === "fulfilled",
   );
 
   const values = fulfilled.map((r) => r.value).flat();
 
   // Sort by vote average descending
   return values.sort(
-    (a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0)
+    (a: any, b: any) => (b.vote_average || 0) - (a.vote_average || 0),
   );
 };
 
 export const getMediaDetails = async (
   id: number,
-  mediaType: "movie" | "tv"
+  mediaType: "movie" | "tv",
 ): Promise<Media | TVShow | null> => {
   if (mediaType) {
     return mediaType === "movie" ? getMovieDetails(id) : getTVDetails(id);
@@ -300,7 +281,7 @@ export const getMediaDetails = async (
     getTVDetails(id),
   ]);
   const fulfilled = results.filter(
-    (r): r is PromiseFulfilledResult<any> => r.status === "fulfilled"
+    (r): r is PromiseFulfilledResult<any> => r.status === "fulfilled",
   );
   return fulfilled.length ? fulfilled[0].value : null;
 };
@@ -308,7 +289,7 @@ export const getMediaDetails = async (
 export const getMediaVideos = async (
   id: number,
   mediaType: "movie" | "tv",
-  seasonNumber?: number
+  seasonNumber?: number,
 ) => {
   if (mediaType === "movie") {
     return getMovieVideos(id);
@@ -326,7 +307,7 @@ export const getMediaVideos = async (
 export const getMediaSeasonDetails = async (
   id: number,
   mediaType: "movie" | "tv",
-  seasonNumber: number
+  seasonNumber: number,
 ): Promise<(Season & { episodes: Episode[] }) | null> => {
   if (mediaType !== "tv") return null;
   return getTVSeasonDetails(id, seasonNumber);
@@ -336,7 +317,7 @@ export const getMediaEpisodeDetails = async (
   id: number,
   mediaType: "movie" | "tv",
   seasonNumber: number,
-  episodeNumber: number
+  episodeNumber: number,
 ): Promise<Episode | null> => {
   if (mediaType !== "tv") return null;
   return getTVEpisodeDetails(id, seasonNumber, episodeNumber);
@@ -346,7 +327,7 @@ export const getMediaEpisodeVideos = async (
   id: number,
   mediaType: "movie" | "tv",
   seasonNumber: number,
-  episodeNumber: number
+  episodeNumber: number,
 ): Promise<any[]> => {
   if (mediaType !== "tv") return [];
   return getTVEpisodeVideos(id, seasonNumber, episodeNumber);
@@ -404,7 +385,7 @@ export const searchMoviesAndShows = async (
     yearFrom?: string;
     yearTo?: string;
     rating?: number;
-  } = {}
+  } = {},
 ): Promise<Media[]> => {
   if (!query.trim()) return [];
 
@@ -413,7 +394,7 @@ export const searchMoviesAndShows = async (
   return results.filter((item: any) => {
     const year =
       parseInt(
-        item.release_date?.slice(0, 4) || item.first_air_date?.slice(0, 4)
+        item.release_date?.slice(0, 4) || item.first_air_date?.slice(0, 4),
       ) || 0;
     const rating = item.vote_average || 0;
 
@@ -447,13 +428,13 @@ export const fetchPopularMedia = async (maxPages = 5): Promise<Media[]> => {
   ]);
 
   const fulfilled = results.filter(
-    (r): r is PromiseFulfilledResult<any[]> => r.status === "fulfilled"
+    (r): r is PromiseFulfilledResult<any[]> => r.status === "fulfilled",
   );
 
   const values = fulfilled.map((r) => r.value).flat();
 
   return values.sort(
-    (a: any, b: any) => (b.popularity || 0) - (a.popularity || 0)
+    (a: any, b: any) => (b.popularity || 0) - (a.popularity || 0),
   );
 };
 
@@ -466,14 +447,14 @@ export const fetchUpcomingMedia = async (maxPages = 5): Promise<Media[]> => {
   ]);
 
   const fulfilled = results.filter(
-    (r): r is PromiseFulfilledResult<any[]> => r.status === "fulfilled"
+    (r): r is PromiseFulfilledResult<any[]> => r.status === "fulfilled",
   );
 
   const values = fulfilled.map((r) => r.value).flat();
 
   return values.sort(
     (a: any, b: any) =>
-      new Date(b.release_date).getTime() - new Date(a.release_date).getTime()
+      new Date(b.release_date).getTime() - new Date(a.release_date).getTime(),
   );
 };
 
@@ -542,13 +523,13 @@ export const fetchAllTrailers = async (): Promise<TrailerData[]> => {
   // Combine and deduplicate
   const movies = [...popularMovies, ...trendingMovies]
     .filter(
-      (item, index, self) => index === self.findIndex((t) => t.id === item.id)
+      (item, index, self) => index === self.findIndex((t) => t.id === item.id),
     )
     .slice(0, 20);
 
   const tvShows = [...popularTV, ...trendingTV]
     .filter(
-      (item, index, self) => index === self.findIndex((t) => t.id === item.id)
+      (item, index, self) => index === self.findIndex((t) => t.id === item.id),
     )
     .slice(0, 20);
 
@@ -556,7 +537,7 @@ export const fetchAllTrailers = async (): Promise<TrailerData[]> => {
     try {
       const videos = await getMovieVideos(movie.id);
       const trailer = videos.find(
-        (v: any) => v.type === "Trailer" && v.site === "YouTube"
+        (v: any) => v.type === "Trailer" && v.site === "YouTube",
       );
       if (trailer) {
         return {
@@ -582,7 +563,7 @@ export const fetchAllTrailers = async (): Promise<TrailerData[]> => {
     try {
       const videos = await getTVVideos(show.id);
       const trailer = videos.find(
-        (v: any) => v.type === "Trailer" && v.site === "YouTube"
+        (v: any) => v.type === "Trailer" && v.site === "YouTube",
       );
       if (trailer) {
         return {
@@ -621,7 +602,7 @@ export const fetchAllTrailers = async (): Promise<TrailerData[]> => {
  * Fetch all collections with a preview of items (for grid view)
  */
 export const fetchAllCollections = async (
-  itemsPerCollection = 8
+  itemsPerCollection = 8,
 ): Promise<Collection[]> => {
   const collectionPromises = COLLECTIONS.map(async (col) => {
     try {
@@ -663,7 +644,7 @@ export const fetchAllCollections = async (
 export const fetchCollectionByName = async (
   collectionName: string,
   page = 1,
-  itemsPerPage = 20
+  itemsPerPage = 20,
 ): Promise<Collection | null> => {
   const collectionDef = getCollectionByName(collectionName);
 
@@ -695,10 +676,10 @@ export const fetchCollectionByName = async (
 
     // Combine and normalize both types
     const movies = (movieRes.data.results || []).map((r: any) =>
-      normalize(r, "movie")
+      normalize(r, "movie"),
     );
     const tvShows = (tvRes.data.results || []).map((r: any) =>
-      normalize(r, "tv")
+      normalize(r, "tv"),
     );
 
     // Mix movies and TV shows, sort by vote_average
@@ -709,7 +690,7 @@ export const fetchCollectionByName = async (
     // Calculate total items (approximate, since we're mixing two sources)
     const totalItems = Math.max(
       movieRes.data.total_results || 0,
-      tvRes.data.total_results || 0
+      tvRes.data.total_results || 0,
     );
 
     return {
