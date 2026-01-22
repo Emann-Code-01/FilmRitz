@@ -58,7 +58,6 @@
       </div>
 
       <div v-else-if="filteredResults.length === 0" class="text-center py-20">
-        <div class="text-6xl mb-4">🎬</div>
         <p class="text-gray-400 text-xl font-[Gilroy-SemiBold] mb-2">
           No results found for "{{ query }}"
         </p>
@@ -110,12 +109,13 @@
                     d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
                     clip-rule="evenodd"
                   />
-                </svg> {{ item.vote_average?.toFixed(1) }}
+                </svg>
+                {{ item.vote_average?.toFixed(1) }}
               </span>
               <span class="text-gray-300 text-xs">
                 {{
                   new Date(
-                    item.release_date || item.first_air_date || ""
+                    item.release_date || item.first_air_date || "",
                   ).getFullYear() || "N/A"
                 }}
               </span>
@@ -124,7 +124,7 @@
             <div class="flex flex-wrap gap-1">
               <span
                 v-for="genreName in getGenreNames(
-                  getGenreIdsFromMedia(item)
+                  getGenreIdsFromMedia(item),
                 ).slice(0, 5)"
                 :key="genreName"
                 class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-[#b20710]/70 transition-all duration-200 cursor-pointer"
@@ -203,13 +203,13 @@ const filteredResults = computed(() => {
     results = results.sort(
       (a, b) =>
         new Date(b.release_date || b.first_air_date || 0).getTime() -
-        new Date(a.release_date || a.first_air_date || 0).getTime()
+        new Date(a.release_date || a.first_air_date || 0).getTime(),
     );
   } else if (filters.value.sort === "oldest") {
     results = results.sort(
       (a, b) =>
         new Date(a.release_date || a.first_air_date || 0).getTime() -
-        new Date(b.release_date || b.first_air_date || 0).getTime()
+        new Date(b.release_date || b.first_air_date || 0).getTime(),
     );
   }
 
@@ -217,7 +217,7 @@ const filteredResults = computed(() => {
 });
 
 const visibleResults = computed(() =>
-  filteredResults.value.slice(0, visibleCount.value)
+  filteredResults.value.slice(0, visibleCount.value),
 );
 
 async function fetchResults(searchQuery: string, page = 1) {
@@ -240,7 +240,7 @@ watch(
       query.value = newQuery as string;
       fetchResults(query.value);
     }
-  }
+  },
 );
 
 watch(
@@ -248,7 +248,7 @@ watch(
   () => {
     isExpanded.value = false;
     visibleCount.value = itemsPerPage;
-  }
+  },
 );
 
 function openMediaModal(item: Media) {

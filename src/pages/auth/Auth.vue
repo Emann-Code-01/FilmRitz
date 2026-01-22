@@ -17,13 +17,6 @@
     <div
       class="relative z-10 bg-black/60 backdrop-blur-2xl p-8 md:p-10 rounded-3xl shadow-2xl w-full max-w-md border border-white/10 mt-18"
     >
-      <!-- Logo/Icon -->
-      <div
-        class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-[#b20710] flex items-center justify-center"
-      >
-        <span class="text-3xl">🎬</span>
-      </div>
-
       <h1 class="text-3xl font-[Gilroy-Bold] text-white mb-2 text-center">
         {{ isSignUp ? "Create Account" : "Welcome Back" }}
       </h1>
@@ -31,7 +24,7 @@
         {{
           isSignUp
             ? "Join FilmRitz to start discovering"
-            : "Sign in to continue watching"
+            : "Sign in to continue, on your journey of discovery"
         }}
       </p>
 
@@ -132,8 +125,8 @@
                 ? "Creating Account..."
                 : "Signing In..."
               : isSignUp
-              ? "Sign Up"
-              : "Sign In"
+                ? "Sign Up"
+                : "Sign In"
           }}
         </button>
 
@@ -253,7 +246,7 @@ const handleAuth = async () => {
 };
 
 const pageTitle = computed(() =>
-  isSignUp.value ? "Create Account | FilmRitz" : "Sign In | FilmRitz"
+  isSignUp.value ? "Create Account | FilmRitz" : "Sign In | FilmRitz",
 );
 
 useHead({

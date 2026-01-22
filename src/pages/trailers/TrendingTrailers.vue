@@ -13,11 +13,6 @@
       ></div>
       <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <div class="md:flex items-center gap-4 hidden">
-          <div
-            class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
-          >
-            🔥
-          </div>
           <div>
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">
               Trending Trailers
@@ -29,11 +24,6 @@
         </div>
         <div class="grid items-center gap-4 md:hidden">
           <div class="flex items-center space-x-3">
-            <div
-              class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
-            >
-              🔥
-            </div>
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">
               Trending Trailers
             </h1>
@@ -58,7 +48,6 @@
       </div>
 
       <div v-else-if="trailers.length === 0" class="text-center py-20">
-        <div class="text-6xl mb-4">🎬</div>
         <h3 class="text-2xl font-[Gilroy-Bold] text-gray-400">
           No trailers available
         </h3>
@@ -108,7 +97,7 @@
           <div
             class="absolute top-4 left-4 px-3 py-1 bg-[#b20710] rounded-lg text-sm font-[Gilroy-SemiBold] flex items-center gap-2"
           >
-            🔥 Trending
+            Trending
           </div>
 
           <div class="absolute bottom-0 left-0 right-0 p-6">

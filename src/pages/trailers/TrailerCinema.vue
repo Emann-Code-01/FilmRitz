@@ -4,14 +4,7 @@
       v-if="loading"
       class="flex flex-col items-center justify-center min-h-screen space-y-6"
     >
-      <div class="relative">
-        <div
-          class="w-24 h-24 border-4 border-[#b20710] border-t-transparent rounded-full animate-spin"
-        ></div>
-        <div class="absolute inset-0 flex items-center justify-center text-4xl">
-          🎬
-        </div>
-      </div>
+      <div class="relative"></div>
       <div class="text-center space-y-2">
         <h2 class="text-2xl font-[Gilroy-Bold]">Loading Trailer Cinema</h2>
         <p class="text-gray-400 font-[Gilroy-Medium]">
@@ -86,7 +79,7 @@
           <div class="md:flex items-center justify-between mb-6 hidden">
             <div>
               <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] mb-3">
-                🎬 Trailer Cinema
+                Trailer Cinema
               </h1>
               <p class="text-xl text-gray-400 font-[Gilroy-Medium]">
                 Watch the latest movie and TV show trailers
@@ -139,7 +132,7 @@
               <h1
                 class="text-4xl text-nowrap md:text-6xl font-[Gilroy-Bold] mb-3"
               >
-                🎬 Trailer Cinema
+                Trailer Cinema
               </h1>
               <p class="text-xl text-gray-400 font-[Gilroy-Medium]">
                 Watch the latest movie and TV show trailers
@@ -232,7 +225,6 @@
               class="absolute inset-0 flex items-center justify-center bg-linear-to-br from-gray-900 to-black"
             >
               <div class="text-center space-y-4">
-                <div class="text-6xl">🎬</div>
                 <p class="text-xl text-gray-400 font-[Gilroy-SemiBold]">
                   Trailer not available
                 </p>
@@ -294,8 +286,8 @@
                   >
                     {{
                       currentTrailer.media_type === "movie"
-                        ? "🎬 Movie"
-                        : "📺 TV Show"
+                        ? "Movie"
+                        : "TV Show"
                     }}
                   </span>
                   <span class="text-gray-400 font-[Gilroy-Medium]">{{
@@ -405,8 +397,8 @@
                   >
                     {{
                       currentTrailer.media_type === "movie"
-                        ? "🎬 Movie"
-                        : "📺 TV Show"
+                        ? "Movie"
+                        : "TV Show"
                     }}
                   </span>
                   <span class="text-gray-400 font-[Gilroy-Medium]">{{
@@ -555,7 +547,6 @@
 
     <div v-else class="flex items-center justify-center min-h-screen">
       <div class="text-center space-y-4 max-w-md">
-        <div class="text-6xl mb-4">🎬</div>
         <h2 class="text-3xl font-[Gilroy-Bold]">No Trailers Available</h2>
         <p class="text-xl text-gray-400 font-[Gilroy-Medium]">
           We couldn't find any trailers at the moment. Please try again later.

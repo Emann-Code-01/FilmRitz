@@ -85,7 +85,7 @@ export function useMedia() {
   const loading = ref(false);
   const error = ref<string | null>(null);
 
-  // 🎬 MOVIES
+  // MOVIES
   const getTrending = async (force = false) => {
     const cacheKey = "trending-movies-week";
     const { getCached, setCached, isCacheValid } = useMediaCache();
@@ -197,7 +197,7 @@ export function useMedia() {
     }
   };
 
-  // 📺 TV
+  // TV
   const getTrendingTV = async (force = false) => {
     const cacheKey = "trending-tv-week";
     const { getCached, setCached, isCacheValid } = useMediaCache();

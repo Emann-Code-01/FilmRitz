@@ -229,7 +229,7 @@
             <span
               class="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-full font-[Gilroy-SemiBold] text-sm flex items-center justify-center"
             >
-              {{ item.media_type === "movie" ? "🎬 MOVIE" : "📺 TV SHOW" }}
+              {{ item.media_type === "movie" ? "MOVIE" : "TV SHOW" }}
             </span>
 
             <span class="font-[Gilroy-Medium] text-gray-300">
@@ -363,7 +363,7 @@
       </div>
 
       <div
-        class="absolute bottom-20 left-1/2 transform -translate-x-1/2 animate-bounce z-40 hidden md:block"
+        class="absolute bottom-15 left-1/2 transform -translate-x-1/2 animate-bounce z-40 hidden md:block"
       >
         <div class="flex flex-col items-center gap-2 text-white/60">
           <span class="text-sm font-[Gilroy-Medium]">Scroll to explore</span>

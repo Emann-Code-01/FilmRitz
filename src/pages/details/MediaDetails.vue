@@ -88,7 +88,7 @@
             <span
               class="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-xl font-[Gilroy-SemiBold]"
             >
-              {{ media.media_type === "tv" ? "📺 TV SHOW" : "🎬 MOVIE" }}
+              {{ media.media_type === "tv" ? "TV SHOW" : "MOVIE" }}
             </span>
 
             <span

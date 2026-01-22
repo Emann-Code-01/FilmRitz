@@ -67,9 +67,6 @@
               class="flex items-center gap-3 w-full"
               :class="isCollapsed ? 'justify-center' : ''"
             >
-              <span class="text-2xl" :title="isCollapsed ? genre.name : ''">
-                {{ genre.icon }}
-              </span>
               <span
                 v-if="!isCollapsed"
                 class="whitespace-nowrap transition-opacity duration-200"
@@ -105,7 +102,6 @@
           class="text-white font-[Gilroy-Bold] text-xl mb-4 flex items-center gap-3 justify-between w-full cursor-pointer bg-white/5 hover:bg-white/10 px-4 py-3 rounded-tl-xl rounded-bl-xl transition-all duration-500"
         >
           <span class="flex items-center gap-3">
-            <span class="text-2xl">{{ selectedGenre?.icon }}</span>
             <span>{{ selectedGenre?.name }}</span>
           </span>
           <svg
@@ -140,7 +136,6 @@
               ]"
             >
               <div class="flex items-center gap-3">
-                <span class="text-2xl">{{ genre.icon }}</span>
                 <span>{{ genre.name }}</span>
               </div>
             </li>
@@ -162,7 +157,6 @@
           <h2
             class="text-3xl font-[Gilroy-Bold] text-white flex items-center gap-3"
           >
-            <span class="text-4xl">{{ selectedGenre?.icon }}</span>
             {{ selectedGenre?.name }}
           </h2>
           <p class="text-gray-400 font-[Gilroy-Regular] mt-2">

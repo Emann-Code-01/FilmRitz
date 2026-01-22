@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20  ">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <div
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
@@ -24,7 +24,9 @@
       </div>
     </div>
 
-    <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto space-y-12">
+    <div
+      class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto space-y-12"
+    >
       <!-- Mission Section -->
       <section
         class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
@@ -46,11 +48,6 @@
         <h2 class="text-3xl font-[Gilroy-Bold] mb-6">What We Offer</h2>
         <div class="grid md:grid-cols-2 gap-6">
           <div class="flex gap-4">
-            <div
-              class="w-12 h-12 rounded-xl bg-[#b20710] flex items-center justify-center text-2xl shrink-0"
-            >
-              🎬
-            </div>
             <div>
               <h3 class="text-xl font-[Gilroy-Bold] mb-2">Watch Trailers</h3>
               <p class="text-gray-400 font-[Gilroy-Regular]">
@@ -61,11 +58,6 @@
           </div>
 
           <div class="flex gap-4">
-            <div
-              class="w-12 h-12 rounded-xl bg-[#b20710] flex items-center justify-center text-2xl shrink-0"
-            >
-              📚
-            </div>
             <div>
               <h3 class="text-xl font-[Gilroy-Bold] mb-2">
                 Curated Collections
@@ -78,11 +70,6 @@
           </div>
 
           <div class="flex gap-4">
-            <div
-              class="w-12 h-12 rounded-xl bg-[#b20710] flex items-center justify-center text-2xl shrink-0"
-            >
-              🔥
-            </div>
             <div>
               <h3 class="text-xl font-[Gilroy-Bold] mb-2">Trending Content</h3>
               <p class="text-gray-400 font-[Gilroy-Regular]">

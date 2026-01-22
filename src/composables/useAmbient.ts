@@ -36,7 +36,7 @@ export const initializeAmbient = () => {
 
   isInitialized.value = true;
 
-  console.log("🎨 Global Ambient System Initialized:", {
+  console.log("Global Ambient System Initialized:", {
     enabled: isAmbientEnabled.value,
     color: ambientColor.value,
     isMobile,
@@ -78,7 +78,7 @@ export function useAmbient() {
       ambientColor.value = getRandomAmbientColor();
     }
 
-    console.log("🎨 Ambient toggled:", isAmbientEnabled.value);
+    console.log("Ambient toggled:", isAmbientEnabled.value);
   };
 
   // Activate ambient

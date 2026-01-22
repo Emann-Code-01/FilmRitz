@@ -13,15 +13,6 @@
         class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto justify-between"
       >
         <div class="md:flex items-center gap-4 mb-4 hidden">
-          <div
-            class="w-20 aspect-square rounded-full flex items-center justify-center text-4xl"
-            :style="{
-              backgroundColor: `${genreColor}20`,
-              border: `2px solid ${genreColor}`,
-            }"
-          >
-            {{ genreIcon }}
-          </div>
           <div>
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] capitalize">
               {{ genreName }}
@@ -108,19 +99,13 @@ const filters = ref({
 });
 
 /* GENRE META */
-const genreMetadata: Record<
-  string,
-  { color: string; icon: string; description: string }
-> = {
-  action: { color: "#FF4500", icon: "💥", description: "High-octane thrills" },
-  drama: { color: "#8B5CF6", icon: "🎭", description: "Emotional depth" },
+const genreMetadata: Record<string, { color: string; description: string }> = {
+  action: { color: "#FF4500", description: "High-octane thrills" },
+  drama: { color: "#8B5CF6", description: "Emotional depth" },
 };
 
 const genreColor = computed(
   () => genreMetadata[genreName.value.toLowerCase()]?.color || "#b20710",
-);
-const genreIcon = computed(
-  () => genreMetadata[genreName.value.toLowerCase()]?.icon || "🎬",
 );
 const genreDescription = computed(
   () =>

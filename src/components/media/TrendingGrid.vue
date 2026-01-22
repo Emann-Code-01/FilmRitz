@@ -219,11 +219,6 @@
           to="/ng/login"
           class="col-span-6 md:col-span-3 h-64 md:h-72 bg-linear-to-br from-[#b20710] to-[#8a0509] rounded-xl flex flex-col items-center justify-center gap-4 hover:scale-105 transition-all duration-500 cursor-pointer group"
         >
-          <div
-            class="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-all"
-          >
-            <span class="text-4xl">🎬</span>
-          </div>
           <div class="text-center px-4">
             <p class="text-white font-[Gilroy-Bold] text-xl mb-2">See More</p>
             <p class="text-white/80 font-[Gilroy-Regular] text-sm">

@@ -18,7 +18,7 @@
       <template v-else>
         <main class="space-y-10 p-6 text-white">
           <section>
-            <h2 class="text-2xl font-[Gilroy-Bold] mb-3">🔥 Trending Now</h2>
+            <h2 class="text-2xl font-[Gilroy-Bold] mb-3">Trending Now</h2>
             <TrendingGrid />
           </section>
 
@@ -42,7 +42,7 @@
           </section>
 
           <section>
-            <h2 class="text-2xl font-[Gilroy-Bold] mb-3">🎬 UpComing</h2>
+            <h2 class="text-2xl font-[Gilroy-Bold] mb-3">UpComing</h2>
             <Upcoming />
           </section>
         </main>

@@ -105,14 +105,18 @@
               }"
             >
               <span
-                class="text-4xl md:text-5xl transition-transform duration-500 hover:scale-110"
+                :class="[
+                  selectedMood?.icon
+                    ? 'text-4xl md:text-5xl transition-transform duration-500 hover:scale-110'
+                    : 'text-white text-xs font-bold text-center mt-1 px-2 transition-all duration-500',
+                ]"
               >
-                {{ selectedMood?.icon || "🎬" }}
+                {{ selectedMood?.icon || "Choose any color" }}
               </span>
               <span
                 class="text-white text-xs font-bold text-center mt-1 px-2 transition-all duration-500"
               >
-                {{ selectedMood?.name || "Spin!" }}
+                {{ selectedMood?.name || "to reveal a mood" }}
               </span>
             </div>
           </div>
@@ -167,7 +171,6 @@
             v-if="!selectedMood"
             class="text-center py-20 transition-all duration-500"
           >
-            <div class="text-7xl opacity-50 animate-pulse">🎭</div>
             <h3 class="text-3xl font-bold text-white mt-4">Choose Your Mood</h3>
             <p class="text-gray-400 mt-2 max-w-md mx-auto">
               Click on any color segment to discover movies that match your
@@ -303,7 +306,6 @@
             </div>
 
             <div v-else class="text-center py-12">
-              <span class="text-5xl block mb-3">🎬</span>
               <p class="text-gray-400">No movies found for this mood</p>
               <button
                 @click="shuffleMoods"

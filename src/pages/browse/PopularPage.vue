@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20  ">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <div
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
@@ -7,11 +7,6 @@
 
       <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <div class="md:flex items-center gap-4 hidden">
-          <div
-            class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
-          >
-            👑
-          </div>
           <div class="flex-1">
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">
               All-Time Popular
@@ -40,11 +35,6 @@
         </div>
         <div class="grid items-center gap-4 md:hidden">
           <div class="flex items-center space-x-3">
-            <div
-              class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
-            >
-              👑
-            </div>
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">
               All-Time Popular
             </h1>
@@ -148,7 +138,8 @@
                     d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
                     clip-rule="evenodd"
                   />
-                </svg> {{ item.vote_average?.toFixed(1) }}</span
+                </svg>
+                {{ item.vote_average?.toFixed(1) }}</span
               >
               <span class="text-gray-300 text-xs"
                 >{{ item.popularity?.toFixed(0) }} views</span
@@ -210,7 +201,7 @@ const loading = ref(true);
 const filteredItems = computed(() => {
   if (selectedFilter.value === "all") return popularItems.value;
   return popularItems.value.filter(
-    (item) => item.media_type === selectedFilter.value
+    (item) => item.media_type === selectedFilter.value,
   );
 });
 

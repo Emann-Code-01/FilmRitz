@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen bg-linear-to-br from-black via-gray-900 to-black text-white pb-20  "
+    class="min-h-screen bg-linear-to-br from-black via-gray-900 to-black text-white pb-20"
   >
     <!-- Loading State -->
     <div v-if="loading" class="max-w-[1230px] lg:max-w-[1440px] mx-auto pt-24">
@@ -19,11 +19,13 @@
     </div>
 
     <!-- Not Found State -->
-    <div v-else-if="notFound" class="max-w-[1230px] lg:max-w-[1440px] mx-auto pt-24">
+    <div
+      v-else-if="notFound"
+      class="max-w-[1230px] lg:max-w-[1440px] mx-auto pt-24"
+    >
       <div
         class="text-center py-20 bg-white/5 rounded-2xl border border-white/10"
       >
-        <div class="text-6xl mb-4">🎬</div>
         <p class="text-2xl lg:text-3xl font-[Gilroy-Bold] text-white mb-2">
           Actor Not Found
         </p>
@@ -52,7 +54,10 @@
     </div>
 
     <!-- Actor Details -->
-    <div v-else-if="person" class="max-w-[1230px] lg:max-w-[1440px] mx-auto pt-20 lg:pt-24">
+    <div
+      v-else-if="person"
+      class="max-w-[1230px] lg:max-w-[1440px] mx-auto pt-20 lg:pt-24"
+    >
       <!-- Hero Section -->
       <div class="grid md:grid-cols-12 gap-6 lg:gap-8 mb-12 lg:mb-16">
         <!-- Profile Image & Core Identity -->
@@ -279,9 +284,7 @@
                 <div
                   v-else
                   class="w-full h-full bg-linear-to-br from-gray-800 to-gray-900 flex items-center justify-center text-4xl"
-                >
-                  🎬
-                </div>
+                ></div>
                 <div
                   class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-60"
                 ></div>
@@ -294,21 +297,22 @@
                   <div class="flex items-center gap-2 text-xs">
                     <span class="text-yellow-400 flex items-center gap-1"
                       ><svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  class="size-4"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
-                    clip-rule="evenodd"
-                  />
-                </svg> {{ item.vote_average?.toFixed(1) }}</span
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                        class="size-4"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                      {{ item.vote_average?.toFixed(1) }}</span
                     >
                     <span class="text-gray-300">{{
                       new Date(
-                        item.release_date || item.first_air_date || ""
+                        item.release_date || item.first_air_date || "",
                       ).getFullYear()
                     }}</span>
                   </div>
@@ -397,9 +401,7 @@
               <div
                 v-else
                 class="w-full h-full bg-linear-to-br from-gray-800 to-gray-900 flex items-center justify-center text-xl"
-              >
-                🎬
-              </div>
+              ></div>
             </div>
             <div class="flex-1 min-w-0">
               <h3
@@ -418,7 +420,7 @@
                 <span class="mx-2">•</span>
                 <span>{{
                   new Date(
-                    item.release_date || item.first_air_date || ""
+                    item.release_date || item.first_air_date || "",
                   ).getFullYear() || "TBA"
                 }}</span>
               </p>
@@ -439,7 +441,8 @@
                     d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
                     clip-rule="evenodd"
                   />
-                </svg> {{ item.vote_average?.toFixed(1) }}
+                </svg>
+                {{ item.vote_average?.toFixed(1) }}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -655,10 +658,10 @@ onMounted(async () => {
       const credits = await getActorCredits(parseInt(actorId));
 
       movieCredits.value = credits.filter(
-        (c: Credit) => c.media_type === "movie" || c.title
+        (c: Credit) => c.media_type === "movie" || c.title,
       );
       tvCredits.value = credits.filter(
-        (c: Credit) => c.media_type === "tv" || c.name
+        (c: Credit) => c.media_type === "tv" || c.name,
       );
 
       knownFor.value = credits
@@ -674,7 +677,7 @@ onMounted(async () => {
         const response = await fetch(
           `https://api.themoviedb.org/3/person/${actorId}/external_ids?api_key=${
             import.meta.env.VITE_TMDB_API_KEY
-          }`
+          }`,
         );
         externalIds.value = await response.json();
       } catch (error) {
@@ -695,10 +698,10 @@ onMounted(async () => {
       const credits = await getActorCredits(actor.id);
 
       movieCredits.value = credits.filter(
-        (c: Credit) => c.media_type === "movie" || c.title
+        (c: Credit) => c.media_type === "movie" || c.title,
       );
       tvCredits.value = credits.filter(
-        (c: Credit) => c.media_type === "tv" || c.name
+        (c: Credit) => c.media_type === "tv" || c.name,
       );
 
       knownFor.value = credits
@@ -713,7 +716,7 @@ onMounted(async () => {
         const response = await fetch(
           `https://api.themoviedb.org/3/person/${
             actor.id
-          }/external_ids?api_key=${import.meta.env.VITE_TMDB_API_KEY}`
+          }/external_ids?api_key=${import.meta.env.VITE_TMDB_API_KEY}`,
         );
         externalIds.value = await response.json();
       } catch (error) {

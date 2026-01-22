@@ -80,7 +80,7 @@ const formattedGenre = computed(() => {
   return g.charAt(0).toUpperCase() + g.slice(1);
 });
 
-// 🎬 Media data
+// Media data
 const media = ref<Media[]>([]);
 const loading = ref(false);
 const isExpanded = ref(false);
@@ -233,7 +233,7 @@ function onFilterClear() {
 onMounted(fetchMedia);
 watch(() => route.params.name, fetchMedia);
 
-// 🔥 Dynamic SEO update
+// Dynamic SEO update
 function updateSEO() {
   watchEffect(() => {
     const cleanGenre = (genreName.value || "Genre").toLowerCase();

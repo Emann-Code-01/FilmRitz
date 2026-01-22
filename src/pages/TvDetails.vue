@@ -261,9 +261,9 @@
                     />
                     <div
                       v-else
-                      class="w-full h-full flex items-center justify-center text-4xl"
+                      class="w-full h-full flex items-center justify-center text-4xl font-[Gilroy-Bold]"
                     >
-                      📺
+                      <p>Coming Soon</p>
                     </div>
 
                     <div
@@ -289,7 +289,9 @@
                         new Date(ep.air_date).toLocaleDateString()
                       }}</span>
                       <span v-if="ep.runtime">• {{ ep.runtime }}min</span>
-                      <span v-if="ep.vote_average"
+                      <span
+                        v-if="ep.vote_average"
+                        class="flex items-center gap-1"
                         >•
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

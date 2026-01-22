@@ -7,11 +7,6 @@
 
       <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <div class="md:flex items-center gap-4 hidden">
-          <div
-            class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
-          >
-            🎬
-          </div>
           <div class="flex-1">
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">Coming Soon</h1>
             <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-2">
@@ -38,11 +33,6 @@
         </div>
         <div class="grid items-center gap-4 md:hidden">
           <div class="flex items-center space-x-3">
-            <div
-              class="w-20 aspect-square rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl leading-none"
-            >
-              🎬
-            </div>
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">Coming Soon</h1>
           </div>
           <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-2">
