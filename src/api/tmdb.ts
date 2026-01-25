@@ -10,9 +10,9 @@ export function normalize(item: any, mediaType?: "movie" | "tv"): Media {
     item.genres && item.genres.length
       ? item.genres
       : item.genre_ids?.map((id: number) => ({
-          id,
-          name: genreMap[id] || "Unknown",
-        })) || [];
+        id,
+        name: genreMap[id] || "Unknown",
+      })) || [];
 
   const base: Media = {
     ...item,
@@ -183,7 +183,27 @@ export const getTVEpisodeCredits = async (
   const res = await apiV3.get(
     `/tv/${tvId}/season/${seasonNumber}/episode/${episodeNumber}/credits`,
   );
-  return res.data.cast || [];
+
+  // Combine both cast and guest_stars
+  const cast = res.data.cast || [];
+  const guestStars = res.data.guest_stars || [];
+
+  // Merge and remove duplicates based on person ID
+  const allActors = [...cast, ...guestStars];
+  const uniqueActors = allActors.filter(
+    (actor, index, self) =>
+      index === self.findIndex((a) => a.id === actor.id)
+  );
+
+  // Sort by order (main cast first) then by name
+  return uniqueActors.sort((a, b) => {
+    if (a.order !== undefined && b.order !== undefined) {
+      return a.order - b.order;
+    }
+    if (a.order !== undefined) return -1;
+    if (b.order !== undefined) return 1;
+    return (a.name || '').localeCompare(b.name || '');
+  });
 };
 
 // --------------------------- TV SEASONS & EPISODES ---------------------------

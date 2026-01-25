@@ -1,16 +1,10 @@
 <template>
-  <TrailerModal
-    :is-open="showTrailerModal"
-    :trailer="selectedTrailer"
-    @close="closeTrailerModal"
-    @view-details="openFullDetails"
-  />
+  <TrailerModal :is-open="showTrailerModal" :trailer="selectedTrailer" @close="closeTrailerModal"
+    @view-details="openFullDetails" />
 
   <div class="min-h-screen bg-[#0a0a0a] text-white">
     <div v-if="loading" class="space-y-8 py-10 px-6 mt-18">
-      <div
-        class="relative overflow-hidden rounded-2xl h-[60vh] bg-gray-800/50 animate-pulse"
-      ></div>
+      <div class="relative overflow-hidden rounded-2xl h-[60vh] bg-gray-800/50 animate-pulse"></div>
       <div class="space-y-4 max-w-[1230px] lg:max-w-[1440px] mx-auto">
         <div class="h-10 w-3/4 rounded bg-gray-800/50 animate-pulse"></div>
         <div class="h-6 w-full rounded bg-gray-800/50 animate-pulse"></div>
@@ -18,82 +12,53 @@
       </div>
     </div>
 
-    <div
-      v-else-if="error"
-      class="flex items-center justify-center min-h-screen"
-    >
+    <div v-else-if="error" class="flex items-center justify-center min-h-screen">
       <div class="text-center">
         <p class="text-red-500 text-xl font-[Gilroy-SemiBold] mb-4">
           {{ error }}
         </p>
-        <button
-          @click="fetchDetails"
-          class="px-3 md:px-6 py-2 md:py-2.5 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all"
-        >
+        <button @click="fetchDetails"
+          class="px-3 md:px-6 py-2 md:py-2.5 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all">
           Try Again
         </button>
       </div>
     </div>
 
     <section v-else-if="media" class="space-y-8 -mt-10">
-      <div
-        class="relative h-screen overflow-hidden"
-        :style="{
-          backgroundImage: media.backdrop_path
-            ? `url(${baseUrl + media.backdrop_path})`
-            : 'url(https://placehold.co/1920x1080/0f0f0f/FF0000?text=NO+IMAGE)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }"
-      >
-        <div
-          class="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent"
-        ></div>
-        <div
-          class="absolute inset-0 bg-linear-to-r from-black/80 via-transparent to-transparent"
-        ></div>
+      <div class="relative h-screen overflow-hidden" :style="{
+        backgroundImage: media.backdrop_path
+          ? `url(${baseUrl + media.backdrop_path})`
+          : 'url(https://placehold.co/1920x1080/0f0f0f/FF0000?text=NO+IMAGE)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }">
+        <div class="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent"></div>
+        <div class="absolute inset-0 bg-linear-to-r from-black/80 via-transparent to-transparent"></div>
 
         <div class="absolute bottom-0 left-0 right-0 p-6 mx-auto">
           <h1
-            class="text-4xl md:text-6xl lg:text-7xl font-[Gilroy-Bold] mb-4 max-w-[1230px] lg:max-w-[1440px] drop-shadow-2xl animate-fade-up"
-          >
+            class="text-4xl md:text-6xl lg:text-7xl font-[Gilroy-Bold] mb-4 max-w-[1230px] lg:max-w-[1440px] drop-shadow-2xl animate-fade-up">
             {{ media.title }}
           </h1>
 
-          <div
-            class="flex flex-wrap items-center gap-3 md:gap-4 mb-4 animate-fade-up"
-            style="animation-delay: 0.1s"
-          >
-            <div
-              class="px-3 py-2 bg-[#b20710] rounded-xl flex items-center gap-1"
-            >
-              <span class="text-yellow-400 text-xl"
-                ><svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  class="size-4"
-                >
-                  <path
-                    fill-rule="evenodd"
+          <div class="flex flex-wrap items-center gap-3 md:gap-4 mb-4 text-sm animate-fade-up" style="animation-delay: 0.1s">
+            <div class="px-3 py-1.5 bg-[#b20710] rounded-full flex items-center gap-1">
+              <span class="text-yellow-400 text-xl"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+                  fill="currentColor" class="size-4">
+                  <path fill-rule="evenodd"
                     d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
-                    clip-rule="evenodd"
-                  /></svg
-              ></span>
-              <span class="font-[Gilroy-Bold] text-lg">{{
+                    clip-rule="evenodd" />
+                </svg></span>
+              <span class="font-[Gilroy-Bold] mt-1 md:mt-0">{{
                 media.vote_average?.toFixed(1)
-              }}</span>
+                }}</span>
             </div>
 
-            <span
-              class="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-xl font-[Gilroy-SemiBold]"
-            >
+            <span class="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-sm font-[Gilroy-SemiBold]">
               {{ media.media_type === "tv" ? "TV SHOW" : "MOVIE" }}
             </span>
 
-            <span
-              class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-xl font-[Gilroy-Medium]"
-            >
+            <span class="px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full font-[Gilroy-Medium]">
               {{
                 new Date(
                   media.release_date || media.first_air_date || "",
@@ -101,110 +66,62 @@
               }}
             </span>
 
-            <span
-              v-if="isTv && media.number_of_seasons"
-              class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-xl font-[Gilroy-SemiBold]"
-            >
+            <span v-if="isTv && media.number_of_seasons"
+              class="px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full font-[Gilroy-SemiBold]">
               {{ media.number_of_seasons }} Season{{
                 media.number_of_seasons > 1 ? "s" : ""
               }}
               • {{ tvStatus }}
             </span>
-          </div>
-
-          <div
-            class="flex flex-wrap gap-2 mb-6 animate-fade-up"
-            style="animation-delay: 0.15s"
-          >
-            <router-link
-              v-for="genreName in getGenreNames(
+            <div class="flex flex-wrap gap-2 animate-fade-up" style="animation-delay: 0.15s">
+              <router-link v-for="genreName in getGenreNames(
                 getGenreIdsFromMedia(media),
-              ).slice(0, 5)"
-              :key="genreName"
-              :to="`/ng/genre/${genreName.toLowerCase()}`"
-              class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-xl font-[Gilroy-SemiBold] hover:bg-[#b20710] transition-all duration-200"
-            >
-              {{ genreName }}
-            </router-link>
+              ).slice(0, 5)" :key="genreName" :to="`/ng/genre/${genreName.toLowerCase()}`"
+                class="px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full font-[Gilroy-SemiBold] text-sm text-[#ffffffec] hover:bg-[#b20710] transition-all duration-200">
+                {{ genreName }}
+              </router-link>
+            </div>
           </div>
 
-          <p
-            class="text-lg md:text-xl text-gray-200 font-[Gilroy-Medium] line-clamp max-w-[1230px] lg:max-w-[1440px] mb-6 animate-fade-up"
-            style="animation-delay: 0.2s"
-          >
+
+          <p class="text-lg md:text-xl text-gray-200 font-[Gilroy-Medium] line-clamp max-w-[1230px] lg:max-w-[1440px] mb-6 animate-fade-up"
+            style="animation-delay: 0.2s">
             {{ media.overview }}
           </p>
 
-          <div
-            class="flex flex-wrap gap-4 animate-fade-up"
-            style="animation-delay: 0.25s"
-          >
-            <button
-              @click="playTrailer"
+          <div class="flex flex-wrap gap-4 animate-fade-up" style="animation-delay: 0.25s">
+            <button @click="playTrailer"
               class="px-8 py-4 bg-white text-black rounded-full font-[Gilroy-Bold] text-lg hover:bg-white/90 transition-all flex items-center gap-3 cursor-pointer"
-              :class="loadingTrailer ? 'opacity-75 cursor-wait' : ''"
-            >
-              <span v-if="!loadingTrailer" class="text-2xl"
-                ><svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  class="size-6"
-                >
-                  <path
-                    fill-rule="evenodd"
+              :class="loadingTrailer ? 'opacity-75 cursor-wait' : ''">
+              <span v-if="!loadingTrailer" class="text-2xl"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                  fill="currentColor" class="size-6">
+                  <path fill-rule="evenodd"
                     d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
-                    clip-rule="evenodd"
-                  />
+                    clip-rule="evenodd" />
                 </svg>
               </span>
-              <span v-else class="animate-spin"
-                ><svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  class="size-6"
-                >
-                  <path
-                    fill-rule="evenodd"
+              <span v-else class="animate-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                  fill="currentColor" class="size-6">
+                  <path fill-rule="evenodd"
                     d="M12 5.25c1.213 0 2.415.046 3.605.135a3.256 3.256 0 0 1 3.01 3.01c.044.583.077 1.17.1 1.759L17.03 8.47a.75.75 0 1 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l3-3a.75.75 0 0 0-1.06-1.06l-1.752 1.751c-.023-.65-.06-1.296-.108-1.939a4.756 4.756 0 0 0-4.392-4.392 49.422 49.422 0 0 0-7.436 0A4.756 4.756 0 0 0 3.89 8.282c-.017.224-.033.447-.046.672a.75.75 0 1 0 1.497.092c.013-.217.028-.434.044-.651a3.256 3.256 0 0 1-3.01-3.01c1.19-.09 2.392-.135 3.605-.135Zm-6.97 6.22a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.752-1.751c.023.65.06 1.296.108 1.939a4.756 4.756 0 0 0 4.392 4.392 49.413 49.413 0 0 0 7.436 0 4.756 4.756 0 0 0 4.392-4.392c.017-.223.032-.447.046-.672a.75.75 0 0 0-1.497-.092c-.013.217-.028.434-.044.651a3.256 3.256 0 0 1-3.01 3.01 47.953 47.953 0 0 1-7.21 0 3.256 3.256 0 0 1-3.01-3.01 47.759 47.759 0 0 1-.1-1.759L6.97 15.53a.75.75 0 0 0 1.06-1.06l-3-3Z"
-                    clip-rule="evenodd"
-                  />
+                    clip-rule="evenodd" />
                 </svg>
               </span>
               <span>{{ loadingTrailer ? "Loading..." : "Watch Trailer" }}</span>
             </button>
 
-            <button
-              @click="toggleWatchlist"
-              class="px-8 py-4 bg-white/20 backdrop-blur-sm text-white rounded-xl font-[Gilroy-SemiBold] text-lg hover:bg-white/30 transition-all flex items-center gap-3 cursor-pointer"
-            >
+            <button @click="toggleWatchlist"
+              class="px-8 py-4 bg-white/20 backdrop-blur-sm text-white rounded-xl font-[Gilroy-SemiBold] text-lg hover:bg-white/30 transition-all flex items-center gap-3 cursor-pointer">
               <span :class="{ 'text-red-500 animate-pulse': inWatchlist }">
-                <svg
-                  v-if="inWatchlist"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  class="size-6"
-                >
+                <svg v-if="inWatchlist" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                  class="size-6">
                   <path
-                    d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"
-                  />
+                    d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
                 </svg>
-                <svg
-                  v-else
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="size-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                  />
+                <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                 </svg>
               </span>
               <span>{{ inWatchlist ? "In My List" : "Add to List" }}</span>
@@ -216,16 +133,10 @@
       <div v-if="isTv && latestSeason" class="px-6 mx-auto space-y-4">
         <h2 class="text-3xl font-[Gilroy-Bold]">Latest Season</h2>
         <div
-          class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-[#b20710]/50 transition-all"
-        >
+          class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-[#b20710]/50 transition-all">
           <div class="flex flex-col md:flex-row gap-6">
-            <img
-              v-if="latestSeason.poster_path"
-              :src="`https://image.tmdb.org/t/p/w342${latestSeason.poster_path}`"
-              alt="Season Poster"
-              class="w-full md:w-48 rounded-xl object-cover"
-              loading="lazy"
-            />
+            <img v-if="latestSeason.poster_path" :src="`https://image.tmdb.org/t/p/w342${latestSeason.poster_path}`"
+              alt="Season Poster" class="w-full md:w-48 rounded-xl object-cover" loading="lazy" />
             <div class="flex-1">
               <h3 class="text-2xl font-[Gilroy-Bold] mb-2">
                 {{ latestSeason.name }}
@@ -242,26 +153,15 @@
           </div>
         </div>
 
-        <div
-          v-if="media.seasons && media.seasons.length > 0"
-          class="text-center"
-        >
-          <router-link
-            :to="`/ng/tv-shows/${slugify(media.title)}-${media.id}`"
-            class="inline-flex px-8 py-4 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all items-center gap-1"
-          >
+        <div v-if="media.seasons && media.seasons.length > 0" class="text-center">
+          <router-link :to="`/ng/tv-shows/${slugify(media.title)}-${media.id}`"
+            class="inline-flex px-8 py-4 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all items-center gap-1">
             View All Seasons
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              class="size-5 hidden md:block"
-            >
-              <path
-                fill-rule="evenodd"
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+              class="size-5 hidden md:block">
+              <path fill-rule="evenodd"
                 d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z"
-                clip-rule="evenodd"
-              />
+                clip-rule="evenodd" />
             </svg>
           </router-link>
         </div>
@@ -270,24 +170,13 @@
       <div v-if="cast.length" class="px-6 mx-auto space-y-4">
         <h2 class="text-3xl font-[Gilroy-Bold]">Cast</h2>
         <div class="flex gap-4 overflow-x-auto pb-4">
-          <div
-            v-for="actor in cast"
-            :key="actor.id"
-            @click="goToActor(actor)"
-            class="shrink-0 w-32 text-center group cursor-pointer"
-          >
+          <div v-for="actor in cast" :key="actor.id" @click="goToActor(actor)"
+            class="shrink-0 w-32 text-center group cursor-pointer">
             <div class="relative overflow-hidden rounded-2xl mb-3">
-              <img
-                v-if="actor.profile_path"
-                :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
-                :alt="actor.name"
-                class="w-full h-44 object-cover group-hover:scale-110 transition-all duration-500"
-                loading="lazy"
-              />
-              <div
-                v-else
-                class="w-full h-44 bg-gray-800 flex items-center justify-center text-4xl"
-              >
+              <img v-if="actor.profile_path" :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
+                :alt="actor.name" class="w-full h-44 object-cover group-hover:scale-110 transition-all duration-500"
+                loading="lazy" />
+              <div v-else class="w-full h-44 bg-gray-800 flex items-center justify-center text-4xl">
                 👤
               </div>
             </div>
@@ -303,26 +192,15 @@
 
       <div v-if="similar.length" class="px-6 mx-auto space-y-4 pb-12">
         <h2 class="text-3xl font-[Gilroy-Bold]">Similar Titles</h2>
-        <div
-          class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
-        >
-          <router-link
-            v-for="sim in similar"
-            :key="sim.id"
-            :to="simRoute(sim)"
-            class="group relative rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all hover:scale-105"
-          >
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <router-link v-for="sim in similar" :key="sim.id" :to="simRoute(sim)"
+            class="group relative rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all hover:scale-105">
             <div class="aspect-2/3">
-              <img
-                :src="
-                  sim.poster_path
-                    ? `https://image.tmdb.org/t/p/w342${sim.poster_path}`
-                    : 'https://placehold.co/342x513/0f0f0f/FF0000?text=NO+IMAGE'
-                "
-                :alt="sim.title || sim.name"
-                class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
-                loading="lazy"
-              />
+              <img :src="sim.poster_path
+                ? `https://image.tmdb.org/t/p/w342${sim.poster_path}`
+                : 'https://placehold.co/342x513/0f0f0f/FF0000?text=NO+IMAGE'
+                " :alt="sim.title || sim.name"
+                class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" />
             </div>
           </router-link>
         </div>
@@ -330,50 +208,27 @@
     </section>
 
     <transition name="fade">
-      <div
-        v-if="showToast"
-        class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-black/90 backdrop-blur-xl text-white px-6 py-4 rounded-xl shadow-2xl border border-white/20 z-50 flex items-center gap-3"
-      >
+      <div v-if="showToast"
+        class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-black/90 backdrop-blur-xl text-white px-6 py-4 rounded-xl shadow-2xl border border-white/20 z-50 flex items-center gap-3">
         <span v-if="toastIcon === 'error'" class="text-red-500">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            class="w-5 h-5"
-          >
-            <path
-              fill-rule="evenodd"
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+            <path fill-rule="evenodd"
               d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-3.53 5.97a.75.75 0 0 1 1.06 0L12 10.69l2.47-2.47a.75.75 0 1 1 1.06 1.06L13.06 11.75l2.47 2.47a.75.75 0 1 1-1.06 1.06L12 12.81l-2.47 2.47a.75.75 0 1 1-1.06-1.06l2.47-2.47-2.47-2.47a.75.75 0 0 1 0-1.06Z"
-              clip-rule="evenodd"
-            />
+              clip-rule="evenodd" />
           </svg>
         </span>
         <span v-else-if="toastIcon === 'success'" class="text-green-500">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            class="size-6"
-          >
-            <path
-              fill-rule="evenodd"
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+            <path fill-rule="evenodd"
               d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
-              clip-rule="evenodd"
-            />
+              clip-rule="evenodd" />
           </svg>
         </span>
         <span v-else-if="toastIcon === 'warning'" class="text-red-500">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            class="size-6"
-          >
-            <path
-              fill-rule="evenodd"
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+            <path fill-rule="evenodd"
               d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
-              clip-rule="evenodd"
-            />
+              clip-rule="evenodd" />
           </svg>
         </span>
         <span>{{ toastMessage }}</span>
@@ -660,6 +515,7 @@ watch(() => props.name, fetchDetails);
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

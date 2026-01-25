@@ -41,6 +41,7 @@
             name="email"
             v-model="email"
             type="email"
+            :disabled="auth.loading"
             autocomplete="email"
             placeholder="you@example.com"
             required
@@ -61,6 +62,7 @@
               name="password"
               v-model="password"
               :type="showPassword ? 'text' : 'password'"
+              :disabled="auth.loading"
               :autocomplete="isSignUp ? 'new-password' : 'current-password'"
               placeholder="Enter your password"
               required

@@ -4,6 +4,7 @@
     :class="[
       router.currentRoute.value.path !== '/forgot-password' &&
       router.currentRoute.value.path !== '/reset-password' &&
+      router.currentRoute.value.path !== '/ng/login' &&
       router.currentRoute.value.path !== '/logout'
         ? 'bg-black/60 border-t border-white/10'
         : 'bg-black/60 border-t border-white/10 *:transition-all duration-500 ease-out hidden',
