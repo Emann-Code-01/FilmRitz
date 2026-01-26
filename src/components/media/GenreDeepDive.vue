@@ -67,6 +67,9 @@
               class="flex items-center gap-3 w-full"
               :class="isCollapsed ? 'justify-center' : ''"
             >
+            <span class="text-2xl" :title="isCollapsed ? genre.name : ''">
+                {{ genre.icon }}
+              </span>
               <span
                 v-if="!isCollapsed"
                 class="whitespace-nowrap transition-opacity duration-200"
@@ -102,6 +105,7 @@
           class="text-white font-[Gilroy-Bold] text-xl mb-4 flex items-center gap-3 justify-between w-full cursor-pointer bg-white/5 hover:bg-white/10 px-4 py-3 rounded-tl-xl rounded-bl-xl transition-all duration-500"
         >
           <span class="flex items-center gap-3">
+            <span class="text-2xl">{{ selectedGenre?.icon }}</span>
             <span>{{ selectedGenre?.name }}</span>
           </span>
           <svg
@@ -136,6 +140,7 @@
               ]"
             >
               <div class="flex items-center gap-3">
+                <span class="text-2xl">{{ genre.icon }}</span>
                 <span>{{ genre.name }}</span>
               </div>
             </li>
@@ -150,13 +155,14 @@
         <div
           class="mb-6 p-4 rounded-xl backdrop-blur-sm transition-all duration-500"
           :style="{
-            background: `linear-linear(135deg, ${selectedGenre?.color}20, transparent)`,
+            background: `linear-gradient(135deg, ${selectedGenre?.color}20, transparent)`,
             borderLeft: `4px solid ${selectedGenre?.color}`,
           }"
         >
           <h2
             class="text-3xl font-[Gilroy-Bold] text-white flex items-center gap-3"
           >
+            <span class="text-4xl">{{ selectedGenre?.icon }}</span>
             {{ selectedGenre?.name }}
           </h2>
           <p class="text-gray-400 font-[Gilroy-Regular] mt-2">
@@ -275,13 +281,79 @@ import {
 } from "@headlessui/vue";
 import { getPosterUrl } from "@/utils/imageHelpers";
 import { openMediaModal } from "@/utils/modalHelpers";
-import { genres } from "@/types/genresDeepDive";
-import type { Genre } from "@/types/genresDeepDive";
 
 const isCollapsed = ref(false);
 const emit = defineEmits<{
   "update-ambient": [color: string];
 }>();
+
+
+interface Genre {
+  id: number;
+  name: string;
+  icon: string;
+  color: string;
+  description: string;
+}
+
+const genres = ref<Genre[]>([
+  {
+    id: 28,
+    name: "Action",
+    icon: "💥",
+    color: "#FF4500",
+    description: "High-octane thrills and explosive adventures",
+  },
+  {
+    id: 35,
+    name: "Comedy",
+    icon: "😂",
+    color: "#FFD700",
+    description: "Laugh-out-loud moments and feel-good stories",
+  },
+  {
+    id: 27,
+    name: "Horror",
+    icon: "👻",
+    color: "#DC2626",
+    description: "Spine-chilling scares and supernatural terror",
+  },
+  {
+    id: 878,
+    name: "Sci-Fi",
+    icon: "🚀",
+    color: "#3B82F6",
+    description: "Futuristic worlds and mind-bending concepts",
+  },
+  {
+    id: 10749,
+    name: "Romance",
+    icon: "💕",
+    color: "#EC4899",
+    description: "Heartwarming love stories and connections",
+  },
+  {
+    id: 18,
+    name: "Drama",
+    icon: "🎭",
+    color: "#8B5CF6",
+    description: "Powerful performances and emotional depth",
+  },
+  {
+    id: 12,
+    name: "Adventure",
+    icon: "🗺️",
+    color: "#10B981",
+    description: "Epic journeys and daring quests",
+  },
+  {
+    id: 16,
+    name: "Animation",
+    icon: "🎨",
+    color: "#F59E0B",
+    description: "Animated wonders for all ages",
+  },
+]);
 
 const selectedGenre = ref<Genre>(genres.value[0]);
 const genreItems = ref<any[]>([]);
