@@ -160,7 +160,7 @@ import TrustRating from "@/components/intelligence/TrustRating.vue";
 import IntelligenceChips from "@/components/intelligence/IntelligenceChips.vue";
 import { useRouteCacheStore } from "@/stores/routeCache";
 
-const props = defineProps<{
+defineProps<{
   items: Media[];
 }>();
 

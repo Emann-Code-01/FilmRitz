@@ -96,8 +96,6 @@
 import { ref, computed, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useMediaStore } from "@/stores/mediaStore";
-import { useModalStore } from "@/stores/modalStore";
-import { genreMap } from "@/types/media";
 import type { Media } from "@/types/media";
 import FilterPanel from "@/components/media/FilterPanel.vue";
 import MediaCard from "@/components/media/MediaCard.vue";
@@ -105,7 +103,6 @@ import { useHead } from "@unhead/vue";
 
 const route = useRoute();
 const store = useMediaStore();
-const modalStore = useModalStore();
 
 const query = ref((route.query.q as string) || "");
 const loading = ref(false);
@@ -192,30 +189,6 @@ watch(
     visibleCount.value = itemsPerPage;
   },
 );
-
-function openMediaModal(item: Media) {
-  const type = item.media_type ?? "movie";
-  modalStore.open(type, { movieId: item.id });
-}
-
-function getPoster(item: any) {
-  return item.poster_path
-    ? `https://image.tmdb.org/t/p/w1280${item.poster_path}`
-    : "https://placehold.co/500x750/0f0f0f/FF0000?text=NO+IMAGE";
-}
-
-function getGenreIdsFromMedia(media: any): number[] {
-  if (!media) return [];
-  if (Array.isArray(media.genre_ids)) return media.genre_ids;
-  if (Array.isArray(media.genres))
-    return media.genres.map((g: { id: number }) => g.id);
-  return [];
-}
-
-function getGenreNames(genreIds?: number[]) {
-  if (!genreIds || !genreIds.length) return [];
-  return genreIds.map((id) => genreMap[id]).filter(Boolean);
-}
 
 function toggleView() {
   if (isExpanded.value) {

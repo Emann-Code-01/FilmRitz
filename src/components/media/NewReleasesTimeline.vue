@@ -105,9 +105,7 @@
                 <div v-if="item.intelligence" class="mb-2">
                   <TrustRating
                     :rating="item.vote_average"
-                    :vote-count="item.vote_count"
-                    :trust-level="item.intelligence.trust_level"
-                    :confidence-label="item.intelligence.confidence_label"
+                    :trust="item.intelligence.trustRating"
                   />
                 </div>
 

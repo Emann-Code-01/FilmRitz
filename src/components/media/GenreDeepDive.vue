@@ -219,7 +219,6 @@ import {
 } from "@headlessui/vue";
 import { IntelligenceService } from "@/services/intelligenceService";
 import MediaCard from "@/components/media/MediaCard.vue";
-import { openMediaModal } from "@/utils/modalHelpers";
 
 const isCollapsed = ref(false);
 const emit = defineEmits<{

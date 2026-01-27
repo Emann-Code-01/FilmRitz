@@ -10,7 +10,7 @@ interface Props {
   context: IntelligenceContext;
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 
 const getTrendingColor = (reason: string) => {
   if (reason.includes("Award"))

@@ -131,18 +131,16 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
-import { useModalStore } from "@/stores/modalStore";
 import { usePagination } from "@/composables/usePagination";
 import AdSlot from "@/components/ads/AdSlot.vue";
 import Pagination from "@/components/ui/Pagination.vue";
 import MediaCard from "@/components/media/MediaCard.vue";
+import { IntelligenceService } from "@/services/intelligenceService";
 import {
   fetchTrendingMedia,
   fetchTrendingMovies,
   fetchTrendingTV,
 } from "@/api/tmdb";
-
-const modalStore = useModalStore();
 
 const filters = [
   { label: "All", value: "all" },
@@ -167,19 +165,6 @@ const pagination = usePagination(filteredItems, {
   scrollBehavior: "smooth",
 });
 
-const getImageUrl = (path: string | null): string => {
-  return path
-    ? `https://image.tmdb.org/t/p/w500${path}`
-    : "https://placehold.co/500x750/0f0f0f/FF0000?text=NO+IMAGE";
-};
-
-const openModal = (item: any) => {
-  modalStore.open(item.media_type, {
-    movieId: item.id,
-    mediaType: item.media_type,
-  });
-};
-
 const changeFilter = (filterValue: string) => {
   selectedFilter.value = filterValue;
   pagination.reset(); // Reset to page 1 when filter changes
@@ -188,14 +173,25 @@ const changeFilter = (filterValue: string) => {
 const loadTrending = async () => {
   loading.value = true;
   try {
+    let rawItems = [];
     // Fetch 3 pages for each filter to get 60+ items
     if (selectedFilter.value === "all") {
-      trendingItems.value = await fetchTrendingMedia("week", 3);
+      rawItems = await fetchTrendingMedia("week", 3);
     } else if (selectedFilter.value === "movie") {
-      trendingItems.value = await fetchTrendingMovies("week", 3);
+      rawItems = await fetchTrendingMovies("week", 3);
     } else {
-      trendingItems.value = await fetchTrendingTV("week", 3);
+      rawItems = await fetchTrendingTV("week", 3);
     }
+
+    trendingItems.value = rawItems.map((item: any) =>
+      IntelligenceService.normalize(
+        item,
+        item.media_type ||
+          (selectedFilter.value === "all"
+            ? undefined
+            : (selectedFilter.value as any)),
+      ),
+    );
   } catch (error) {
     console.error("Failed to load trending:", error);
   } finally {

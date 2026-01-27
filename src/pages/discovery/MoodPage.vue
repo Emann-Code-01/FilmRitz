@@ -176,7 +176,6 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useModalStore } from "@/stores/modalStore";
 import { COLLECTIONS, type CollectionDefinition } from "@/types/media";
 import AdSlot from "@/components/ads/AdSlot.vue";
 import Pagination from "@/components/ui/Pagination.vue";
@@ -186,7 +185,6 @@ import { IntelligenceService } from "@/services/intelligenceService";
 
 const route = useRoute();
 const router = useRouter();
-const modalStore = useModalStore();
 
 const moods = ref<CollectionDefinition[]>(COLLECTIONS);
 const mood = ref<CollectionDefinition | null>(null);
@@ -207,13 +205,6 @@ const {
   mode: "client",
   scrollOnChange: true,
 });
-
-const openModal = (item: any) => {
-  modalStore.open(item.media_type || "movie", {
-    movieId: item.id,
-    mediaType: item.media_type,
-  });
-};
 
 const selectMood = (m: CollectionDefinition) => {
   reset();
