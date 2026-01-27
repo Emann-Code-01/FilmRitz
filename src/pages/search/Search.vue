@@ -70,70 +70,11 @@
         v-else
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
       >
-        <div
+        <MediaCard
           v-for="item in visibleResults"
           :key="item.id + '-' + (item.media_type || 'unknown')"
-          @click="openMediaModal(item)"
-          class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all duration-500 hover:scale-105"
-        >
-          <div class="aspect-2/3 overflow-hidden">
-            <img
-              loading="lazy"
-              :src="getPoster(item)"
-              :alt="item.title || item.name"
-              class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
-            />
-          </div>
-
-          <div
-            class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
-          ></div>
-
-          <div
-            class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"
-          >
-            <h3 class="text-white font-[Gilroy-Bold] text-sm line-clamp-2 mb-2">
-              {{ item.title || item.name }}
-            </h3>
-
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-yellow-400 text-xs flex items-center gap-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  class="size-4"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                {{ item.vote_average?.toFixed(1) }}
-              </span>
-              <span class="text-gray-300 text-xs">
-                {{
-                  new Date(
-                    item.release_date || item.first_air_date || "",
-                  ).getFullYear() || "N/A"
-                }}
-              </span>
-            </div>
-
-            <div class="flex flex-wrap gap-1">
-              <span
-                v-for="genreName in getGenreNames(
-                  getGenreIdsFromMedia(item),
-                ).slice(0, 5)"
-                :key="genreName"
-                class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-2 py-0.5 rounded-md hover:bg-[#b20710]/70 transition-all duration-200 cursor-pointer"
-              >
-                {{ genreName }}
-              </span>
-            </div>
-          </div>
-        </div>
+          :media="item"
+        />
       </div>
     </div>
 
@@ -159,6 +100,7 @@ import { useModalStore } from "@/stores/modalStore";
 import { genreMap } from "@/types/media";
 import type { Media } from "@/types/media";
 import FilterPanel from "@/components/media/FilterPanel.vue";
+import MediaCard from "@/components/media/MediaCard.vue";
 import { useHead } from "@unhead/vue";
 
 const route = useRoute();

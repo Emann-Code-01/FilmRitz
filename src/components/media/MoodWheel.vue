@@ -241,68 +241,11 @@
               v-else-if="moodItems.length"
               class="grid grid-cols-2 sm:grid-cols-3 gap-4"
             >
-              <div
+              <MediaCard
                 v-for="item in moodItems.slice(0, 6)"
                 :key="item.id"
-                @click="openModal(item)"
-                class="group cursor-pointer"
-              >
-                <div
-                  class="relative overflow-hidden rounded-xl aspect-2/3 bg-white/5 transition-all duration-500 ease-out hover:scale-105 hover:shadow-2xl"
-                  :style="{ boxShadow: 'none' }"
-                  @mouseenter="onCardMouseEnter"
-                  @mouseleave="onCardMouseLeave"
-                >
-                  <img
-                    :src="getImageUrl(item.poster_path)"
-                    :alt="item.title || item.name"
-                    class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
-                    loading="lazy"
-                  />
-                  <div
-                    class="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-4"
-                  >
-                    <div
-                      class="w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500"
-                    >
-                      <h4
-                        class="text-white text-sm font-bold line-clamp-2 mb-2"
-                      >
-                        {{ item.title || item.name }}
-                      </h4>
-                      <div
-                        class="flex justify-between items-center text-xs text-gray-300"
-                      >
-                        <span class="flex items-center gap-1">
-                          <span class="text-yellow-400"
-                            ><svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 16 16"
-                              fill="currentColor"
-                              class="size-4"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
-                                clip-rule="evenodd"
-                              /></svg
-                          ></span>
-                          <span class="font-semibold">{{
-                            item.vote_average?.toFixed(1)
-                          }}</span>
-                        </span>
-                        <span class="bg-white/20 px-2 py-0.5 rounded">
-                          {{
-                            new Date(
-                              item.release_date || item.first_air_date,
-                            ).getFullYear()
-                          }}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                :media="item"
+              />
             </div>
 
             <div v-else class="text-center py-12">
@@ -326,8 +269,8 @@ import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useAmbient } from "@/composables/useAmbient";
 import { COLLECTIONS, type CollectionDefinition } from "@/types/media";
-import { getPosterUrl } from "@/utils/imageHelpers";
-import { openMediaModal } from "@/utils/modalHelpers";
+import { IntelligenceService } from "@/services/intelligenceService";
+import MediaCard from "@/components/media/MediaCard.vue";
 
 const router = useRouter();
 const { updateColor } = useAmbient();
@@ -338,22 +281,6 @@ const moodItems = ref<any[]>([]);
 const loading = ref(false);
 const isShuffling = ref(false);
 const hoveredMoodId = ref<string | number | null>(null);
-
-const onCardMouseEnter = (e: MouseEvent) => {
-  const el = e.currentTarget as HTMLElement | null;
-  if (!el) return;
-  if (selectedMood?.value?.color) {
-    el.style.boxShadow = `0 10px 40px ${selectedMood.value.color}40`;
-  }
-};
-
-const onCardMouseLeave = (e: MouseEvent) => {
-  const el = e.currentTarget as HTMLElement | null;
-  if (!el) return;
-  el.style.boxShadow = "none";
-};
-
-const getImageUrl = (p: string | null) => getPosterUrl(p);
 
 const getSegmentPath = (i: number, t: number, isActive: boolean = false) => {
   const a = 360 / t;
@@ -395,7 +322,10 @@ const fetchMoodMovies = async (mood: CollectionDefinition) => {
     if (!page1.ok || !page2.ok) throw new Error("API error");
 
     const [data1, data2] = await Promise.all([page1.json(), page2.json()]);
-    return [...(data1.results || []), ...(data2.results || [])];
+    const allResults = [...(data1.results || []), ...(data2.results || [])];
+    return allResults.map((item) =>
+      IntelligenceService.normalize(item, "movie"),
+    );
   } catch {
     return [];
   }
@@ -442,11 +372,6 @@ const viewMood = () => {
       slug: selectedMood.value.slug, // use slug from COLLECTIONS
     },
   });
-};
-
-const openModal = (item: any) => {
-  if (!item?.id) return;
-  openMediaModal(item);
 };
 
 const handleKey = (e: KeyboardEvent) => {

@@ -69,7 +69,15 @@
                 <h3 class="text-xl font-[Gilroy-Bold] text-white mb-2">
                   {{ item.title || item.name }}
                 </h3>
-                <div class="flex items-center gap-2 mb-2">
+                <div v-if="item.intelligence" class="mb-4">
+                  <TrustRating
+                    :rating="item.vote_average"
+                    :vote-count="item.vote_count"
+                    :trust-level="item.intelligence.trust_level"
+                    :confidence-label="item.intelligence.confidence_label"
+                  />
+                </div>
+                <div v-else class="flex items-center gap-2 mb-2">
                   <span class="text-yellow-400 flex items-center gap-1"
                     ><svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -152,6 +160,9 @@ import { getRotatedTrending } from "@/services/mediaRotation";
 import { getPosterUrl } from "@/utils/imageHelpers";
 import { formatYear } from "@/utils/dateHelpers";
 import { openMediaModal } from "@/utils/modalHelpers";
+import TrustRating from "@/components/intelligence/TrustRating.vue";
+import { IntelligenceService } from "@/services/intelligenceService";
+import { useRouteCacheStore } from "@/stores/routeCache";
 
 const emit = defineEmits<{
   "update-ambient": [color: string];
@@ -161,9 +172,15 @@ const hotItems = ref<any[]>([]);
 const loading = ref(true);
 const error = ref<string | null>(null);
 
-const handleHover = (_item: any, index: number) => {
+const routeCache = useRouteCacheStore();
+
+const handleHover = (item: any, index: number) => {
   const colors = ["#FF0000", "#FF4500", "#FF6347", "#FF8C00", "#FFA500"];
   emit("update-ambient", colors[index % colors.length]);
+  routeCache.prefetchData(
+    item.media_type === "movie" ? "MovieDetails" : "TVShowDetails",
+    { id: item.id },
+  );
 };
 
 const onSlideChange = (swiper: any) => {
@@ -176,7 +193,9 @@ const onSlideChange = (swiper: any) => {
 onMounted(async () => {
   try {
     const rotated = await getRotatedTrending();
-    hotItems.value = rotated.slice(0, 12);
+    hotItems.value = rotated
+      .slice(0, 12)
+      .map((item) => IntelligenceService.normalize(item, item.media_type));
   } catch (err) {
     error.value = "Failed to load hot content";
   } finally {

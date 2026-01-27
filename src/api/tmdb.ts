@@ -1,37 +1,11 @@
 import apiV3 from "./tmdbV3";
-import { genreMap, Person } from "@/types/media";
+import { IntelligenceService } from "@/services/intelligenceService";
+import { Person } from "@/types/media";
 import { Media, TVShow, Season, Episode } from "@/types/media";
 import { COLLECTIONS, getCollectionByName } from "@/types/media";
 import type { Collection } from "@/types/media";
 export function normalize(item: any, mediaType?: "movie" | "tv"): Media {
-  const mt = mediaType ?? item.media_type ?? (item.title ? "movie" : "tv");
-
-  const genres =
-    item.genres && item.genres.length
-      ? item.genres
-      : item.genre_ids?.map((id: number) => ({
-        id,
-        name: genreMap[id] || "Unknown",
-      })) || [];
-
-  const base: Media = {
-    ...item,
-    media_type: mt,
-    title:
-      mt === "movie"
-        ? (item.title ?? item.name ?? "")
-        : (item.name ?? item.title ?? ""),
-    release_date:
-      mt === "movie"
-        ? (item.release_date ?? item.first_air_date ?? "")
-        : (item.first_air_date ?? item.release_date ?? ""),
-    genres,
-  };
-  if (mt === "tv") {
-    base.status = item.status || "Unknown"; // TMDB status: "Ended", "Returning Series", "Canceled", etc.
-  }
-
-  return base;
+  return IntelligenceService.normalize(item, mediaType);
 }
 
 const SAFE_MAX_PAGES = 5;
@@ -141,11 +115,7 @@ export const fetchPopularTV = async (maxPages = 4): Promise<TVShow[]> => {
 };
 
 export const fetchTopRatedTV = async (maxPages = 4): Promise<TVShow[]> => {
-  const results = await fetchPagedResults<any>(
-    "/tv/top_rated",
-    {},
-    maxPages
-  );
+  const results = await fetchPagedResults<any>("/tv/top_rated", {}, maxPages);
 
   return results.map((r) => normalize(r, "tv")) as TVShow[];
 };
@@ -191,8 +161,7 @@ export const getTVEpisodeCredits = async (
   // Merge and remove duplicates based on person ID
   const allActors = [...cast, ...guestStars];
   const uniqueActors = allActors.filter(
-    (actor, index, self) =>
-      index === self.findIndex((a) => a.id === actor.id)
+    (actor, index, self) => index === self.findIndex((a) => a.id === actor.id),
   );
 
   // Sort by order (main cast first) then by name
@@ -202,7 +171,7 @@ export const getTVEpisodeCredits = async (
     }
     if (a.order !== undefined) return -1;
     if (b.order !== undefined) return 1;
-    return (a.name || '').localeCompare(b.name || '');
+    return (a.name || "").localeCompare(b.name || "");
   });
 };
 

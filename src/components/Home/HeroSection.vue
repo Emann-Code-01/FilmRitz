@@ -207,51 +207,24 @@
             style="animation-delay: 0.1s"
           >
             <div
-              class="flex items-center justify-center px-3 py-1.5 gap-1 bg-[#b20710] rounded-full"
+              v-if="item.intelligence"
+              class="flex flex-wrap items-center gap-3"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                class="size-4 text-yellow-400"
+              <!-- Trust Rating -->
+              <TrustRating
+                :rating="item.vote_average"
+                :trust="item.intelligence.trustRating"
+              />
+
+              <!-- Commitment -->
+              <div
+                class="hidden md:flex items-center px-3 py-1 bg-white/10 backdrop-blur-md rounded-lg border border-white/5 text-xs font-bold uppercase tracking-widest text-white/70"
               >
-                <path
-                  fill-rule="evenodd"
-                  d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              <span class="font-[Gilroy-Bold] mt-1 md:mt-0">{{
-                item?.vote_average?.toFixed(1)
-              }}</span>
-            </div>
+                {{ item.intelligence.context.commitment.label }}
+              </div>
 
-            <span
-              class="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-full font-[Gilroy-SemiBold] text-sm flex items-center justify-center"
-            >
-              {{ item.media_type === "movie" ? "MOVIE" : "TV SHOW" }}
-            </span>
-
-            <span class="font-[Gilroy-Medium] text-gray-300">
-              {{
-                new Date(
-                  item.release_date ?? item.first_air_date ?? "",
-                ).getFullYear()
-              }}
-            </span>
-
-            <div class="hidden md:flex gap-2">
-              <router-link
-                v-for="genreName in getGenreNames(item.genre_ids).slice(0, 3)"
-                :key="genreName"
-                :to="{
-                  name: 'GenreView',
-                  params: { name: genreName.toLowerCase() },
-                }"
-                class="px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-sm font-[Gilroy-SemiBold] text-[#ffffffec] hover:bg-[#b20710] transition-all duration-200"
-              >
-                {{ genreName }}
-              </router-link>
+              <!-- Intelligence Chips -->
+              <IntelligenceChips :context="item.intelligence.context" />
             </div>
           </div>
 
@@ -395,6 +368,8 @@ import { genreMap } from "@/types/media";
 import { useRouter } from "vue-router";
 import { getMediaVideos } from "@/api/tmdb";
 import TrailerModal from "@/components/media/TrailerModal.vue";
+import TrustRating from "@/components/intelligence/TrustRating.vue";
+import IntelligenceChips from "@/components/intelligence/IntelligenceChips.vue";
 import logger from "@/utils/logger";
 
 interface TrailerData {

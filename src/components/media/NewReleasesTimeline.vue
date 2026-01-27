@@ -101,10 +101,20 @@
                 >
                   {{ item.title || item.name }}
                 </h4>
+
+                <div v-if="item.intelligence" class="mb-2">
+                  <TrustRating
+                    :rating="item.vote_average"
+                    :vote-count="item.vote_count"
+                    :trust-level="item.intelligence.trust_level"
+                    :confidence-label="item.intelligence.confidence_label"
+                  />
+                </div>
+
                 <span
-                  class="px-2 py-0.5 bg-[#b20710] rounded flex items-center text-xs text-white font-[Gilroy-SemiBold]"
+                  class="px-2 py-0.5 bg-[#b20710] rounded inline-flex items-center text-[10px] text-white font-[Gilroy-SemiBold] uppercase tracking-wider"
                 >
-                  {{ item.media_type?.toUpperCase() }}
+                  {{ item.media_type }}
                 </span>
               </div>
             </div>
@@ -155,6 +165,9 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation, FreeMode } from "swiper/modules";
 import { getPosterUrl } from "@/utils/imageHelpers";
 import { openMediaModal } from "@/utils/modalHelpers";
+import TrustRating from "@/components/intelligence/TrustRating.vue";
+import { IntelligenceService } from "@/services/intelligenceService";
+import { useRouteCacheStore } from "@/stores/routeCache";
 
 interface Props {
   period: string;
@@ -177,8 +190,16 @@ const formatDate = (dateStr: string): string => {
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 };
 
-const handleHover = (_item: any) => {
+const routeCache = useRouteCacheStore();
+
+const handleHover = (item: any) => {
   emit("update-ambient", "#FF4500");
+  if (item.id) {
+    routeCache.prefetchData(
+      item.media_type === "movie" ? "MovieDetails" : "TVShowDetails",
+      { id: item.id },
+    );
+  }
 };
 
 const openModal = (item: any) => {
@@ -188,7 +209,6 @@ const openModal = (item: any) => {
 const loadItems = async () => {
   loading.value = true;
   try {
-    // Calculate date range based on period
     const now = new Date();
     let startDate = new Date();
 
@@ -200,26 +220,23 @@ const loadItems = async () => {
       startDate.setMonth(now.getMonth() - 1);
     }
 
-    const key = import.meta.env.VITE_TMDB_API_KEY;
     const startDateStr = startDate.toISOString().split("T")[0];
     const endDateStr = now.toISOString().split("T")[0];
 
-    const [page1, page2] = await Promise.all([
-      fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${key}&primary_release_date.gte=${startDateStr}&primary_release_date.lte=${endDateStr}&sort_by=primary_release_date.desc&page=1`
-      ),
-      fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${key}&primary_release_date.gte=${startDateStr}&primary_release_date.lte=${endDateStr}&sort_by=primary_release_date.desc&page=2`
-      ),
-    ]);
+    const endpoint = `/discover/movie`;
+    const params = {
+      "primary_release_date.gte": startDateStr,
+      "primary_release_date.lte": endDateStr,
+      sort_by: "primary_release_date.desc",
+      page: 1,
+    };
 
-    const [data1, data2] = await Promise.all([page1.json(), page2.json()]);
-    const allResults = [...(data1.results || []), ...(data2.results || [])];
+    const data = await IntelligenceService.fetch(endpoint, params);
+    const results = data.results || [];
 
-    timelineItems.value = allResults.slice(0, 30).map((item: any) => ({
-      ...item,
-      media_type: "movie",
-    }));
+    timelineItems.value = results
+      .slice(0, 30)
+      .map((item: any) => IntelligenceService.normalize(item, "movie"));
   } catch (error) {
     console.error("Failed to load timeline items:", error);
   } finally {
@@ -231,7 +248,7 @@ watch(
   () => props.period,
   () => {
     loadItems();
-  }
+  },
 );
 
 onMounted(() => {
@@ -247,42 +264,25 @@ onMounted(() => {
 .timeline-swiper .swiper-button-prev,
 .timeline-swiper .swiper-button-next {
   position: absolute;
-  /* absolute */
   top: 50%;
-  /* top-1/2 */
   transform: translateY(-50%);
-  /* -translate-y-1/2 */
   z-index: 10;
-  /* z-10 */
   width: 3rem;
-  /* w-12 */
   height: 6rem;
-  /* h-24 */
   display: flex;
-  /* flex */
   align-items: center;
-  /* items-center */
   justify-content: center;
-  /* justify-center */
   background-color: rgba(0, 0, 0, 0.5);
-  /* bg-[#000000]/50 */
   color: #ffffff;
-  /* text-[#ffffff] */
   border-radius: 0.375rem;
-  /* rounded-md */
   cursor: pointer;
-  /* cursor-pointer */
   opacity: 0;
-  /* opacity-0 */
   transition-property: opacity;
-  /* transition-opacity */
   transition-duration: 300ms;
-  /* duration-500 */
 }
 
 .timeline-swiper:hover .swiper-button-prev,
 .timeline-swiper:hover .swiper-button-next {
   opacity: 1;
-  /* opacity-100 */
 }
 </style>

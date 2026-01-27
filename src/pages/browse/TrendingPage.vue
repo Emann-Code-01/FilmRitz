@@ -99,62 +99,14 @@
         v-else
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12"
       >
-        <div
+        <MediaCard
           v-for="(item, index) in pagination.pagedItems.value"
           :key="item.id"
-          @click="openModal(item)"
-          class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all hover:scale-105 animate-fade-up"
+          :media="item"
+          :rank="pagination.startIndex.value + index"
+          class="animate-fade-up"
           :style="{ animationDelay: `${index * 30}ms` }"
-        >
-          <div class="aspect-2/3 overflow-hidden">
-            <img
-              :src="getImageUrl(item.poster_path)"
-              class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
-            />
-          </div>
-
-          <div
-            class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
-          ></div>
-
-          <div
-            class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"
-          >
-            <h3 class="text-white font-[Gilroy-Bold] text-sm line-clamp-2 mb-2">
-              {{ item.title || item.name }}
-            </h3>
-            <div class="flex items-center gap-2">
-              <span class="text-yellow-400 text-xs flex items-center gap-1"
-                ><svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  class="size-4"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L7.998 12.08l-3.135 1.915a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                {{ item.vote_average?.toFixed(1) }}</span
-              >
-              <span class="text-gray-300 text-xs">
-                {{
-                  new Date(
-                    item.release_date || item.first_air_date || "",
-                  ).getFullYear()
-                }}
-              </span>
-            </div>
-          </div>
-
-          <div
-            class="absolute top-3 left-3 w-10 h-10 rounded-full bg-[#b20710] flex items-center justify-center font-[Gilroy-Bold] text-white shadow-xl"
-          >
-            #{{ pagination.startIndex.value + index }}
-          </div>
-        </div>
+        />
       </div>
 
       <!-- Use Pagination component -->
@@ -183,6 +135,7 @@ import { useModalStore } from "@/stores/modalStore";
 import { usePagination } from "@/composables/usePagination";
 import AdSlot from "@/components/ads/AdSlot.vue";
 import Pagination from "@/components/ui/Pagination.vue";
+import MediaCard from "@/components/media/MediaCard.vue";
 import {
   fetchTrendingMedia,
   fetchTrendingMovies,

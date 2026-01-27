@@ -1,5 +1,5 @@
 <template>
-  <section class="relative  ">
+  <section class="relative">
     <!-- Loading State -->
     <div v-if="loading" :class="gridClass">
       <div
@@ -70,7 +70,9 @@
               </div>
             </div>
 
-            <p class="text-gray-300 font-[Gilroy-Regular] text-sm line-clamp-2 mb-4">
+            <p
+              class="text-gray-300 font-[Gilroy-Regular] text-sm line-clamp-2 mb-4"
+            >
               {{ collection.description }}
             </p>
 
@@ -130,6 +132,8 @@ import { useRouter } from "vue-router";
 import { fetchAllCollections } from "@/api/tmdb";
 import type { Collection } from "@/types/media";
 
+import { IntelligenceService } from "@/services/intelligenceService";
+
 const props = defineProps<{
   limit?: number; // Optional limit for home page
 }>();
@@ -144,10 +148,15 @@ const loading = ref(true);
 
 // Compute displayed collections based on limit prop
 const displayedCollections = computed(() => {
-  if (props.limit) {
-    return collections.value.slice(0, props.limit);
-  }
-  return collections.value;
+  const list = props.limit
+    ? collections.value.slice(0, props.limit)
+    : collections.value;
+  return list.map((collection) => ({
+    ...collection,
+    items: collection.items.map((item) =>
+      IntelligenceService.normalize(item, item.media_type || "movie"),
+    ),
+  }));
 });
 
 // Compute display limit for loading skeleton

@@ -1,25 +1,25 @@
-// src/types/Media.ts
+import type { IntelligencePayload } from "./intelligence";
+
 export interface Media {
   id: number;
-  title: string; // For movies and normalized title for tv
-  name?: string; // Original tv name (optional)
+  title: string;
+  name?: string;
   overview: string;
   poster_path: string;
   backdrop_path?: string;
-  release_date: string; // release_date or first_air_date normalized into this
+  release_date: string;
   first_air_date?: string;
   vote_average: number;
-  vote_count?: number;
+  vote_count: number;
   popularity?: number;
   genres?: { id: number; name: string }[];
   genre_ids?: number[];
   original_language?: string;
-  type?: "movie" | "tv series";
-  trailerUrl?: string;
-  addedToWatchlist?: boolean;
-  rating?: number;
   media_type: "movie" | "tv";
-  status?: "ongoing" | "finished";
+  status?: string;
+
+  // Intelligence-First Fields (Locked Contract)
+  intelligence?: IntelligencePayload;
 }
 
 export interface Credit {
@@ -111,7 +111,10 @@ export const genreMap: Record<number, string> = {
 };
 
 export const genreNameToId: Record<string, number> = Object.fromEntries(
-  Object.entries(genreMap).map(([id, name]) => [name.toLowerCase(), Number(id)])
+  Object.entries(genreMap).map(([id, name]) => [
+    name.toLowerCase(),
+    Number(id),
+  ]),
 );
 export interface WatchItem {
   id: number;
@@ -357,13 +360,13 @@ export const COLLECTIONS: CollectionDefinition[] = [
 
 // Helper functions
 export const getCollectionByName = (
-  name: string
+  name: string,
 ): CollectionDefinition | undefined => {
   return COLLECTIONS.find((c) => c.name.toLowerCase() === name.toLowerCase());
 };
 
 export const getCollectionById = (
-  id: number
+  id: number,
 ): CollectionDefinition | undefined => {
   return COLLECTIONS.find((c) => c.id === id);
 };
