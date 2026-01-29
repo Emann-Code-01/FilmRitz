@@ -141,6 +141,19 @@ import { type TrailerData } from "@/api/tmdb";
 import { getRotatedTrailers } from "@/services/mediaRotation";
 import TrailerModal from "@/components/media/TrailerModal.vue";
 import AdSlot from "@/components/ads/AdSlot.vue";
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: "Trailers — Watch Latest Movie & TV Show Trailers | FilmRitz",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Watch high-quality trailers for the latest movies and TV shows on FilmRitz. Stay updated with upcoming releases.",
+    },
+    { name: "robots", content: "index, follow" },
+  ],
+});
 
 const modalStore = useModalStore();
 

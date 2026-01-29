@@ -90,6 +90,12 @@ import { useWatchlistStore } from "@/stores/watchlist";
 import { IntelligenceService } from "@/services/intelligenceService";
 import MediaCard from "@/components/media/MediaCard.vue";
 import AdSlot from "@/components/ads/AdSlot.vue";
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: "My List — FilmRitz",
+  meta: [{ name: "robots", content: "noindex, nofollow" }],
+});
 
 const store = useWatchlistStore();
 store.loadFromLocalStorage();

@@ -185,8 +185,21 @@ import {
 import AdSlot from "@/components/ads/AdSlot.vue";
 import { usePagination } from "@/composables/usePagination";
 import Pagination from "@/components/ui/Pagination.vue";
+import { useHead } from "@unhead/vue";
 
 const modalStore = useModalStore();
+
+useHead({
+  title: "Most Popular Movies & TV Shows — All-Time Favorites | FilmRitz",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Check out what's trending and popular right now. Explore the most loved movies and TV shows as voted by the community on FilmRitz.",
+    },
+    { name: "robots", content: "index, follow" },
+  ],
+});
 
 const filters = [
   { label: "All", value: "all" },

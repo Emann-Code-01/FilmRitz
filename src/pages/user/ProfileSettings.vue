@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20  ">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- HERO HEADER -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -437,9 +437,15 @@ import { ref, onMounted } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
 import { genreMap } from "@/types/media";
+import { useHead } from "@unhead/vue";
 
 const auth = useAuthStore();
 const router = useRouter();
+
+useHead({
+  title: "Profile & Settings — FilmRitz",
+  meta: [{ name: "robots", content: "noindex, nofollow" }],
+});
 
 const tabs = [
   { label: "Account", value: "account" },
@@ -537,7 +543,7 @@ const confirmLogout = () => {
 const confirmDeleteAccount = () => {
   if (
     confirm(
-      "⚠️ This action cannot be undone. Are you sure you want to delete your account?"
+      "⚠️ This action cannot be undone. Are you sure you want to delete your account?",
     )
   ) {
     // Implement account deletion

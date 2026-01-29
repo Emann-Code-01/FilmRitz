@@ -42,9 +42,15 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import { useHead } from "@unhead/vue";
 
 const router = useRouter();
 const auth = useAuthStore();
+
+useHead({
+  title: "Signing Out — FilmRitz",
+  meta: [{ name: "robots", content: "noindex, nofollow" }],
+});
 
 const statusText = ref("Signing you out...");
 const subText = ref("Please wait a moment");

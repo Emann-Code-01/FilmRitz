@@ -1,5 +1,7 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center px-4">
+  <div
+    class="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center px-4"
+  >
     <div class="w-full max-w-md">
       <!-- Logo / Title -->
       <div class="text-center mb-8">
@@ -8,7 +10,9 @@
       </div>
 
       <!-- Form -->
-      <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+      <div
+        class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
+      >
         <!-- New Password -->
         <div class="mb-6">
           <label class="block text-gray-400 text-sm mb-2 font-[Gilroy-Medium]">
@@ -70,9 +74,15 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useHead } from "@unhead/vue";
 
 const route = useRoute();
 const router = useRouter();
+
+useHead({
+  title: "Reset Password — FilmRitz",
+  meta: [{ name: "robots", content: "noindex, nofollow" }],
+});
 
 const form = ref({
   password: "",

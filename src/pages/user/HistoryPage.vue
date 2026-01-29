@@ -162,8 +162,14 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import AdSlot from "@/components/ads/AdSlot.vue";
+import { useHead } from "@unhead/vue";
 
 const router = useRouter();
+
+useHead({
+  title: "My Watch History — FilmRitz",
+  meta: [{ name: "robots", content: "noindex, nofollow" }],
+});
 const history = ref<any[]>([]);
 const loading = ref(true);
 

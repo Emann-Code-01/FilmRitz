@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20  ">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <div
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
@@ -24,7 +24,9 @@
       </div>
     </div>
 
-    <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto space-y-8">
+    <div
+      class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto space-y-8"
+    >
       <section
         class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
       >
@@ -170,6 +172,7 @@ useHead({
       content:
         "Read FilmRitz's terms of service to understand the rules and regulations for using our platform.",
     },
+    { name: "robots", content: "index, follow" },
   ],
 });
 </script>

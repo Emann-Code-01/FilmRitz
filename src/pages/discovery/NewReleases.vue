@@ -166,8 +166,21 @@ import { fetchUpcomingMovies, fetchOnTheAir } from "@/api/tmdb";
 import AdSlot from "@/components/ads/AdSlot.vue";
 import { usePagination } from "@/composables/usePagination";
 import Pagination from "@/components/ui/Pagination.vue";
+import { useHead } from "@unhead/vue";
 
 const modalStore = useModalStore();
+
+useHead({
+  title: "New Releases — Latest Movies & TV Shows | FilmRitz",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Freshly released! Catch the latest movies and TV shows added to FilmRitz. Updated daily with new trailers and content.",
+    },
+    { name: "robots", content: "index, follow" },
+  ],
+});
 
 const selectedPeriod = ref("week");
 const releases = ref<any[]>([]);

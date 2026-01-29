@@ -209,12 +209,15 @@ function onFilterClear() {
 }
 
 useHead({
-  title: `Search: ${query.value} | FilmRitz`,
+  title: computed(() => `Search: ${query.value} | FilmRitz`),
   meta: [
     {
       name: "description",
-      content: `Search results for "${query.value}" on FilmRitz`,
+      content: computed(
+        () => `Search results for "${query.value}" on FilmRitz`,
+      ),
     },
+    { name: "robots", content: "noindex, nofollow" },
   ],
 });
 </script>

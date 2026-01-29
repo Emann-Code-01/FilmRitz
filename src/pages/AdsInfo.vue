@@ -28,3 +28,19 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: "Advertising Info — FilmRitz",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Learn how advertising works on FilmRitz and how it helps support our platform.",
+    },
+    { name: "robots", content: "index, follow" },
+  ],
+});
+</script>

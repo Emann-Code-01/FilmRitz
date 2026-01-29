@@ -141,6 +141,19 @@ import {
   fetchTrendingMovies,
   fetchTrendingTV,
 } from "@/api/tmdb";
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: "Trending Movies & TV Shows This Week — Popular on FilmRitz",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Stay up to date with what's trending globally. Explore the most-watched movies and TV shows of the week on FilmRitz.",
+    },
+    { name: "robots", content: "index, follow" },
+  ],
+});
 
 const filters = [
   { label: "All", value: "all" },

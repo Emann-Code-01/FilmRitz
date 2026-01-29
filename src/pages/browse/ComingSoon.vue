@@ -164,8 +164,21 @@ import { fetchUpcomingMedia } from "@/api/tmdb";
 import AdSlot from "@/components/ads/AdSlot.vue";
 import { usePagination } from "@/composables/usePagination";
 import Pagination from "@/components/ui/Pagination.vue";
+import { useHead } from "@unhead/vue";
 
 const modalStore = useModalStore();
+
+useHead({
+  title: "Coming Soon — Upcoming Movies & TV Series | FilmRitz",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Stay ahead of the curve! Explore upcoming movie releases and TV series premieres with cinematic trailers on FilmRitz.",
+    },
+    { name: "robots", content: "index, follow" },
+  ],
+});
 
 const upcomingItems = ref<any[]>([]);
 const loading = ref(true);

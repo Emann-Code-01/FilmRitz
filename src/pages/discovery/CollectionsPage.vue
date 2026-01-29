@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20  ">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- HERO HEADER -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -36,6 +36,19 @@
 import { ref } from "vue";
 import AdSlot from "@/components/ads/AdSlot.vue";
 import CuratedCollections from "@/components/media/CuratedCollections.vue";
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: "Curated Movie Collections — Hand-Picked Favorites | FilmRitz",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Explore our expert-curated collections of movies and TV shows. From hidden gems to all-time classics, find your next favorite on FilmRitz.",
+    },
+    { name: "robots", content: "index, follow" },
+  ],
+});
 
 const ambientColor = ref("#b20710");
 

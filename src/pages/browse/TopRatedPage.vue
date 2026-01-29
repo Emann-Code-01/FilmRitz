@@ -201,8 +201,21 @@ import {
 import AdSlot from "@/components/ads/AdSlot.vue";
 import { usePagination } from "@/composables/usePagination";
 import Pagination from "@/components/ui/Pagination.vue";
+import { useHead } from "@unhead/vue";
 
 const modalStore = useModalStore();
+
+useHead({
+  title: "Top Rated Movies & TV Shows — Critic Favorites | FilmRitz",
+  meta: [
+    {
+      name: "description",
+      content:
+        "The best of the best. Explore the highest-rated movies and TV shows as ranked by critics and fans on FilmRitz.",
+    },
+    { name: "robots", content: "index, follow" },
+  ],
+});
 
 const filters = [
   { label: "All", value: "all" },

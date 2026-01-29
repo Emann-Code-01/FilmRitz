@@ -289,6 +289,26 @@ import { usePagination } from "@/composables/usePagination";
 const route = useRoute();
 const router = useRouter();
 const modalStore = useModalStore();
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: computed(() =>
+    collection.value
+      ? `${collection.value.title} — Curated Collection | FilmRitz`
+      : "Collection Details | FilmRitz",
+  ),
+  meta: [
+    {
+      name: "description",
+      content: computed(() =>
+        collection.value
+          ? collection.value.longDescription
+          : "Discover curated movie and TV show collections on FilmRitz.",
+      ),
+    },
+    { name: "robots", content: "index, follow" },
+  ],
+});
 
 const collection = ref<Collection | null>(null);
 const allCollections = COLLECTIONS;

@@ -205,6 +205,7 @@ useHead({
       content:
         "Learn about FilmRitz, your premium movie and TV show discovery platform with trailers, curated collections, and personalized recommendations.",
     },
+    { name: "robots", content: "index, follow" },
   ],
 });
 </script>

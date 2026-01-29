@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20  ">
+  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
     <TrailerModal
       :is-open="showTrailerModal"
       :trailer="selectedTrailer"
@@ -129,6 +129,19 @@ import { type TrailerData } from "@/api/tmdb";
 import { getRotatedTrailers } from "@/services/mediaRotation";
 import TrailerModal from "@/components/media/TrailerModal.vue";
 import AdSlot from "@/components/ads/AdSlot.vue";
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: "Trending Trailers — Most Watched on FilmRitz",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Check out the most popular and trending movie and TV show trailers on FilmRitz right now.",
+    },
+    { name: "robots", content: "index, follow" },
+  ],
+});
 
 const modalStore = useModalStore();
 

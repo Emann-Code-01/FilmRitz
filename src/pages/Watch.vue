@@ -68,9 +68,15 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { useHead } from "@unhead/vue";
 
 const route = useRoute();
 const loading = ref(true);
+
+useHead({
+  title: "Watching — FilmRitz",
+  meta: [{ name: "robots", content: "noindex, nofollow" }],
+});
 
 onMounted(() => {
   const mediaId = route.params.id;

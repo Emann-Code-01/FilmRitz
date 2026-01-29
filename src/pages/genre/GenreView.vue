@@ -76,11 +76,29 @@ import type { Media } from "@/types/media";
 import MediaCard from "@/components/media/MediaCard.vue";
 import FilterPanel from "@/components/media/FilterPanel.vue";
 import AdSlot from "@/components/ads/AdSlot.vue";
+import { useHead } from "@unhead/vue";
 
-/* ✅ ROUTE PROP (FINAL FIX) */
 const props = defineProps<{
   name: string;
 }>();
+
+useHead({
+  title: computed(() =>
+    genreName.value
+      ? `${genreName.value} Movies & Shows — FilmRitz`
+      : "Browse by Genre | FilmRitz",
+  ),
+  meta: [
+    {
+      name: "description",
+      content: computed(
+        () =>
+          `Explore the best ${genreName.value} movies and TV shows on FilmRitz. ${genreDescription.value}`,
+      ),
+    },
+    { name: "robots", content: "index, follow" },
+  ],
+});
 
 const genreName = ref("");
 const media = ref<Media[]>([]);

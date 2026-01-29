@@ -174,7 +174,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { COLLECTIONS, type CollectionDefinition } from "@/types/media";
 import AdSlot from "@/components/ads/AdSlot.vue";
@@ -182,9 +182,29 @@ import Pagination from "@/components/ui/Pagination.vue";
 import MediaCard from "@/components/media/MediaCard.vue";
 import { usePagination } from "@/composables/usePagination";
 import { IntelligenceService } from "@/services/intelligenceService";
+import { useHead } from "@unhead/vue";
 
 const route = useRoute();
 const router = useRouter();
+
+useHead({
+  title: computed(() =>
+    mood.value
+      ? `${mood.value.title} Movies & TV Shows — FilmRitz`
+      : "Explore by Mood | FilmRitz",
+  ),
+  meta: [
+    {
+      name: "description",
+      content: computed(() =>
+        mood.value
+          ? mood.value.longDescription
+          : "Find movies and TV shows that match your current mood on FilmRitz.",
+      ),
+    },
+    { name: "robots", content: "index, follow" },
+  ],
+});
 
 const moods = ref<CollectionDefinition[]>(COLLECTIONS);
 const mood = ref<CollectionDefinition | null>(null);

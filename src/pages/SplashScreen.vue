@@ -1,8 +1,17 @@
 <template>
   <div :key="key" class="relative w-full h-screen overflow-hidden bg-black">
     <!-- Background Video -->
-    <video class="absolute top-0 left-0 w-full h-full object-cover" autoplay muted playsinline>
-      <source src="/videos/splash-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
+    <video
+      class="absolute top-0 left-0 w-full h-full object-cover"
+      autoplay
+      muted
+      playsinline
+    >
+      <source
+        src="/videos/splash-mobile.mp4"
+        type="video/mp4"
+        media="(max-width: 768px)"
+      />
       <source src="/videos/splash.mp4" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
@@ -10,8 +19,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch, onBeforeUnmount } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { onMounted, ref, watch, onBeforeUnmount } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: "Loading... | FilmRitz",
+  meta: [{ name: "robots", content: "noindex, nofollow" }],
+});
 
 const router = useRouter();
 const route = useRoute();
@@ -21,14 +36,14 @@ watch(
   () => route.fullPath,
   () => {
     key.value = Math.random(); // remount on URL change
-  }
+  },
 );
 
 const timer = ref<number | null>(null);
 
 onMounted(() => {
   timer.value = window.setTimeout(() => {
-    const redirectTo = route.query.redirect || '/ng';
+    const redirectTo = route.query.redirect || "/ng";
     router.push(redirectTo as string);
   }, 3200);
 });
