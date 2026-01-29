@@ -561,6 +561,8 @@ const props = defineProps<{
 
 const route = useRoute();
 
+const media = ref<any | null>(null);
+
 useHead({
   title: computed(() =>
     media.value
@@ -599,6 +601,7 @@ useHead({
     { name: "robots", content: "index, follow" },
   ],
 });
+
 interface TrailerData {
   id: string;
   title: string;
@@ -615,7 +618,6 @@ interface TrailerData {
 const baseUrl = "https://image.tmdb.org/t/p/w1280";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
-const media = ref<any | null>(null);
 const cast = ref<any[]>([]);
 const similar = ref<any[]>([]);
 const latestSeason = ref<any | null>(null);

@@ -82,24 +82,6 @@ const props = defineProps<{
   name: string;
 }>();
 
-useHead({
-  title: computed(() =>
-    genreName.value
-      ? `${genreName.value} Movies & Shows — FilmRitz`
-      : "Browse by Genre | FilmRitz",
-  ),
-  meta: [
-    {
-      name: "description",
-      content: computed(
-        () =>
-          `Explore the best ${genreName.value} movies and TV shows on FilmRitz. ${genreDescription.value}`,
-      ),
-    },
-    { name: "robots", content: "index, follow" },
-  ],
-});
-
 const genreName = ref("");
 const media = ref<Media[]>([]);
 const loading = ref(false);
@@ -130,6 +112,24 @@ const genreDescription = computed(
     genreMetadata[genreName.value.toLowerCase()]?.description ||
     "Explore movies and shows in this genre",
 );
+
+useHead({
+  title: computed(() =>
+    genreName.value
+      ? `${genreName.value} Movies & Shows — FilmRitz`
+      : "Browse by Genre | FilmRitz",
+  ),
+  meta: [
+    {
+      name: "description",
+      content: computed(
+        () =>
+          `Explore the best ${genreName.value} movies and TV shows on FilmRitz. ${genreDescription.value}`,
+      ),
+    },
+    { name: "robots", content: "index, follow" },
+  ],
+});
 
 /* ✅ FETCH USING PROP (NOT route.params) */
 async function fetchMedia() {

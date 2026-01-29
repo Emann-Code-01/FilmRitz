@@ -510,6 +510,8 @@ import { useHead } from "@unhead/vue";
 const route = useRoute();
 const modalStore = useModalStore();
 
+const person = ref<Person | null>(null);
+
 useHead({
   title: computed(() =>
     person.value
@@ -528,8 +530,6 @@ useHead({
     { name: "robots", content: "index, follow" },
   ],
 });
-
-const person = ref<Person | null>(null);
 const knownFor = ref<Credit[]>([]);
 const movieCredits = ref<Credit[]>([]);
 const tvCredits = ref<Credit[]>([]);

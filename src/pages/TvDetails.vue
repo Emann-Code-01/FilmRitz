@@ -511,18 +511,6 @@ import {
 } from "@headlessui/vue";
 
 const tv = ref<TVShow | null>(null);
-const episodes = ref<Episode[]>([]);
-const selectedSeason = ref<number | null>(null);
-const showAllSeasons = ref(false);
-const loadingEpisodes = ref(false);
-const isOpen = ref(false);
-const latestSeason = ref<Season | null>(null);
-const loading = ref(false);
-const selectedEpisode = ref<Episode | null>(null);
-const episodeCredits = ref<any[]>([]);
-const { goToActor } = useActorNavigation();
-
-const initialFocus = ref<HTMLElement | null>(null);
 
 useHead({
   title: computed(() =>
@@ -561,6 +549,19 @@ useHead({
     { name: "robots", content: "index, follow" },
   ],
 });
+
+const episodes = ref<Episode[]>([]);
+const selectedSeason = ref<number | null>(null);
+const showAllSeasons = ref(false);
+const loadingEpisodes = ref(false);
+const isOpen = ref(false);
+const latestSeason = ref<Season | null>(null);
+const loading = ref(false);
+const selectedEpisode = ref<Episode | null>(null);
+const episodeCredits = ref<any[]>([]);
+const { goToActor } = useActorNavigation();
+
+const initialFocus = ref<HTMLElement | null>(null);
 
 const props = defineProps<{
   name: string;
