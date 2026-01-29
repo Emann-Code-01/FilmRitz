@@ -30,11 +30,17 @@ import Footer from "@/components/common/Footer.vue";
 import CookieBanner from "@/components/ui/CookieBanner.vue";
 
 import { useAmbient, initializeAmbient } from "@/composables/useAmbient";
+import { useAdsense } from "@/composables/useAdsense";
+import { ADS_ENABLED } from "@/config/ads";
 
 const { isAmbientEnabled, ambientGradient } = useAmbient();
+const { loadAdsense } = useAdsense();
 
 onMounted(() => {
   initializeAmbient();
+  if (ADS_ENABLED) {
+    loadAdsense();
+  }
 });
 </script>
 

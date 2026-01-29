@@ -34,6 +34,25 @@ export interface MediaRatingStats {
   ratingDistribution: { [key: number]: number }; // 1-5 star counts
 }
 
+/** Map raw Supabase row (snake_case) to Review interface (camelCase) */
+function mapReviewRow(row: any): Review {
+  const user = row.user;
+  return {
+    id: row.id,
+    userId: row.user_id,
+    mediaId: row.media_id,
+    mediaType: row.media_type,
+    reviewText: row.review_text,
+    helpfulCount: row.helpful_count ?? 0,
+    notHelpfulCount: row.not_helpful_count ?? 0,
+    isSpoiler: row.is_spoiler ?? false,
+    isFlagged: row.is_flagged ?? false,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+    user: user ? { email: user.email, username: user.username } : undefined,
+  };
+}
+
 class RatingService {
   /**
    * Get or create a user's rating for a media item
@@ -180,16 +199,12 @@ class RatingService {
     sortBy: "recent" | "helpful" = "helpful",
     limit: number = 10,
   ): Promise<Review[]> {
+    // Note: We do not embed auth.users (user_id) here because PostgREST cannot
+    // join public.reviews to auth.users (different schema). Reviews still show
+    // with a generic display name; for real emails you'd need a public profile table.
     let query = supabase
       .from("reviews")
-      .select(
-        `
-        *,
-        user:user_id (
-          email
-        )
-      `,
-      )
+      .select("*")
       .eq("media_id", mediaId)
       .eq("media_type", mediaType)
       .eq("is_flagged", false)
@@ -208,7 +223,7 @@ class RatingService {
       throw error;
     }
 
-    return data || [];
+    return (data || []).map(mapReviewRow);
   }
 
   /**
@@ -249,7 +264,7 @@ class RatingService {
       throw error;
     }
 
-    return data;
+    return mapReviewRow(data);
   }
 
   /**
