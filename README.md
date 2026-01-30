@@ -1,4 +1,4 @@
-# FilmRitz — A Netflix-inspired Movie Explorer
+# FilmRitz — Movie Explorer Website
 
 FilmRitz is a lightweight, movie discovery app built with Vue.js and Tailwind CSS. It uses The Movie Database (TMDB) API to surface trending movies, details, and images so users can browse and discover films with a modern UI.
 
