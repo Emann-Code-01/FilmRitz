@@ -173,7 +173,19 @@ const revealed = ref(false);
 
 // Auto-reveal own reviews or already revealed
 const isOwnReview = computed(() => {
-  return auth.user?.id === props.review.userId;
+  const currentUserId = auth.user?.id;
+  const reviewUserId = props.review.userId;
+
+  // Debug logging
+  console.log("ReviewCard ownership check:", {
+    currentUserId,
+    reviewUserId,
+    match: currentUserId === reviewUserId,
+  });
+
+  return Boolean(
+    currentUserId && reviewUserId && currentUserId === reviewUserId,
+  );
 });
 
 function getUserName(email?: string): string {
