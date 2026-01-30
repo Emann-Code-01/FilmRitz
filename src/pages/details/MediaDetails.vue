@@ -575,6 +575,7 @@ import ReviewCard from "@/components/media/ReviewCard.vue";
 import ReviewModal from "@/components/media/ReviewModal.vue";
 import type { Review } from "@/services/ratingService";
 import { useHead } from "@unhead/vue";
+import { addToHistory } from "@/utils/history";
 
 const props = defineProps<{
   name: string;
@@ -776,6 +777,12 @@ async function playTrailer() {
     );
 
     if (trailer) {
+      // Add to history when trailer is played
+      addToHistory({
+        ...media.value,
+        media_type: media.value.media_type,
+      });
+
       selectedTrailer.value = {
         id: `${media.value.media_type}-${media.value.id}-${trailer.key}`,
         title: media.value.title || "",

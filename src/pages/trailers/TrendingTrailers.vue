@@ -130,6 +130,7 @@ import { getRotatedTrailers } from "@/services/mediaRotation";
 import TrailerModal from "@/components/media/TrailerModal.vue";
 import AdSlot from "@/components/ads/AdSlot.vue";
 import { useHead } from "@unhead/vue";
+import { addToHistory } from "@/utils/history";
 
 useHead({
   title: "Trending Trailers — Most Watched on FilmRitz",
@@ -154,6 +155,17 @@ const playTrailer = (trailer: TrailerData) => {
   console.log("Playing trailer:", trailer);
   selectedTrailer.value = trailer;
   showTrailerModal.value = true;
+
+  if (trailer) {
+    addToHistory({
+      id: trailer.mediaId,
+      title: trailer.title,
+      name: trailer.title,
+      poster_path: trailer.backdrop_path, // use backdrop or poster if available in trailer data
+      media_type: trailer.mediaType,
+      watchedAt: Date.now(),
+    });
+  }
 };
 
 const closeTrailerModal = () => {

@@ -580,6 +580,7 @@ import { useHead } from "@unhead/vue";
 import { fetchTrendingMedia, getMediaVideos } from "@/api/tmdb";
 import { useModalStore } from "@/stores/modalStore";
 import { genreMap } from "@/types/media";
+import { addToHistory } from "@/utils/history";
 
 interface TrailerItem {
   id: number;
@@ -719,6 +720,16 @@ function selectTrailer(item: TrailerItem) {
   videoLoading.value = true;
   currentTrailer.value = item;
   updateAvailableSeasons(item);
+
+  // Add to history
+  addToHistory({
+    id: item.id,
+    title: item.title,
+    name: item.name,
+    poster_path: item.poster_path, // poster_path is already on the item
+    media_type: item.media_type,
+    watchedAt: Date.now(),
+  });
 
   window.scrollTo({ top: 33, behavior: "smooth" });
 
