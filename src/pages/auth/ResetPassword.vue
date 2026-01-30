@@ -73,10 +73,10 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { useHead } from "@unhead/vue";
+import { supabase } from "@/lib/supabaseClient";
 
-const route = useRoute();
 const router = useRouter();
 
 useHead({
@@ -113,19 +113,22 @@ const resetPassword = async () => {
   loading.value = true;
 
   try {
-    // TODO: Implement API call to reset password with token
-    const token = route.params.token;
-    console.log("Resetting password with token:", token);
+    const { error: supabaseError } = await supabase.auth.updateUser({
+      password: form.value.password,
+    });
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    if (supabaseError) throw supabaseError;
 
     router.push({
       name: "Auth",
-      query: { success: "Password reset successful" },
+      query: {
+        success:
+          "Password reset successful. Please log in with your new password.",
+      },
     });
-  } catch (err) {
-    error.value = "Failed to reset password. Please try again.";
+  } catch (err: any) {
+    console.error("Reset password error:", err);
+    error.value = err.message || "Failed to reset password. Please try again.";
   } finally {
     loading.value = false;
   }

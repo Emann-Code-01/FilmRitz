@@ -438,6 +438,7 @@ import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
 import { genreMap } from "@/types/media";
 import { useHead } from "@unhead/vue";
+import { supabase } from "@/lib/supabaseClient";
 
 const auth = useAuthStore();
 const router = useRouter();
@@ -495,12 +496,28 @@ const toggleGenre = (genreId: number) => {
 };
 const saveAccountSettings = async () => {
   saving.value = true;
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  saving.value = false;
-  toastMessage.value = "✅ Account settings saved";
-  showToast.value = true;
-  setTimeout(() => (showToast.value = false), 3000);
+  try {
+    const { error } = await supabase.auth.updateUser({
+      data: {
+        display_name: displayName.value,
+        bio: bio.value,
+      },
+    });
+
+    if (error) throw error;
+
+    toastMessage.value = "✅ Account settings saved";
+    showToast.value = true;
+  } catch (error: any) {
+    console.error("Error updating account:", error);
+    toastMessage.value = `❌ Failed to save: ${error.message}`;
+    showToast.value = true;
+  } finally {
+    saving.value = false;
+    setTimeout(() => (showToast.value = false), 3000);
+  }
 };
+
 const changePassword = async () => {
   if (newPassword.value !== confirmPassword.value) {
     toastMessage.value = "❌ Passwords do not match";
@@ -508,31 +525,85 @@ const changePassword = async () => {
     setTimeout(() => (showToast.value = false), 3000);
     return;
   }
+
+  if (newPassword.value.length < 6) {
+    toastMessage.value = "❌ Password must be at least 6 characters";
+    showToast.value = true;
+    setTimeout(() => (showToast.value = false), 3000);
+    return;
+  }
+
   changingPassword.value = true;
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  changingPassword.value = false;
-  currentPassword.value = "";
-  newPassword.value = "";
-  confirmPassword.value = "";
-  toastMessage.value = "✅ Password updated successfully";
-  showToast.value = true;
-  setTimeout(() => (showToast.value = false), 3000);
+  try {
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword.value,
+    });
+
+    if (error) throw error;
+
+    currentPassword.value = "";
+    newPassword.value = "";
+    confirmPassword.value = "";
+    toastMessage.value = "✅ Password updated successfully";
+    showToast.value = true;
+  } catch (error: any) {
+    console.error("Error changing password:", error);
+    toastMessage.value = `❌ Failed to update password: ${error.message}`;
+    showToast.value = true;
+  } finally {
+    changingPassword.value = false;
+    setTimeout(() => (showToast.value = false), 3000);
+  }
 };
+
 const savePreferences = async () => {
   saving.value = true;
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  saving.value = false;
-  toastMessage.value = "✅ Preferences saved";
-  showToast.value = true;
-  setTimeout(() => (showToast.value = false), 3000);
+  try {
+    const { error } = await supabase.auth.updateUser({
+      data: {
+        favorite_genres: favoriteGenres.value,
+        preferred_language: preferredLanguage.value,
+        autoplay_trailers: autoplayTrailers.value,
+      },
+    });
+
+    if (error) throw error;
+
+    toastMessage.value = "✅ Preferences saved";
+    showToast.value = true;
+  } catch (error: any) {
+    console.error("Error saving preferences:", error);
+    toastMessage.value = `❌ Failed to save preferences: ${error.message}`;
+    showToast.value = true;
+  } finally {
+    saving.value = false;
+    setTimeout(() => (showToast.value = false), 3000);
+  }
 };
+
 const savePrivacySettings = async () => {
   saving.value = true;
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  saving.value = false;
-  toastMessage.value = "✅ Privacy settings saved";
-  showToast.value = true;
-  setTimeout(() => (showToast.value = false), 3000);
+  try {
+    const { error } = await supabase.auth.updateUser({
+      data: {
+        public_profile: publicProfile.value,
+        activity_tracking: activityTracking.value,
+        email_notifications: emailNotifications.value,
+      },
+    });
+
+    if (error) throw error;
+
+    toastMessage.value = "✅ Privacy settings saved";
+    showToast.value = true;
+  } catch (error: any) {
+    console.error("Error saving privacy settings:", error);
+    toastMessage.value = `❌ Failed to save privacy settings: ${error.message}`;
+    showToast.value = true;
+  } finally {
+    saving.value = false;
+    setTimeout(() => (showToast.value = false), 3000);
+  }
 };
 const confirmLogout = () => {
   if (confirm("Are you sure you want to sign out?")) {
@@ -551,10 +622,35 @@ const confirmDeleteAccount = () => {
     showToast.value = true;
   }
 };
+
 onMounted(() => {
-  // Load user settings from auth store or API
+  // Load user settings from auth store
   if (auth.user) {
     userEmail.value = auth.user.email || "";
+    displayName.value = auth.user.user_metadata?.display_name || "";
+    bio.value = auth.user.user_metadata?.bio || "";
+
+    // Load preferences
+    if (auth.user.user_metadata?.favorite_genres) {
+      favoriteGenres.value = auth.user.user_metadata.favorite_genres;
+    }
+    if (auth.user.user_metadata?.preferred_language) {
+      preferredLanguage.value = auth.user.user_metadata.preferred_language;
+    }
+    if (auth.user.user_metadata?.autoplay_trailers !== undefined) {
+      autoplayTrailers.value = auth.user.user_metadata.autoplay_trailers;
+    }
+
+    // Load privacy settings
+    if (auth.user.user_metadata?.public_profile !== undefined) {
+      publicProfile.value = auth.user.user_metadata.public_profile;
+    }
+    if (auth.user.user_metadata?.activity_tracking !== undefined) {
+      activityTracking.value = auth.user.user_metadata.activity_tracking;
+    }
+    if (auth.user.user_metadata?.email_notifications !== undefined) {
+      emailNotifications.value = auth.user.user_metadata.email_notifications;
+    }
   }
 });
 </script>

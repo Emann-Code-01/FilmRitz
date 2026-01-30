@@ -1,65 +1,241 @@
 <template>
   <div class="min-h-screen bg-[#0a0a0a] text-white">
-    <!-- Video Player Container -->
-    <div class="relative w-full bg-black aspect-video">
+    <!-- Hero Section / Backdrop -->
+    <div class="relative w-full h-[50vh] md:h-[60vh]">
       <div
-        v-if="loading"
-        class="absolute inset-0 flex items-center justify-center bg-black/50"
+        v-if="media"
+        class="absolute inset-0 bg-cover bg-center"
+        :style="{
+          backgroundImage: `url(https://image.tmdb.org/t/p/original${media.backdrop_path})`,
+        }"
       >
-        <div class="animate-spin">
-          <div
-            class="w-16 h-16 border-4 border-[#b20710] border-t-transparent rounded-full"
-          ></div>
-        </div>
+        <div
+          class="absolute inset-0 bg-linear-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent"
+        ></div>
       </div>
 
-      <!-- Placeholder Player -->
       <div
-        v-else
-        class="w-full h-full flex items-center justify-center bg-black"
+        v-if="loading"
+        class="absolute inset-0 flex items-center justify-center"
       >
-        <div class="text-center">
-          <p class="text-xl text-gray-400">Video Player Coming Soon</p>
-          <p class="text-sm text-gray-500 mt-2">
-            This feature is under development
+        <div
+          class="animate-spin w-16 h-16 border-4 border-[#b20710] border-t-transparent rounded-full"
+        ></div>
+      </div>
+
+      <div
+        class="absolute bottom-0 left-0 right-0 px-6 md:px-10 pb-12 max-w-[1440px] mx-auto"
+      >
+        <h1 class="text-4xl md:text-6xl font-[Gilroy-Bold] mb-4 drop-shadow-lg">
+          {{ media?.title || media?.name }}
+        </h1>
+        <p
+          class="text-xl text-gray-300 font-[Gilroy-Medium] max-w-2xl drop-shadow-md line-clamp-2"
+        >
+          {{ media?.overview }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Watch Options Content -->
+    <div class="px-6 md:px-10 max-w-[1440px] mx-auto py-12 -mt-8 relative z-10">
+      <!-- Country Selector (Future Implementation) -->
+      <!-- <div class="flex justify-end mb-6">
+        <select v-model="activeCountry" class="bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white">
+            <option value="US">United States</option>
+            <option value="GB">United Kingdom</option>
+             Add more regions 
+        </select>
+      </div> -->
+
+      <div v-if="providers && providers[activeCountry]">
+        <h2 class="text-3xl font-[Gilroy-Bold] mb-8 flex items-center gap-3">
+          Available on
+          <span
+            class="text-sm font-[Gilroy-Medium] bg-white/10 px-3 py-1 rounded-full text-gray-400"
+            >US Region</span
+          >
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Streaming -->
+          <div
+            class="bg-[#141414] rounded-2xl border border-white/5 p-8 hover:border-[#b20710]/30 transition-all"
+          >
+            <h3
+              class="font-[Gilroy-Bold] text-xl mb-6 text-white flex items-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-6 h-6 text-[#b20710]"
+              >
+                <path
+                  d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"
+                />
+              </svg>
+              Stream
+            </h3>
+
+            <div
+              v-if="providers[activeCountry].flatrate"
+              class="grid grid-cols-3 sm:grid-cols-4 gap-4"
+            >
+              <div
+                v-for="prov in providers[activeCountry].flatrate"
+                :key="prov.provider_id"
+                class="flex flex-col items-center gap-3 group"
+              >
+                <div class="relative">
+                  <img
+                    :src="getProviderLogo(prov.logo_path)"
+                    :alt="prov.provider_name"
+                    class="w-16 h-16 rounded-xl shadow-lg group-hover:scale-105 group-hover:ring-2 ring-[#b20710] transition-all duration-300"
+                  />
+                </div>
+                <span
+                  class="text-xs text-center text-gray-400 font-[Gilroy-Medium] leading-tight"
+                  >{{ prov.provider_name }}</span
+                >
+              </div>
+            </div>
+            <div v-else class="text-gray-500 font-[Gilroy-Medium] italic">
+              Not available for streaming
+            </div>
+          </div>
+
+          <!-- Rent -->
+          <div
+            class="bg-[#141414] rounded-2xl border border-white/5 p-8 hover:border-[#b20710]/30 transition-all"
+          >
+            <h3
+              class="font-[Gilroy-Bold] text-xl mb-6 text-white flex items-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-6 h-6 text-blue-500"
+              >
+                <path
+                  d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"
+                />
+              </svg>
+              Rent
+            </h3>
+
+            <div
+              v-if="providers[activeCountry].rent"
+              class="grid grid-cols-3 sm:grid-cols-4 gap-4"
+            >
+              <div
+                v-for="prov in providers[activeCountry].rent"
+                :key="prov.provider_id"
+                class="flex flex-col items-center gap-3 group"
+              >
+                <img
+                  :src="getProviderLogo(prov.logo_path)"
+                  :alt="prov.provider_name"
+                  class="w-16 h-16 rounded-xl shadow-lg group-hover:scale-105 group-hover:ring-2 ring-blue-500 transition-all duration-300"
+                />
+                <span
+                  class="text-xs text-center text-gray-400 font-[Gilroy-Medium] leading-tight"
+                  >{{ prov.provider_name }}</span
+                >
+              </div>
+            </div>
+            <div v-else class="text-gray-500 font-[Gilroy-Medium] italic">
+              Not available for rent
+            </div>
+          </div>
+
+          <!-- Buy -->
+          <div
+            class="bg-[#141414] rounded-2xl border border-white/5 p-8 hover:border-[#b20710]/30 transition-all"
+          >
+            <h3
+              class="font-[Gilroy-Bold] text-xl mb-6 text-white flex items-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-6 h-6 text-green-500"
+              >
+                <path
+                  d="M10.464 8.746c.227-.18.497-.311.786-.394v2.795a2.252 2.252 0 01-.786-.393c-.394-.313-.546-.681-.546-1.004 0-.323.152-.691.546-1.004zM12.75 15.662v-2.824c.347.085.664.228.921.421.427.32.579.686.579.991 0 .305-.152.671-.579.991a2.534 2.534 0 01-.921.42z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v.816a3.836 3.836 0 00-1.72.756c-.712.566-1.112 1.35-1.112 2.178 0 .829.4 1.612 1.113 2.178.502.4 1.102.647 1.719.756v2.978a2.536 2.536 0 01-.921-.421l-.879-.66a.75.75 0 00-.9 1.2l.879.66c.533.4 1.169.645 1.821.75V18a.75.75 0 001.5 0v-.81a4.124 4.124 0 001.821-.749c.745-.559 1.179-1.344 1.179-2.191 0-.847-.434-1.632-1.179-2.191a4.122 4.122 0 00-1.821-.75V8.354c.29.082.559.213.786.393l.415.33a.75.75 0 00.933-1.175l-.415-.33a3.836 3.836 0 00-1.719-.755V6z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Buy
+            </h3>
+
+            <div
+              v-if="providers[activeCountry].buy"
+              class="grid grid-cols-3 sm:grid-cols-4 gap-4"
+            >
+              <div
+                v-for="prov in providers[activeCountry].buy"
+                :key="prov.provider_id"
+                class="flex flex-col items-center gap-3 group"
+              >
+                <img
+                  :src="getProviderLogo(prov.logo_path)"
+                  :alt="prov.provider_name"
+                  class="w-16 h-16 rounded-xl shadow-lg group-hover:scale-105 group-hover:ring-2 ring-green-500 transition-all duration-300"
+                />
+                <span
+                  class="text-xs text-center text-gray-400 font-[Gilroy-Medium] leading-tight"
+                  >{{ prov.provider_name }}</span
+                >
+              </div>
+            </div>
+            <div v-else class="text-gray-500 font-[Gilroy-Medium] italic">
+              Not available for purchase
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-12 text-center border-t border-white/10 pt-8">
+          <p class="text-sm text-gray-500 mb-2">
+            Streaming data provided by
+            <a
+              href="https://www.justwatch.com"
+              target="_blank"
+              class="text-[#b20710] hover:underline"
+              >JustWatch</a
+            >.
+          </p>
+          <p class="text-xs text-gray-600">
+            Content availability is subject to change. Please verify with the
+            service provider directly.
           </p>
         </div>
       </div>
 
-      <!-- Player Controls Overlay -->
       <div
-        class="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black to-transparent p-4 group hover:opacity-100 opacity-0 transition-opacity"
+        v-else-if="!loading"
+        class="mt-12 text-center py-20 bg-[#141414] rounded-2xl border border-white/5"
       >
-        <div class="flex items-center justify-between text-white">
-          <div class="flex items-center gap-4">
-            <button class="hover:text-[#b20710] transition">▶ Play</button>
-            <button class="hover:text-[#b20710] transition">⏸ Pause</button>
-          </div>
-          <button class="hover:text-[#b20710] transition">⛶ Fullscreen</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Episode/Media Info -->
-    <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto py-8">
-      <h1 class="text-3xl font-[Gilroy-Bold] mb-4">Media Title</h1>
-      <p class="text-gray-400 font-[Gilroy-Regular] mb-6">
-        Play the video above to watch your content
-      </p>
-
-      <!-- Related/Up Next -->
-      <div class="mt-12">
-        <h2 class="text-2xl font-[Gilroy-Bold] mb-6">Up Next</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div
-            v-for="n in 3"
-            :key="n"
-            class="bg-white/5 rounded-xl border border-white/10 p-4 hover:border-[#b20710]/50 transition"
-          >
-            <div class="aspect-video bg-gray-800 rounded mb-3"></div>
-            <p class="font-[Gilroy-SemiBold] text-sm">Episode {{ n }}</p>
-          </div>
-        </div>
+        <div class="text-6xl mb-6">🌍</div>
+        <h2 class="text-3xl font-[Gilroy-Bold] mb-4">
+          No Streaming Info Available
+        </h2>
+        <p class="text-gray-400 max-w-md mx-auto mb-8 font-[Gilroy-Medium]">
+          We couldn't find any streaming providers for this title in your region
+          right now. It might be currently unavailable online.
+        </p>
+        <button
+          @click="$router.back()"
+          class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-full font-[Gilroy-Bold] transition-all"
+        >
+          Go Back
+        </button>
       </div>
     </div>
   </div>
@@ -69,24 +245,86 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useHead } from "@unhead/vue";
+import { getMediaDetails } from "@/api/tmdb";
 
 const route = useRoute();
 const loading = ref(true);
+const media = ref<any>(null);
+const providers = ref<any>(null);
+const activeCountry = ref("US");
 
 useHead({
-  title: "Watching — FilmRitz",
+  title: "Where to Watch — FilmRitz",
   meta: [{ name: "robots", content: "noindex, nofollow" }],
 });
 
-onMounted(() => {
-  const mediaId = route.params.id;
-  console.log("Loading media:", mediaId);
+const addToHistory = (item: any) => {
+  try {
+    const history = JSON.parse(localStorage.getItem("watchHistory") || "[]");
+    const filtered = history.filter((h: any) => h.id !== item.id);
+    const newEntry = {
+      ...item,
+      watchedAt: Date.now(),
+    };
+    const updated = [newEntry, ...filtered].slice(0, 50);
+    localStorage.setItem("watchHistory", JSON.stringify(updated));
+  } catch (err) {
+    console.error("Failed to save history:", err);
+  }
+};
 
-  // Simulate loading
-  setTimeout(() => {
+const getProviderLogo = (path: string) =>
+  `https://image.tmdb.org/t/p/original${path}`;
+
+onMounted(async () => {
+  const mediaId = route.params.id;
+  const mediaType = (route.query.type as "movie" | "tv") || "movie";
+
+  if (!mediaId) {
     loading.value = false;
-  }, 1000);
+    return;
+  }
+
+  try {
+    const id = mediaId.toString().split("-").pop();
+    if (id) {
+      // Parallel fetch details and providers
+      const [details, watchProviders] = await Promise.all([
+        getMediaDetails(Number(id), mediaType),
+        import("@/api/tmdb").then((m) =>
+          m.getWatchProviders(Number(id), mediaType),
+        ),
+      ]);
+
+      media.value = details;
+
+      if (watchProviders && watchProviders.results) {
+        providers.value = watchProviders.results;
+      } else {
+        providers.value = watchProviders;
+      }
+
+      if (media.value) {
+        addToHistory({
+          id: media.value.id,
+          title: media.value.title || media.value.name,
+          name: media.value.name || media.value.title,
+          poster_path: media.value.poster_path,
+          overview: media.value.overview,
+          media_type: mediaType,
+          vote_average: media.value.vote_average,
+          release_date: media.value.release_date || media.value.first_air_date,
+        });
+      }
+    }
+  } catch (error) {
+    console.error("Failed to load media:", error);
+  } finally {
+    loading.value = false;
+  }
 });
 </script>
+
+<style scoped></style>
 
 <style scoped></style>

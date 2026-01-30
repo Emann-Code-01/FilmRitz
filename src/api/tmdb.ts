@@ -322,6 +322,14 @@ export const getMediaEpisodeVideos = async (
   return getTVEpisodeVideos(id, seasonNumber, episodeNumber);
 };
 
+export const getWatchProviders = async (
+  id: number,
+  mediaType: "movie" | "tv",
+): Promise<any> => {
+  const res = await apiV3.get(`/${mediaType}/${id}/watch/providers`);
+  return res.data.results || {};
+};
+
 // --------------------------- ACTORS / PEOPLE ---------------------------
 
 /**
