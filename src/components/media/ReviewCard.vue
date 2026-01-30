@@ -183,9 +183,11 @@ const isOwnReview = computed(() => {
     match: currentUserId === reviewUserId,
   });
 
-  return Boolean(
-    currentUserId && reviewUserId && currentUserId === reviewUserId,
-  );
+  // Explicit boolean return to satisfy TypeScript
+  if (!currentUserId || !reviewUserId) {
+    return false;
+  }
+  return currentUserId === reviewUserId;
 });
 
 function getUserName(email?: string): string {
