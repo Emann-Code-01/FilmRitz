@@ -107,20 +107,26 @@
       </div>
 
       <div v-else-if="providers && providers[activeCountry]" class="space-y-8">
-        
         <!-- Share Button -->
         <div class="flex justify-end mb-4">
-            <button 
-                @click="shareAvailability" 
-                class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all border border-white/10 cursor-pointer"
+          <button
+            @click="shareAvailability"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] transition-all border border-white/10 cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-5 h-5"
             >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                    <path d="M13 4.5a2.5 2.5 0 11.702 1.737L6.97 9.604a2.518 2.518 0 010 .792l6.733 3.367a2.5 2.5 0 11-.671 1.341l-6.733-3.367a2.5 2.5 0 110-3.475l6.733-3.366A2.52 2.52 0 0113 4.5z" />
-                </svg>
-                Share
-            </button>
+              <path
+                d="M13 4.5a2.5 2.5 0 11.702 1.737L6.97 9.604a2.518 2.518 0 010 .792l6.733 3.367a2.5 2.5 0 11-.671 1.341l-6.733-3.367a2.5 2.5 0 110-3.475l6.733-3.366A2.52 2.52 0 0113 4.5z"
+              />
+            </svg>
+            Share
+          </button>
         </div>
-        
+
         <!-- Main Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <!-- Streaming (Flatrate) -->
@@ -162,11 +168,26 @@
                     :alt="prov.provider_name"
                     class="w-16 h-16 rounded-xl shadow-lg group-hover:scale-110 group-hover:ring-2 ring-[#b20710] transition-all duration-300"
                   />
-                  <div class="absolute inset-0 bg-[#b20710]/0 group-hover:bg-[#b20710]/20 rounded-xl transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-white">
-                          <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd" />
-                          <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd" />
-                      </svg>
+                  <div
+                    class="absolute inset-0 bg-[#b20710]/0 group-hover:bg-[#b20710]/20 rounded-xl transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="w-5 h-5 text-white"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z"
+                        clip-rule="evenodd"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
                   </div>
                 </div>
                 <span
@@ -219,11 +240,26 @@
                     :alt="prov.provider_name"
                     class="w-16 h-16 rounded-xl shadow-lg group-hover:scale-110 group-hover:ring-2 ring-blue-500 transition-all duration-300"
                   />
-                  <div class="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/20 rounded-xl transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-white">
-                          <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd" />
-                          <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd" />
-                      </svg>
+                  <div
+                    class="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/20 rounded-xl transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="w-5 h-5 text-white"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z"
+                        clip-rule="evenodd"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
                   </div>
                 </div>
                 <span
@@ -281,11 +317,26 @@
                     :alt="prov.provider_name"
                     class="w-16 h-16 rounded-xl shadow-lg group-hover:scale-110 group-hover:ring-2 ring-green-500 transition-all duration-300"
                   />
-                  <div class="absolute inset-0 bg-green-500/0 group-hover:bg-green-500/20 rounded-xl transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-white">
-                          <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd" />
-                          <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd" />
-                      </svg>
+                  <div
+                    class="absolute inset-0 bg-green-500/0 group-hover:bg-green-500/20 rounded-xl transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="w-5 h-5 text-white"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z"
+                        clip-rule="evenodd"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
                   </div>
                 </div>
                 <span
@@ -414,14 +465,14 @@
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             @click="$router.back()"
-            class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-full font-[Gilroy-Bold] transition-all"
+            class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-full font-[Gilroy-Bold] transition-all cursor-pointer"
           >
             Go Back
           </button>
           <button
             @click="activeCountry = 'US'"
             v-if="activeCountry !== 'US'"
-            class="px-6 py-3 bg-[#b20710]/20 hover:bg-[#b20710]/30 text-[#b20710] rounded-full font-[Gilroy-Bold] transition-all"
+            class="px-6 py-3 bg-[#b20710]/20 hover:bg-[#b20710]/30 text-[#b20710] rounded-full font-[Gilroy-Bold] transition-all cursor-pointer"
           >
             Try US Region
           </button>
@@ -435,7 +486,7 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useHead } from "@unhead/vue";
-import { getMediaDetails } from "@/api/tmdb";
+import { getMediaDetails, getWatchProviders } from "@/api/tmdb";
 import { getProviderUrl } from "@/utils/providerUrls";
 
 const route = useRoute();
@@ -489,8 +540,10 @@ const getProviderLink = (providerId: number): string => {
 
 const shareAvailability = async () => {
   const mediaTitle = media.value?.title || media.value?.name || "this content";
-  const countryName = countries.find(c => c.code === activeCountry.value)?.name || activeCountry.value;
-  
+  const countryName =
+    countries.find((c) => c.code === activeCountry.value)?.name ||
+    activeCountry.value;
+
   const shareData = {
     title: `Where to Watch ${mediaTitle}`,
     text: `Check out where you can watch "${mediaTitle}" in ${countryName} on FilmRitz!`,
@@ -525,9 +578,7 @@ onMounted(async () => {
       // Parallel fetch details and providers
       const [details, watchProviders] = await Promise.all([
         getMediaDetails(Number(id), mediaType),
-        import("@/api/tmdb").then((m) =>
-          m.getWatchProviders(Number(id), mediaType),
-        ),
+        getWatchProviders(Number(id), mediaType),
       ]);
 
       media.value = details;

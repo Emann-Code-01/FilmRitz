@@ -157,8 +157,14 @@
               class="absolute top-full left-0 mt-2 w-48 bg-black/95 backdrop-blur-xl rounded-xl border border-white/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all"
             >
               <router-link
-                to="/ng/collections"
+                to="/ng/discover"
                 class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] hover:rounded-t-[11px] rounded-t-[11px] text-white font-[Gilroy-Medium] transition-colors"
+              >
+                Match Me
+              </router-link>
+              <router-link
+                to="/ng/collections"
+                class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] text-white font-[Gilroy-Medium] transition-colors"
               >
                 Collections
               </router-link>
@@ -403,6 +409,13 @@
                 class="bg-black/95 backdrop-blur-xl border border-white/10 transition-all"
               >
                 <router-link
+                  to="/ng/discover"
+                  @click="closeMenuOnMobile"
+                  class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] hover:rounded-t-[11px] rounded-t-[11px] text-white font-[Gilroy-Medium] transition-colors"
+                >
+                  Match Me
+                </router-link>
+                <router-link
                   to="/ng/collections"
                   @click="closeMenuOnMobile"
                   class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] text-white font-[Gilroy-Medium] transition-colors"
@@ -475,15 +488,27 @@
               History
             </router-link>
             <router-link
-              to="/ng/profile"
+              to="/ng/watchlists"
               @click="closeMenuOnMobile"
               :class="[
-                isActiveLink('/ng/profile')
+                isActiveLink('/ng/watchlists')
                   ? 'hover:text-red-500 block px-4 py-3 text-red-500 font-[Gilroy-SemiBold] transition-all duration-200 hover:duration-500 hover:underline bg-accent ease-in'
                   : 'hover:text-red-500 block px-4 py-3 text-white font-[Gilroy-SemiBold] transition-all duration-200 hover:underline false',
               ]"
             >
+              Watchlist
+            </router-link>
+            <router-link
+              to="/ng/profile"
+              class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] text-white font-[Gilroy-Medium] transition-colors"
+            >
               Profile
+            </router-link>
+            <router-link
+              to="/ng/watchlists"
+              class="block px-4 py-3 hover:bg-white/10 hover:text-red-500 hover:font-[Gilroy-Medium] text-white font-[Gilroy-Medium] transition-colors"
+            >
+              Watchlist
             </router-link>
             <div class="border-t border-white/10"></div>
             <button

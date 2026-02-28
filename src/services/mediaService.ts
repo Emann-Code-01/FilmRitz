@@ -9,9 +9,14 @@ function normalizeItem(item: any) {
   return {
     ...item,
     media_type,
-    title: media_type === "movie" ? item.title ?? item.name : item.name ?? item.title,
+    title:
+      media_type === "movie"
+        ? (item.title ?? item.name)
+        : (item.name ?? item.title),
     release_date:
-      media_type === "movie" ? item.release_date ?? item.first_air_date ?? "" : item.first_air_date ?? item.release_date ?? "",
+      media_type === "movie"
+        ? (item.release_date ?? item.first_air_date ?? "")
+        : (item.first_air_date ?? item.release_date ?? ""),
   };
 }
 
@@ -29,12 +34,12 @@ export const movieService = {
             include_adult: false,
             language: "en-US",
           },
-        })
+        }),
       );
 
       const responses = await Promise.all(pagePromises);
-      const allResults = responses.flatMap(res => res.data.results || []);
-      
+      const allResults = responses.flatMap((res) => res.data.results || []);
+
       return allResults
         .filter((r: any) => r.media_type === "movie" || r.media_type === "tv")
         .map(normalizeItem);
@@ -50,6 +55,7 @@ export const movieService = {
     year?: number;
     rating?: number;
     type?: "movie" | "tv";
+    page?: number;
   }) {
     try {
       const type = filters.type ?? "movie";
@@ -61,7 +67,7 @@ export const movieService = {
         "vote_average.gte": filters.rating || 0,
         with_original_language: "en",
         sort_by: "popularity.desc",
-        page: 1,
+        page: filters.page || 1,
       };
 
       if (filters.year) {
@@ -75,6 +81,21 @@ export const movieService = {
     } catch (err) {
       console.error("❌ Discover failed:", err);
       return [];
+    }
+  },
+  // Get media details by ID
+  async getMediaById(id: number, type: "movie" | "tv" = "movie") {
+    try {
+      const response = await axios.get(`${BASE_URL}/${type}/${id}`, {
+        params: {
+          api_key: API_KEY,
+          language: "en-US",
+        },
+      });
+      return normalizeItem({ ...response.data, media_type: type });
+    } catch (err) {
+      console.error(`❌ Failed to fetch ${type} details for ID ${id}:`, err);
+      return null;
     }
   },
 };

@@ -18,15 +18,15 @@ export const initializeAmbient = () => {
   // Detect device capabilities
   const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
   const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
+    "(prefers-reduced-motion: reduce)",
   ).matches;
 
   // Set initial state
   if (savedPreference !== null) {
     isAmbientEnabled.value = savedPreference === "true";
   } else {
-    // Default: ON for mobile, OFF for desktop
-    isAmbientEnabled.value = isMobile && !prefersReducedMotion;
+    // Default: ON for everyone unless reduced motion is preferred
+    isAmbientEnabled.value = !prefersReducedMotion;
   }
 
   // Set random color if enabled

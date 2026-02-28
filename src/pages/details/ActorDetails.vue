@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="min-h-screen bg-linear-to-br from-black via-gray-900 to-black text-white pb-20 px-4 md:px-10"
-  >
+  <div class="min-h-screen text-white pb-20 px-4 md:px-10">
     <!-- Loading State -->
     <div
       v-if="loading"

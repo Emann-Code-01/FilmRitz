@@ -35,8 +35,16 @@ export default defineConfig({
         manualChunks: {
           // Vendor chunks
           "vue-vendor": ["vue", "vue-router", "pinia"],
-          "ui-vendor": ["@headlessui/vue", "@heroicons/vue"],
+          "ui-vendor": ["@headlessui/vue"],
           "utils-vendor": ["axios", "colorthief"],
+          // Feature chunks
+          "api-vendor": ["@/api/tmdb"],
+          "supabase-vendor": ["@/lib/supabaseClient"],
+          "services-chunk": [
+            "@/services/intelligenceService",
+            "@/services/ratingService",
+            "@/services/mediaRotation",
+          ],
         },
         // Chunk file naming
         chunkFileNames: "assets/js/[name]-[hash].js",

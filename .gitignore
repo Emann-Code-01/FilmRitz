@@ -23,4 +23,6 @@ dist-ssr
 *.sln
 .env
 .env*.local
+.md
+*.md
 .vercel

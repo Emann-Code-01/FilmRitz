@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model UserEvent {
+  id             String   @id @default(uuid())
+  user_id        String   @db.Uuid
+  film_id        Int
+  event_type     String
+  watch_duration Int?     @default(0)
+  timestamp      DateTime @default(now())
+
+  @@index([user_id])
+  @@index([film_id])
+  @@index([event_type])
+  @@index([timestamp])
+  @@map("user_events")
+}
+
+model FilmAttribute {
+  film_id              Int      @id
+  runtime              Int?
+  complexity_score     Float?
+  mood_tags            String[] @default([])
+  pacing_score         Float?
+  visual_style_tags    String[] @default([])
+  dominant_colors      Json?
+  cinematography_style String[] @default([])
+  color_palette        Json?
+  visual_embedding     Float[]  @default([])
+  created_at           DateTime @default(now())
+  updated_at           DateTime @default(now())
+
+  @@index([complexity_score])
+  @@index([pacing_score])
+  @@map("film_attributes")
+}
+
+model UserContextProfile {
+  user_id              String   @id @db.Uuid
+  avg_watch_time       Int?     @default(0)
+  preferred_complexity Float?
+  dominant_moods       String[] @default([])
+  session_patterns     Json?    @default("{}")
+  created_at           DateTime @default(now())
+  updated_at           DateTime @default(now())
+
+  @@index([preferred_complexity])
+  @@map("user_context_profiles")
+}
+
+model CollaborationEdge {
+  id                   String   @id @default(uuid())
+  person_a_id          Int
+  person_b_id          Int
+  collaboration_weight Float?   @default(1.0)
+  created_at           DateTime @default(now())
+  updated_at           DateTime @default(now())
+
+  @@unique([person_a_id, person_b_id])
+  @@index([person_a_id])
+  @@index([person_b_id])
+  @@index([collaboration_weight])
+  @@map("collaboration_edges")
+}
+
+model DirectorFingerprint {
+  director_id      Int      @id
+  recurring_themes String[] @default([])
+  visual_motifs    String[] @default([])
+  created_at       DateTime @default(now())
+  updated_at       DateTime @default(now())
+
+  @@map("director_fingerprints")
+}
+
+model Watchlist {
+  id               String          @id @default(uuid())
+  user_id          String          @db.Uuid
+  name             String
+  description      String?
+  is_public        Boolean         @default(false)
+  creation_context Json?           // stores the intent/context when created
+  usage_frequency  Int             @default(0)
+  auto_tags        String[]        @default([])
+  last_used_at     DateTime?
+  created_at       DateTime        @default(now())
+  updated_at       DateTime        @default(now())
+  items            WatchlistItem[]
+
+  @@index([user_id])
+  @@index([usage_frequency])
+  @@map("watchlists")
+}
+
+model WatchlistItem {
+  id           String    @id @default(uuid())
+  watchlist_id String
+  film_id      Int
+  added_at     DateTime  @default(now())
+  notes        String?
+  priority     Int       @default(0)
+  watched_at   DateTime?
+  user_rating  Float?
+
+  watchlist Watchlist @relation(fields: [watchlist_id], references: [id], onDelete: Cascade)
+
+  @@index([watchlist_id])
+  @@index([film_id])
+  @@map("watchlist_items")
+}

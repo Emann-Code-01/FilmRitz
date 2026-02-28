@@ -11,7 +11,7 @@
       <button
         v-if="showRemove"
         @click.stop="$emit('remove')"
-        class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-all z-20 group/remove"
+        class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-all z-20 cursor-pointer group/remove"
         title="Remove from list"
       >
         <svg

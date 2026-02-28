@@ -11,10 +11,16 @@
 
   body {
     background-color: #000000;
+    font-family: "Gilroy", sans-serif;
     box-sizing: border-box;
     margin: 0;
     border: 0;
     overflow-x: hidden;
+  }
+
+  * {
+    margin: 0;
+    border: 0;
   }
 
   *,

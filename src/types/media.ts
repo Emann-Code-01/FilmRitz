@@ -176,9 +176,7 @@ export interface SwiperBreakpoints {
   [width: number]: CarouselConfig;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// ADD THIS TO THE END OF src/types/media.ts
-// ═══════════════════════════════════════════════════════════════
+
 
 export interface CollectionDefinition {
   id: number;

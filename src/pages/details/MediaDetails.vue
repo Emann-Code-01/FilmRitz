@@ -14,7 +14,7 @@
     @submit="handleReviewSubmit"
   />
 
-  <div class="min-h-screen bg-[#0a0a0a] text-white">
+  <div class="min-h-screen text-white">
     <div v-if="loading" class="space-y-8 py-10 px-6 mt-18">
       <div
         class="relative overflow-hidden rounded-2xl h-[60vh] bg-gray-800/50 animate-pulse"

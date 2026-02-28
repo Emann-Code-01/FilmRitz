@@ -1,5 +1,5 @@
 <template>
-  <div class="relative min-h-screen bg-[#0a0a0a]">
+  <div class="relative min-h-screen">
     <!-- Splash Screen -->
     <div
       v-if="!auth.loaded"
@@ -10,19 +10,11 @@
 
     <!-- Main Content -->
     <div v-else class="relative">
-      <!-- 🌈 Global Ambient Lighting Layer -->
-      <div
-        v-if="canHandleAdvancedEffects"
-        class="fixed inset-0 pointer-events-none transition-all duration-1000 z-0 blur-3xl opacity-50"
-        :style="{
-          background: `radial-gradient(circle at ${ambientPosition.x}% ${ambientPosition.y}%, ${ambientColor}40 0%, ${ambientColor}20 30%, transparent 70%)`,
-        }"
-      ></div>
       <div class="relative z-10">
         <section class="relative">
           <HeroSection
-            @update-ambient="updateAmbientColor"
-            @update-position="updateAmbientPosition"
+            @update-ambient="updateColor"
+            @update-position="updatePosition"
           />
         </section>
         <AdSlot v-if="isLoggedIn" />
@@ -58,7 +50,10 @@
                   </svg>
                 </router-link>
               </div>
-              <TrendingGrid @update-ambient="updateAmbientColor" />
+              <MediaRotationGrid
+                category="trending"
+                @update-ambient="updateColor"
+              />
             </section>
             <AdsenseAd
               v-if="isLoggedIn && consentGranted"
@@ -72,7 +67,7 @@
                   What's Hot Right Now
                 </h2>
               </div>
-              <WhatsHotCarousel @update-ambient="updateAmbientColor" />
+              <WhatsHotCarousel @update-ambient="updateColor" />
             </section>
             <section class="px-4 md:px-8 lg:px-12">
               <h2
@@ -80,7 +75,7 @@
               >
                 Explore by Genre
               </h2>
-              <GenreDeepDive @update-ambient="updateAmbientColor" />
+              <GenreDeepDive @update-ambient="updateColor" />
             </section>
             <section class="px-4 md:px-8 lg:px-12">
               <h2
@@ -88,7 +83,10 @@
               >
                 All-Time Fan Favorites
               </h2>
-              <PopularGrid @update-ambient="updateAmbientColor" />
+              <MediaRotationGrid
+                category="popular"
+                @update-ambient="updateColor"
+              />
             </section>
             <section class="relative">
               <div class="px-4 md:px-8 lg:px-12 mb-6">
@@ -98,7 +96,7 @@
                   Trailer Spotlight
                 </h2>
               </div>
-              <TrailerSpotlight @update-ambient="updateAmbientColor" />
+              <TrailerSpotlight @update-ambient="updateColor" />
             </section>
             <section class="px-4 md:px-8 lg:px-12">
               <h2
@@ -106,7 +104,10 @@
               >
                 Top Rated All Time
               </h2>
-              <TopRated @update-ambient="updateAmbientColor" />
+              <MediaRotationGrid
+                category="topRated"
+                @update-ambient="updateColor"
+              />
             </section>
             <section class="px-4 md:px-8 lg:px-12">
               <div class="flex items-center justify-between mb-6">
@@ -134,10 +135,7 @@
                   </svg>
                 </router-link>
               </div>
-              <CuratedCollections
-                :limit="4"
-                @update-ambient="updateAmbientColor"
-              />
+              <CuratedCollections :limit="4" @update-ambient="updateColor" />
             </section>
             <section class="px-4 md:px-8 lg:px-12">
               <h2
@@ -145,7 +143,10 @@
               >
                 UpComing
               </h2>
-              <UpComing @update-ambient="updateAmbientColor" />
+              <MediaRotationGrid
+                category="upcoming"
+                @update-ambient="updateColor"
+              />
             </section>
             <section class="px-4 md:px-8 lg:px-12">
               <h2
@@ -153,7 +154,7 @@
               >
                 Explore by Mood
               </h2>
-              <MoodWheel @update-ambient="updateAmbientColor" />
+              <MoodWheel @update-ambient="updateColor" />
             </section>
           </main>
         </template>
@@ -167,19 +168,16 @@
 import { ref, computed, onMounted } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useHead } from "@unhead/vue";
-import { getRandomAmbientColor } from "@/constants/ambientColors";
+import { useAmbient } from "@/composables/useAmbient";
 
 // Components
 import SplashScreen from "./SplashScreen.vue";
 import HeroSection from "@/components/Home/HeroSection.vue";
 import SubPreview from "@/components/Home/SubPreview.vue";
 import BlockSection from "@/components/Home/BlockSection.vue";
-import TopRated from "@/components/media/TopRatedGrid.vue";
-import PopularGrid from "@/components/media/PopularGrid.vue";
-import UpComing from "@/components/media/UpComingGrid.vue";
 import AdSlot from "@/components/ads/AdSlot.vue";
 import AdsenseAd from "@/components/ads/AdsenseAd.vue";
-import TrendingGrid from "@/components/media/TrendingGrid.vue";
+import MediaRotationGrid from "@/components/media/MediaRotationGrid.vue";
 import WhatsHotCarousel from "@/components/media/WhatsHotCarousel.vue";
 import GenreDeepDive from "@/components/media/GenreDeepDive.vue";
 import TrailerSpotlight from "@/components/media/TrailerSpotlight.vue";
@@ -221,60 +219,25 @@ const auth = useAuthStore();
 const isLoggedIn = computed(() => auth.isLoggedIn);
 const consentGranted = ref(false);
 
-// Ambient Lighting
-const ambientColor = ref<string>("#b20710");
-const ambientPosition = ref<{ x: number; y: number }>({ x: 50, y: 30 });
-const canHandleAdvancedEffects = ref<boolean>(false);
-
-// Update ambient color from child components
-function updateAmbientColor(color: string) {
-  if (!canHandleAdvancedEffects.value || !color) return;
-  ambientColor.value = color;
-}
-
-// Update ambient position for dynamic glow movement
-function updateAmbientPosition(position: { x: number; y: number }) {
-  if (!canHandleAdvancedEffects.value || !position) return;
-  ambientPosition.value = position;
-}
+const { isAmbientEnabled, updateColor, updatePosition, randomizeColor } =
+  useAmbient();
 
 // Performance Optimization
 onMounted(() => {
-  // Check if user has a saved preference
-  const savedPreference = localStorage.getItem("ambientEnabled");
-
-  // Detect device capabilities
-  const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-
-  // If user has saved preference, use that
-  if (savedPreference !== null) {
-    canHandleAdvancedEffects.value = savedPreference === "true";
-  } else {
-    // Default: ON for mobile, OFF for desktop (md and larger)
-    canHandleAdvancedEffects.value = isMobile && !prefersReducedMotion;
-  }
-
-  // Set random ambient color on page load if enabled
-  if (canHandleAdvancedEffects.value) {
-    ambientColor.value = getRandomAmbientColor();
-  }
-
   // Read ad consent
   const consent = localStorage.getItem("adConsent");
   if (consent === "granted") {
     consentGranted.value = true;
   }
 
-  console.log("FilmRitz Ambient Mode:", {
-    isMobile,
-    prefersReducedMotion,
-    ambientEnabled: canHandleAdvancedEffects.value,
-    savedPreference,
+  // Set initial random ambient color if enabled
+  if (isAmbientEnabled.value) {
+    randomizeColor();
+  }
+
+  console.log("FilmRitz Home Mounted:", {
+    ambientEnabled: isAmbientEnabled.value,
     consentGranted: consentGranted.value,
-    initialAmbientColor: ambientColor.value,
   });
 });
 </script>
