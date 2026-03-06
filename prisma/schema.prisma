@@ -114,3 +114,20 @@ model WatchlistItem {
   @@index([film_id])
   @@map("watchlist_items")
 }
+
+model MicroReview {
+  id                String   @id @default(uuid())
+  user_id           String   @db.Uuid
+  film_id           Int
+  content           String   @db.VarChar(280)
+  credibility_score Float    @default(0)
+  helpful_count     Int      @default(0)
+  unhelpful_count   Int      @default(0)
+  is_flagged        Boolean  @default(false)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  @@index([film_id])
+  @@index([user_id])
+  @@map("micro_reviews")
+}

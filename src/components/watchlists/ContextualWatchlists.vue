@@ -16,90 +16,119 @@ const handleUse = (id: string) => {
 </script>
 
 <template>
-  <div class="space-y-6">
-    <div class="flex items-center justify-between">
-      <h3 class="text-xl font-bold text-white">
-        Suggested for your current vibe
-      </h3>
-      <span class="text-xs font-medium text-stone-500 uppercase tracking-widest"
-        >Contextual Memory</span
+  <div
+    class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000"
+  >
+    <div class="flex items-center justify-between border-b border-white/5 pb-6">
+      <div class="space-y-1">
+        <h3
+          class="text-2xl font-[Gilroy-Bold] text-white flex items-center gap-3"
+        >
+          <span class="text-xl">⚡</span>
+          Contextual Memory
+        </h3>
+        <p
+          class="text-xs font-medium text-stone-500 uppercase tracking-[0.2em]"
+        >
+          Pattern-matched against your current vibe
+        </p>
+      </div>
+
+      <div
+        class="hidden md:flex items-center gap-2 px-3 py-1.5 bg-indigo-500/10 border border-indigo-500/20 rounded-full"
       >
+        <div class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></div>
+        <span
+          class="text-[9px] font-black text-indigo-400 uppercase tracking-widest"
+          >Active Scan</span
+        >
+      </div>
     </div>
 
-    <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- Loading State -->
+    <div
+      v-if="loading"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
       <div
-        v-for="i in 4"
+        v-for="i in 3"
         :key="i"
-        class="h-32 bg-stone-800/50 rounded-2xl animate-pulse"
+        class="h-44 bg-stone-900/40 border border-white/5 rounded-3xl animate-pulse"
       ></div>
     </div>
 
+    <!-- Empty State -->
     <div
       v-else-if="watchlists.length === 0"
-      class="p-8 border border-dashed border-white/10 rounded-2xl text-center"
+      class="p-12 border border-dashed border-white/10 rounded-[2.5rem] text-center bg-stone-900/20 flex flex-col items-center gap-4 group hover:bg-stone-900/40 transition-all"
     >
-      <p class="text-stone-500 italic">
-        No historical watchlists match this context yet.
+      <div
+        class="text-4xl opacity-20 group-hover:opacity-40 transition-opacity grayscale"
+      >
+        🛸
+      </div>
+      <p
+        class="text-stone-500 font-[Gilroy-Medium] text-sm max-w-xs leading-relaxed italic"
+      >
+        "Your historical intent doesn't match this exact vibe yet. A new memory
+        path begins."
       </p>
     </div>
 
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- Watchlists Grid -->
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <div
         v-for="wl in watchlists"
         :key="wl.id"
-        class="group p-5 bg-stone-900 border border-white/5 rounded-2xl hover:border-indigo-500/30 transition-all hover:bg-stone-800/50 relative overflow-hidden"
+        class="group p-6 bg-stone-900/40 backdrop-blur-xl border border-white/5 rounded-[2rem] hover:border-indigo-500/40 transition-all duration-700 hover:bg-stone-800/60 relative overflow-hidden flex flex-col justify-between"
       >
-        <!-- Relevance Gauge -->
-        <div class="absolute top-0 right-0 p-3">
-          <div
-            class="flex items-center gap-1.5 px-2 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-lg"
-          >
-            <div
-              class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"
-            ></div>
-            <span class="text-[10px] font-bold text-indigo-400"
-              >{{ wl.relevance_score }}% Match</span
+        <!-- Top Metadata -->
+        <div class="flex justify-between items-start mb-4">
+          <div class="flex flex-wrap gap-1.5">
+            <span
+              v-for="tag in wl.auto_tags.slice(0, 2)"
+              :key="tag"
+              class="px-2.5 py-1 bg-white/5 text-[9px] text-stone-400 font-black uppercase tracking-wider rounded-lg border border-white/10"
             >
+              #{{ tag }}
+            </span>
+          </div>
+
+          <div
+            class="px-2 py-1 rounded-lg text-[10px] font-black text-indigo-400 bg-indigo-500/5 transition-all group-hover:bg-indigo-500 group-hover:text-white"
+          >
+            {{ wl.relevance_score }}% Match
           </div>
         </div>
 
+        <!-- content Info -->
         <div class="space-y-4">
-          <div class="space-y-1">
-            <h4
-              class="font-bold text-white group-hover:text-indigo-400 transition-colors"
-            >
+          <div class="space-y-2">
+            <h4 class="text-xl font-[Gilroy-Bold] text-white leading-tight">
               {{ wl.name }}
             </h4>
-            <div class="flex flex-wrap gap-1.5">
-              <span
-                v-for="tag in wl.auto_tags"
-                :key="tag"
-                class="px-2 py-0.5 bg-white/5 text-[10px] text-stone-500 rounded-md border border-white/5"
-              >
-                #{{ tag }}
-              </span>
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between gap-4">
-            <div class="flex items-center gap-2">
-              <span class="text-[10px] text-stone-600 font-mono uppercase"
-                >Uses: {{ wl.usage_frequency }}</span
-              >
-            </div>
-
-            <button
-              @click="handleUse(wl.id)"
-              class="px-4 py-2 bg-white/10 hover:bg-white text-stone-300 hover:text-black text-xs font-bold rounded-xl transition-all"
+            <p
+              class="text-[10px] text-stone-500 font-mono uppercase tracking-[0.1em]"
             >
-              Use this now
-            </button>
+              Memory strength: {{ wl.usage_frequency }} sessions
+            </p>
           </div>
+
+          <button
+            @click="handleUse(wl.id)"
+            class="w-full py-3 bg-white/5 group-hover:bg-white text-stone-400 group-hover:text-black text-xs font-[Gilroy-Bold] rounded-2xl border border-white/5 transition-all duration-500 uppercase tracking-widest shadow-lg shadow-black/20"
+          >
+            Reconnect Pattern
+          </button>
         </div>
 
-        <!-- Subtle Background Glow -->
+        <!-- Abstract Visual Accent -->
         <div
-          class="absolute -bottom-10 -right-10 w-24 h-24 bg-indigo-500/10 blur-3xl rounded-full group-hover:bg-indigo-500/20 transition-all"
+          class="absolute -bottom-16 -right-16 w-32 h-32 bg-indigo-500/5 blur-[50px] rounded-full group-hover:bg-indigo-500/15 transition-all duration-1000"
+        ></div>
+
+        <div
+          class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-indigo-600 via-indigo-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
         ></div>
       </div>
     </div>

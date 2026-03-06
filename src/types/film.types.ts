@@ -49,6 +49,9 @@ export interface IntentInput {
 export interface ScoredFilm {
   film_id: number;
   score: number;
+  title?: string;
+  poster_path?: string;
+  media_type?: "movie" | "tv";
   explanations: string[];
   matchDetails: {
     runtimeFit: number;

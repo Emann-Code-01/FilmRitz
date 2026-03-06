@@ -314,6 +314,52 @@ class RatingService {
   }
 
   /**
+   * Retrieve reviews that have been flagged for moderation.
+   */
+  async fetchFlaggedReviews(limit = 50): Promise<Review[]> {
+    const { data, error } = await supabase
+      .from("reviews")
+      .select("*")
+      .eq("is_flagged", true)
+      .order("created_at", { ascending: false })
+      .limit(limit);
+
+    if (error) {
+      console.error("Error fetching flagged reviews:", error);
+      throw error;
+    }
+    return (data || []).map(mapReviewRow);
+  }
+
+  /**
+   * Approve (unflag) or delete a flagged review.
+   */
+  async moderateReview(
+    reviewId: string,
+    action: "approve" | "delete",
+  ): Promise<void> {
+    if (action === "approve") {
+      const { error } = await supabase
+        .from("reviews")
+        .update({ is_flagged: false })
+        .eq("id", reviewId);
+      if (error) {
+        console.error("Error approving review:", error);
+        throw error;
+      }
+    } else {
+      const { error } = await supabase
+        .from("reviews")
+        .delete()
+        .eq("id", reviewId);
+      if (error) {
+        console.error("Error deleting review:", error);
+        throw error;
+      }
+    }
+  }
+
+  /**
    * Get user's helpfulness vote for a review
    */
   async getUserHelpfulnessVote(

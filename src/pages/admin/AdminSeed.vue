@@ -49,12 +49,20 @@
           </p>
         </div>
       </div>
+    </div>
 
-      <div
-        class="mt-8 p-4 bg-black/30 rounded border border-white/5 font-mono text-xs h-64 overflow-y-auto"
-      >
-        <div v-for="(log, i) in logs" :key="i" class="mb-1">{{ log }}</div>
-      </div>
+    <!-- Feature flags control panel -->
+    <div class="mt-12">
+      <FeatureFlagsPanel />
+    </div>
+
+    <!-- Moderation section -->
+    <ModerationPanel />
+
+    <div
+      class="mt-8 p-4 bg-black/30 rounded border border-white/5 font-mono text-xs h-64 overflow-y-auto"
+    >
+      <div v-for="(log, i) in logs" :key="i" class="mb-1">{{ log }}</div>
     </div>
   </div>
 </template>
@@ -64,6 +72,8 @@ import { ref, computed } from "vue";
 import { supabase } from "@/lib/supabaseClient";
 import { movieService } from "@/services/mediaService";
 import { useAuthStore } from "@/stores/auth";
+import FeatureFlagsPanel from "@/components/admin/FeatureFlagsPanel.vue";
+import ModerationPanel from "@/components/admin/ModerationPanel.vue";
 
 const authStore = useAuthStore();
 const isSeeding = ref(false);

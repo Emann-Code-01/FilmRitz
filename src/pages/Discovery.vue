@@ -1,71 +1,140 @@
 <template>
-  <div class="min-h-screen bg-black text-white pb-20">
+  <div
+    class="min-h-screen bg-[#0a0a0a] text-white pb-20 selection:bg-indigo-500/30"
+  >
     <!-- Hero Background Header -->
-    <div class="relative h-[400px] overflow-hidden">
+    <div class="relative h-[450px] md:h-[500px] overflow-hidden">
+      <!-- Animated Background Layers -->
       <div
-        class="absolute inset-0 bg-linear-to-b from-indigo-600/20 via-black to-black"
+        class="absolute inset-0 bg-linear-to-b from-indigo-950/40 via-[#0a0a0a] to-[#0a0a0a]"
       ></div>
       <div
-        class="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-indigo-500/10 via-transparent to-transparent"
+        class="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,#6366f115,transparent_50%)]"
+      ></div>
+      <div
+        class="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,#10b98108,transparent_50%)]"
       ></div>
 
       <div
         class="container mx-auto px-6 h-full flex flex-col justify-center relative z-10 pt-20"
       >
-        <div class="max-w-3xl space-y-4">
+        <div
+          class="max-w-4xl space-y-6 animate-in fade-in slide-in-from-top-8 duration-1000"
+        >
           <div
-            class="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full border border-white/10 text-[10px] font-black uppercase tracking-widest text-indigo-400"
+            class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 backdrop-blur-xl rounded-full border border-white/10 text-[10px] font-black uppercase tracking-[0.3em] text-indigo-400"
           >
-            <span class="animate-pulse">●</span> AI Powered Discovery
+            <span class="relative flex h-2 w-2">
+              <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"
+              ></span>
+              <span
+                class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"
+              ></span>
+            </span>
+            Neural Discovery Engine
           </div>
+
           <h1
-            class="text-5xl md:text-7xl font-black tracking-tighter leading-none"
+            class="text-6xl md:text-8xl font-[Gilroy-Bold] tracking-tighter leading-[0.9] text-white"
           >
-            FIND YOUR <br />
+            THE FUTURE OF <br />
             <span
-              class="bg-clip-text text-transparent bg-linear-to-r from-indigo-400 to-emerald-400"
-              >NEXT OBSESSION</span
+              class="bg-clip-text text-transparent bg-linear-to-r from-indigo-400 via-purple-400 to-emerald-400 animate-gradient-x"
+              >FILM INTUITION</span
             >
           </h1>
-          <p class="text-stone-400 text-lg md:text-xl font-medium max-w-xl">
-            FilmRitz Intelligence analyzes your current mood, time constraints,
-            and taste profile to surface films that feel exactly right.
+
+          <p
+            class="text-stone-400 text-lg md:text-xl font-[Gilroy-Medium] max-w-2xl leading-relaxed"
+          >
+            Eliminate decision paralysis. Our intelligence layer synthesizes
+            your mood, time constraints, and aesthetic memory to find your next
+            favorite story.
           </p>
         </div>
       </div>
     </div>
 
     <!-- Main Content -->
-    <div class="container mx-auto px-6 -mt-20 relative z-20">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <div class="container mx-auto px-6 -mt-24 md:-mt-32 relative z-20">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
         <!-- Sidebar / Selector -->
-        <div class="lg:col-span-4 space-y-8">
-          <IntentSelector @discover="handleDiscover" />
+        <div class="lg:col-span-4 space-y-10">
+          <div class="sticky top-28 space-y-10">
+            <template v-if="flags.flags.intentAwareFilters">
+              <div
+                class="bg-stone-900/40 backdrop-blur-2xl border border-white/5 rounded-[2.5rem] p-1 shadow-2xl"
+              >
+                <IntentSelector @discover="handleDiscover" />
+              </div>
+            </template>
+            <template v-else>
+              <FilterPanel @apply="handleGenericFilter" />
+            </template>
 
-          <ContextualWatchlists
-            :watchlists="suggestedWatchlists"
-            :loading="isLoading"
-            @use="handleUseWatchlist"
-          />
+            <ContextualWatchlists
+              :watchlists="suggestedWatchlists"
+              :loading="isLoading"
+              @use="handleUseWatchlist"
+            />
+          </div>
         </div>
 
         <!-- Main Display / Results -->
-        <div class="lg:col-span-8 space-y-12">
+        <div class="lg:col-span-8 space-y-16">
           <IntentResults
             :results="results"
             :applied-weights="weights"
             :loading="isLoading"
+            @select="handleFilmSelect"
           />
 
-          <!-- Secondary Discovery -->
-          <div v-if="results.length > 0" class="space-y-12">
-            <VisualSimilarity :current-film-id="results[0].film_id" />
+          <!-- Focus Section: Shown when results exist -->
+          <div
+            v-if="results.length > 0 && !isLoading"
+            class="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300"
+          >
+            <div class="flex items-center gap-4">
+              <div
+                class="h-px flex-1 bg-linear-to-r from-transparent via-white/10 to-transparent"
+              ></div>
+              <h3
+                class="text-xs font-black uppercase tracking-[0.4em] text-stone-500"
+              >
+                Intelligence Deep Dive
+              </h3>
+              <div
+                class="h-px flex-1 bg-linear-to-r from-transparent via-white/10 to-transparent"
+              ></div>
+            </div>
 
+            <!-- Deep Dive Panels -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <CollaborationGraph :nodes="mockNodes" :edges="mockEdges" />
-              <FilmIntelligencePanel
-                :film-id="results[0].film_id"
-                :intelligence="mockIntelligence"
+              <div
+                class="bg-stone-900/30 backdrop-blur-md rounded-4xl border border-white/5 p-2"
+              >
+                <CollaborationGraph
+                  :nodes="collaborationData.nodes"
+                  :edges="collaborationData.edges"
+                />
+              </div>
+              <div
+                class="bg-stone-900/30 backdrop-blur-md rounded-4xl border border-white/5 p-2"
+              >
+                <FilmIntelligencePanel
+                  :film-id="results[0].film_id"
+                  :intelligence="intelligenceData"
+                />
+              </div>
+            </div>
+
+            <div
+              class="p-2 bg-stone-900/20 rounded-[3rem] border border-white/5"
+            >
+              <VisualSimilarity
+                v-if="flags.flags.visualSimilaritySearch"
+                :current-film-id="results[0].film_id"
               />
             </div>
           </div>
@@ -76,28 +145,49 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
 import IntentSelector from "@/components/discovery/IntentSelector.vue";
 import IntentResults from "@/components/discovery/IntentResults.vue";
 import ContextualWatchlists from "@/components/watchlists/ContextualWatchlists.vue";
 import VisualSimilarity from "@/components/discovery/VisualSimilarity.vue";
 import CollaborationGraph from "@/components/relationships/CollaborationGraph.vue";
 import FilmIntelligencePanel from "@/components/film/FilmIntelligencePanel.vue";
+import FilterPanel from "@/components/media/FilterPanel.vue";
+import { useFeatureFlagsStore } from "@/stores/featureFlags";
 import { IntentInput, ScoredFilm } from "@/types/film.types";
 import { WatchlistWithContextResponse } from "@/types/api.types";
 import { IntentController } from "@/controllers/intent.controller";
+import axios from "axios";
 
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+const flags = useFeatureFlagsStore();
+const router = useRouter();
 const isLoading = ref(false);
 const results = ref<ScoredFilm[]>([]);
 const weights = ref<Record<string, number>>({});
 const suggestedWatchlists = ref<WatchlistWithContextResponse[]>([]);
+const decisionStart = ref<number | null>(null);
+const showToast = ref(false);
+
+// Real data for the focus sections based on the top result
+const topResultCredits = ref<any>(null);
+const topResultKeywords = ref<any>(null);
 
 const handleDiscover = async (intent: IntentInput) => {
+  showToast.value = true;
+  setTimeout(() => (showToast.value = false), 3000);
   isLoading.value = true;
+  decisionStart.value = Date.now();
   try {
     const response = await IntentController.discoverByIntent({ intent });
     results.value = response.results;
     weights.value = response.appliedWeights;
+
+    // Fetch deep intelligence for the top result
+    if (results.value.length > 0) {
+      fetchTopResultIntelligence(results.value[0].film_id);
+    }
   } catch (err) {
     console.error("Discovery failed:", err);
   } finally {
@@ -105,42 +195,73 @@ const handleDiscover = async (intent: IntentInput) => {
   }
 };
 
-const handleUseWatchlist = (id: string) => {
-  console.log("Using watchlist:", id);
+const fetchTopResultIntelligence = async (id: number) => {
+  try {
+    const [credits, keywords] = await Promise.all([
+      axios.get(`https://api.themoviedb.org/3/movie/${id}/credits`, {
+        params: { api_key: API_KEY },
+      }),
+      axios.get(`https://api.themoviedb.org/3/movie/${id}/keywords`, {
+        params: { api_key: API_KEY },
+      }),
+    ]);
+    topResultCredits.value = credits.data;
+    topResultKeywords.value = keywords.data;
+  } catch (e) {
+    console.error("Failed to fetch intelligence details", e);
+  }
 };
 
-// Mock data for initial layout
-const mockNodes = [
-  { id: 1, label: "Christopher Nolan", type: "central" },
-  { id: 2, label: "Cillian Murphy", type: "peer" },
-  { id: 3, label: "Tom Hardy", type: "peer" },
-  { id: 4, label: "Hans Zimmer", type: "peer" },
-  { id: 5, label: "Hoyte van Hoytema", type: "peer" },
-];
+const collaborationData = computed(() => {
+  if (!topResultCredits.value) return { nodes: [], edges: [] };
 
-const mockEdges = [
-  { from: 1, to: 2, weight: 6, label: "6 collaborations" },
-  { from: 1, to: 3, weight: 3, label: "3 collaborations" },
-  { from: 1, to: 4, weight: 12, label: "12 collaborations" },
-];
+  const cast = topResultCredits.value.cast?.slice(0, 5) ?? [];
+  const director = topResultCredits.value.crew?.find(
+    (c: any) => c.job === "Director",
+  );
 
-const mockIntelligence = {
-  themes: [
-    "Technological Overreach",
-    "Personal Sacrifice",
-    "Temporal Distortion",
-  ],
-  motifs: ["Timepieces", "Architectural Symmetry", "Practical Effects"],
-  culturalImpact: {
-    milestones: [
-      { year: 2023, event: "Oppenheimer Release" },
-      { year: 2024, event: "Sweeps Awards Season" },
-    ],
-  },
+  const nodes: any[] = [];
+  if (director) {
+    nodes.push({ id: director.id, name: director.name, type: "director" });
+  }
+  cast.forEach((c: any) => {
+    nodes.push({ id: c.id, name: c.name, type: "actor" });
+  });
+
+  const edges = nodes.slice(1).map((n) => ({
+    from: nodes[0]?.id || 0,
+    to: n.id,
+    weight: 1,
+    label: "Collaboration",
+  }));
+
+  return { nodes, edges };
+});
+
+const intelligenceData = computed(() => {
+  if (!results.value[0])
+    return { themes: [], motifs: [], culturalImpact: { milestones: [] } };
+
+  return {
+    themes: results.value[0].explanations.slice(0, 3),
+    motifs: (topResultKeywords.value?.keywords ?? [])
+      .slice(0, 5)
+      .map((k: any) => k.name),
+    culturalImpact: {
+      milestones: [
+        { year: 2024, event: "Intelligence Match Found" },
+        { year: 2025, event: "Projected Viewer Satiety" },
+      ],
+    },
+  };
+});
+
+const handleUseWatchlist = (id: string) => {
+  console.log("Using watchlist:", id);
+  // Implementation of using a specific watchlist to seed discovery...
 };
 
 onMounted(() => {
-  // Initial demo discovery
   handleDiscover({
     timeAvailable: 90,
     mood: "Mind-bending",
@@ -148,4 +269,70 @@ onMounted(() => {
     complexityTolerance: "balanced",
   });
 });
+
+import { movieService } from "@/services/mediaService";
+
+async function handleGenericFilter(filters: any) {
+  isLoading.value = true;
+  try {
+    const items = await movieService.discover({
+      genre: filters.genre ? Number(filters.genre) : undefined,
+      year: filters.year,
+      rating: filters.rating,
+      type: filters.type,
+    });
+    results.value = items.map((m: any) => ({
+      film_id: m.id,
+      score: 95, // Default for non-intent discovery
+      title: m.title || m.name,
+      poster_path: m.poster_path,
+      media_type: m.media_type || "movie",
+      explanations: ["Direct filter match", "Trending within community"],
+      matchDetails: {
+        runtimeFit: 1,
+        moodOverlap: 1,
+        complexityDistance: 1,
+        completionProbability: 1,
+      },
+    }));
+    weights.value = {};
+    if (results.value.length > 0)
+      fetchTopResultIntelligence(results.value[0].film_id);
+  } catch (err) {
+    console.error("Generic discovery failed", err);
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+const handleFilmSelect = (film: ScoredFilm) => {
+  if (decisionStart.value) {
+    import("@/services/metricsService").then((m) =>
+      m.MetricsService.trackDecision({
+        mediaId: film.film_id,
+        decisionTimeMs: Date.now() - decisionStart.value!,
+        confidenceLevelAtDecision: "medium",
+        sourceComponent: "DiscoveryResults",
+      }),
+    );
+  }
+  const slug = (film.title || "film").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  router.push(`/ng/movie/${slug}-${film.film_id}`);
+};
 </script>
+
+<style scoped>
+@keyframes gradient-x {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 5s ease infinite;
+}
+</style>

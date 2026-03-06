@@ -140,3 +140,21 @@ export interface SimilarFilm extends FilmAttributes {
     visual_style: number;
   };
 }
+
+// Micro-review submitted by user (short text, credibility scoring)
+export interface MicroReview {
+  id: string;
+  user_id: string;
+  film_id: number;
+  content: string;
+  credibility_score: number;
+  helpful_count: number;
+  unhelpful_count: number;
+  is_flagged: boolean;
+  created_at: string;
+  updated_at: string;
+  user?: {
+    email: string;
+    username?: string;
+  };
+}

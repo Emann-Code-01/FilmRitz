@@ -23,33 +23,44 @@ export class IntentController {
 
     // Fallback if no matching films found (for demo/UX reliability)
     if (candidateFilms.length === 0) {
-      candidateFilms = await FilmAttributeRepository.findByMoodTags([]); // Should return some films or handle empty
-      // If still empty, we use hardcoded mock IDs to ensure UI isn't empty in dev
+      candidateFilms = await FilmAttributeRepository.findByMoodTags([]);
       if (candidateFilms.length === 0) {
         candidateFilms = [
           {
-            film_id: 550,
+            film_id: 550, // Fight Club
             runtime: 139,
             complexity_score: 8.5,
             mood_tags: ["Mind-bending", "Dark"],
+            title: "Fight Club",
+            poster_path: "/pB8BM79uySvm6SKPxt7ZKgpR76P.jpg",
+            media_type: "movie",
           } as any,
           {
-            film_id: 27205,
+            film_id: 27205, // Inception
             runtime: 148,
             complexity_score: 9.5,
             mood_tags: ["Intense", "Atmospheric"],
+            title: "Inception",
+            poster_path: "/oYuS4V5C7uLp9K7CslpQuGq8N8o.jpg",
+            media_type: "movie",
           } as any,
           {
-            film_id: 155,
+            film_id: 155, // The Dark Knight
             runtime: 152,
             complexity_score: 7.5,
             mood_tags: ["Tense", "Gritty"],
+            title: "The Dark Knight",
+            poster_path: "/qJ2tW6WMUDp9s1vSafeRrg6uRTM.jpg",
+            media_type: "movie",
           } as any,
           {
-            film_id: 157336,
+            film_id: 157336, // Interstellar
             runtime: 169,
             complexity_score: 8.0,
             mood_tags: ["Epic", "Atmospheric"],
+            title: "Interstellar",
+            poster_path: "/gEU2QniE6EUnUvP6lzpC6LsbhA0.jpg",
+            media_type: "movie",
           } as any,
         ];
       }
@@ -58,21 +69,18 @@ export class IntentController {
     // 2. Get user history for probability adjustments
     let userHistory = { avgComplexity: 5, completionRate: 0.7 };
     if (userId) {
-      const [, completionRate] = await Promise.all([
-        UserEventRepository.getAvgWatchTime(userId),
-        UserEventRepository.getCompletionRate(userId),
-      ]);
-      // Simple heuristic: adjust complexity based on history
+      const completionRate =
+        await UserEventRepository.getCompletionRate(userId);
       userHistory = {
-        avgComplexity: 5, // Default for now
-        completionRate: completionRate / 100,
+        avgComplexity: 5,
+        completionRate: (completionRate || 70) / 100,
       };
     }
 
     // 3. Score candidates
     const scoredFilms = candidateFilms
-      .map((film: any) =>
-        ScoringEngine.scoreFilm(
+      .map((film: any) => {
+        const scored = ScoringEngine.scoreFilm(
           {
             film_id: film.film_id,
             runtime: film.runtime || undefined,
@@ -81,9 +89,16 @@ export class IntentController {
           },
           intent,
           userHistory,
-        ),
-      )
-      .sort((a: any, b: any) => b.score - a.score)
+        );
+        // Hydrate with metadata if present
+        return {
+          ...scored,
+          title: film.title,
+          poster_path: film.poster_path,
+          media_type: film.media_type || "movie",
+        };
+      })
+      .sort((a, b) => b.score - a.score)
       .slice(0, 12);
 
     return {

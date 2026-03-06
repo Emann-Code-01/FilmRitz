@@ -330,7 +330,7 @@
       </div>
 
       <!-- Ratings & Reviews Section -->
-      <section class="px-6 mx-auto space-y-8 py-8 border-t border-white/10">
+      <div class="px-6 mx-auto space-y-8 py-8 border-t border-white/10">
         <div class="flex items-center justify-between">
           <h2 class="text-3xl font-[Gilroy-Bold]">Ratings & Reviews</h2>
         </div>
@@ -401,6 +401,36 @@
               </p>
             </div>
           </div>
+        </div>
+
+        <!-- Micro Reviews -->
+        <div class="space-y-6">
+          <div class="flex justify-between items-center">
+            <h3 class="text-2xl font-[Gilroy-Bold]">Quick Takes</h3>
+            <button
+              v-if="auth.isLoggedIn"
+              @click="showMicroInput = !showMicroInput"
+              class="px-4 py-2 bg-white/10 hover:bg-[#b20710] text-white rounded-xl font-[Gilroy-SemiBold] transition-all flex items-center gap-2 cursor-pointer"
+            >
+              {{ showMicroInput ? "Cancel" : "Add Quick Take" }}
+            </button>
+          </div>
+          <div v-if="showMicroInput">
+            <MicroReviewInput @submit="submitMicro" />
+          </div>
+          <div v-if="microLoading" class="space-y-2">
+            <div class="h-16 bg-white/5 rounded-xl animate-pulse"></div>
+            <div class="h-16 bg-white/5 rounded-xl animate-pulse"></div>
+          </div>
+          <div v-else-if="microReviews.length > 0" class="space-y-4">
+            <MicroReviewCard
+              v-for="mr in microReviews"
+              :key="mr.id"
+              :review="mr"
+              @helpful="(isHelp) => handleMicroHelpful(mr.id, isHelp)"
+            />
+          </div>
+          <div v-else class="text-gray-400">No quick takes yet.</div>
         </div>
 
         <!-- Reviews List -->
@@ -474,7 +504,34 @@
             </div>
           </div>
         </div>
-      </section>
+      </div>
+
+      <!-- ── Phase 2: Film Intelligence Section ── -->
+      <div v-if="media" class="px-6 mx-auto space-y-6 pb-8">
+        <h2 class="text-3xl font-[Gilroy-Bold] flex items-center gap-2">
+          <span class="text-2xl">🧠</span> Film Intelligence
+        </h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Collaboration Graph -->
+          <CollaborationGraph
+            :nodes="collaborationNodes"
+            :edges="collaborationEdges"
+          />
+          <!-- Film Intelligence Panel -->
+          <FilmIntelligencePanel
+            :film-id="media.id"
+            :intelligence="filmIntelligence"
+          />
+        </div>
+
+        <!-- Visual Similarity -->
+        <div class="mt-6">
+          <VisualSimilarity
+            :current-film-id="media.id"
+            :media-type="media.media_type"
+          />
+        </div>
+      </div>
 
       <div v-if="similar.length" class="px-6 mx-auto space-y-4 pb-12">
         <h2 class="text-3xl font-[Gilroy-Bold]">Similar Titles</h2>
@@ -572,7 +629,12 @@ import { useAuthStore } from "@/stores/auth";
 import { useRatingsStore } from "@/stores/ratings";
 import StarRating from "@/components/media/StarRating.vue";
 import ReviewCard from "@/components/media/ReviewCard.vue";
+import MicroReviewCard from "@/components/media/MicroReviewCard.vue";
+import MicroReviewInput from "@/components/media/MicroReviewInput.vue";
 import ReviewModal from "@/components/media/ReviewModal.vue";
+import CollaborationGraph from "@/components/relationships/CollaborationGraph.vue";
+import FilmIntelligencePanel from "@/components/film/FilmIntelligencePanel.vue";
+import VisualSimilarity from "@/components/discovery/VisualSimilarity.vue";
 import type { Review } from "@/services/ratingService";
 import { useHead } from "@unhead/vue";
 import { addToHistory } from "@/utils/history";
@@ -584,6 +646,8 @@ const props = defineProps<{
 const route = useRoute();
 
 const media = ref<any | null>(null);
+// mediaId: reactive shortcut used by micro-review functions
+const mediaId = computed(() => media.value?.id ?? null);
 
 useHead({
   title: computed(() =>
@@ -642,10 +706,114 @@ const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 const cast = ref<any[]>([]);
 const similar = ref<any[]>([]);
+const crew = ref<any[]>([]);
 const latestSeason = ref<any | null>(null);
 const loading = ref(false);
 const error = ref<string | null>(null);
 const { goToActor } = useActorNavigation();
+
+// ── Phase 2: Intelligence data ──
+const collaborationNodes = computed(() => {
+  const director = crew.value.find((c: any) => c.job === "Director");
+  const nodes: any[] = [];
+  if (director) {
+    nodes.push({
+      id: director.id,
+      name: director.name,
+      profile_path: director.profile_path,
+      type: "director",
+      job: "Director",
+    });
+  } else if (cast.value.length > 0) {
+    nodes.push({
+      id: cast.value[0].id,
+      name: cast.value[0].name,
+      profile_path: cast.value[0].profile_path,
+      type: "actor",
+      character: cast.value[0].character,
+    });
+  }
+  cast.value.slice(0, 6).forEach((a: any) => {
+    if (!nodes.find((n) => n.id === a.id)) {
+      nodes.push({
+        id: a.id,
+        name: a.name,
+        profile_path: a.profile_path,
+        type: "actor",
+        character: a.character,
+      });
+    }
+  });
+  crew.value
+    .filter((c: any) => c.job === "Writer" || c.department === "Writing")
+    .slice(0, 2)
+    .forEach((w: any) => {
+      if (!nodes.find((n) => n.id === w.id)) {
+        nodes.push({
+          id: w.id,
+          name: w.name,
+          profile_path: w.profile_path,
+          type: "writer",
+          job: w.job,
+        });
+      }
+    });
+  return nodes.slice(0, 7);
+});
+
+const collaborationEdges = computed(() => {
+  if (collaborationNodes.value.length < 2) return [];
+  return collaborationNodes.value.slice(1).map((n: any) => ({
+    from: collaborationNodes.value[0].id,
+    to: n.id,
+    weight: 1,
+    label: n.character || n.job || "Collaborator",
+  }));
+});
+
+const filmIntelligence = computed(() => ({
+  themes: media.value?.genres?.map((g: any) => g.name) ?? [],
+  motifs: (media.value?.keywords?.keywords ?? [])
+    .slice(0, 6)
+    .map((k: any) => k.name),
+  culturalImpact: {
+    milestones: [
+      ...(media.value?.release_date
+        ? [
+            {
+              year: new Date(media.value.release_date).getFullYear(),
+              event: "Original Release",
+            },
+          ]
+        : []),
+      ...(media.value?.first_air_date
+        ? [
+            {
+              year: new Date(media.value.first_air_date).getFullYear(),
+              event: "Series Premiere",
+            },
+          ]
+        : []),
+      ...(media.value?.vote_average >= 8
+        ? [
+            {
+              year: new Date().getFullYear(),
+              event: "Certified High Acclaim (8.0+)",
+            },
+          ]
+        : []),
+      ...(media.value?.vote_count >= 10000
+        ? [
+            {
+              year: new Date().getFullYear(),
+              event: `${(media.value.vote_count / 1000).toFixed(0)}k Community Ratings`,
+            },
+          ]
+        : []),
+    ].slice(0, 4),
+  },
+}));
+// ── end Intelligence ──
 
 // Trailer state
 const showTrailerModal = ref(false);
@@ -664,7 +832,57 @@ const ratingStats = ref<any>(null);
 const reviews = ref<Review[]>([]);
 const reviewsLoading = ref(false);
 const showReviewModal = ref(false);
+
+// micro reviews
+const microReviews = ref<any[]>([]);
+const microLoading = ref(false);
+const showMicroInput = ref(false);
+
+async function loadMicroReviews() {
+  microLoading.value = true;
+  try {
+    microReviews.value = (
+      await import("@/services/microReviewService").then((m) =>
+        m.microReviewService.getByFilm(mediaId.value),
+      )
+    ).filter((r) => !r.is_flagged);
+  } catch (e) {
+    console.error("failed loading micro reviews", e);
+  } finally {
+    microLoading.value = false;
+  }
+}
+
+async function submitMicro(text: string) {
+  try {
+    const userId = auth.user?.id;
+    if (!userId) return;
+    await import("@/services/microReviewService").then((m) =>
+      m.microReviewService.createOrUpdate(userId, mediaId.value, text),
+    );
+    loadMicroReviews();
+  } catch (e) {
+    console.error("failed posting micro review", e);
+  }
+}
+
+// load micro reviews on mount (after media is fetched)
+onMounted(() => {
+  // micro reviews are loaded inside fetchDetails once media is available
+});
 const editingReview = ref<Review | null>(null);
+
+async function handleMicroHelpful(id: string, isHelpful: boolean) {
+  try {
+    await import("@/services/microReviewService").then((m) =>
+      m.microReviewService.markHelpful(id, isHelpful),
+    );
+    // reload to update counts
+    loadMicroReviews();
+  } catch (e) {
+    console.error("micro helpful error", e);
+  }
+}
 
 const inWatchlist = ref(false);
 const showToast = ref(false);
@@ -738,6 +956,7 @@ async function fetchDetails() {
     };
 
     cast.value = creditsRes.data.cast?.slice(0, 15) ?? [];
+    crew.value = creditsRes.data.crew ?? [];
     similar.value = (similarRes.data.results || [])
       .slice(0, 10)
       .map((r: any) => ({
@@ -752,8 +971,9 @@ async function fetchDetails() {
 
     inWatchlist.value = store.isInWatchlist(media.value.id);
 
-    // Fetch ratings and reviews
+    // Fetch ratings, reviews, and micro reviews
     fetchRatingsAndReviews();
+    loadMicroReviews();
   } catch (err: any) {
     console.error(err);
     error.value = "Failed to load media details. Please try again.";
@@ -811,7 +1031,6 @@ async function playTrailer() {
     toastIcon.value = "error";
     toastMessage.value = "Failed to load trailer";
     showToast.value = true;
-    ("");
     setTimeout(() => (showToast.value = false), 3000);
   } finally {
     loadingTrailer.value = false;

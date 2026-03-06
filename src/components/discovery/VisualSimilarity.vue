@@ -1,44 +1,83 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import apiV3 from "@/api/tmdbV3";
 
-defineProps<{
+const props = defineProps<{
   currentFilmId: number;
+  mediaType?: "movie" | "tv";
   loading?: boolean;
 }>();
 
-const similarFilms = ref<
-  { film_id: number; title: string; poster_path: string }[]
->([]);
+interface SimilarFilm {
+  id: number;
+  title: string;
+  name?: string;
+  poster_path: string | null;
+  vote_average: number;
+  release_date?: string;
+  first_air_date?: string;
+  media_type: string;
+}
 
-// Mock data generator for demo
-const mockSimilar = [
-  { film_id: 1, title: "Blade Runner 2049", poster_path: "" },
-  { film_id: 2, title: "Dune", poster_path: "" },
-  { film_id: 3, title: "The Revenant", poster_path: "" },
-  { film_id: 4, title: "Arrival", poster_path: "" },
-  { film_id: 5, title: "Interstellar", poster_path: "" },
-  { film_id: 6, title: "Sicario", poster_path: "" },
-  { film_id: 7, title: "Tron: Legacy", poster_path: "" },
-  { film_id: 8, title: "Ex Machina", poster_path: "" },
-];
-similarFilms.value = mockSimilar;
+const router = useRouter();
+const similarFilms = ref<SimilarFilm[]>([]);
+const isLoading = ref(false);
+
+const fetchSimilar = async () => {
+  if (!props.currentFilmId) return;
+  isLoading.value = true;
+  try {
+    const type = props.mediaType || "movie";
+    const res = await apiV3.get(`/${type}/${props.currentFilmId}/similar`, {
+      params: { page: 1 },
+    });
+    similarFilms.value = (res.data.results || [])
+      .slice(0, 8)
+      .map((f: any) => ({ ...f, media_type: type }));
+  } catch (err) {
+    console.error("Failed to fetch similar films:", err);
+    similarFilms.value = [];
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const navigateToFilm = (film: SimilarFilm) => {
+  const title = film.title || film.name || "untitled";
+  const slug = encodeURIComponent(
+    title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, ""),
+  );
+  const routeName = film.media_type === "tv" ? "TVShowDetails" : "MovieDetails";
+  router.push({ name: routeName, params: { name: `${slug}-${film.id}` } });
+};
+
+watch(() => props.currentFilmId, fetchSimilar);
+onMounted(fetchSimilar);
 </script>
 
 <template>
   <div class="space-y-6">
-    <div class="flex items-center justify-between px-4">
+    <div class="flex items-center justify-between">
       <div class="space-y-1">
-        <h3 class="text-xl font-bold text-white">Aesthetic Similarity</h3>
+        <h3 class="text-xl font-bold text-white flex items-center gap-2">
+          <span class="text-lg">✨</span>
+          Aesthetic Similarity
+        </h3>
         <p class="text-xs text-stone-500 font-medium">
           Films that share a similar visual language and palette
         </p>
       </div>
-      <button class="p-2 hover:bg-white/5 rounded-full transition-colors">
-        <span class="text-lg">✨</span>
-      </button>
     </div>
 
-    <div v-if="loading" class="grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
+    <!-- Loading skeleton -->
+    <div
+      v-if="isLoading || loading"
+      class="grid grid-cols-2 md:grid-cols-4 gap-4"
+    >
       <div
         v-for="i in 8"
         :key="i"
@@ -46,30 +85,57 @@ similarFilms.value = mockSimilar;
       ></div>
     </div>
 
-    <div v-else class="grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
+    <!-- No results -->
+    <div
+      v-else-if="similarFilms.length === 0"
+      class="text-center py-8 text-stone-500"
+    >
+      <div class="text-4xl mb-2">🎬</div>
+      <p class="text-sm">No similar titles found</p>
+    </div>
+
+    <!-- Film grid -->
+    <div v-else class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div
         v-for="film in similarFilms"
-        :key="film.film_id"
-        class="group relative aspect-2/3 bg-stone-900 rounded-xl overflow-hidden hover:ring-2 ring-indigo-500/50 transition-all"
+        :key="film.id"
+        @click="navigateToFilm(film)"
+        class="group relative aspect-2/3 bg-stone-900 rounded-xl overflow-hidden hover:ring-2 ring-indigo-500/50 transition-all cursor-pointer hover:scale-[1.03]"
       >
-        <!-- In a real app, use TMDB images -->
+        <!-- Poster image -->
+        <img
+          v-if="film.poster_path"
+          :src="`https://image.tmdb.org/t/p/w342${film.poster_path}`"
+          :alt="film.title || film.name"
+          class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          loading="lazy"
+        />
+        <!-- Fallback if no poster -->
         <div
-          class="absolute inset-0 flex items-center justify-center text-[10px] text-stone-700 font-bold text-center px-4 italic"
+          v-else
+          class="absolute inset-0 flex items-center justify-center bg-stone-800 text-stone-600 text-xs font-bold text-center px-2"
         >
-          {{ film.title }}
+          {{ film.title || film.name }}
         </div>
 
-        <!-- Overlay -->
+        <!-- Overlay gradient -->
         <div
-          class="absolute inset-0 bg-stone-950/40 group-hover:bg-transparent transition-colors"
+          class="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent opacity-70 group-hover:opacity-50 transition-opacity"
         ></div>
 
+        <!-- Info panel (slides in on hover) -->
         <div
-          class="absolute inset-x-0 bottom-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform bg-black/60 backdrop-blur-md"
+          class="absolute inset-x-0 bottom-0 p-3 translate-y-1 group-hover:translate-y-0 transition-transform duration-300 bg-linear-to-t from-black/80 to-transparent"
         >
-          <p class="text-[10px] font-bold text-white truncate">
-            {{ film.title }}
+          <p class="text-[11px] font-bold text-white truncate leading-tight">
+            {{ film.title || film.name }}
           </p>
+          <div class="flex items-center gap-1 mt-0.5">
+            <span class="text-amber-400 text-[9px]">⭐</span>
+            <span class="text-[9px] text-stone-300">{{
+              film.vote_average?.toFixed(1)
+            }}</span>
+          </div>
         </div>
       </div>
     </div>
