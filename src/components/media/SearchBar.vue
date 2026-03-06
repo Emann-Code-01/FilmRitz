@@ -1,6 +1,6 @@
 <!-- src/components/media/SearchBar.vue -->
 <template>
-  <div class="relative z-40 w-full mx-auto">
+  <div class="relative z-40 w-full px-5 md:px-0 mx-auto">
     <div
       class="flex items-center gap-3 bg-white/10 backdrop-blur-xl w-full md:w-lg mx-auto px-4 py-3 rounded-full border border-white/10 focus-within:ring-2 ring-red-500/70 transition-all duration-500"
     >
