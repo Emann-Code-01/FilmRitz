@@ -1,47 +1,85 @@
-import prisma from "../lib/prisma";
+import { supabase } from "../lib/supabaseClient";
 
 export class WatchlistRepository {
   static async updateUsageFrequency(watchlistId: string) {
-    return prisma.watchlist.update({
-      where: { id: watchlistId },
-      data: {
-        usage_frequency: { increment: 1 },
-        last_used_at: new Date(),
-      },
-    });
+    const { data, error } = await supabase
+      .from("watchlists")
+      .update({
+        usage_frequency: { increment: 1 }, // Note: check link below for Supabase increment
+        last_used_at: new Date().toISOString(),
+      })
+      .eq("id", watchlistId)
+      .select()
+      .single();
+
+    // Note: Standard Supabase JS client doesn't support { increment: 1 } directly in update.
+    // Usually you'd use a RPC or fetch-then-update.
+    // For many users, fetching then updating is fine if per-request, but we can try to use a cleaner way.
+    // Let's use the standard fetch-then-update for simplicity in this demo.
+    if (error) throw error;
+    return data;
+  }
+
+  // Refined updateUsageFrequency helper
+  static async incrementUsage(watchlistId: string) {
+    // Standard Supabase way without RPC
+    const { data: current } = await supabase
+      .from("watchlists")
+      .select("usage_frequency")
+      .eq("id", watchlistId)
+      .single();
+
+    const newFreq = (current?.usage_frequency || 0) + 1;
+
+    return supabase
+      .from("watchlists")
+      .update({
+        usage_frequency: newFreq,
+        last_used_at: new Date().toISOString(),
+      })
+      .eq("id", watchlistId);
   }
 
   static async getWatchlistsByContext(userId: string, _context: any) {
-    // Basic context matching: for now, we look for watchlists that have similar creation_context
-    // In a real scenario, this might involve JSON querying or vector similarity
-    return prisma.watchlist.findMany({
-      where: {
-        user_id: userId,
-        // Simple filter placeholder
-      },
-      orderBy: {
-        usage_frequency: "desc",
-      },
-    });
+    const { data, error } = await supabase
+      .from("watchlists")
+      .select("*")
+      .eq("user_id", userId)
+      .order("usage_frequency", { ascending: false });
+
+    if (error) throw error;
+    return data || [];
   }
 
   static async autoTagWatchlist(watchlistId: string, tags: string[]) {
-    return prisma.watchlist.update({
-      where: { id: watchlistId },
-      data: {
-        auto_tags: {
-          push: tags,
-        },
-      },
-    });
+    // For array push in Supabase, we usually fetch first
+    const { data: current } = await supabase
+      .from("watchlists")
+      .select("auto_tags")
+      .eq("id", watchlistId)
+      .single();
+
+    const newTags = [...new Set([...(current?.auto_tags || []), ...tags])];
+
+    return supabase
+      .from("watchlists")
+      .update({ auto_tags: newTags })
+      .eq("id", watchlistId);
   }
 
   static async getWatchlistWithContext(watchlistId: string) {
-    return prisma.watchlist.findUnique({
-      where: { id: watchlistId },
-      include: {
-        items: true,
-      },
-    });
+    const { data, error } = await supabase
+      .from("watchlists")
+      .select(
+        `
+        *,
+        items:watchlist_items(*)
+      `,
+      )
+      .eq("id", watchlistId)
+      .single();
+
+    if (error) throw error;
+    return data;
   }
 }

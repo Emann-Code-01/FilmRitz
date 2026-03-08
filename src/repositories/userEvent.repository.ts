@@ -1,46 +1,69 @@
-import prisma from "../lib/prisma";
+import { supabase } from "../lib/supabaseClient";
 import { UserEventDTO } from "../types/film.types";
 
 export class UserEventRepository {
   static async create(data: UserEventDTO) {
-    return prisma.userEvent.create({
-      data: {
+    const { data: result, error } = await supabase
+      .from("user_events")
+      .insert({
         user_id: data.user_id,
         film_id: data.film_id,
         event_type: data.event_type,
         watch_duration: data.watch_duration,
-        timestamp: data.timestamp ? new Date(data.timestamp) : undefined,
-      },
-    });
+        timestamp: data.timestamp
+          ? new Date(data.timestamp).toISOString()
+          : new Date().toISOString(),
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+    return result;
   }
 
   static async getUserEvents(userId: string) {
-    return prisma.userEvent.findMany({
-      where: { user_id: userId },
-      orderBy: { timestamp: "desc" },
-    });
+    const { data, error } = await supabase
+      .from("user_events")
+      .select("*")
+      .eq("user_id", userId)
+      .order("timestamp", { ascending: false });
+
+    if (error) throw error;
+    return data || [];
   }
 
   static async getCompletionRate(userId: string) {
-    const total = await prisma.userEvent.count({
-      where: { user_id: userId, event_type: { in: ["view", "finish"] } },
-    });
-    if (total === 0) return 0;
+    const { count: total, error: totalError } = await supabase
+      .from("user_events")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", userId)
+      .in("event_type", ["view", "finish"]);
 
-    const finished = await prisma.userEvent.count({
-      where: { user_id: userId, event_type: "finish" },
-    });
+    if (totalError) throw totalError;
+    if (!total) return 0;
 
-    return (finished / total) * 100;
+    const { count: finished, error: finishedError } = await supabase
+      .from("user_events")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", userId)
+      .eq("event_type", "finish");
+
+    if (finishedError) throw finishedError;
+
+    return ((finished || 0) / total) * 100;
   }
 
   static async getAvgWatchTime(userId: string) {
-    const aggregate = await prisma.userEvent.aggregate({
-      where: { user_id: userId, event_type: "finish" },
-      _avg: {
-        watch_duration: true,
-      },
-    });
-    return aggregate._avg.watch_duration || 0;
+    const { data, error } = await supabase
+      .from("user_events")
+      .select("watch_duration")
+      .eq("user_id", userId)
+      .eq("event_type", "finish");
+
+    if (error) throw error;
+    if (!data || data.length === 0) return 0;
+
+    const sum = data.reduce((acc, curr) => acc + (curr.watch_duration || 0), 0);
+    return sum / data.length;
   }
 }

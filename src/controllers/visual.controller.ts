@@ -1,6 +1,6 @@
 import { VisualSimilarityService } from "../services/visual-similarity.service";
 import { FilmAttributeRepository } from "../repositories/filmAttribute.repository";
-import prisma from "../lib/prisma";
+import { supabase } from "../lib/supabaseClient";
 
 export class VisualController {
   /**
@@ -19,20 +19,17 @@ export class VisualController {
 
     // Fetch potential candidates (all other films with embeddings)
     // In production, use vector search (e.g., pgvector)
-    const candidates = await prisma.filmAttribute.findMany({
-      where: {
-        film_id: { not: filmId },
-        visual_embedding: { isEmpty: false },
-      },
-      select: {
-        film_id: true,
-        visual_embedding: true,
-      },
-    });
+    const { data: candidates, error } = await supabase
+      .from("film_attributes")
+      .select("film_id, visual_embedding")
+      .not("film_id", "eq", filmId)
+      .not("visual_embedding", "is", null);
+
+    if (error) throw error;
 
     const ranked = VisualSimilarityService.rankByVisualSimilarity(
       targetFilm.visual_embedding,
-      candidates as any,
+      (candidates || []) as any,
     );
 
     return ranked.slice(0, limit);

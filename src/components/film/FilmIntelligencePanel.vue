@@ -87,7 +87,9 @@ const activeTab = ref("themes");
           >
             <!-- Line -->
             <div
-              v-if="idx < intelligence.culturalImpact.milestones.length - 1"
+              v-if="
+                Number(idx) < intelligence.culturalImpact.milestones.length - 1
+              "
               class="absolute left-[13px] top-6 w-0.5 h-full bg-stone-800"
             ></div>
 
