@@ -36,7 +36,7 @@
         </p>
         <button
           @click="fetchDetails"
-          class="px-3 md:px-6 py-2 md:py-2.5 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all"
+          class="px-3 md:px-6 py-2 md:py-2.5 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-SemiBold] transition-all cursor-pointer"
         >
           Try Again
         </button>
