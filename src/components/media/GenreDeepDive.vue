@@ -59,7 +59,7 @@
             class="w-full text-left px-4 py-3 rounded-xl font-[Gilroy-SemiBold] transition-all duration-500 flex items-center group cursor-pointer"
             :class="[
               selectedGenre?.id === genre.id
-                ? 'bg-[#b20710] text-white shadow-lg shadow-[#b20710]/50'
+                ? 'bg-filmritz-primary text-white shadow-lg shadow-filmritz-primary/40'
                 : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white',
             ]"
           >
@@ -135,7 +135,7 @@
               class="w-full text-left px-4 py-3 rounded-tl-xl rounded-bl-xl font-[Gilroy-SemiBold] transition-all duration-500 flex items-center justify-between group cursor-pointer"
               :class="[
                 selected || active
-                  ? 'bg-[#b20710] text-white shadow-lg shadow-[#b20710]/50'
+                  ? 'bg-filmritz-primary text-white shadow-lg shadow-filmritz-primary/50'
                   : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white',
               ]"
             >

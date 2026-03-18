@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
+  <div class="min-h-screen bg-filmritz-dark text-white pb-20">
     <!-- Hero header -->
-    <div class="relative pt-28 pb-16 px-6 md:px-10 overflow-hidden">
+    <div class="relative pt-28 pb-16 overflow-hidden">
       <div
         class="absolute inset-0 opacity-30"
         style="
@@ -12,15 +12,13 @@
           );
         "
       ></div>
-      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="relative z-10 page-container">
         <div
           class="flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
           <div class="space-y-3">
-            <div
-              class="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full border border-white/10 text-[10px] font-black uppercase tracking-widest text-indigo-400"
-            >
-              <span class="animate-pulse">●</span> Intent-Aware
+            <div class="badge-filmritz py-1 text-[10px]">
+              <span class="animate-pulse text-xs">●</span> Smart Curator
             </div>
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">
               My Watchlists
@@ -33,18 +31,22 @@
           <!-- Stats row -->
           <div class="flex gap-6">
             <div class="text-center">
-              <div class="text-3xl font-[Gilroy-Bold] text-indigo-400">
+              <div class="text-3xl font-[Gilroy-Bold] text-filmritz-primary">
                 {{ totalWatchlists }}
               </div>
-              <div class="text-xs text-gray-500 font-[Gilroy-Medium] mt-1">
+              <div
+                class="text-xs text-gray-400 font-[Gilroy-Medium] mt-1 uppercase tracking-widest"
+              >
                 Lists
               </div>
             </div>
             <div class="text-center">
-              <div class="text-3xl font-[Gilroy-Bold] text-emerald-400">
+              <div class="text-3xl font-[Gilroy-Bold] text-filmritz-accent">
                 {{ totalFilms }}
               </div>
-              <div class="text-xs text-gray-500 font-[Gilroy-Medium] mt-1">
+              <div
+                class="text-xs text-gray-400 font-[Gilroy-Medium] mt-1 uppercase tracking-widest"
+              >
                 Films
               </div>
             </div>
@@ -57,9 +59,7 @@
     <div
       class="sticky top-20 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-3"
     >
-      <div
-        class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto flex items-center justify-between gap-4"
-      >
+      <div class="page-container flex items-center justify-between gap-4">
         <!-- Filter pills -->
         <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           <button
@@ -69,7 +69,7 @@
             class="shrink-0 px-4 py-1.5 rounded-full text-sm font-[Gilroy-SemiBold] transition-all duration-300"
             :class="
               activeFilter === filter.id
-                ? 'bg-indigo-600 text-white'
+                ? 'bg-filmritz-primary text-white shadow-lg shadow-filmritz-primary/30'
                 : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
             "
           >
@@ -80,7 +80,7 @@
         <!-- Create button -->
         <button
           @click="showCreateModal = true"
-          class="shrink-0 flex items-center gap-2 px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-[Gilroy-SemiBold] transition-all text-sm cursor-pointer"
+          class="btn-filmritz py-2 text-sm"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +99,7 @@
       </div>
     </div>
 
-    <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto mt-10">
+    <div class="page-container mt-10">
       <!-- Loading skeletons -->
       <div v-if="isLoading" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <div
@@ -116,12 +116,7 @@
           Couldn't load your watchlists
         </h3>
         <p class="text-gray-500 mb-6">{{ error }}</p>
-        <button
-          @click="fetchWatchlists"
-          class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-[Gilroy-SemiBold] transition-all cursor-pointer"
-        >
-          Retry
-        </button>
+        <button @click="fetchWatchlists" class="btn-filmritz">Retry</button>
       </div>
 
       <!-- Empty state -->
@@ -145,10 +140,7 @@
             by mood and context.
           </p>
         </div>
-        <button
-          @click="showCreateModal = true"
-          class="inline-flex items-center gap-2 px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-[Gilroy-Bold] transition-all cursor-pointer"
-        >
+        <button @click="showCreateModal = true" class="btn-filmritz">
           Create First Watchlist
         </button>
       </div>
@@ -158,7 +150,7 @@
         <div
           v-for="(watchlist, index) in filteredWatchlists"
           :key="watchlist.id"
-          class="group relative bg-white/5 border border-white/10 rounded-3xl overflow-hidden hover:border-indigo-500/40 transition-all duration-300 cursor-pointer hover:shadow-xl hover:shadow-indigo-500/10 flex flex-col"
+          class="group relative glass-card p-0 overflow-hidden hover:border-filmritz-primary/40 transition-all duration-300 cursor-pointer flex flex-col"
           :style="{ animationDelay: `${index * 60}ms` }"
           @click="selectWatchlist(watchlist)"
         >
@@ -174,7 +166,7 @@
               <!-- Title & date -->
               <div class="flex-1 min-w-0">
                 <h3
-                  class="text-lg font-[Gilroy-Bold] text-white truncate group-hover:text-indigo-300 transition-colors"
+                  class="text-lg font-[Gilroy-Bold] text-white truncate group-hover:text-filmritz-accent transition-colors"
                 >
                   {{ watchlist.name }}
                 </h3>
@@ -186,9 +178,9 @@
               <!-- Relevance badge -->
               <div
                 v-if="watchlist.relevance_score"
-                class="shrink-0 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
+                class="badge-secondary py-1"
               >
-                {{ Math.round(watchlist.relevance_score * 100) }}% match
+                {{ Math.round(watchlist.relevance_score * 100) }}% Match
               </div>
             </div>
 
@@ -234,7 +226,7 @@
           </div>
 
           <!-- Footer stats + actions -->
-          <div class="px-6 pb-5 flex items-center justify-between gap-4">
+          <div class="pb-5 flex items-center justify-between gap-4">
             <div class="flex items-center gap-4 text-sm text-gray-500">
               <span class="flex items-center gap-1">
                 <svg
@@ -276,7 +268,7 @@
             <!-- Use Now button -->
             <button
               @click.stop="useWatchlist(watchlist)"
-              class="px-4 py-2 bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white text-xs font-[Gilroy-SemiBold] rounded-xl border border-indigo-500/30 hover:border-indigo-500 transition-all duration-200 cursor-pointer"
+              class="btn-secondary py-2 text-xs"
             >
               Use Now →
             </button>

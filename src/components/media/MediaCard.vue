@@ -5,13 +5,13 @@
   >
     <!-- Card Container -->
     <div
-      class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 transition-all border border-white/10 hover:border-red-500/40"
+      class="group relative cursor-pointer glass-card overflow-hidden hover:bg-white/10 transition-all hover:border-filmritz-primary/40 shadow-xl shadow-black/40"
       @click="openModal"
     >
       <button
         v-if="showRemove"
         @click.stop="$emit('remove')"
-        class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-all z-20 cursor-pointer group/remove"
+        class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-center text-red-500 hover:bg-filmritz-primary hover:text-white transition-all z-20 cursor-pointer group/remove"
         title="Remove from list"
       >
         <svg
@@ -31,7 +31,7 @@
       <!-- Rank Badge -->
       <div
         v-if="rank"
-        class="absolute top-3 left-3 z-20 w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#b20710] flex items-center justify-center font-bold text-white shadow-xl text-sm md:text-base"
+        class="absolute top-3 left-3 z-20 w-8 h-8 md:w-10 md:h-10 rounded-full bg-filmritz-primary flex items-center justify-center font-[Gilroy-Bold] text-white shadow-xl text-sm md:text-base"
       >
         #{{ rank }}
       </div>

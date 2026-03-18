@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
+  <div class="min-h-screen bg-filmritz-dark text-white pb-20">
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <div
         class="absolute inset-0 blur-3xl opacity-40 transition-all duration-1000"
@@ -8,7 +8,7 @@
         }"
       ></div>
 
-      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="relative z-10 page-container">
         <router-link
           to="/ng"
           class="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors font-[Gilroy-Medium]"
@@ -107,7 +107,7 @@
     <div
       class="sticky top-20 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
-      <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="px-6 md:px-10 page-container">
         <div class="flex gap-3 overflow-x-auto pb-2">
           <button
             v-for="m in moods"
@@ -127,7 +127,7 @@
       </div>
     </div>
 
-    <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto mt-8">
+    <div class="px-6 md:px-10 page-container mt-8">
       <div
         v-if="loading"
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12"
@@ -187,6 +187,11 @@ import { useHead } from "@unhead/vue";
 const route = useRoute();
 const router = useRouter();
 
+const moods = ref<CollectionDefinition[]>(COLLECTIONS);
+const mood = ref<CollectionDefinition | null>(null);
+const moodItems = ref<any[]>([]);
+const loading = ref(true);
+
 useHead({
   title: computed(() =>
     mood.value
@@ -205,11 +210,6 @@ useHead({
     { name: "robots", content: "index, follow" },
   ],
 });
-
-const moods = ref<CollectionDefinition[]>(COLLECTIONS);
-const mood = ref<CollectionDefinition | null>(null);
-const moodItems = ref<any[]>([]);
-const loading = ref(true);
 
 // Client-side pagination using composable over moodItems
 const {

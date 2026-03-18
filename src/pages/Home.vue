@@ -24,7 +24,7 @@
         </template>
         <template v-else>
           <main role="main" class="space-y-16 pb-20 mt-4">
-            <section class="px-4 md:px-8 lg:px-12">
+            <section class="page-container">
               <div class="flex items-center justify-between mb-6">
                 <h2
                   class="text-3xl font-[Gilroy-Bold] text-white flex items-center gap-3"
@@ -33,14 +33,14 @@
                 </h2>
                 <router-link
                   to="/ng/trending"
-                  class="text-[#b20710] hover:text-[#e32125] font-[Gilroy-SemiBold] transition-all flex text-nowrap items-center gap-1"
+                  class="text-filmritz-primary hover:text-filmritz-accent font-[Gilroy-SemiBold] transition-all flex text-nowrap items-center gap-1 group"
                 >
                   View All
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
-                    class="size-5 hidden md:block"
+                    class="size-5 hidden md:block group-hover:translate-x-1 transition-transform"
                   >
                     <path
                       fill-rule="evenodd"
@@ -60,7 +60,7 @@
               adSlot="5823677820"
             />
             <section class="relative overflow-hidden">
-              <div class="px-4 md:px-8 lg:px-12">
+              <div class="page-container">
                 <h2
                   class="text-3xl font-[Gilroy-Bold] text-white flex items-center gap-3"
                 >
@@ -69,7 +69,7 @@
               </div>
               <WhatsHotCarousel @update-ambient="updateColor" />
             </section>
-            <section class="px-4 md:px-8 lg:px-12">
+            <section class="page-container">
               <h2
                 class="text-3xl font-[Gilroy-Bold] text-white mb-6 flex items-center gap-3"
               >
@@ -77,7 +77,7 @@
               </h2>
               <GenreDeepDive @update-ambient="updateColor" />
             </section>
-            <section class="px-4 md:px-8 lg:px-12">
+            <section class="page-container">
               <h2
                 class="text-3xl font-[Gilroy-Bold] text-white mb-6 flex items-center gap-3"
               >
@@ -89,7 +89,7 @@
               />
             </section>
             <section class="relative">
-              <div class="px-4 md:px-8 lg:px-12 mb-6">
+              <div class="page-container mb-6">
                 <h2
                   class="text-3xl font-[Gilroy-Bold] text-white flex items-center gap-3"
                 >
@@ -98,7 +98,7 @@
               </div>
               <TrailerSpotlight @update-ambient="updateColor" />
             </section>
-            <section class="px-4 md:px-8 lg:px-12">
+            <section class="page-container">
               <h2
                 class="text-3xl font-[Gilroy-Bold] text-white mb-6 flex items-center gap-3"
               >
@@ -109,7 +109,7 @@
                 @update-ambient="updateColor"
               />
             </section>
-            <section class="px-4 md:px-8 lg:px-12">
+            <section class="page-container">
               <div class="flex items-center justify-between mb-6">
                 <h2
                   class="text-3xl font-[Gilroy-Bold] text-white flex items-center gap-3"
@@ -118,14 +118,14 @@
                 </h2>
                 <router-link
                   to="/ng/collections"
-                  class="text-[#b20710] hover:text-[#e32125] font-[Gilroy-SemiBold] transition-all flex text-nowrap items-center gap-1"
+                  class="text-filmritz-primary hover:text-filmritz-accent font-[Gilroy-SemiBold] transition-all flex text-nowrap items-center gap-1 group"
                 >
                   View All
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
-                    class="size-5 hidden md:block"
+                    class="size-5 hidden md:block group-hover:translate-x-1 transition-transform"
                   >
                     <path
                       fill-rule="evenodd"
@@ -137,7 +137,7 @@
               </div>
               <CuratedCollections :limit="4" @update-ambient="updateColor" />
             </section>
-            <section class="px-4 md:px-8 lg:px-12">
+            <section class="page-container">
               <h2
                 class="text-3xl font-[Gilroy-Bold] text-white mb-6 flex items-center gap-3"
               >
@@ -148,7 +148,7 @@
                 @update-ambient="updateColor"
               />
             </section>
-            <section class="px-4 md:px-8 lg:px-12">
+            <section class="page-container">
               <h2
                 class="text-3xl font-[Gilroy-Bold] text-white mb-6 flex items-center gap-3"
               >
@@ -252,15 +252,15 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: var(--color-filmritz-dark);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #b20710;
+  background: var(--color-filmritz-primary);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #e32125;
+  background: var(--color-filmritz-accent);
 }
 </style>

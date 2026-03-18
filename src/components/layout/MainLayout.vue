@@ -1,5 +1,5 @@
 <template>
-  <div class="relative min-h-screen bg-[#0a0a0a]">
+  <div class="relative min-h-screen bg-filmritz-dark">
     <!-- 🌈 GLOBAL Ambient Lighting Layer -->
     <div
       v-if="isAmbientEnabled"
@@ -54,15 +54,15 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: var(--color-filmritz-dark);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #b20710;
+  background: var(--color-filmritz-primary);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #e32125;
+  background: var(--color-filmritz-accent);
 }
 </style>

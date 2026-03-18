@@ -15,7 +15,9 @@
         ></div>
       </div>
 
-      <div class="absolute bottom-0 left-0 z-10 p-6 space-y-3 w-full max-w-[1230px] lg:max-w-[1440px]">
+      <div
+        class="absolute bottom-0 left-0 z-10 p-6 space-y-3 w-full max-w-[1230px] lg:max-w-[1440px]"
+      >
         <div class="h-8 w-1/3 bg-white/10 rounded-md animate-pulse"></div>
         <div class="flex items-center gap-4">
           <div class="h-6 w-10 bg-white/10 rounded-md animate-pulse"></div>
@@ -44,15 +46,14 @@
 
           <DialogPanel
             v-if="media"
-            class="relative w-full max-w-[1230px] lg:max-w-[1440px] rounded-xl overflow-hidden text-white shadow-xl bg-black"
+            class="relative w-full max-w-[1230px] lg:max-w-[1440px] overflow-hidden text-white shadow-2xl bg-black/90"
           >
             <div v-if="loading" class="animate-pulse">
-              <div class="h-[70vh] bg-gray-700 rounded-t-xl"></div>
-              <div class="p-6 space-y-3 bg-gray-800 rounded-b-xl">
-                <div class="h-6 bg-gray-600 w-3/4 rounded"></div>
-                <div class="h-4 bg-gray-600 w-1/2 rounded"></div>
-                <div class="h-4 bg-gray-600 w-full rounded"></div>
-                <div class="h-4 bg-gray-600 w-5/6 rounded"></div>
+              <div class="h-[70vh] bg-white/5 rounded-t-3xl"></div>
+              <div class="p-6 space-y-3 bg-white/5 rounded-b-3xl">
+                <div class="h-10 bg-white/10 w-3/4 rounded-lg"></div>
+                <div class="h-6 bg-white/10 w-1/2 rounded-lg"></div>
+                <div class="h-20 bg-white/10 w-full rounded-lg"></div>
               </div>
             </div>
 
@@ -62,93 +63,94 @@
                 :style="{
                   backgroundImage: media.backdrop_path
                     ? `url(${baseUrl + media.backdrop_path})`
-                    : 'url(https://placehold.co/300x450/0f0f0f/FF0000?text=FILMRITZ%0ANO+IMAGE)',
+                    : 'url(https://placehold.co/1280x720/0f0f0f/FF0000?text=FILMRITZ)',
                 }"
               >
                 <div
-                  class="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent"
+                  class="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent"
                 ></div>
                 <button
                   @click="modalStore.closeModal"
-                  class="absolute top-6 right-6"
+                  class="absolute top-6 right-6 z-50 p-2 bg-black/40 backdrop-blur-md rounded-full border border-white/10 hover:bg-filmritz-primary transition-all duration-300"
                 >
-                  <span class="fixed">
-                    <svg
-                      viewBox="0 0 36 36"
-                      width="36"
-                      height="36"
-                      class="transform -rotate-45 absolute right-2 p-1 hover:bg-[#b20710]/70 rounded-full transition-all duration-500 z-20 cursor-pointer"
-                      fill="currentColor"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M17 17V3H19V17H33V19H19V33H17V19H3V17H17Z"
-                      />
-                    </svg>
-                  </span>
+                  <svg
+                    viewBox="0 0 36 36"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M17 17V3H19V17H33V19H19V33H17V19H3V17H17Z"
+                      class="transform rotate-45 origin-center"
+                    />
+                  </svg>
                 </button>
               </div>
 
-              <div
-                class="relative -mt-6 p-6 bg-linear-to-t from-black/ via-black/70 to-transparent rounded-t-2xl"
-              >
+              <div class="relative -mt-12 p-8">
                 <DialogTitle
                   as="h2"
-                  class="md:text-6xl text-3xl font-[Gilroy-Bold]"
+                  class="md:text-6xl text-3xl font-[Gilroy-Bold] tracking-tight"
                 >
                   {{ media?.title }}
                 </DialogTitle>
 
-                <div class="flex items-center gap-4 mt-2 flex-wrap">
-                  <span
-                    class="px-3 py-1.5 bg-[#b20710]/70 text-green-100 rounded-full text-sm font-[Gilroy-SemiBold]"
-                  >
+                <div class="flex items-center gap-4 mt-4 flex-wrap">
+                  <span class="badge-filmritz py-1.5 px-4 text-sm">
+                    <i class="pi pi-star-fill text-[10px]"></i>
                     {{ media?.vote_average?.toFixed(1) }}
                   </span>
                   <span
-                    class="px-3 py-1.5 text-white bg-white/10 rounded-full text-sm font-[Gilroy-SemiBold]"
+                    class="badge-secondary py-1.5 px-4 text-sm uppercase tracking-wider"
                   >
-                    {{ media.media_type.toUpperCase() }}
+                    {{ media.media_type }}
                   </span>
-                  <span class="text-sm font-[Gilroy-Medium]">
-                    {{ new Date(media?.release_date).getFullYear() }}
+                  <span class="text-sm font-[Gilroy-Medium] text-white/60">
+                    {{
+                      new Date(
+                        media?.release_date || media?.first_air_date,
+                      ).getFullYear()
+                    }}
                   </span>
-                  <span
-                    v-for="genreName in getGenreNames(
-                      getGenreIdsFromMedia(media)
-                    )"
-                    :key="genreName"
-                    @click="goToGenre(genreName)"
-                    class="text-sm font-[Gilroy-SemiBold] text-gray-300 bg-white/10 px-3 py-0.5 rounded-full hover:bg-[#b20710]/70 hover:text-white transition-all duration-200 cursor-pointer"
-                  >
-                    {{ genreName }}
-                  </span>
+                  <div class="flex gap-2 flex-wrap">
+                    <span
+                      v-for="genreName in getGenreNames(
+                        getGenreIdsFromMedia(media),
+                      )"
+                      :key="genreName"
+                      @click="goToGenre(genreName)"
+                      class="badge-secondary hover:bg-filmritz-primary hover:border-filmritz-primary transition-all duration-300 cursor-pointer"
+                    >
+                      {{ genreName }}
+                    </span>
+                  </div>
                 </div>
 
                 <DialogDescription
-                  class="mt-4 max-w-2xl text-xl font-[Gilroy-SemiBold]"
+                  class="mt-6 max-w-3xl text-lg text-white/80 font-[Gilroy-Medium] leading-relaxed"
                 >
                   {{
                     expanded
                       ? media?.overview
-                      : truncateText(media?.overview, 30)
+                      : truncateText(media?.overview, 40)
                   }}
                 </DialogDescription>
 
-                <div class="pt-3">
+                <div class="pt-8">
                   <button
                     @click="handleProtectedRoute"
-                    class="gap-3 bg-[#b20710] text-white flex items-center justify-center w-fit text-xl focus:outline-none font-[Gilroy-Bold] md:text-2xl px-8 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500 cursor-pointer"
+                    class="btn-filmritz group"
                   >
-                    {{ auth.isLoggedIn ? "View Info" : "Sign In" }}
+                    <span>{{
+                      auth.isLoggedIn ? "View Full Details" : "Sign In to Watch"
+                    }}</span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
-                      stroke-width="1.5"
+                      stroke-width="2"
                       stroke="currentColor"
-                      class="size-6 group-hover:animate-pulse"
+                      class="size-5 group-hover:translate-x-1 transition-transform"
                     >
                       <path
                         stroke-linecap="round"
@@ -216,7 +218,7 @@ function slugify(str: string | undefined) {
     String(str)
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)+/g, "")
+      .replace(/(^-|-$)+/g, ""),
   );
 }
 
@@ -279,6 +281,6 @@ watch(
     } finally {
       loading.value = false;
     }
-  }
+  },
 );
 </script>

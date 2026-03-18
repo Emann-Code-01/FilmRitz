@@ -1,29 +1,29 @@
 <template>
   <div class="min-h-screen text-white pb-20 px-4 md:px-10">
     <!-- Loading State -->
-    <div
-      v-if="loading"
-      class="max-w-[1230px] lg:max-w-[1440px] mx-auto pt-24 px-4"
-    >
+    <div v-if="loading" class="page-container pt-24 px-4">
       <div class="grid md:grid-cols-12 gap-6 lg:gap-8">
         <div class="md:col-span-4 lg:col-span-3">
           <div
-            class="h-96 lg:h-[500px] bg-gray-800/50 rounded-2xl animate-pulse"
+            class="h-96 lg:h-[500px] bg-white/5 border border-white/5 rounded-3xl animate-pulse"
           />
         </div>
         <div class="md:col-span-8 lg:col-span-9 space-y-4">
-          <div class="h-12 bg-gray-800/50 rounded-xl animate-pulse" />
-          <div class="h-32 bg-gray-800/50 rounded-xl animate-pulse" />
-          <div class="h-24 bg-gray-800/50 rounded-xl animate-pulse" />
+          <div
+            class="h-12 bg-white/5 border border-white/5 rounded-2xl animate-pulse"
+          />
+          <div
+            class="h-32 bg-white/5 border border-white/5 rounded-2xl animate-pulse"
+          />
+          <div
+            class="h-24 bg-white/5 border border-white/5 rounded-2xl animate-pulse"
+          />
         </div>
       </div>
     </div>
 
     <!-- Not Found State -->
-    <div
-      v-else-if="notFound"
-      class="max-w-[1230px] lg:max-w-[1440px] mx-auto pt-24 px-4"
-    >
+    <div v-else-if="notFound" class="page-container pt-24 px-4">
       <div
         class="text-center py-20 bg-white/5 rounded-2xl border border-white/10"
       >
@@ -33,10 +33,7 @@
         <p class="text-gray-400 font-[Gilroy-Regular] mb-6">
           We couldn't find the actor you're looking for
         </p>
-        <router-link
-          to="/ng"
-          class="inline-flex items-center gap-2 px-4 py-3 bg-[#b20710] hover:bg-[#8f0509] text-white font-[Gilroy-Bold] rounded-xl transition-all duration-300"
-        >
+        <router-link to="/ng" class="btn-filmritz px-6 py-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -55,10 +52,7 @@
     </div>
 
     <!-- Actor Details -->
-    <div
-      v-else-if="person"
-      class="max-w-[1230px] lg:max-w-[1440px] mx-auto pt-20 lg:pt-24 px-4"
-    >
+    <div v-else-if="person" class="page-container pt-20 lg:pt-24 px-4">
       <!-- Hero Section -->
       <div class="grid md:grid-cols-12 gap-6 lg:gap-8 mb-12 lg:mb-16">
         <!-- Profile Image & Core Identity -->
@@ -97,7 +91,7 @@
                   <span
                     v-for="dept in getDepartments()"
                     :key="dept"
-                    class="px-3 py-1 bg-[#b20710]/20 border border-[#b20710]/30 text-[#ff4444] rounded-full font-[Gilroy-SemiBold] text-sm"
+                    class="badge-filmritz"
                   >
                     {{ dept }}
                   </span>
@@ -122,7 +116,7 @@
               <!-- Birthday & Age -->
               <div
                 v-if="person.birthday"
-                class="bg-linear-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-[#b20710]/30 transition-all duration-300"
+                class="bg-linear-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-filmritz-primary/30 transition-all duration-300"
               >
                 <p
                   class="text-gray-400 text-xs lg:text-sm font-[Gilroy-Medium] mb-1 uppercase tracking-wider"
@@ -146,7 +140,7 @@
               <!-- Place of Birth -->
               <div
                 v-if="person.place_of_birth"
-                class="bg-linear-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-[#b20710]/30 transition-all duration-300"
+                class="bg-linear-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-filmritz-primary/30 transition-all duration-300"
               >
                 <p
                   class="text-gray-400 text-xs lg:text-sm font-[Gilroy-Medium] mb-1 uppercase tracking-wider"
@@ -187,7 +181,7 @@
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  class="w-7 h-7 text-[#b20710]"
+                  class="w-7 h-7 text-filmritz-primary"
                 >
                   <path
                     d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.25a.75.75 0 0 0 1 .707A8.237 8.237 0 0 1 6 18.75c1.995 0 3.823.707 5.25 1.886V4.533ZM12.75 20.636A8.214 8.214 0 0 1 18 18.75c.966 0 1.89.166 2.75.47a.75.75 0 0 0 1-.708V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533v16.103Z"
@@ -215,7 +209,7 @@
                   <button
                     v-if="getBiographyParagraphs().length > 2"
                     @click="showFullBio = !showFullBio"
-                    class="mt-4 text-[#b20710] hover:text-[#ff4444] font-[Gilroy-SemiBold] text-sm flex items-center gap-2 transition-all cursor-pointer"
+                    class="mt-4 text-filmritz-primary hover:text-filmritz-accent font-[Gilroy-SemiBold] text-sm flex items-center gap-2 transition-all cursor-pointer"
                   >
                     {{ showFullBio ? "Read Less" : "Read More" }}
                     <svg
@@ -241,17 +235,14 @@
     </div>
 
     <!-- Known For Carousel -->
-    <div
-      v-if="knownFor.length"
-      class="mb-12 lg:mb-16 max-w-[1230px] lg:max-w-[1440px] mx-auto pt-4 px-4"
-    >
+    <div v-if="knownFor.length" class="mb-12 lg:mb-16 page-container pt-4 px-4">
       <div class="flex items-center justify-between mb-6 lg:mb-8">
         <div class="flex items-center gap-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            class="w-8 h-8 text-[#b20710]"
+            class="w-8 h-8 text-filmritz-primary"
           >
             <path
               fill-rule="evenodd"
@@ -273,7 +264,7 @@
             class="shrink-0 w-[140px] sm:w-40 md:w-[180px] lg:w-[200px] snap-start group cursor-pointer"
           >
             <div
-              class="relative rounded-xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#b20710]/20"
+              class="relative rounded-xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-filmritz-primary/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-filmritz-primary/20"
             >
               <div class="aspect-2/3 relative">
                 <img
@@ -326,16 +317,14 @@
     </div>
 
     <!-- Filmography Tabs -->
-    <div
-      class="mb-12 lg:mb-16 max-w-[1230px] lg:max-w-[1440px] mx-auto pt-4 px-4"
-    >
+    <div class="mb-12 lg:mb-16 page-container pt-4 px-4">
       <div class="flex items-center justify-between mb-6 lg:mb-8">
         <div class="flex items-center gap-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            class="w-8 h-8 text-[#b20710]"
+            class="w-8 h-8 text-filmritz-primary"
           >
             <path
               d="M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z"
@@ -364,7 +353,7 @@
           :class="[
             'px-4 py-3 rounded-xl font-[Gilroy-Bold] text-sm transition-all whitespace-nowrap cursor-pointer',
             activeTab === 'movies'
-              ? 'bg-[#b20710] text-white shadow-lg shadow-[#b20710]/50'
+              ? 'bg-filmritz-primary text-white shadow-lg shadow-filmritz-primary/50'
               : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white',
           ]"
         >
@@ -375,7 +364,7 @@
           :class="[
             'px-4 py-3 rounded-xl font-[Gilroy-Bold] text-sm transition-all whitespace-nowrap cursor-pointer',
             activeTab === 'tv'
-              ? 'bg-[#b20710] text-white shadow-lg shadow-[#b20710]/50'
+              ? 'bg-filmritz-primary text-white shadow-lg shadow-filmritz-primary/50'
               : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white',
           ]"
         >
@@ -389,7 +378,7 @@
           v-for="item in displayedFilmography"
           :key="item.id + item.credit_id"
           @click="openModal(item)"
-          class="bg-linear-to-r from-white/5 to-transparent hover:from-white/10 hover:to-transparent backdrop-blur-sm rounded-xl p-4 lg:p-5 border border-white/10 hover:border-[#b20710]/50 transition-all duration-300 cursor-pointer group"
+          class="bg-linear-to-r from-white/5 to-transparent hover:from-white/10 hover:to-transparent backdrop-blur-sm rounded-xl p-4 lg:p-5 border border-white/10 hover:border-filmritz-primary/50 transition-all duration-300 cursor-pointer group"
         >
           <div class="flex items-start gap-4">
             <div
@@ -408,7 +397,7 @@
             </div>
             <div class="flex-1 min-w-0">
               <h3
-                class="text-base lg:text-lg font-[Gilroy-Bold] text-white group-hover:text-[#b20710] transition-colors line-clamp-1"
+                class="text-base lg:text-lg font-[Gilroy-Bold] text-white group-hover:text-filmritz-primary transition-colors line-clamp-1"
               >
                 {{ item.title || item.name }}
               </h3>
@@ -451,7 +440,7 @@
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                class="w-5 h-5 text-gray-400 group-hover:text-[#b20710] transition-colors opacity-0 group-hover:opacity-100"
+                class="w-5 h-5 text-gray-400 group-hover:text-filmritz-primary transition-colors opacity-0 group-hover:opacity-100"
               >
                 <path
                   fill-rule="evenodd"
@@ -471,7 +460,7 @@
       >
         <button
           @click="itemsToShow += 20"
-          class="px-8 py-3 bg-linear-to-r from-[#b20710] to-[#8f0509] hover:from-[#8f0509] hover:to-[#b20710] text-white font-[Gilroy-Bold] rounded-xl transition-all duration-300 shadow-lg hover:shadow-[#b20710]/50 inline-flex items-center gap-2 cursor-pointer"
+          class="btn-filmritz py-3 px-8 text-sm"
         >
           Load More ({{ currentFilmography.length - itemsToShow }} remaining)
           <svg
@@ -653,8 +642,8 @@ const getRoleType = (credit: Credit): string => {
 
 const getRoleTypeColor = (credit: Credit): string => {
   const type = getRoleType(credit);
-  if (type === "Lead") return "text-[#b20710] font-semibold";
-  if (type === "Main") return "text-[#ff4444]";
+  if (type === "Lead") return "text-filmritz-primary font-semibold";
+  if (type === "Main") return "text-filmritz-accent";
   if (type === "Supporting") return "text-gray-300";
   return "text-gray-400";
 };

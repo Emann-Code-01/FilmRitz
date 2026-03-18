@@ -12,7 +12,7 @@
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
 
-      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="relative z-10 page-container">
         <div class="md:flex items-center gap-4 hidden">
           <div>
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">Trailers</h1>
@@ -35,7 +35,7 @@
     <div
       class="sticky top-20 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
-      <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="px-6 md:px-10 page-container">
         <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
           <button
             v-for="cat in categories"
@@ -54,7 +54,7 @@
       </div>
     </div>
 
-    <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto mt-8">
+    <div class="px-6 md:px-10 page-container mt-8">
       <div
         v-if="loading"
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"

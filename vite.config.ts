@@ -38,12 +38,11 @@ export default defineConfig({
           "ui-vendor": ["@headlessui/vue"],
           "utils-vendor": ["axios", "colorthief"],
           // Feature chunks
-          "api-vendor": ["@/api/tmdb"],
+          "api-vendor": ["@/api/tmdb", "@/services/mediaRotation"],
           "supabase-vendor": ["@/lib/supabaseClient"],
           "services-chunk": [
             "@/services/intelligenceService",
             "@/services/ratingService",
-            "@/services/mediaRotation",
           ],
         },
         // Chunk file naming

@@ -58,9 +58,9 @@ const roleColor = (type: string) => {
     case "writer":
       return "bg-emerald-500/20 border-emerald-500/50 text-emerald-300";
     case "actor":
-      return "bg-blue-500/20 border-blue-500/50 text-blue-300";
+      return "bg-filmritz-primary/10 border-filmritz-primary/30 text-filmritz-accent";
     default:
-      return "bg-indigo-500/20 border-indigo-500/50 text-indigo-300";
+      return "bg-gray-500/20 border-white/10 text-stone-300";
   }
 };
 
@@ -74,9 +74,7 @@ const navigateToPerson = (node: CastMember) => {
 </script>
 
 <template>
-  <div
-    class="p-6 bg-stone-900 border border-white/5 rounded-3xl space-y-6 overflow-hidden relative"
-  >
+  <div class="p-6 glass-card space-y-6 overflow-hidden relative shadow-2xl">
     <div class="space-y-1 z-10 relative">
       <h3 class="text-xl font-bold text-white flex items-center gap-2">
         <span class="text-lg">🕸️</span>
@@ -90,7 +88,7 @@ const navigateToPerson = (node: CastMember) => {
     <!-- Loading spinner -->
     <div v-if="loading" class="flex items-center justify-center h-64">
       <div
-        class="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"
+        class="w-12 h-12 border-4 border-filmritz-primary/20 border-t-filmritz-primary rounded-full animate-spin"
       ></div>
     </div>
 
@@ -121,8 +119,8 @@ const navigateToPerson = (node: CastMember) => {
         />
         <defs>
           <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#6366f1" />
-            <stop offset="100%" stop-color="#6366f1" stop-opacity="0" />
+            <stop offset="0%" stop-color="#b20710" />
+            <stop offset="100%" stop-color="#e32125" stop-opacity="0" />
           </linearGradient>
         </defs>
       </svg>
@@ -130,7 +128,7 @@ const navigateToPerson = (node: CastMember) => {
       <!-- Central node -->
       <div class="absolute inset-0 flex items-center justify-center z-20">
         <div
-          class="w-16 h-16 bg-indigo-600 rounded-full shadow-2xl shadow-indigo-500/40 flex items-center justify-center border-4 border-stone-900 overflow-hidden cursor-default"
+          class="w-16 h-16 bg-filmritz-primary rounded-full shadow-2xl shadow-filmritz-primary/40 flex items-center justify-center border-4 border-stone-950 overflow-hidden cursor-default"
         >
           <img
             v-if="centralNode?.profile_path"
@@ -157,7 +155,7 @@ const navigateToPerson = (node: CastMember) => {
         <div class="group relative">
           <div
             @click="navigateToPerson(node)"
-            class="w-11 h-11 rounded-full border border-white/10 flex items-center justify-center text-[7px] text-stone-400 font-bold text-center group-hover:border-indigo-500/50 transition-all duration-300 cursor-pointer overflow-hidden"
+            class="w-11 h-11 rounded-full border flex items-center justify-center text-[7px] font-bold text-center group-hover:scale-110 transition-all duration-300 cursor-pointer overflow-hidden"
             :class="roleColor(node.type)"
           >
             <img
@@ -213,7 +211,7 @@ const navigateToPerson = (node: CastMember) => {
 
     <!-- Background glow -->
     <div
-      class="absolute inset-0 bg-linear-to-br from-indigo-500/5 to-transparent pointer-events-none"
+      class="absolute inset-0 bg-linear-to-br from-filmritz-primary/5 to-transparent pointer-events-none"
     ></div>
   </div>
 </template>

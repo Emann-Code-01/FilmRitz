@@ -75,7 +75,7 @@
           class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
         ></div>
 
-        <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+        <div class="relative z-10 page-container">
           <div class="md:flex items-center justify-between mb-6 hidden">
             <div>
               <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] mb-3">
@@ -183,7 +183,7 @@
         </div>
       </div>
 
-      <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="px-6 md:px-10 page-container">
         <div v-if="currentTrailer" class="space-y-4">
           <div
             class="relative aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
@@ -456,7 +456,7 @@
         </div>
       </div>
 
-      <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="px-6 md:px-10 page-container">
         <h3 class="text-2xl font-[Gilroy-Bold] mb-6">
           Available Trailers ({{ trailerItems.length }})
         </h3>

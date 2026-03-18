@@ -7,7 +7,7 @@
       :style="{ backgroundColor: selectedMood.color }"
     ></div>
 
-    <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto px-4">
+    <div class="relative z-10 page-container px-4">
       <div class="grid lg:grid-cols-2 gap-10 items-start">
         <!-- LEFT -->
         <div class="flex flex-col items-center gap-6">

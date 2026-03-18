@@ -12,7 +12,7 @@
         }"
       ></div>
 
-      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="relative z-10 page-container">
         <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] mb-3">
           Curated Collections
         </h1>
@@ -25,7 +25,7 @@
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- COLLECTIONS GRID -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="px-6 max-w-[1590px] mx-auto">
+    <div class="page-container relative">
       <CuratedCollections @update-ambient="updateAmbientColor" />
     </div>
   </div>

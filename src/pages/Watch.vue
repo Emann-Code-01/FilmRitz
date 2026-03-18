@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white">
+  <div class="min-h-screen bg-filmritz-dark text-white">
     <!-- Hero Section / Backdrop -->
     <div class="relative w-full h-[50vh] md:h-[60vh]">
       <div
@@ -10,7 +10,7 @@
         }"
       >
         <div
-          class="absolute inset-0 bg-linear-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent"
+          class="absolute inset-0 bg-linear-to-t from-filmritz-dark via-filmritz-dark/60 to-transparent"
         ></div>
       </div>
 
@@ -19,7 +19,7 @@
         class="absolute inset-0 flex items-center justify-center"
       >
         <div
-          class="animate-spin w-16 h-16 border-4 border-[#b20710] border-t-transparent rounded-full"
+          class="animate-spin w-16 h-16 border-4 border-filmritz-primary border-t-transparent rounded-full"
         ></div>
       </div>
 
@@ -56,7 +56,7 @@
         <div class="relative">
           <select
             v-model="activeCountry"
-            class="appearance-none bg-[#141414] border border-white/20 hover:border-[#b20710]/50 rounded-xl pl-4 pr-10 py-3 text-white cursor-pointer transition-all focus:outline-none focus:ring-2 focus:ring-[#b20710]"
+            class="appearance-none bg-[#141414] border border-white/20 hover:border-filmritz-primary/50 rounded-xl pl-4 pr-10 py-3 text-white cursor-pointer transition-all focus:outline-none focus:ring-2 focus:ring-filmritz-primary"
           >
             <option
               v-for="country in countries"
@@ -131,7 +131,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <!-- Streaming (Flatrate) -->
           <div
-            class="bg-[#141414] rounded-2xl border border-white/5 p-8 hover:border-[#b20710]/30 transition-all"
+            class="bg-[#141414] rounded-2xl border border-white/5 p-8 hover:border-filmritz-primary/30 transition-all"
           >
             <h3
               class="font-[Gilroy-Bold] text-xl mb-6 text-white flex items-center gap-2"
@@ -140,7 +140,7 @@
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                class="w-6 h-6 text-[#b20710]"
+                class="w-6 h-6 text-filmritz-primary"
               >
                 <path
                   d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"
@@ -166,10 +166,10 @@
                   <img
                     :src="getProviderLogo(prov.logo_path)"
                     :alt="prov.provider_name"
-                    class="w-16 h-16 rounded-xl shadow-lg group-hover:scale-110 group-hover:ring-2 ring-[#b20710] transition-all duration-300"
+                    class="w-16 h-16 rounded-xl shadow-lg group-hover:scale-110 group-hover:ring-2 ring-filmritz-primary transition-all duration-300"
                   />
                   <div
-                    class="absolute inset-0 bg-[#b20710]/0 group-hover:bg-[#b20710]/20 rounded-xl transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100"
+                    class="absolute inset-0 bg-filmritz-primary/0 group-hover:bg-filmritz-primary/20 rounded-xl transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -203,7 +203,7 @@
 
           <!-- Rent -->
           <div
-            class="bg-[#141414] rounded-2xl border border-white/5 p-8 hover:border-[#b20710]/30 transition-all"
+            class="bg-[#141414] rounded-2xl border border-white/5 p-8 hover:border-filmritz-primary/30 transition-all"
           >
             <h3
               class="font-[Gilroy-Bold] text-xl mb-6 text-white flex items-center gap-2"
@@ -275,7 +275,7 @@
 
           <!-- Buy -->
           <div
-            class="bg-[#141414] rounded-2xl border border-white/5 p-8 hover:border-[#b20710]/30 transition-all"
+            class="bg-[#141414] rounded-2xl border border-white/5 p-8 hover:border-filmritz-primary/30 transition-all"
           >
             <h3
               class="font-[Gilroy-Bold] text-xl mb-6 text-white flex items-center gap-2"
@@ -353,7 +353,7 @@
           <!-- Free / Ads (Conditional) -->
           <div
             v-if="providers[activeCountry].free || providers[activeCountry].ads"
-            class="bg-[#141414] rounded-2xl border border-white/5 p-8 hover:border-[#b20710]/30 transition-all"
+            class="bg-[#141414] rounded-2xl border border-white/5 p-8 hover:border-filmritz-primary/30 transition-all"
           >
             <h3
               class="font-[Gilroy-Bold] text-xl mb-6 text-white flex items-center gap-2"
@@ -410,7 +410,7 @@
           <a
             :href="providers[activeCountry].link"
             target="_blank"
-            class="inline-flex items-center gap-2 px-6 py-3 bg-[#b20710] hover:bg-[#e32125] text-white rounded-full font-[Gilroy-Bold] transition-all mb-4"
+            class="inline-flex items-center gap-2 px-6 py-3 bg-filmritz-primary hover:bg-filmritz-accent text-white rounded-full font-[Gilroy-Bold] transition-all mb-4"
           >
             View All Options on TMDB
             <svg
@@ -431,7 +431,7 @@
             <a
               href="https://www.justwatch.com"
               target="_blank"
-              class="text-[#b20710] hover:underline"
+              class="text-filmritz-primary hover:underline"
               >JustWatch</a
             >.
           </p>
@@ -472,7 +472,7 @@
           <button
             @click="activeCountry = 'US'"
             v-if="activeCountry !== 'US'"
-            class="px-6 py-3 bg-[#b20710]/20 hover:bg-[#b20710]/30 text-[#b20710] rounded-full font-[Gilroy-Bold] transition-all cursor-pointer"
+            class="px-6 py-3 bg-filmritz-primary/20 hover:bg-filmritz-primary/30 text-filmritz-primary rounded-full font-[Gilroy-Bold] transition-all cursor-pointer"
           >
             Try US Region
           </button>

@@ -14,9 +14,7 @@ const activeTab = ref("themes");
 </script>
 
 <template>
-  <div
-    class="bg-stone-900/80 backdrop-blur-md border border-white/10 rounded-3xl overflow-hidden shadow-2xl"
-  >
+  <div class="glass-panel overflow-hidden shadow-2xl">
     <!-- Tabs Header -->
     <div class="flex border-b border-white/5 bg-white/5">
       <button
@@ -26,7 +24,7 @@ const activeTab = ref("themes");
         :class="[
           'flex-1 py-4 text-[10px] font-black uppercase tracking-widest transition-all',
           activeTab === tab
-            ? 'text-indigo-400 border-b-2 border-indigo-500 bg-indigo-500/5'
+            ? 'text-filmritz-primary border-b-2 border-filmritz-primary bg-filmritz-primary/5'
             : 'text-stone-500 hover:text-stone-300',
         ]"
       >
@@ -44,7 +42,7 @@ const activeTab = ref("themes");
           <button
             v-for="theme in intelligence.themes"
             :key="theme"
-            class="px-3 py-1.5 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-[10px] font-bold text-indigo-300 hover:bg-indigo-500/20 transition-all"
+            class="badge-secondary border-filmritz-primary/20 text-filmritz-primary hover:bg-filmritz-primary/10 transition-all font-[Gilroy-Bold]"
           >
             #{{ theme }}
           </button>
@@ -95,7 +93,7 @@ const activeTab = ref("themes");
 
             <!-- Dot -->
             <div
-              class="w-7 h-7 bg-stone-800 border-2 border-indigo-500/50 rounded-full shrink-0 flex items-center justify-center z-10"
+              class="w-7 h-7 bg-stone-900 border-2 border-filmritz-primary/50 rounded-full shrink-0 flex items-center justify-center z-10"
             >
               <span class="text-[8px] font-black text-white"
                 >{{ milestone.year.toString().slice(-2) }}'</span

@@ -131,3 +131,55 @@ model MicroReview {
   @@index([user_id])
   @@map("micro_reviews")
 }
+
+model FeatureFlag {
+  name          String   @id
+  enabled       Boolean  @default(false)
+  percentage    Int?
+  allowed_users String[] @default([])
+  force_off     Boolean  @default(false)
+  updated_at    DateTime @default(now()) @updatedAt
+
+  @@map("feature_flags")
+}
+
+model Rating {
+  id         String   @id @default(uuid())
+  user_id    String   @db.Uuid
+  media_id   Int
+  media_type String
+  rating     Float
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@unique([user_id, media_id, media_type])
+  @@map("ratings")
+}
+
+model Review {
+  id                String   @id @default(uuid())
+  user_id           String   @db.Uuid
+  media_id          Int
+  media_type        String
+  review_text       String   @db.Text
+  helpful_count     Int      @default(0)
+  not_helpful_count Int      @default(0)
+  is_spoiler        Boolean  @default(false)
+  is_flagged        Boolean  @default(false)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @default(now()) @updatedAt
+
+  @@unique([user_id, media_id, media_type])
+  @@map("reviews")
+}
+
+model ReviewHelpfulness {
+  id         String   @id @default(uuid())
+  review_id  String   @db.Uuid
+  user_id    String   @db.Uuid
+  is_helpful Boolean
+
+  @@unique([review_id, user_id])
+  @@map("review_helpfulness")
+}
+

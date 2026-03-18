@@ -1,9 +1,6 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
-    <div
-      v-if="!tv"
-      class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto pt-24"
-    >
+  <div class="min-h-screen bg-filmritz-dark text-white pb-20">
+    <div v-if="!tv" class="px-6 md:px-10 page-container pt-24">
       <div
         class="relative h-[70vh] rounded-2xl bg-gray-800/50 animate-pulse mb-8"
       ></div>
@@ -12,11 +9,11 @@
         <div
           v-for="i in 3"
           :key="i"
-          class="bg-gray-800/50 rounded-2xl p-6 animate-pulse"
+          class="bg-white/5 rounded-2xl p-6 animate-pulse border border-white/5"
         >
-          <div class="h-8 bg-gray-700 rounded w-1/3 mb-4"></div>
-          <div class="h-4 bg-gray-700 rounded w-full mb-2"></div>
-          <div class="h-4 bg-gray-700 rounded w-2/3"></div>
+          <div class="h-8 bg-white/10 rounded-full w-1/3 mb-4"></div>
+          <div class="h-4 bg-white/10 rounded-full w-full mb-2"></div>
+          <div class="h-4 bg-white/10 rounded-full w-2/3"></div>
         </div>
       </div>
     </div>
@@ -82,7 +79,7 @@
             </h2>
             <div class="flex flex-wrap items-center gap-3 md:gap-4 mb-4">
               <span
-                class="px-4 py-2 bg-[#b20710] rounded-xl font-[Gilroy-SemiBold]"
+                class="px-4 py-2 bg-filmritz-primary rounded-xl font-[Gilroy-SemiBold] shadow-lg shadow-filmritz-primary/20"
               >
                 {{ latestSeason.episode_count }} Episode{{
                   latestSeason.episode_count > 1 ? "s" : ""
@@ -140,7 +137,7 @@
           <div
             v-for="season in displayedSeasons"
             :key="season.id"
-            class="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-[#b20710]/50 transition-all duration-500 overflow-hidden"
+            class="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-filmritz-primary/50 transition-all duration-500 overflow-hidden"
           >
             <div
               @click="toggleSeason(season.season_number)"
@@ -155,7 +152,7 @@
                       {{ season.name }}
                     </h3>
                     <span
-                      class="px-3 py-1 bg-[#b20710] rounded-lg text-sm font-[Gilroy-SemiBold]"
+                      class="px-3 py-1 bg-filmritz-primary rounded-lg text-sm font-[Gilroy-SemiBold]"
                     >
                       {{ season.episode_count }} EP
                     </span>
@@ -229,12 +226,12 @@
                 <div
                   v-for="n in 6"
                   :key="n"
-                  class="flex gap-4 p-3 bg-gray-800/50 rounded-xl animate-pulse"
+                  class="flex gap-4 p-3 bg-white/5 rounded-xl animate-pulse border border-white/5"
                 >
-                  <div class="w-28 h-20 bg-gray-700 rounded-lg"></div>
-                  <div class="flex-1 space-y-2">
-                    <div class="h-4 bg-gray-700 rounded w-3/4"></div>
-                    <div class="h-3 bg-gray-700 rounded w-full"></div>
+                  <div class="w-28 h-20 bg-white/10 rounded-lg"></div>
+                  <div class="flex-1 space-y-3">
+                    <div class="h-4 bg-white/10 rounded-full w-3/4"></div>
+                    <div class="h-3 bg-white/10 rounded-full w-full"></div>
                   </div>
                 </div>
               </div>
@@ -247,7 +244,7 @@
                   v-for="ep in episodes"
                   :key="ep.id"
                   @click="openModal(ep)"
-                  class="group relative cursor-pointer rounded-xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all duration-900"
+                  class="group relative cursor-pointer rounded-xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-filmritz-primary/50 transition-all duration-900"
                 >
                   <div
                     class="relative aspect-video overflow-hidden bg-gray-800 transition-all duration-900"
@@ -320,10 +317,7 @@
         </div>
 
         <div v-if="tv.seasons.length > 3" class="mt-8 text-center">
-          <button
-            @click="toggleSeasons"
-            class="px-8 py-4 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] transition-all transform hover:scale-105 cursor-pointer"
-          >
+          <button @click="toggleSeasons" class="btn-filmritz py-4 px-10">
             {{ showAllSeasons ? "Show Less ↑" : "View All Seasons ↓" }}
           </button>
         </div>
@@ -343,14 +337,14 @@
               <button ref="initialFocus" class="sr-only" />
 
               <DialogPanel
-                class="relative w-full max-w-[1230px] lg:max-w-[1440px] rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10"
+                class="w-full max-w-[1230px] lg:max-w-[1440px] rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10"
               >
                 <div v-if="loading" class="animate-pulse">
-                  <div class="h-[60vh] bg-gray-800"></div>
+                  <div class="h-[60vh] bg-white/5"></div>
                   <div class="p-8 space-y-4">
-                    <div class="h-8 bg-gray-700 rounded w-3/4"></div>
-                    <div class="h-4 bg-gray-700 rounded w-1/2"></div>
-                    <div class="h-4 bg-gray-700 rounded w-full"></div>
+                    <div class="h-8 bg-white/10 rounded-full w-3/4"></div>
+                    <div class="h-4 bg-white/10 rounded-full w-1/2"></div>
+                    <div class="h-4 bg-white/10 rounded-full w-full"></div>
                   </div>
                 </div>
 
@@ -376,7 +370,7 @@
                           viewBox="0 0 36 36"
                           width="36"
                           height="36"
-                          class="transform -rotate-45 absolute right-2 p-1 hover:bg-[#b20710]/70 rounded-full transition-all duration-500 z-20 cursor-pointer"
+                          class="transform -rotate-45 absolute right-2 p-1 hover:bg-filmritz-primary rounded-full transition-all duration-500 z-20 cursor-pointer"
                           fill="currentColor"
                         >
                           <path
@@ -403,7 +397,7 @@
                       </span>
                       <span
                         v-if="selectedEpisode.vote_average"
-                        class="px-3 py-1 bg-[#b20710] rounded-lg font-[Gilroy-SemiBold] flex items-center gap-1"
+                        class="px-3 py-1 bg-filmritz-primary rounded-lg font-[Gilroy-SemiBold] flex items-center gap-1"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

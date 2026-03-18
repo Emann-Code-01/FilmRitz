@@ -102,7 +102,7 @@
 
               <!-- Ranking Badge -->
               <div
-                class="absolute top-4 right-4 w-12 h-12 bg-[#b20710] rounded-full flex items-center justify-center shadow-xl"
+                class="absolute top-4 right-4 w-12 h-12 bg-filmritz-primary rounded-full flex items-center justify-center shadow-xl"
               >
                 <span class="text-lg font-[Gilroy-Bold] text-white"
                   >#{{ index + 1 }}</span
@@ -115,7 +115,7 @@
 
       <!-- Navigation Buttons -->
       <button
-        class="hot-prev absolute cursor-pointer left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/70 backdrop-blur-sm flex items-center justify-center text-white hover:bg-[#b20710] transition-all"
+        class="hot-prev absolute cursor-pointer left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/70 backdrop-blur-sm flex items-center justify-center text-white hover:bg-filmritz-primary transition-all"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -131,7 +131,7 @@
         </svg>
       </button>
       <button
-        class="hot-next absolute cursor-pointer right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/70 backdrop-blur-sm flex items-center justify-center text-white hover:bg-[#b20710] transition-all"
+        class="hot-next absolute cursor-pointer right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/70 backdrop-blur-sm flex items-center justify-center text-white hover:bg-filmritz-primary transition-all"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -12,7 +12,7 @@
         }"
       ></div>
 
-      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="relative z-10 page-container">
         <!-- Back Button -->
         <router-link
           to="/ng/collections"
@@ -153,7 +153,7 @@
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- COLLECTION GRID -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+    <div class="px-6 md:px-10 page-container">
       <!-- Loading Skeleton -->
       <div
         v-if="loading"

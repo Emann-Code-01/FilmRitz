@@ -44,7 +44,7 @@ const getPosterUrl = (path?: string) =>
             class="text-[9px] uppercase font-black text-stone-500 tracking-widest"
             >{{ key.replace(/([A-Z])/g, " $1") }}</span
           >
-          <span class="text-sm font-[Gilroy-Bold] text-indigo-400">{{
+          <span class="text-sm font-[Gilroy-Bold] text-filmritz-primary">{{
             formatWeight(val)
           }}</span>
         </div>
@@ -59,7 +59,7 @@ const getPosterUrl = (path?: string) =>
       <div
         v-for="i in 8"
         :key="i"
-        class="aspect-2/3 bg-stone-900/50 rounded-[2.5rem] animate-pulse border border-white/5"
+        class="aspect-2/3 bg-white/5 rounded-3xl animate-pulse border border-white/5"
       ></div>
     </div>
 
@@ -88,7 +88,7 @@ const getPosterUrl = (path?: string) =>
         v-for="(film, index) in results"
         :key="film.film_id"
         @click="emit('select', film)"
-        class="group relative bg-stone-900 border border-white/5 rounded-[2.5rem] overflow-hidden hover:border-indigo-500/40 transition-all duration-700 hover:shadow-[0_20px_50px_rgba(99,102,241,0.15)] cursor-pointer hover:-translate-y-2"
+        class="group relative glass-card p-0 overflow-hidden hover:border-filmritz-primary/40 transition-all duration-700 hover:shadow-[0_20px_50px_rgba(178,7,16,0.15)] cursor-pointer hover:-translate-y-2"
         :style="{ animationDelay: `${index * 100}ms` }"
       >
         <!-- Match Score Badge -->
@@ -129,7 +129,7 @@ const getPosterUrl = (path?: string) =>
                 :key="idx"
                 class="flex items-center gap-2"
               >
-                <div class="w-1 h-1 rounded-full bg-indigo-500"></div>
+                <div class="w-1 h-1 rounded-full bg-filmritz-primary"></div>
                 <span class="text-[10px] text-stone-300 font-[Gilroy-Medium]">{{
                   expl
                 }}</span>
@@ -142,7 +142,7 @@ const getPosterUrl = (path?: string) =>
         <div class="p-6 pt-5 space-y-4">
           <div class="space-y-1">
             <h4
-              class="text-lg font-[Gilroy-Bold] text-white truncate group-hover:text-indigo-400 transition-colors"
+              class="text-lg font-[Gilroy-Bold] text-white truncate group-hover:text-filmritz-primary transition-colors"
             >
               {{ film.title || "Unknown Title" }}
             </h4>
@@ -153,8 +153,10 @@ const getPosterUrl = (path?: string) =>
                 {{ film.media_type === "tv" ? "Series" : "Feature" }}
               </span>
               <span class="w-1 h-1 rounded-full bg-stone-700"></span>
-              <span class="text-[10px] text-indigo-400 font-mono">
-                ID: {{ film.film_id }}
+              <span
+                class="text-[10px] text-filmritz-primary font-mono lowercase opacity-60"
+              >
+                #{{ film.film_id }}
               </span>
             </div>
           </div>
@@ -162,7 +164,7 @@ const getPosterUrl = (path?: string) =>
           <!-- Score Bar -->
           <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
             <div
-              class="h-full bg-linear-to-r from-indigo-600 via-indigo-400 to-emerald-400 transition-all duration-[2000ms] delay-500"
+              class="h-full bg-linear-to-r from-filmritz-primary via-filmritz-accent to-pink-500 transition-all duration-200 delay-500"
               :style="{ width: film.score + '%' }"
             ></div>
           </div>
@@ -174,7 +176,7 @@ const getPosterUrl = (path?: string) =>
           style="
             background: radial-gradient(
               circle at 50% 0%,
-              rgba(99, 102, 241, 0.05),
+              rgba(178, 7, 16, 0.05),
               transparent 70%
             );
           "

@@ -1,6 +1,6 @@
 <template>
   <section
-    class="bg-[#000000] min-h-fit relative z-10 overflow-hidden -mt-16 px-2 py-20 xl:px-32 md:px-14 space-y-10"
+    class="bg-[#000000] min-h-fit relative z-10 overflow-hidden -mt-16 page-container py-20 space-y-10"
   >
     <div class="space-y-5">
       <h1
@@ -828,7 +828,7 @@
           <button
             ref="initialFocus"
             @click="handleGetStarted"
-            class="gap-3 bg-[#b20710] text-white font-[Gilroy-Bold] md:text-2xl px-6 py-4 md:py-3 rounded-sm hover:bg-[#e32125] group transition-all duration-500 cursor-pointer flex items-center justify-center"
+            class="gap-3 bg-filmritz-primary text-white font-[Gilroy-Bold] md:text-2xl px-6 py-4 md:py-3 rounded-sm hover:bg-filmritz-accent group transition-all duration-500 cursor-pointer flex items-center justify-center"
           >
             Sign In
             <svg

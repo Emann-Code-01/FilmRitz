@@ -1,35 +1,33 @@
 <template>
   <div
-    class="min-h-screen bg-[#0a0a0a] text-white pb-20 selection:bg-indigo-500/30"
+    class="min-h-screen bg-filmritz-dark text-white pb-20 selection:bg-filmritz-primary/30"
   >
     <!-- Hero Background Header -->
     <div class="relative h-[450px] md:h-[500px] overflow-hidden">
       <!-- Animated Background Layers -->
       <div
-        class="absolute inset-0 bg-linear-to-b from-indigo-950/40 via-[#0a0a0a] to-[#0a0a0a]"
+        class="absolute inset-0 bg-linear-to-b from-filmritz-primary/10 via-filmritz-dark to-filmritz-dark"
       ></div>
       <div
-        class="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,#6366f115,transparent_50%)]"
+        class="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(178,7,16,0.15),transparent_50%)]"
       ></div>
       <div
-        class="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,#10b98108,transparent_50%)]"
+        class="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(227,33,37,0.08),transparent_50%)]"
       ></div>
 
       <div
-        class="container mx-auto px-6 h-full flex flex-col justify-center relative z-10 pt-20"
+        class="page-container h-full flex flex-col justify-center relative z-10 pt-20"
       >
         <div
-          class="max-w-4xl space-y-6 animate-in fade-in slide-in-from-top-8 duration-1000"
+          class="space-y-6 animate-in fade-in slide-in-from-top-8 duration-1000"
         >
-          <div
-            class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 backdrop-blur-xl rounded-full border border-white/10 text-[10px] font-black uppercase tracking-[0.3em] text-indigo-400"
-          >
+          <div class="badge-filmritz">
             <span class="relative flex h-2 w-2">
               <span
-                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"
               ></span>
               <span
-                class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"
+                class="relative inline-flex rounded-full h-2 w-2 bg-white"
               ></span>
             </span>
             Neural Discovery Engine
@@ -40,7 +38,7 @@
           >
             THE FUTURE OF <br />
             <span
-              class="bg-clip-text text-transparent bg-linear-to-r from-indigo-400 via-purple-400 to-emerald-400 animate-gradient-x"
+              class="bg-clip-text text-transparent bg-linear-to-r from-filmritz-primary via-filmritz-accent to-pink-500 animate-gradient-x"
               >FILM INTUITION</span
             >
           </h1>
@@ -57,15 +55,13 @@
     </div>
 
     <!-- Main Content -->
-    <div class="container mx-auto px-6 -mt-24 md:-mt-32 relative z-20">
+    <div class="page-container relative z-20">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
         <!-- Sidebar / Selector -->
         <div class="lg:col-span-4 space-y-10">
           <div class="sticky top-28 space-y-10">
             <template v-if="flags.flags.intentAwareFilters">
-              <div
-                class="bg-stone-900/40 backdrop-blur-2xl border border-white/5 rounded-[2.5rem] p-1 shadow-2xl"
-              >
+              <div class="glass-panel p-2 shadow-2xl">
                 <IntentSelector @discover="handleDiscover" />
               </div>
             </template>
@@ -111,17 +107,13 @@
 
             <!-- Deep Dive Panels -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div
-                class="bg-stone-900/30 backdrop-blur-md rounded-4xl border border-white/5 p-2"
-              >
+              <div class="glass-card">
                 <CollaborationGraph
                   :nodes="collaborationData.nodes"
                   :edges="collaborationData.edges"
                 />
               </div>
-              <div
-                class="bg-stone-900/30 backdrop-blur-md rounded-4xl border border-white/5 p-2"
-              >
+              <div class="glass-card">
                 <FilmIntelligencePanel
                   :film-id="results[0].film_id"
                   :intelligence="intelligenceData"
@@ -129,9 +121,7 @@
               </div>
             </div>
 
-            <div
-              class="p-2 bg-stone-900/20 rounded-[3rem] border border-white/5"
-            >
+            <div class="glass-card">
               <VisualSimilarity
                 v-if="flags.flags.visualSimilaritySearch"
                 :current-film-id="results[0].film_id"

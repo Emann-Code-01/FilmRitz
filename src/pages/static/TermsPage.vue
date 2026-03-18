@@ -5,7 +5,7 @@
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
 
-      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="relative z-10 page-container">
         <div class="flex items-center gap-4">
           <div
             class="w-20 h-20 rounded-full bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-4xl"
@@ -24,9 +24,7 @@
       </div>
     </div>
 
-    <div
-      class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto space-y-8"
-    >
+    <div class="px-6 md:px-10 page-container space-y-8">
       <section
         class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
       >

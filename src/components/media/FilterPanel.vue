@@ -1,12 +1,14 @@
 <template>
-  <div class="px-6 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+  <div class="page-container">
     <!-- Genre -->
     <div class="flex flex-wrap gap-3 items-center">
       <div>
-        <label class="text-white font-[Gilroy-SemiBold] mb-1 block">Genre</label>
+        <label class="text-white font-[Gilroy-SemiBold] mb-1 block"
+          >Genre</label
+        >
         <select
           v-model="localFilters.genre"
-          class="px-4 py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+          class="px-4 py-2.5 rounded-xl bg-black/40 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-filmritz-primary focus:ring-1 focus:ring-filmritz-primary focus:outline-none transition-all"
         >
           <option value="">All</option>
           <option
@@ -26,13 +28,15 @@
           type="number"
           v-model.number="localFilters.year"
           placeholder="e.g. 2023"
-          class="px-4 py-2.5 w-30 rounded-xl bg-gray-950 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+          class="px-4 py-2.5 w-30 rounded-xl bg-black/40 border border-white/10 text-white font-[Gilroy-Medium] focus:border-filmritz-primary focus:ring-1 focus:ring-filmritz-primary focus:outline-none transition-all"
         />
       </div>
 
       <!-- Rating -->
       <div>
-        <label class="text-white font-[Gilroy-SemiBold] mb-1 block">Min Rating</label>
+        <label class="text-white font-[Gilroy-SemiBold] mb-1 block"
+          >Min Rating</label
+        >
         <input
           type="number"
           v-model.number="localFilters.rating"
@@ -40,7 +44,7 @@
           max="10"
           step="0.1"
           placeholder="0 - 10"
-          class="px-4 py-2.5 rounded-xl w-30 bg-gray-950 border border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+          class="px-4 py-2.5 rounded-xl w-30 bg-black/40 border border-white/10 text-white font-[Gilroy-Medium] focus:border-filmritz-primary focus:ring-1 focus:ring-filmritz-primary focus:outline-none transition-all"
         />
       </div>
 
@@ -48,7 +52,7 @@
         <label class="text-white font-[Gilroy-SemiBold] mb-1 block">Type</label>
         <select
           v-model="localFilters.type"
-          class="px-4 py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+          class="px-4 py-2.5 rounded-xl bg-black/40 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-filmritz-primary focus:ring-1 focus:ring-filmritz-primary focus:outline-none transition-all"
         >
           <option value="">All</option>
           <option value="movie">Movie</option>
@@ -57,10 +61,12 @@
       </div>
 
       <div>
-        <label class="text-white font-[Gilroy-SemiBold] mb-1 block">Sort By</label>
+        <label class="text-white font-[Gilroy-SemiBold] mb-1 block"
+          >Sort By</label
+        >
         <select
           v-model="localFilters.sort"
-          class="px-4 py-2.5 rounded-xl bg-gray-950 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-[#b20710] focus:outline-none transition-all"
+          class="px-4 py-2.5 rounded-xl bg-black/40 border cursor-pointer border-white/10 text-white font-[Gilroy-Medium] focus:border-filmritz-primary focus:ring-1 focus:ring-filmritz-primary focus:outline-none transition-all"
         >
           <option value="">Default</option>
           <option value="newest">Newest</option>
@@ -69,16 +75,10 @@
       </div>
 
       <div class="flex gap-2 mt-6.5">
-        <button
-          @click="applyFilter"
-          class="px-4 py-2 rounded-xl bg-red-600/20 border cursor-pointer border-red-600/50 text-red-400 font-[Gilroy-SemiBold] hover:bg-red-600 hover:text-white transition-all"
-        >
+        <button @click="applyFilter" class="btn-filmritz py-2.5 px-6 text-sm">
           Apply
         </button>
-        <button
-          @click="clearFilter"
-          class="px-5 py-2 rounded-xl bg-gray-700 hover:bg-gray-600 cursor-pointer text-white font-[Gilroy-SemiBold] hover:text-white transition-all"
-        >
+        <button @click="clearFilter" class="btn-secondary py-2.5 px-6 text-sm">
           Clear
         </button>
       </div>
@@ -103,7 +103,7 @@ const localFilters = ref({
 
 // ✅ Convert IDs to string for v-model
 const genres = computed(() =>
-  Object.entries(genreNameToId).map(([name, id]) => ({ id, name }))
+  Object.entries(genreNameToId).map(([name, id]) => ({ id, name })),
 );
 
 // Pre-select genre if defaultGenreId is passed
@@ -115,7 +115,7 @@ watch(
   () => props.defaultGenreId,
   (val) => {
     if (val != null) localFilters.value.genre = String(val);
-  }
+  },
 );
 
 function applyFilter() {

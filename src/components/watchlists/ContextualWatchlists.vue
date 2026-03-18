@@ -35,11 +35,13 @@ const handleUse = (id: string) => {
       </div>
 
       <div
-        class="hidden md:flex items-center gap-2 px-3 py-1.5 bg-indigo-500/10 border border-indigo-500/20 rounded-full"
+        class="hidden md:flex items-center gap-2 px-3 py-1.5 bg-filmritz-primary/10 border border-filmritz-primary/20 rounded-full"
       >
-        <div class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></div>
+        <div
+          class="w-1.5 h-1.5 rounded-full bg-filmritz-primary animate-pulse"
+        ></div>
         <span
-          class="text-[9px] font-black text-indigo-400 uppercase tracking-widest"
+          class="text-[9px] font-black text-filmritz-primary uppercase tracking-widest"
           >Active Scan</span
         >
       </div>
@@ -80,7 +82,7 @@ const handleUse = (id: string) => {
       <div
         v-for="wl in watchlists"
         :key="wl.id"
-        class="group p-6 bg-stone-900/40 backdrop-blur-xl border border-white/5 rounded-[2rem] hover:border-indigo-500/40 transition-all duration-700 hover:bg-stone-800/60 relative overflow-hidden flex flex-col justify-between"
+        class="group p-6 glass-card hover:border-filmritz-primary/40 transition-all duration-700 hover:bg-white/10 relative overflow-hidden flex flex-col justify-between"
       >
         <!-- Top Metadata -->
         <div class="flex justify-between items-start mb-4">
@@ -95,7 +97,7 @@ const handleUse = (id: string) => {
           </div>
 
           <div
-            class="px-2 py-1 rounded-lg text-[10px] font-black text-indigo-400 bg-indigo-500/5 transition-all group-hover:bg-indigo-500 group-hover:text-white"
+            class="px-2 py-1 rounded-lg text-[10px] font-black text-filmritz-primary bg-filmritz-primary/5 transition-all group-hover:bg-filmritz-primary group-hover:text-white"
           >
             {{ wl.relevance_score }}% Match
           </div>
@@ -108,27 +110,24 @@ const handleUse = (id: string) => {
               {{ wl.name }}
             </h4>
             <p
-              class="text-[10px] text-stone-500 font-mono uppercase tracking-[0.1em]"
+              class="text-[10px] text-stone-500 font-mono uppercase tracking-widest"
             >
               Memory strength: {{ wl.usage_frequency }} sessions
             </p>
           </div>
 
-          <button
-            @click="handleUse(wl.id)"
-            class="w-full py-3 bg-white/5 group-hover:bg-white text-stone-400 group-hover:text-black text-xs font-[Gilroy-Bold] rounded-2xl border border-white/5 transition-all duration-500 uppercase tracking-widest shadow-lg shadow-black/20"
-          >
+          <button @click="handleUse(wl.id)" class="btn-secondary py-3 text-xs">
             Reconnect Pattern
           </button>
         </div>
 
         <!-- Abstract Visual Accent -->
         <div
-          class="absolute -bottom-16 -right-16 w-32 h-32 bg-indigo-500/5 blur-[50px] rounded-full group-hover:bg-indigo-500/15 transition-all duration-1000"
+          class="absolute -bottom-16 -right-16 w-32 h-32 bg-filmritz-primary/5 blur-[50px] rounded-full group-hover:bg-filmritz-primary/15 transition-all duration-1000"
         ></div>
 
         <div
-          class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-indigo-600 via-indigo-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+          class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-filmritz-primary via-filmritz-accent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
         ></div>
       </div>
     </div>

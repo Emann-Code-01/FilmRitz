@@ -119,11 +119,11 @@ const triggerDiscover = () => {
 
 <template>
   <div
-    class="p-8 bg-stone-900/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] space-y-10 max-w-2xl mx-auto shadow-2xl relative overflow-hidden"
+    class="p-8 glass-panel space-y-10 max-w-2xl mx-auto shadow-2xl relative overflow-hidden"
   >
     <!-- Top-level visual accent -->
     <div
-      class="absolute top-0 left-0 w-full h-1.5 bg-linear-to-r from-indigo-500 via-purple-500 to-emerald-500 opacity-50"
+      class="absolute top-0 left-0 w-full h-1.5 bg-linear-to-r from-filmritz-primary via-filmritz-accent to-pink-500 opacity-50"
     ></div>
 
     <div class="space-y-6">
@@ -132,7 +132,7 @@ const triggerDiscover = () => {
           class="text-xl font-[Gilroy-Bold] text-white flex items-center gap-3"
         >
           <span
-            class="p-2 bg-indigo-500 text-white rounded-xl shadow-lg shadow-indigo-500/40"
+            class="p-2 bg-filmritz-primary text-white rounded-xl shadow-lg shadow-filmritz-primary/40"
             >🚀</span
           >
           Targeting Intent
@@ -169,7 +169,7 @@ const triggerDiscover = () => {
           >Temporal Slot (minutes)</label
         >
         <span
-          class="text-indigo-400 font-[Gilroy-Bold] text-3xl tabular-nums drop-shadow-[0_0_10px_#6366f140]"
+          class="text-filmritz-primary font-[Gilroy-Bold] text-3xl tabular-nums drop-shadow-[0_0_10px_rgba(178,7,16,0.3)]"
           >{{ selectedIntent.timeAvailable
           }}<span class="text-sm ml-1 text-stone-600">M</span></span
         >
@@ -181,7 +181,7 @@ const triggerDiscover = () => {
           min="30"
           max="180"
           step="15"
-          class="w-full h-1.5 bg-stone-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+          class="w-full h-1.5 bg-stone-800 rounded-lg appearance-none cursor-pointer accent-filmritz-primary"
         />
       </div>
       <div
@@ -209,8 +209,8 @@ const triggerDiscover = () => {
             'px-5 py-2.5 rounded-2xl text-xs font-[Gilroy-Bold] border transition-all duration-500 flex items-center gap-2.5 uppercase tracking-wider',
             selectedIntent.mood === m.label
               ? m.color +
-                ' border-white/20 shadow-xl shadow-indigo-500/10 -translate-y-1'
-              : 'bg-stone-900 border-white/5 text-stone-500 hover:text-stone-300 hover:border-white/10 hover:bg-stone-800/50',
+                ' border-white/20 shadow-xl shadow-filmritz-primary/10 -translate-y-1'
+              : 'bg-stone-950 border-white/5 text-stone-500 hover:text-stone-300 hover:border-white/10 hover:bg-stone-800/50',
           ]"
         >
           <span class="text-lg filter saturate-150">{{ m.emoji }}</span>
@@ -236,7 +236,7 @@ const triggerDiscover = () => {
             :class="[
               'flex-1 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all duration-500',
               selectedIntent.commitmentLevel === lv
-                ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-600/20'
+                ? 'bg-filmritz-primary text-white shadow-xl shadow-filmritz-primary/20'
                 : 'text-stone-600 hover:text-stone-400',
             ]"
           >
@@ -261,7 +261,7 @@ const triggerDiscover = () => {
             :class="[
               'flex-1 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all duration-500',
               selectedIntent.complexityTolerance === cp
-                ? 'bg-emerald-600 text-white shadow-xl shadow-emerald-600/20'
+                ? 'bg-filmritz-accent text-white shadow-xl shadow-filmritz-accent/20'
                 : 'text-stone-600 hover:text-stone-400',
             ]"
           >
@@ -275,7 +275,7 @@ const triggerDiscover = () => {
     <div class="pt-2">
       <button
         @click="triggerDiscover"
-        class="w-full h-16 bg-linear-to-r from-indigo-600 via-indigo-500 to-indigo-600 bg-[size:200%_auto] hover:bg-right text-white font-[Gilroy-Bold] rounded-[1.5rem] shadow-2xl shadow-indigo-600/30 transition-all duration-700 active:scale-[0.97] flex items-center justify-center gap-4 group overflow-hidden relative"
+        class="w-full h-16 bg-linear-to-r from-filmritz-primary via-filmritz-accent to-filmritz-primary bg-size-[200%_auto] hover:bg-right text-white font-[Gilroy-Bold] rounded-2xl shadow-2xl shadow-filmritz-primary/30 transition-all duration-700 active:scale-[0.97] flex items-center justify-center gap-4 group overflow-hidden relative"
       >
         <span
           class="relative z-10 flex items-center gap-4 uppercase tracking-[0.2em] text-sm"
@@ -304,7 +304,7 @@ input[type="range"]::-webkit-slider-thumb {
   background: #ffffff;
   cursor: pointer;
   -webkit-appearance: none;
-  border: 5px solid #6366f1;
+  border: 4px solid #b20710;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
   transition: transform 0.2s ease;
 }

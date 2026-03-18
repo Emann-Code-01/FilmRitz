@@ -7,13 +7,13 @@
         @click.self="close"
       >
         <div
-          class="relative w-full max-w-[1230px] lg:max-w-[1440px] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
+          class="relative w-full max-w-[1230px] lg:max-w-[1440px] glass-panel overflow-hidden shadow-2xl"
           @click.stop
         >
           <!-- Close Button -->
           <button
             @click="close"
-            class="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-sm border border-white/10 flex items-center justify-center transition-all hover:scale-110 cursor-pointer"
+            class="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-black/50 hover:bg-filmritz-primary backdrop-blur-sm border border-white/10 flex items-center justify-center transition-all hover:scale-110 cursor-pointer"
           >
             <svg
               class="w-6 h-6 text-white"
@@ -38,7 +38,7 @@
               class="absolute inset-0 z-40 flex flex-col items-center justify-center bg-black"
             >
               <div
-                class="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin mb-4"
+                class="w-12 h-12 border-4 border-filmritz-primary/20 border-t-filmritz-primary rounded-full animate-spin mb-4"
               ></div>
               <p class="text-white/70 text-sm font-[Gilroy-Medium]">
                 Loading trailer...
@@ -50,61 +50,45 @@
               :src="`https://www.youtube.com/embed/${trailer.key}?autoplay=1&rel=0&modestbranding=1`"
               class="w-full h-full"
               frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="
+                accelerometer;
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                gyroscope;
+                picture-in-picture;
+              "
               allowfullscreen
               @load="handleIframeLoad"
             ></iframe>
           </div>
 
           <!-- Trailer Info -->
-          <div class="p-6 bg-linear-to-t from-[#0a0a0a] to-transparent">
-            <div class="md:flex items-start justify-between gap-4 hidden">
-              <div>
-                <h2 class="text-2xl font-[Gilroy-Bold] text-white mb-2">
-                  {{ trailer?.title }}
-                </h2>
-                <div class="flex items-center gap-3">
-                  <span
-                    class="px-3 py-1 bg-[#b20710] text-white rounded-lg text-sm font-[Gilroy-SemiBold]"
-                  >
-                    {{ trailer?.type }}
-                  </span>
-                  <span class="text-gray-400 text-sm">
-                    {{ trailer?.mediaType === "movie" ? "Movie" : "TV Show" }}
-                  </span>
-                </div>
-              </div>
-
-              <button
-                @click="viewFullDetails"
-                class="px-3 md:px-6 py-2 md:py-2.5  bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] text-white transition-all hover:scale-105 border border-white/10 cursor-pointer"
-              >
-                View Full Details
-              </button>
-            </div>
+          <div
+            class="p-8 bg-black/80 backdrop-blur-xl border-t border-white/10"
+          >
             <div
-              class="flex flex-col items-start justify-between gap-4 md:hidden"
+              class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
             >
-              <div>
-                <h2 class="text-2xl font-[Gilroy-Bold] text-white mb-2">
+              <div class="space-y-3">
+                <h2
+                  class="text-3xl font-[Gilroy-Bold] text-white tracking-tight"
+                >
                   {{ trailer?.title }}
                 </h2>
                 <div class="flex items-center gap-3">
-                  <span
-                    class="px-3 py-1 bg-[#b20710] text-white rounded-lg text-sm font-[Gilroy-SemiBold]"
-                  >
+                  <span class="badge-filmritz">
                     {{ trailer?.type }}
                   </span>
-                  <span class="text-gray-400 text-sm">
+                  <span
+                    class="badge-secondary uppercase tracking-widest text-[10px]"
+                  >
                     {{ trailer?.mediaType === "movie" ? "Movie" : "TV Show" }}
                   </span>
                 </div>
               </div>
 
-              <button
-                @click="viewFullDetails"
-                class="px-3 py-2 bg-white/10 hover:bg-white/20 rounded-xl font-[Gilroy-SemiBold] text-white transition-all hover:scale-105 border border-white/10 cursor-pointer"
-              >
+              <button @click="viewFullDetails" class="btn-secondary">
                 View Full Details
               </button>
             </div>
@@ -177,7 +161,7 @@ watch(
       document.body.style.overflow = "";
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onUnmounted(() => {

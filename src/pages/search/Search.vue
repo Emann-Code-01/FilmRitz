@@ -2,13 +2,13 @@
   <div class="min-h-screen text-white pb-20 mt-20">
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <div
-        class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
+        class="absolute inset-0 bg-linear-to-b from-filmritz-primary/10 via-transparent to-transparent blur-3xl opacity-50"
       ></div>
 
-      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="relative z-10 page-container">
         <div class="flex items-center gap-4 mb-6">
           <div
-            class="w-16 h-16 rounded-2xl bg-[#b20710]/20 border-2 border-[#b20710] flex items-center justify-center text-3xl"
+            class="w-16 h-16 rounded-2xl bg-filmritz-primary/10 border-2 border-filmritz-primary flex items-center justify-center text-3xl shadow-lg shadow-filmritz-primary/10"
           >
             🔍
           </div>
@@ -18,7 +18,7 @@
             </h1>
             <p class="text-xl text-gray-400 font-[Gilroy-Medium] mt-1">
               Found
-              <span class="text-[#b20710] font-[Gilroy-Bold]">{{
+              <span class="text-filmritz-primary font-[Gilroy-Bold]">{{
                 filteredResults.length
               }}</span>
               results for "<span class="text-white font-[Gilroy-Bold]">{{
@@ -34,7 +34,7 @@
     <div
       class="sticky top-22 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
-      <div class="px-6 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="px-6 page-container">
         <FilterPanel @apply="onFilterApply" @clear="onFilterClear" />
       </div>
     </div>
@@ -47,12 +47,12 @@
         <div
           v-for="n in 20"
           :key="n"
-          class="relative rounded-2xl overflow-hidden bg-white/5 animate-pulse"
+          class="relative rounded-3xl overflow-hidden bg-white/5 animate-pulse border border-white/5"
         >
-          <div class="aspect-2/3 bg-gray-800"></div>
-          <div class="p-4 space-y-2">
-            <div class="h-4 bg-gray-700 rounded w-3/4"></div>
-            <div class="h-3 bg-gray-700 rounded w-1/2"></div>
+          <div class="aspect-2/3 bg-white/5"></div>
+          <div class="p-4 space-y-3">
+            <div class="h-4 bg-white/10 rounded-full w-3/4"></div>
+            <div class="h-3 bg-white/10 rounded-full w-1/2"></div>
           </div>
         </div>
       </div>
@@ -82,7 +82,7 @@
       <button
         @click="toggleView"
         :disabled="loading"
-        class="px-8 py-4 bg-[#b20710] hover:bg-[#e32125] rounded-xl font-[Gilroy-Bold] text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"
+        class="btn-filmritz py-4 px-10"
       >
         {{
           loading ? "Loading..." : isExpanded ? "Show Less ↑" : "View More ↓"

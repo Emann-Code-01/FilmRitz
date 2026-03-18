@@ -6,7 +6,7 @@
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
 
-      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="relative z-10 page-container">
         <div
           class="grid space-y-3 md:space-y-0 md:flex items-center md:justify-between"
         >

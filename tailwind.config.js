@@ -26,8 +26,14 @@ export default {
       colors: {
         filmritz: {
           primary: "#b20710",
+          accent: "#e32125",
           dark: "#0a0a0a",
+          glass: "rgba(255, 255, 255, 0.05)",
+          "glass-edge": "rgba(255, 255, 255, 0.1)",
         },
+      },
+      backdropBlur: {
+        xs: "2px",
       },
     },
     screens: {

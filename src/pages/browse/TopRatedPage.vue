@@ -1,11 +1,11 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20">
+  <div class="min-h-screen bg-filmritz-dark text-white pb-20">
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <div
-        class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
+        class="absolute inset-0 bg-linear-to-b from-filmritz-primary/20 via-transparent to-transparent blur-3xl"
       ></div>
 
-      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="relative z-10 page-container">
         <div class="md:flex items-center gap-4 hidden">
           <div class="flex-1">
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">Top Rated</h1>
@@ -16,7 +16,7 @@
           <!-- Stats -->
           <div class="flex gap-6">
             <div class="text-center flex items-center justify-center gap-2">
-              <div class="text-3xl font-[Gilroy-Bold] text-[#b20710]">
+              <div class="text-3xl font-[Gilroy-Bold] text-filmritz-primary">
                 {{ pagination.totalItems.value }}+
               </div>
               <div class="text-sm text-gray-400 font-[Gilroy-Medium]">
@@ -25,7 +25,7 @@
             </div>
             <div class="text-center flex items-center justify-center gap-2">
               <div class="text-sm text-gray-400 font-[Gilroy-Medium]">Page</div>
-              <div class="text-3xl font-[Gilroy-Bold] text-[#b20710]">
+              <div class="text-3xl font-[Gilroy-Bold] text-filmritz-primary">
                 {{ pagination.currentPage.value }}
               </div>
             </div>
@@ -41,7 +41,7 @@
           <!-- Mobile Stats -->
           <div class="flex gap-6">
             <div class="text-center flex items-center justify-center gap-2">
-              <div class="text-2xl font-[Gilroy-Bold] text-[#b20710]">
+              <div class="text-2xl font-[Gilroy-Bold] text-filmritz-primary">
                 {{ pagination.totalItems.value }}+
               </div>
               <div class="text-sm text-gray-400 font-[Gilroy-Medium]">
@@ -50,7 +50,7 @@
             </div>
             <div class="text-center flex items-center justify-center gap-2">
               <div class="text-sm text-gray-400 font-[Gilroy-Medium]">Page</div>
-              <div class="text-2xl font-[Gilroy-Bold] text-[#b20710]">
+              <div class="text-2xl font-[Gilroy-Bold] text-filmritz-primary">
                 {{ pagination.currentPage.value }}
               </div>
             </div>
@@ -62,7 +62,7 @@
     <div
       class="sticky top-20 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
-      <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="px-6 md:px-10 page-container">
         <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
           <button
             v-for="filter in filters"
@@ -71,7 +71,7 @@
             class="shrink-0 px-3 md:px-6 py-2 md:py-2.5 rounded-full font-[Gilroy-SemiBold] transition-all duration-500 cursor-pointer"
             :class="
               selectedFilter === filter.value
-                ? 'bg-[#b20710] text-white'
+                ? 'bg-filmritz-primary text-white'
                 : 'bg-white/5 text-gray-400 hover:bg-white/10'
             "
           >
@@ -81,7 +81,7 @@
       </div>
     </div>
 
-    <div class="px-6 md:px-10 mx-auto mt-8 max-w-[1230px] lg:max-w-[1440px]">
+    <div class="mt-8 page-container">
       <div
         v-if="loading"
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12"
@@ -101,7 +101,7 @@
           v-for="(item, index) in pagination.pagedItems.value"
           :key="item.id"
           @click="openModal(item)"
-          class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#b20710]/50 transition-all hover:scale-105 animate-fade-up"
+          class="group relative cursor-pointer rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 border border-white/10 hover:border-filmritz-primary/50 transition-all hover:scale-105 animate-fade-up"
           :style="{ animationDelay: `${index * 30}ms` }"
         >
           <div class="aspect-2/3 overflow-hidden">
@@ -164,7 +164,7 @@
 
           <!-- Rank Badge (Top Right) -->
           <div
-            class="absolute top-3 right-3 w-10 h-10 rounded-full bg-[#b20710] flex items-center justify-center font-[Gilroy-Bold] text-white shadow-xl"
+            class="absolute top-3 right-3 w-10 h-10 rounded-full bg-filmritz-primary flex items-center justify-center font-[Gilroy-Bold] text-white shadow-xl"
           >
             #{{ pagination.startIndex.value + index }}
           </div>

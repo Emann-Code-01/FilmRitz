@@ -2,13 +2,13 @@
   <div
     class="min-h-screen text-white py-10 transition-all duration-900 animate-fade-up"
   >
-    <div class="relative py-12 px-6 mx-auto overflow-hidden">
+    <div class="relative py-12 overflow-hidden page-container">
       <div
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
 
       <div
-        class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto justify-between"
+        class="relative z-10 page-container justify-between"
       >
         <div class="grid lg:grid-cols-2 gap-8 items-center">
           <div class="space-y-4">
@@ -81,7 +81,7 @@
     <div
       class="sticky top-20 md:top-24 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10 py-4"
     >
-      <div class="px-6 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="page-container">
         <div class="flex gap-3 mb-2 overflow-x-auto pb-2 scrollbar-hide">
           <button
             v-for="cat in categories"
@@ -150,7 +150,7 @@
       </div>
     </div>
 
-    <div class="px-6 mx-auto mt-8 max-w-[1230px] lg:max-w-[1440px]">
+    <div class="mt-8 page-container">
       <div
         v-if="loading"
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12"

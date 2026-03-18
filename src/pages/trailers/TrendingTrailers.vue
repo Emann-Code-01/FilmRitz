@@ -11,7 +11,7 @@
       <div
         class="absolute inset-0 bg-linear-to-b from-[#b20710]/20 via-transparent to-transparent blur-3xl"
       ></div>
-      <div class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+      <div class="relative z-10 page-container">
         <div class="md:flex items-center gap-4 hidden">
           <div>
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold]">
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div class="px-6 md:px-10 max-w-[1230px] lg:max-w-[1440px] mx-auto">
+    <div class="px-6 md:px-10 page-container">
       <div
         v-if="loading"
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"

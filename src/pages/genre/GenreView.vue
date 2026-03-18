@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pb-20 md:">
+  <div class="min-h-screen bg-filmritz-dark text-white pb-20 md:">
     <!-- HERO HEADER -->
     <div class="relative pt-24 pb-12 px-6 md:px-10 overflow-hidden">
       <div
@@ -9,9 +9,7 @@
         }"
       ></div>
 
-      <div
-        class="relative z-10 max-w-[1230px] lg:max-w-[1440px] mx-auto justify-between"
-      >
+      <div class="relative z-10 page-container justify-between">
         <div class="md:flex items-center gap-4 mb-4 hidden">
           <div>
             <h1 class="text-5xl md:text-6xl font-[Gilroy-Bold] capitalize">
@@ -37,7 +35,7 @@
     </div>
 
     <!-- MEDIA GRID -->
-    <div class="px-6 mx-auto mt-8">
+    <div class="page-container">
       <div
         v-if="loading"
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"

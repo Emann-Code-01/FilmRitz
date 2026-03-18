@@ -81,7 +81,7 @@ onMounted(fetchSimilar);
       <div
         v-for="i in 8"
         :key="i"
-        class="aspect-2/3 bg-stone-800 rounded-xl animate-pulse"
+        class="aspect-2/3 bg-white/5 rounded-2xl animate-pulse border border-white/5"
       ></div>
     </div>
 
@@ -100,7 +100,7 @@ onMounted(fetchSimilar);
         v-for="film in similarFilms"
         :key="film.id"
         @click="navigateToFilm(film)"
-        class="group relative aspect-2/3 bg-stone-900 rounded-xl overflow-hidden hover:ring-2 ring-indigo-500/50 transition-all cursor-pointer hover:scale-[1.03]"
+        class="group relative aspect-2/3 bg-white/5 rounded-2xl overflow-hidden hover:ring-2 ring-filmritz-primary transition-all cursor-pointer hover:scale-[1.03] border border-white/5"
       >
         <!-- Poster image -->
         <img
