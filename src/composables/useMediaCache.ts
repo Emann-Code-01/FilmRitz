@@ -165,5 +165,3 @@ export const useMediaCache = () => {
     getStats,
   };
 };
-
-export default useMediaCache;

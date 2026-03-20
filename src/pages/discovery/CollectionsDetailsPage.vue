@@ -291,6 +291,9 @@ const router = useRouter();
 const modalStore = useModalStore();
 import { useHead } from "@unhead/vue";
 
+const collection = ref<Collection | null>(null);
+const allCollections = COLLECTIONS;
+
 useHead({
   title: computed(() =>
     collection.value
@@ -309,9 +312,6 @@ useHead({
     { name: "robots", content: "index, follow" },
   ],
 });
-
-const collection = ref<Collection | null>(null);
-const allCollections = COLLECTIONS;
 
 const {
   perPage,

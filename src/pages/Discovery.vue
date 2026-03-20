@@ -176,7 +176,7 @@ const handleDiscover = async (intent: IntentInput) => {
 
     // Fetch deep intelligence for the top result
     if (results.value.length > 0) {
-      fetchTopResultIntelligence(results.value[0].film_id);
+      fetchTopResultIntelligence(results.value[0].film_id, results.value[0].media_type);
     }
   } catch (err) {
     console.error("Discovery failed:", err);
@@ -185,13 +185,14 @@ const handleDiscover = async (intent: IntentInput) => {
   }
 };
 
-const fetchTopResultIntelligence = async (id: number) => {
+const fetchTopResultIntelligence = async (id: number, mediaType: string = 'movie') => {
   try {
+    const tmdbType = mediaType === 'tv' ? 'tv' : 'movie';
     const [credits, keywords] = await Promise.all([
-      axios.get(`https://api.themoviedb.org/3/movie/${id}/credits`, {
+      axios.get(`https://api.themoviedb.org/3/${tmdbType}/${id}/credits`, {
         params: { api_key: API_KEY },
       }),
-      axios.get(`https://api.themoviedb.org/3/movie/${id}/keywords`, {
+      axios.get(`https://api.themoviedb.org/3/${tmdbType}/${id}/keywords`, {
         params: { api_key: API_KEY },
       }),
     ]);
@@ -287,7 +288,7 @@ async function handleGenericFilter(filters: any) {
     }));
     weights.value = {};
     if (results.value.length > 0)
-      fetchTopResultIntelligence(results.value[0].film_id);
+      fetchTopResultIntelligence(results.value[0].film_id, results.value[0].media_type);
   } catch (err) {
     console.error("Generic discovery failed", err);
   } finally {
@@ -307,7 +308,12 @@ const handleFilmSelect = (film: ScoredFilm) => {
     );
   }
   const slug = (film.title || "film").toLowerCase().replace(/[^a-z0-9]+/g, "-");
-  router.push(`/ng/movie/${slug}-${film.film_id}`);
+  
+  if (film.media_type === "tv") {
+    router.push(`/ng/tv-shows/${slug}-${film.film_id}`);
+  } else {
+    router.push(`/ng/movie/${slug}-${film.film_id}`);
+  }
 };
 </script>
 

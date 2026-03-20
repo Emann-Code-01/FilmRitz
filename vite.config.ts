@@ -36,7 +36,7 @@ export default defineConfig({
           // Vendor chunks
           "vue-vendor": ["vue", "vue-router", "pinia"],
           "ui-vendor": ["@headlessui/vue"],
-          "utils-vendor": ["axios", "colorthief"],
+          "utils-vendor": ["axios"],
           // Feature chunks
           "api-vendor": ["@/api/tmdb", "@/services/mediaRotation"],
           "supabase-vendor": ["@/lib/supabaseClient"],

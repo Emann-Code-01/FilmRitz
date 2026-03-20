@@ -13,7 +13,7 @@ import {
   // fetchTrendingMedia,
 } from "../api/tmdb";
 import { useMediaCache } from "./useMediaCache";
-import logger from "@/utils/logger";
+import { logger } from "@/utils/logger";
 
 // Request deduplication map to prevent duplicate API calls
 const pendingRequests = new Map<string, Promise<any>>();

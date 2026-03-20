@@ -367,7 +367,7 @@ import { getMediaVideos } from "@/api/tmdb";
 import TrailerModal from "@/components/media/TrailerModal.vue";
 import TrustRating from "@/components/intelligence/TrustRating.vue";
 import IntelligenceChips from "@/components/intelligence/IntelligenceChips.vue";
-import logger from "@/utils/logger";
+import { logger } from "@/utils/logger";
 
 interface TrailerData {
   id: string;
@@ -470,7 +470,7 @@ function resetProgress() {
 }
 
 function startProgressBar() {
-  const updateInterval = 50; // Update every 50ms
+  const updateInterval = 80;
   const incrementPerUpdate = (100 / slideDuration) * updateInterval;
 
   progressInterval = setInterval(() => {
