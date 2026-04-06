@@ -255,7 +255,7 @@
         <p class="text-gray-400 text-xl mb-4">Collection not found</p>
         <router-link
           to="/ng/collections"
-          class="text-[#b20710] hover:underline"
+          class="text-filmritz-primary hover:underline"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -97,7 +97,7 @@
 
                 <div class="flex items-center gap-4 mt-4 flex-wrap">
                   <span class="badge-filmritz py-1.5 px-4 text-sm">
-                    <i class="pi pi-star-fill text-[10px]"></i>
+                    <i class="pi pi-star-fill text-yellow-400 text-[10px]"></i>
                     {{ media?.vote_average?.toFixed(1) }}
                   </span>
                   <span
