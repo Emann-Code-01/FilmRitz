@@ -35,8 +35,6 @@ import Discovery from "@/pages/Discovery.vue";
 import WatchlistsPage from "@/pages/WatchlistsPage.vue";
 import LogoutScreen from "@/pages/LogoutScreen.vue";
 
-// Assuming this is the intended import for LogoutScreen
-
 // ═══════════════════════════════════════════════════════════════
 // ROUTES
 // ═══════════════════════════════════════════════════════════════
@@ -284,7 +282,7 @@ const routes: RouteRecordRaw[] = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior() {
     return { top: 0 };

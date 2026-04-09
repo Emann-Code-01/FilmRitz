@@ -128,18 +128,25 @@ export const useAuthStore = defineStore("auth", {
 
     async syncUser() {
       this.loaded = false;
+      
 
-      const { data } = await supabase.auth.getSession();
+      try {
+        const { data } = await supabase.auth.getSession();
 
-      if (data.session) {
-        this.user = data.session.user;
-        this.session = data.session;
-      } else {
+        if (data.session) {
+          this.user = data.session.user;
+          this.session = data.session;
+        } else {
+          this.user = null;
+          this.session = null;
+        }
+      } catch (error) {
+        console.error("Failed to sync Supabase auth session:", error);
         this.user = null;
         this.session = null;
+      } finally {
+        this.loaded = true;
       }
-
-      this.loaded = true;
     },
 
     initAuthListener() {

@@ -36,6 +36,8 @@ import { ADS_ENABLED } from "@/config/ads";
 const { isAmbientEnabled, ambientGradient } = useAmbient();
 const { loadAdsense } = useAdsense();
 
+console.log("Filmritz is working");
+
 onMounted(() => {
   initializeAmbient();
   if (ADS_ENABLED) {
